@@ -230,5 +230,13 @@
   "source": "SMM daily",
   "url": "https://news.metal.com/newscontent/104168938-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-on-october-20",
   "note": "SMM daily average, edged down"
+ },
+ {
+  "date": "2026-10-21",
+  "series": "Spot",
+  "usd_t": 15330,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/lithium",
+  "note": "China battery-grade spot, up 0.3% on the day"
  }
 ]

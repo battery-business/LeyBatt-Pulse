@@ -54,28 +54,28 @@
  {
   "material": "Copper",
   "role": "Anode foil, busbars",
-  "price": "$14,480",
-  "asof": "19 Oct",
-  "move": "−1.9% in a week",
-  "direction": "down",
-  "source": "Trading Economics",
-  "url": "https://tradingeconomics.com/commodity/copper",
+  "price": "$14,395",
+  "asof": "21 Oct",
+  "move": "+0.1% on the day (LME)",
+  "direction": "flat",
+  "source": "SP Angel market note (LME)",
+  "url": "https://www.share-talk.com/sp-angel-todays-market-view-wednesday-21st-october-2026/",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 14480.0
+  "usd": 14395.0
  },
  {
   "material": "Aluminium",
   "role": "Cathode foil, cell cans",
-  "price": "$2,994",
-  "asof": "19 Oct",
-  "move": "−1.8% in a week",
-  "direction": "down",
+  "price": "$3,017",
+  "asof": "21 Oct",
+  "move": "+0.8% since 19 Oct",
+  "direction": "up",
   "source": "Trading Economics",
-  "url": "https://tradingeconomics.com/commodity/aluminum",
+  "url": "https://fr.tradingeconomics.com/commodity/aluminum",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 2994.0
+  "usd": 3017.0
  },
  {
   "material": "Graphite anode",

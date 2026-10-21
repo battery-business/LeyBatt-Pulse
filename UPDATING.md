@@ -22,12 +22,20 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 | Lithium hydroxide | LME lithium hydroxide CIF page | Daily | `rawmats.json` |
 | Copper, aluminium | Trading Economics commodity pages | Daily | `rawmats.json` (copper: US$/lb × 2204.62) |
 | LFP cathode, iron phosphate, electrolyte | SMM news articles | When published | `latest.json` id `cathode`, `rawmats.json` |
+| Separator (US$/m²), graphite anode, copper foil, aluminium foil | SMM separator and anode weekly reviews, SMM cobalt-lithium morning meeting summaries, SMM cost-model reports | When a new figure is published | `rawmats.json` |
 | ≥500 Ah / 587 Ah cell prices | New tender results or price reports (ESS News, Energy-Storage.News, SMM) | When published | `cellbids.json`, `latest.json` id `cell587` |
 | Pack prices | BloombergNEF annual battery price survey (December) | Yearly | `latest.json` id `pack` |
 | InfoLink weekly table (lithium spot, 314 Ah cell avg/low/high, 2h DC and 1h/2h/4h AC systems) | Each InfoLink weekly article: infolink-group.com/energy-article/ess-spot-price-YYYYMMDD (usually Wednesday) | Weekly | `weekly.json` (append one row: `date`, `lithium_usd_t`, `cell314`, `cell314_lo`, `cell314_hi`, `dc_2h`, `ac_1h`, `ac_2h`, `ac_4h`, `note` = InfoLink's one-line reason, `source` = "InfoLink weekly", `url`). Also append the same lithium value to `lithium.json` as a `Spot` row with source "InfoLink weekly", and the same cell values to `cell314.json` (`usd_kwh`, `lo`, `hi`). |
 | China EV battery installations and maker shares | CnEVPost monthly CABIA report (mid-month) | Monthly | `marketshare.json` (replace rows: `maker`, `share`, `gwh`, `period`, `source`, `url`) |
 | Analyst lithium price forecasts | Reputable news reports of bank or broker forecasts | When published | `forecasts.json` (`who`, `period`, `low`, `high` in US$/t, `source`, `url`) |
 | News | Bloomberg headlines on lithium/batteries/energy storage/EVs; ESS News; Energy-Storage.News; SMM; Mining Weekly; CnEVPost (China EV and battery data); company press releases (CATL, BYD, LG Energy Solution, Tesla, CALB, EVE, Panasonic, Samsung SDI, SK On); Indian sources (Saur Energy, pv magazine India, Mercom, ETAuto, Autocar Pro, FADA/Vahan EV sales, Indian cell makers such as Tata Agratas, Amara Raja, Exide, Ola, Reliance); regulation (MHI/PLI, MNRE/CEA, BIS, customs, EU Battery Regulation, US tariffs and FEOC rules) | Daily | `news.json`. Aim for a mix across categories, not only lithium. |
+
+## Raw-materials table and cost calculator
+
+- Every row in `rawmats.json` needs `material`, `role`, `price` (display string), `usd` (the same number, plain), `unit` ("per tonne" or "per m²"), `asof`, `move`, `direction`, `stage`, `source`, `url` (optional `source2`/`url2`). Keep `usd` and `price` in step: the cost calculator reads `usd`.
+- `stage` is one of: Ore & lithium chemicals / Cathode & anode / Other cell materials / Metals. Rows from `latest.json` are added to the table automatically.
+- The calculator takes its starting prices live from `lithium.json` (latest spot), `rawmats.json` (iron phosphate, graphite anode, LFP electrolyte, separator, copper, aluminium — keep these material names exactly) and `weekly.json` (cell and 4-hour system). A routine update needs no other change.
+- `costmodel.json` holds quantities per kWh, fees and calibration with their sources. Change it only when a new public cost model or cathode price justifies it, and update its `notes` to match. If the LFP cathode price in `latest.json` changes a lot, recompute `cathode_processing_usd_t` = cathode price − 0.24 × lithium carbonate price − 0.96 × iron phosphate price (same day where possible).
 
 ## News categories (cover every one each week)
 

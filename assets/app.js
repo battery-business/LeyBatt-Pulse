@@ -1,13 +1,15 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'lithium', 'cells', 'materials', 'news', 'calculator'];
+  const TABS = ['overview', 'materials', 'news', 'calculator'];
+  const SUBS = ['all', 'lithium', 'cells', 'systems'];
+  const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', pack: '--green', system: '--indigo' };
   const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
   const catColor = (c) => css(CAT_COLOR[c] || '--slate');
-  const CARD_TAB = { lithium: 'lithium', cathode: 'materials', cell314: 'cells', cell587: 'cells', pack: 'cells', system: 'cells' };
+  const CARD_TAB = { lithium: 'materials/lithium', cathode: 'materials/all', cell314: 'materials/cells', cell587: 'materials/cells', pack: 'materials/all', system: 'materials/systems' };
 
   const D = {};
   const S = {
@@ -15,9 +17,10 @@
     range: { lithium: 0, cell: 0, sysweekly: 0 },
     hidden: { lithium: new Set(), sys: new Set() },
     news: { q: '', cat: '', effect: '' },
-    raw: { q: '', key: null, dir: 1 },
+    sub: 'all',
+    raw: { q: '', key: null, dir: 1, stage: '' },
     gapFrom: '2026-04-20',
-    calc: { ref: null, li: null, kg: 0.55 },
+    calc: null, calcBase: null, scen: 'latest',
   };
 
   // ---------- helpers ----------
@@ -177,7 +180,8 @@
 
   // ---------- derived data ----------
   const futPts = () => (D.lithium || []).filter((r) => r.series === 'Futures').map((r) => ({ d: parse(r.date), v: +r.usd_t, source: r.source, note: r.note })).sort((a, b) => a.d - b.d);
-  const spotPts = () => (D.lithium || []).filter((r) => r.series === 'Spot').map((r) => ({ d: parse(r.date), v: +r.usd_t, source: r.source, note: r.note })).sort((a, b) => a.d - b.d);
+  const spotPts = () => (D.lithium || []).filter((r) => r.series === 'Spot').map((r) => ({ d: parse(r.date), v: +r.usd_t, source: r.source, note: r.note, url: r.url })).sort((a, b) => a.d - b.d);
+  const liKg = () => { const cm = D.costmodel || {}; return (cm.lc_per_t_lfp || 0.24) * (cm.cathode_kg || 2.2); };
   const weekly = () => [...(D.weekly || [])].sort((a, b) => d3.ascending(a.date, b.date));
   const ilSpotMap = () => new Map((D.lithium || []).filter((r) => r.series === 'Spot' && /^InfoLink/.test(r.source)).map((r) => [r.date, +r.usd_t]));
   const cellMap = () => new Map((D.cell314 || []).map((r) => [r.date, +r.usd_kwh]));
@@ -203,7 +207,7 @@
     const sparks = { lithium: futPts().map((p) => p.v), cell314: weekly().map((w) => w.cell314), system: (D.systems || []).map((r) => +r.usd_kwh) };
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
-      const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open the ' + (CARD_TAB[r.id] || 'overview') + ' tab';
+      const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), el('span', 'unit', `${r.unit} · ${r.asof}`), el('span', 'move' + dirClass(r.direction), r.move));
       if (sparks[r.id]) spark(c, sparks[r.id], css(LAYER_COLOR[r.id] || '--slate'));
       c.appendChild(el('span', 'src', 'Source: ' + r.source));
@@ -314,7 +318,8 @@
       }
       if (!dates.includes(S.gapFrom)) S.gapFrom = dates[0];
       sel.value = S.gapFrom;
-      const g = gapCompute(S.gapFrom, S.calc.kg);
+      const g = gapCompute(S.gapFrom, liKg());
+      $('#gap-kg').textContent = liKg().toFixed(2);
       $('#gap-to').textContent = 'to ' + dayFmt(parse(g.to));
       hBars(gb, g.rows, { label: 'measure', value: 'pct', fmt: pctS, color: (r, i) => [css('--amber'), css('--blue'), css('--chart-muted')][i] });
     } catch (e) { console.error(e); fail(gb); }
@@ -332,7 +337,6 @@
       hBars(sb, rows, { label: 'maker', value: 'share', fmt: (v) => v.toFixed(1) + '%', color: (r) => (r.maker === 'All others' ? css('--chart-muted') : css('--teal')), tip: (t, r) => tipNote(t, `${r.gwh} GWh installed`) });
       srcLinks($('#share-srcs'), rows);
     } catch (e) { console.error(e); fail(sb); }
-    renderSystems();
   }
 
   function renderSystems() {
@@ -354,26 +358,360 @@
     } catch (e) { console.error(e); fail(tb); }
   }
 
+  // ---------- raw materials: one table for every price ----------
+  const STAGES = ['Ore & lithium chemicals', 'Cathode & anode', 'Other cell materials', 'Metals', 'Cells', 'Packs & systems'];
+  const STAGE_COLOR = ['--amber', '--plum', '--teal', '--orange', '--blue', '--indigo'];
+  const LATEST_STAGE = { lithium: ['Ore & lithium chemicals', 'lithium'], cathode: ['Cathode & anode', null], cell314: ['Cells', 'cells'], cell587: ['Cells', 'cells'], pack: ['Packs & systems', null], system: ['Packs & systems', 'systems'] };
+  const numOf = (p) => (/\d/.test(p || '') ? Number(String(p).replace(/[^0-9.]/g, '')) : null);
+  function allPrices() {
+    const ROLE = { lithium: 'China futures, most-active contract', cathode: 'Cathode powder for LFP cells', cell314: 'Storage cell, China average excl. VAT', cell587: 'Large storage cell, tender bid', pack: 'Storage battery pack', system: '4-hour storage container, tender awards' };
+    const fromLatest = (D.latest || []).map((r) => ({ material: r.label, role: ROLE[r.id] || r.layer, price: r.price, usd: numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, stage: (LATEST_STAGE[r.id] || ['Cells'])[0], chart: (LATEST_STAGE[r.id] || [])[1] || null }));
+    const raw = (D.rawmats || []).map((r) => ({ ...r, usd: r.usd != null ? r.usd : numOf(r.price), chart: /Spodumene|hydroxide/.test(r.material) ? 'lithium' : null }));
+    return [...fromLatest, ...raw].map((r) => ({ ...r, stage_i: Math.max(0, STAGES.indexOf(r.stage)) }));
+  }
   function renderMaterials() {
+    const all = allPrices();
+    const chips = $('#raw-stages'); chips.replaceChildren();
+    [['', 'All stages'], ...STAGES.map((s) => [s, s])].forEach(([val, lab], i) => {
+      const n = val ? all.filter((r) => r.stage === val).length : all.length; if (!n) return;
+      const b = el('button', null, `${lab} (${n})`); b.type = 'button'; b.setAttribute('aria-pressed', String(S.raw.stage === val));
+      if (val) b.style.setProperty('--cc', css(STAGE_COLOR[i - 1]));
+      b.addEventListener('click', () => { S.raw.stage = val; renderMaterials(); });
+      chips.appendChild(b);
+    });
     const tb = $('#raw-table tbody'); tb.replaceChildren();
     const q = S.raw.q.toLowerCase();
-    let rows = (D.rawmats || []).map((r) => ({ ...r, price_num: /\d/.test(r.price) ? Number(r.price.replace(/[^0-9.]/g, '')) : -1 }));
-    if (q) rows = rows.filter((r) => [r.material, r.role, r.source].join(' ').toLowerCase().includes(q));
-    if (S.raw.key) {
-      const k = S.raw.key, dir = S.raw.dir;
-      const rank = { down: 0, flat: 1, up: 2, none: 3 };
-      rows.sort((a, b) => dir * (k === 'price_num' ? a[k] - b[k] : k === 'direction' ? rank[a[k]] - rank[b[k]] : d3.ascending(String(a[k]), String(b[k]))));
-    }
+    let rows = all.filter((r) => (!S.raw.stage || r.stage === S.raw.stage) && (!q || [r.material, r.role, r.source, r.stage].join(' ').toLowerCase().includes(q)));
+    const k = S.raw.key || 'stage_i', dir = S.raw.key ? S.raw.dir : 1;
+    const rank = { down: 0, flat: 1, up: 2, none: 3 };
+    rows.sort((a, b) => dir * (k === 'usd' || k === 'stage_i' ? (a[k] ?? -1) - (b[k] ?? -1) : k === 'direction' ? rank[a[k]] - rank[b[k]] : d3.ascending(String(a[k]), String(b[k]))) || a.stage_i - b.stage_i);
     $$('#raw-table th').forEach((th) => { const b = $('button', th); th.removeAttribute('aria-sort'); if (b && b.dataset.sort === S.raw.key) th.setAttribute('aria-sort', S.raw.dir > 0 ? 'ascending' : 'descending'); });
-    if (!rows.length) { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = 6; td.className = 'empty'; td.textContent = 'No materials match that filter.'; return; }
+    if (!rows.length) { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = 7; td.className = 'empty'; td.textContent = 'Nothing matches that filter.'; return; }
     rows.forEach((r) => {
       const tr = tb.insertRow();
-      tr.insertCell().textContent = r.material; tr.insertCell().textContent = r.role;
+      const st = tr.insertCell(); const tg = el('span', 'tag', r.stage); tg.style.setProperty('--cc', css(STAGE_COLOR[r.stage_i])); st.appendChild(tg);
+      const it = tr.insertCell(); it.appendChild(el('span', 'item', r.material)); if (r.role) it.appendChild(el('span', 'role', r.role));
+      if (r.chart) { const b = el('button', 'btn link small chartlink', 'Open chart →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); it.appendChild(b); }
       const p = tr.insertCell(); p.className = 'num r'; p.textContent = r.price;
+      const u = tr.insertCell(); u.className = 'nowrap'; u.textContent = r.unit || '';
       const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof;
-      const m = tr.insertCell(); m.className = 'nowrap'; m.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
-      tr.insertCell().appendChild(link(r.source, r.url));
+      const m = tr.insertCell(); m.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
+      const sc = tr.insertCell(); sc.appendChild(link(r.source, r.url)); if (r.source2) { sc.appendChild(document.createTextNode(' · ')); sc.appendChild(link(r.source2, r.url2)); }
     });
+  }
+  function renderMaterialsPage() { ({ all: renderMaterials, lithium: renderLithium, cells: renderCells, systems: renderSystems })[S.sub](); }
+
+  // ---------- cost calculator ----------
+  const CM = () => D.costmodel || {};
+  const rawRow = (name) => (D.rawmats || []).find((r) => r.material === name) || {};
+  const fmt2 = d3.format('$.2f');
+  const fmtSigned = (v) => (v < 0 ? '−' : '+') + '$' + Math.abs(v).toFixed(1);
+  const perT = (v) => fmtUsd0(v) + '/t', perK = (v) => fmtUsd1(v) + '/kWh';
+  const fmtM = (v) => (Math.abs(v) >= 100 ? d3.format('$,.0f')(v) : d3.format('$,.1f')(v)) + 'M';
+  const INPUTS = [
+    { k: 'li', g: 'Cathode', label: 'Lithium carbonate', min: 6000, max: 40000, step: 10, f: perT },
+    { k: 'fe', g: 'Cathode', label: 'Iron phosphate', min: 800, max: 4500, step: 10, f: perT },
+    { k: 'proc', g: 'Cathode', label: 'Cathode processing fee', min: 200, max: 3000, step: 10, f: perT },
+    { k: 'gr', g: 'Anode, electrolyte, separator', label: 'Graphite anode', min: 1500, max: 7000, step: 10, f: perT },
+    { k: 'el', g: 'Anode, electrolyte, separator', label: 'Electrolyte', min: 2000, max: 10000, step: 10, f: perT },
+    { k: 'sep', g: 'Anode, electrolyte, separator', label: 'Separator', min: 0.08, max: 0.5, step: 0.005, f: (v) => fmt2(v) + '/m²' },
+    { k: 'cu', g: 'Metals for the foils', label: 'Copper', min: 7000, max: 22000, step: 10, f: perT },
+    { k: 'al', g: 'Metals for the foils', label: 'Aluminium', min: 1500, max: 5000, step: 10, f: perT },
+    { k: 'mfg', g: 'Making the cell', label: 'Manufacturing cost', min: 2, max: 12, step: 0.1, f: perK },
+    { k: 'yld', g: 'Making the cell', label: 'Production yield', min: 85, max: 99.5, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+    { k: 'margin', g: 'Cell price and storage system', label: 'Cell maker margin', min: -15, max: 20, step: 0.1, f: (v) => fmtSigned(v) + '/kWh' },
+    { k: 'ros', g: 'Cell price and storage system', label: 'Rest of the system (PCS, container, cooling, fire, BMS/EMS, integration)', min: 5, max: 60, step: 0.1, f: perK },
+  ];
+  const ADV = [
+    { k: 'cath_kg', label: 'LFP cathode per kWh', min: 1.8, max: 2.6, step: 0.01, f: (v) => v.toFixed(2) + ' kg' },
+    { k: 'an_kg', label: 'Graphite per kWh', min: 0.9, max: 1.5, step: 0.01, f: (v) => v.toFixed(2) + ' kg' },
+    { k: 'el_kg', label: 'Electrolyte per kWh', min: 0.8, max: 1.5, step: 0.01, f: (v) => v.toFixed(2) + ' kg' },
+    { k: 'sep_m2', label: 'Separator per kWh', min: 9, max: 18, step: 0.1, f: (v) => v.toFixed(1) + ' m²' },
+    { k: 'cu_kg', label: 'Copper foil per kWh', min: 0.2, max: 0.5, step: 0.005, f: (v) => v.toFixed(3) + ' kg' },
+    { k: 'al_kg', label: 'Aluminium foil per kWh', min: 0.15, max: 0.4, step: 0.005, f: (v) => v.toFixed(3) + ' kg' },
+    { k: 'cu_fee', label: 'Copper foil processing fee', min: 1000, max: 6000, step: 10, f: perT },
+    { k: 'al_fee', label: 'Aluminium foil processing fee', min: 500, max: 4000, step: 10, f: perT },
+    { k: 'aux', label: 'Other cell materials (binders, carbon, solvent)', min: 0.5, max: 4, step: 0.1, f: perK },
+    { k: 'struct', label: 'Cell case and parts', min: 1, max: 6, step: 0.1, f: perK },
+    { k: 'ratio', label: 'kWh of cells per kWh of system', min: 0.9, max: 1.4, step: 0.01, f: (v) => v.toFixed(2) },
+  ];
+  const INDIA = [
+    { k: 'freight', label: 'Freight and insurance to India', min: 0, max: 15, step: 0.1, f: perK },
+    { k: 'bcd', label: 'Basic customs duty', min: 0, max: 40, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+  ];
+  const SPECS = [...INPUTS, ...ADV, ...INDIA];
+  const SENS = ['li', 'fe', 'proc', 'gr', 'el', 'sep', 'cu', 'al', 'mfg'];
+  const r1 = (v) => Math.round(v * 10) / 10;
+
+  function cellCost(s) {
+    const cm = CM(); const lc = cm.lc_per_t_lfp || 0.24, fe = cm.fepo4_per_t_lfp || 0.96;
+    const m = (usdT, kg) => (usdT * kg) / 1000 / VAT;
+    const parts = [
+      ['li', 'Lithium carbonate (in cathode)', '--amber', m(s.li * lc, s.cath_kg)],
+      ['fe', 'Iron phosphate (in cathode)', '--plum', m(s.fe * fe, s.cath_kg)],
+      ['proc', 'Cathode processing', '--magenta', m(s.proc, s.cath_kg)],
+      ['gr', 'Graphite anode', '--slate', m(s.gr, s.an_kg)],
+      ['el', 'Electrolyte', '--blue', m(s.el, s.el_kg)],
+      ['sep', 'Separator', '--teal', (s.sep * s.sep_m2) / VAT],
+      ['cu', 'Copper foil', '--orange', ((s.cu + s.cu_fee / VAT) * s.cu_kg) / 1000],
+      ['al', 'Aluminium foil', '--indigo', ((s.al + s.al_fee / VAT) * s.al_kg) / 1000],
+      ['aux', 'Other cell materials', '--chart-muted', s.aux],
+      ['struct', 'Cell case and parts', '--green', s.struct],
+    ];
+    const mat = d3.sum(parts, (p) => p[3]);
+    parts.push(['loss', 'Yield loss', '--rose', mat * (100 / s.yld - 1)]);
+    parts.push(['mfg', 'Manufacturing', '--muted', s.mfg]);
+    return { parts: parts.map(([k, label, color, v]) => ({ k, label, color, v })), total: d3.sum(parts, (p) => p[3]) };
+  }
+
+  function calcBase() {
+    const cm = CM(); const w = weekly(); const last = w[w.length - 1];
+    const sp = spotPts(); const li = sp[sp.length - 1];
+    const b = {
+      li: li ? li.v : last.lithium_usd_t, fe: rawRow('Iron phosphate').usd, proc: cm.cathode_processing_usd_t, gr: rawRow('Graphite anode').usd, el: rawRow('LFP electrolyte').usd, sep: rawRow('Separator').usd, cu: rawRow('Copper').usd, al: rawRow('Aluminium').usd,
+      mfg: cm.mfg_usd_kwh, yld: cm.yield_pct, cath_kg: cm.cathode_kg, an_kg: cm.anode_kg, el_kg: cm.electrolyte_kg, sep_m2: cm.separator_m2, cu_kg: cm.cu_foil_kg, al_kg: cm.al_foil_kg,
+      cu_fee: cm.cu_foil_fee_usd_t, al_fee: cm.al_foil_fee_usd_t, aux: cm.aux_usd_kwh, struct: cm.structural_usd_kwh, ratio: 1,
+      freight: 0, bcd: cm.bcd_pct, rebate: 0, mwh: 100,
+    };
+    b.margin = last.cell314 - cellCost(b).total;
+    b.ros = r1(last.ac_4h - last.cell314);
+    return b;
+  }
+  function calcHints() {
+    const cm = CM(); const w = weekly(); const last = w[w.length - 1]; const sp = spotPts(); const li = sp[sp.length - 1];
+    const note = (i) => (cm.notes || [])[i] || {};
+    const raw = (name) => { const r = rawRow(name); return [`Latest ${r.price} · ${r.source}, ${r.asof}`, r.url]; };
+    return {
+      li: [`Latest ${fmtUsd0(li.v)}/t · ${li.source}, ${shortDay(li.d)}`, li.url],
+      fe: raw('Iron phosphate'), gr: raw('Graphite anode'), el: raw('LFP electrolyte'), sep: raw('Separator'), cu: raw('Copper'), al: raw('Aluminium'),
+      proc: ['SMM cathode price less its lithium and iron phosphate, 15 Oct', note(2).url],
+      mfg: ['SMM cell cost model assumption', note(4).url], yld: ['SMM cell cost model assumption', note(4).url],
+      margin: [`Set so the cell price matches InfoLink's ${fmtUsd1(last.cell314)}/kWh (${shortDay(parse(last.date))})`, last.url],
+      ros: [`InfoLink 4-hour system ${fmtUsd1(last.ac_4h)} minus cell ${fmtUsd1(last.cell314)}, ${shortDay(parse(last.date))}`, last.url],
+      freight: ['Add your own quote', null], bcd: ['Concessional rate for storage systems (Mercom, 12 Oct)', note(6).url],
+    };
+  }
+  function hashParams() {
+    const q = (location.hash.split('?')[1] || ''); const out = {};
+    new URLSearchParams(q).forEach((v, k) => { if ((k in (S.calcBase || {})) && v !== '' && isFinite(+v)) out[k] = +v; });
+    return out;
+  }
+  function syncHash() {
+    if (S.tab !== 'calculator') return;
+    const q = Object.keys(S.calcBase).filter((k) => Math.abs(S.calc[k] - S.calcBase[k]) > 1e-9).map((k) => `${k}=${+S.calc[k].toFixed(4)}`).join('&');
+    try { history.replaceState(null, '', '#calculator' + (q ? '?' + q : '')); } catch (e) { /* ignore */ }
+  }
+  function calcField(spec, hints) {
+    const b = S.calcBase[spec.k];
+    const f = el('div', 'field'); f.dataset.k = spec.k;
+    const lab = el('label'); lab.htmlFor = 'ci-' + spec.k;
+    const name = el('span', 'nm', spec.label); const out = el('output'); out.id = 'co-' + spec.k;
+    const rs = el('button', 'reset-one', '↺'); rs.type = 'button'; rs.title = 'Back to the latest value'; rs.setAttribute('aria-label', 'Reset ' + spec.label);
+    rs.addEventListener('click', (e) => { e.preventDefault(); S.calc[spec.k] = S.calcBase[spec.k]; S.scen = null; renderCalc(); });
+    const right = el('span', 'val'); right.append(out, rs);
+    lab.append(name, right);
+    const inp = el('input'); inp.type = 'range'; inp.id = 'ci-' + spec.k;
+    inp.min = String(Math.min(spec.min, b * 0.5)); inp.max = String(Math.max(spec.max, b * 1.6)); inp.step = String(spec.step);
+    inp.addEventListener('input', () => { S.calc[spec.k] = +inp.value; S.scen = null; renderCalc(); });
+    f.append(lab, inp);
+    const h = hints[spec.k];
+    if (h) { const hint = el('div', 'hint'); if (h[1]) hint.appendChild(link(h[0], h[1])); else hint.textContent = h[0]; f.appendChild(hint); }
+    return f;
+  }
+  function buildCalc() {
+    const hints = calcHints();
+    const box = $('#calc-inputs'); box.replaceChildren();
+    const head = el('div', 'panel-head'); head.appendChild(el('h2', null, 'Inputs')); box.appendChild(head);
+    box.appendChild(el('p', 'sub', 'Each slider starts at the latest public price; the link under it is the source. ↺ puts one back.'));
+    let grp;
+    INPUTS.forEach((spec) => { if (spec.g !== grp) { grp = spec.g; box.appendChild(el('h3', 'grp', grp)); } box.appendChild(calcField(spec, hints)); });
+    const adv = el('details', 'adv'); adv.appendChild(el('summary', null, 'Advanced: quantities per kWh, foil fees, cell parts'));
+    ADV.forEach((spec) => adv.appendChild(calcField(spec, hints)));
+    box.appendChild(adv);
+    const ib = $('#calc-india-in'); ib.replaceChildren();
+    INDIA.forEach((spec) => ib.appendChild(calcField(spec, hints)));
+    const rl = el('label', 'check'); const cb = el('input'); cb.type = 'checkbox'; cb.id = 'calc-rebate';
+    cb.addEventListener('change', () => { S.calc.rebate = cb.checked ? (CM().export_rebate_pct || 6) : 0; S.scen = null; renderCalc(); });
+    rl.append(cb, document.createTextNode(` China ends its ${CM().export_rebate_pct || 6}% battery export rebate (due 1 Jan 2027), passed on in full`));
+    ib.appendChild(rl);
+    $('#calc-mwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc.mwh = v; renderCalc(); } });
+    // scenarios
+    const b = S.calcBase, cm = CM();
+    const gs = (D.forecasts || []).find((f) => /Goldman/.test(f.who) && /2027/.test(f.period));
+    const scen = [
+      ['latest', 'Latest prices', {}],
+      ...(cm.lithium_points || []).map((p, i) => ['lp' + i, `Lithium at ${p.label} (${fmtUsd0(p.usd_t)})`, { li: p.usd_t }]),
+      ...(gs ? [['gs', `Lithium at Goldman's 2027 view (${fmtUsd0(gs.low)})`, { li: gs.low }]] : []),
+      ['metals', 'Copper and aluminium +20%', { cu: Math.round(b.cu * 1.2), al: Math.round(b.al * 1.2) }],
+      ['cheap', 'All materials −10%', Object.fromEntries(['li', 'fe', 'gr', 'el', 'sep', 'cu', 'al'].map((k) => [k, +(b[k] * 0.9).toFixed(3)]))],
+      ['rebate', 'China export rebate ends', { rebate: cm.export_rebate_pct || 6 }],
+    ];
+    const sc = $('#calc-scen'); sc.replaceChildren();
+    scen.forEach(([id, lab, ch]) => {
+      const btn = el('button', null, lab); btn.type = 'button'; btn.dataset.id = id; btn.style.setProperty('--cc', css('--teal'));
+      btn.addEventListener('click', () => { S.calc = { ...S.calcBase, mwh: S.calc.mwh, freight: S.calc.freight, ...ch }; S.scen = id; renderCalc(); if (id === 'rebate') $('#calc-india-box').open = true; });
+      sc.appendChild(btn);
+    });
+    $('#calc-reset').addEventListener('click', () => { S.calc = { ...S.calcBase }; S.scen = 'latest'; $('#calc-mwh').value = S.calc.mwh; renderCalc(); });
+    $('#calc-share').addEventListener('click', () => {
+      syncHash(); const url = location.href; const msg = $('#calc-share-msg');
+      const done = () => { msg.textContent = 'Link copied. Anyone who opens it sees this scenario.'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => { msg.textContent = 'Copy this link: ' + url; });
+      else msg.textContent = 'Copy this link: ' + url;
+    });
+    // method notes
+    const ul = $('#calc-method'); ul.replaceChildren();
+    const li0 = el('li'); li0.append(el('b', null, 'Formula. '), document.createTextNode('Cell cost = (materials + cell case) ÷ yield + manufacturing. Cell price = cell cost + maker margin. System = cell price × kWh of cells per kWh + rest of system. China prices include 13% VAT and the model removes it; copper and aluminium are international prices without VAT. Figures are per kWh of cell or system.'));
+    ul.appendChild(li0);
+    (cm.notes || []).forEach((n) => {
+      const li = el('li'); li.append(el('b', null, n.what + '. '), document.createTextNode(n.text + ' '));
+      li.appendChild(link(n.source, n.url)); if (n.source2) { li.appendChild(document.createTextNode(' · ')); li.appendChild(link(n.source2, n.url2)); }
+      ul.appendChild(li);
+    });
+  }
+  function stackBar(box, parts, total) {
+    box.replaceChildren();
+    parts.filter((p) => p.v > 0).forEach((p) => {
+      const s = el('span'); s.style.width = (p.v / total * 100) + '%'; s.style.background = css(p.color);
+      s.addEventListener('pointermove', (ev) => showTip(ev, (t) => tipRow(t, css(p.color), p.label, `${fmtUsd1(p.v)}/kWh · ${(p.v / total * 100).toFixed(0)}%`)));
+      s.addEventListener('pointerleave', hideTip);
+      box.appendChild(s);
+    });
+  }
+  function legendList(box, parts, total) {
+    box.replaceChildren();
+    parts.forEach((p) => {
+      const r = el('div', 'li'); const sw = el('span', 'sw'); sw.style.background = css(p.color);
+      r.append(sw, el('span', 'lb', p.label), el('b', null, fmtUsd1(p.v)), el('span', 'pc', (p.v / total * 100).toFixed(0) + '%'));
+      box.appendChild(r);
+    });
+  }
+  function kpi(box, k, v, d, cls) {
+    const c = el('div', 'kpi' + (cls ? ' ' + cls : '')); c.append(el('span', 'k', k), el('span', 'v', v));
+    if (d) c.appendChild(el('span', 'd' + (d[1] == null ? '' : d[1] < -0.05 ? ' is-down' : d[1] > 0.05 ? ' is-up' : ''), d[0]));
+    box.appendChild(c);
+  }
+  function sweepChart(box, s, market) {
+    box.replaceChildren();
+    const W = box.clientWidth || 600, H = 270;
+    const x0 = Math.min(6000, s.li * 0.6), x1 = Math.max(40000, s.li * 1.3);
+    const xs = d3.range(x0, x1 + 1, (x1 - x0) / 80);
+    const pts = xs.map((x) => ({ x, v: cellCost({ ...s, li: x }).total }));
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const vmin = Math.min(d3.min(pts, (p) => p.v), market), vmax = Math.max(d3.max(pts, (p) => p.v), market);
+    const yS = d3.scaleLinear([vmin * 0.92, vmax * 1.05], [H - 30, 12]).nice();
+    const ticks = yS.ticks(5); const left = measure(svg, ticks.map(fmtUsd0)) + 12;
+    const xS = d3.scaleLinear([x0, x1], [left, W - 12]);
+    svg.append('g').attr('transform', `translate(${left},0)`).call(d3.axisLeft(yS).tickValues(ticks).tickFormat(fmtUsd0).tickSize(-(W - left - 12))).call(axisStyle);
+    svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(xS).ticks(Math.max(3, Math.floor((W - left) / 80))).tickFormat((d) => '$' + d / 1000 + 'k').tickSize(0).tickPadding(10)).call(axisStyle);
+    // squeeze zone: cost above market
+    const over = pts.filter((p) => p.v >= market);
+    if (over.length > 1) svg.append('path').datum(over).attr('fill', css('--bad')).attr('fill-opacity', 0.1).attr('d', d3.area().x((p) => xS(p.x)).y0(yS(market)).y1((p) => yS(p.v)));
+    svg.append('line').attr('x1', left).attr('x2', W - 12).attr('y1', yS(market)).attr('y2', yS(market)).attr('stroke', css('--blue')).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4');
+    svg.append('text').attr('x', left + 6).attr('y', yS(market) - 6).attr('font-size', 12).attr('font-weight', 600).attr('fill', css('--blue')).text(`Market cell price ${fmtUsd1(market)}`);
+    svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css('--teal')).attr('stroke-width', 2.2).attr('d', d3.line().x((p) => xS(p.x)).y((p) => yS(p.v)));
+    const now = cellCost(s).total;
+    svg.append('circle').attr('cx', xS(s.li)).attr('cy', yS(now)).attr('r', 5).attr('fill', css('--teal')).attr('stroke', css('--panel')).attr('stroke-width', 2);
+    const nowLab = `Now ${fmtUsd0(s.li)}/t → ${fmtUsd1(now)}`;
+    const nlw = measure(svg, [nowLab]);
+    svg.append('text').attr('x', Math.min(xS(s.li) + 8, W - 12 - nlw)).attr('y', yS(now) + 18).attr('font-size', 12).attr('font-weight', 600).attr('fill', css('--teal')).text(nowLab);
+    const slope = (cellCost({ ...s, li: s.li + 1000 }).total - now) / 1000;
+    const be = s.li + (market - now) / slope;
+    if (be > x0 && be < x1) {
+      svg.append('line').attr('x1', xS(be)).attr('x2', xS(be)).attr('y1', yS(market)).attr('y2', H - 30).attr('stroke', css('--bad')).attr('stroke-dasharray', '3 3');
+      const bl = `Break-even ${fmtUsd0(Math.round(be / 10) * 10)}/t`; const bw = measure(svg, [bl]);
+      svg.append('text').attr('x', Math.min(xS(be) + 6, W - 12 - bw)).attr('y', H - 38).attr('font-size', 12).attr('font-weight', 600).attr('fill', css('--bad')).text(bl);
+    }
+    const rule = svg.append('line').attr('y1', 12).attr('y2', H - 30).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3').attr('opacity', 0);
+    svg.append('rect').attr('x', left).attr('y', 0).attr('width', W - left - 12).attr('height', H - 30).attr('fill', 'transparent')
+      .on('pointermove', (ev) => { const [mx] = d3.pointer(ev); const x = xS.invert(mx); const v = cellCost({ ...s, li: x }).total; rule.attr('x1', mx).attr('x2', mx).attr('opacity', 1);
+        showTip(ev, (t) => { tipRow(t, css('--amber'), 'Lithium carbonate', fmtUsd0(x) + '/t'); tipRow(t, css('--teal'), 'Modelled cell cost', fmtUsd1(v) + '/kWh'); tipRow(t, css('--blue'), 'Margin at market price', fmtSigned(market - v)); }); })
+      .on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+    return { be, slope, now };
+  }
+
+  function renderCalc() {
+    const kp = $('#calc-kpis');
+    if (!D.costmodel || !weekly().length || !(D.rawmats || []).length) { fail(kp, 'Cost data failed to load'); return; }
+    if (!S.calcBase) {
+      S.calcBase = calcBase();
+      S.calc = { ...S.calcBase, ...hashParams() };
+      S.scen = Object.keys(hashParams()).length ? null : 'latest';
+      buildCalc();
+    }
+    const s = S.calc, b = S.calcBase, w = weekly(), last = w[w.length - 1];
+    // sync inputs
+    SPECS.forEach((spec) => {
+      const inp = $('#ci-' + spec.k); if (!inp) return;
+      inp.value = s[spec.k]; $('#co-' + spec.k).textContent = spec.f(s[spec.k]);
+      inp.closest('.field').classList.toggle('changed', Math.abs(s[spec.k] - b[spec.k]) > 1e-9);
+    });
+    $('#calc-rebate').checked = s.rebate > 0;
+    if (+$('#calc-mwh').value !== s.mwh) $('#calc-mwh').value = s.mwh;
+    $$('#calc-scen button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.id === S.scen)));
+
+    const c = cellCost(s), c0 = cellCost(b);
+    const market = last.cell314, mDate = shortDay(parse(last.date));
+    const price = c.total + s.margin;
+    const sysP = price * s.ratio + s.ros;
+    // KPIs
+    kp.replaceChildren();
+    const dc = c.total - c0.total;
+    kpi(kp, 'Modelled cell cost', fmtUsd1(c.total), Math.abs(dc) < 0.05 ? ['At the latest prices', null] : [`${fmtSigned(dc)} (${pctS(dc / c0.total * 100)}) vs latest prices`, dc], 'main');
+    const mm = market - c.total;
+    kpi(kp, `Market cell price (InfoLink, ${mDate})`, fmtUsd1(market), [mm >= 0 ? `At this price makers earn ${fmtUsd1(mm)} (${(mm / market * 100).toFixed(0)}%) over the modelled cost` : `At this price makers lose ${fmtUsd1(-mm)} (${(-mm / market * 100).toFixed(0)}%) against the modelled cost`, -mm]);
+    kpi(kp, 'Cell price in this scenario', fmtUsd1(price), [`Cost ${fmtSigned(s.margin)} margin · ` + (Math.abs(price - market) < 0.05 ? 'matches the market' : `${pctS((price / market - 1) * 100)} vs market`), Math.abs(price - market) < 0.05 ? null : price - market]);
+    stackBar($('#calc-stack'), c.parts, c.total);
+    legendList($('#calc-legend'), c.parts, c.total);
+    // system + project
+    const mwh = s.mwh, M = (v) => fmtM(v * mwh / 1000);
+    const sysBox = $('#calc-sys'); sysBox.replaceChildren();
+    const sysParts = [
+      { label: 'Cells at cost', color: '--teal', v: c.total * s.ratio },
+      { label: 'Cell maker margin', color: '--green', v: Math.max(0, s.margin) * s.ratio },
+      { label: 'Rest of the system', color: '--indigo', v: s.ros },
+    ];
+    const sk = el('div', 'kpis'); sysBox.appendChild(sk);
+    const ds = sysP - last.ac_4h;
+    kpi(sk, '4-hour AC system, China', fmtUsd1(sysP), Math.abs(ds) < 0.05 ? [`Matches InfoLink's ${fmtUsd1(last.ac_4h)} (${mDate})`, null] : [`${fmtSigned(ds)} (${pctS(ds / last.ac_4h * 100)}) vs InfoLink ${fmtUsd1(last.ac_4h)}`, ds], 'main');
+    kpi(sk, `Cells for ${d3.format(',')(mwh)} MWh`, M(price * s.ratio), [`${fmtUsd1(price * s.ratio)}/kWh of system`, null]);
+    kpi(sk, `System for ${d3.format(',')(mwh)} MWh`, M(sysP), [`Excludes grid connection, land and EPC`, null]);
+    const sb = el('div', 'stackbar'); sysBox.appendChild(sb); stackBar(sb, sysParts, d3.sum(sysParts, (p) => p.v));
+    const sl = el('div', 'legend'); sysBox.appendChild(sl); legendList(sl, sysParts, d3.sum(sysParts, (p) => p.v));
+    if (s.margin < 0) sysBox.appendChild(el('p', 'sub', `The margin is negative: cells sell ${fmtUsd1(-s.margin)}/kWh below modelled cost.`));
+    // India landed
+    const cm = CM();
+    const reb = sysP * s.rebate / 100, cif = sysP + reb + s.freight, bcd = cif * s.bcd / 100, sws = bcd * (cm.sws_pct_of_bcd ?? 10) / 100, landed = cif + bcd + sws;
+    const ib = $('#calc-india'); ib.replaceChildren();
+    const ik = el('div', 'kpis'); ib.appendChild(ik);
+    kpi(ik, 'Landed in India, before GST', fmtUsd1(landed), [`${pctS((landed / sysP - 1) * 100)} on the China price`, null], 'main');
+    kpi(ik, `For ${d3.format(',')(mwh)} MWh`, M(landed), [`Of which duty ${M(bcd + sws)}`, null]);
+    const iParts = [
+      { label: 'China system price', color: '--indigo', v: sysP },
+      { label: 'Export rebate passed on', color: '--plum', v: reb },
+      { label: 'Freight and insurance', color: '--slate', v: s.freight },
+      { label: 'Customs duty + surcharge', color: '--rose', v: bcd + sws },
+    ].filter((p) => p.v > 0);
+    const ibar = el('div', 'stackbar'); ib.appendChild(ibar); stackBar(ibar, iParts, landed);
+    const il = el('div', 'legend'); ib.appendChild(il); legendList(il, iParts, landed);
+    // sensitivity
+    const tb = $('#calc-tornado');
+    try {
+      const rows = SENS.map((k) => { const spec = SPECS.find((x) => x.k === k); const up = cellCost({ ...s, [k]: s[k] * 1.2 }).total - c.total; return { k, label: spec.label, d: up, from: spec.f(s[k]), to: spec.f(s[k] * 1.2), color: (c.parts.find((p) => p.k === k) || {}).color || '--slate' }; }).sort((a, b2) => b2.d - a.d);
+      hBars(tb, rows, { label: 'label', value: 'd', fmt: (v) => '+' + fmtUsd1(v), color: (r) => css(r.color), tip: (t, r) => tipNote(t, `${r.from} → ${r.to}; cell cost +${(r.d / c.total * 100).toFixed(1)}%`) });
+    } catch (e) { console.error(e); fail(tb); }
+    // lithium sweep
+    const sw = $('#calc-sweep');
+    try {
+      const r = sweepChart(sw, s, market);
+      const per = `Each $1,000/t on lithium carbonate moves cell cost by about ${fmtUsd1(r.slope * 1000)}/kWh.`;
+      $('#calc-sweep-sub').textContent = r.now <= market
+        ? `At today's market price of ${fmtUsd1(market)}/kWh, the modelled cost reaches the price if lithium carbonate rises to about ${fmtUsd0(Math.round(r.be / 10) * 10)}/t (${pctS((r.be / s.li - 1) * 100)} from the slider). ${per}`
+        : `At these inputs the modelled cost is already above today's market price of ${fmtUsd1(market)}/kWh; lithium would need to fall to about ${fmtUsd0(Math.round(r.be / 10) * 10)}/t for makers to break even. ${per}`;
+    } catch (e) { console.error(e); fail(sw); }
+    const mini = $('#calc-mini'); mini.replaceChildren();
+    [['Cell cost', fmtUsd1(c.total)], ['Cell price', fmtUsd1(price)], ['4-h system', fmtUsd1(sysP)], ['India landed', fmtUsd1(landed)]].forEach(([k, v]) => { const x = el('span'); x.append(el('small', null, k), el('b', null, v)); mini.appendChild(x); });
+    syncHash();
   }
 
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
@@ -405,52 +743,24 @@
     list.forEach((n) => ul.appendChild(newsItem(n)));
   }
 
-  function renderCalc() {
-    const w = weekly(); if (!w.length) return;
-    const refSel = $('#calc-ref'), liIn = $('#calc-li'), kgIn = $('#calc-kg');
-    const sp = spotPts(); const latestLi = sp.length ? sp[sp.length - 1].v : w[w.length - 1].lithium_usd_t;
-    if (!refSel.childElementCount) {
-      w.slice().reverse().forEach((r) => refSel.appendChild(new Option(dayFmt(parse(r.date)), r.date)));
-      S.calc.ref = w[w.length - 1].date; S.calc.li = latestLi;
-      refSel.addEventListener('change', () => { S.calc.ref = refSel.value; renderCalc(); });
-      liIn.addEventListener('input', () => { S.calc.li = +liIn.value; renderCalc(); });
-      kgIn.addEventListener('input', () => { S.calc.kg = +kgIn.value; renderCalc(); });
-      $('#calc-reset').addEventListener('click', () => { S.calc = { ref: w[w.length - 1].date, li: latestLi, kg: 0.55 }; renderCalc(); });
-      const fut = futPts(); const peak = fut.length ? d3.greatest(fut, (p) => p.v) : null;
-      const presets = [['Latest spot', latestLi], ...(peak ? [['May 2026 futures peak', peak.v]] : []), ['30 Sep spot', (spotPts().find((p) => +p.d === +parse('2026-09-30')) || {}).v], ['Goldman 2027 view', (D.forecasts || []).find((f) => /2027/.test(f.period))?.low], ['Mid-2025', (spotPts()[0] || {}).v]].filter((p) => p[1]);
-      const pr = $('#calc-presets');
-      presets.forEach(([lab, v]) => { const b = el('button', null, `${lab} ${fmtUsd0(v)}`); b.type = 'button'; b.addEventListener('click', () => { S.calc.li = Math.round(v / 100) * 100; renderCalc(); }); pr.appendChild(b); });
-    }
-    refSel.value = S.calc.ref; liIn.value = S.calc.li; kgIn.value = S.calc.kg;
-    $('#calc-li-out').textContent = fmtUsd0(S.calc.li) + ' /t';
-    $('#calc-kg-out').textContent = S.calc.kg.toFixed(2) + ' kg';
-    const ref = w.find((r) => r.date === S.calc.ref) || w[w.length - 1];
-    const dCell = (S.calc.li - ref.lithium_usd_t) * S.calc.kg / 1000 / VAT;
-    const cell = ref.cell314 + dCell, sys = ref.ac_4h + dCell;
-    const res = $('#calc-results'); res.replaceChildren();
-    const card = (k, v, d) => { const c = el('div', 'result'); c.append(el('span', 'k', k), el('span', 'v', v)); if (d) c.appendChild(el('span', 'd' + (d[1] < -0.05 ? ' is-down' : d[1] > 0.05 ? ' is-up' : ''), d[0])); res.appendChild(c); };
-    const lch = (S.calc.li / ref.lithium_usd_t - 1) * 100;
-    card('Lithium vs reference week', fmtUsd0(S.calc.li), [`${pctS(lch)} vs ${fmtUsd0(ref.lithium_usd_t)}`, lch]);
-    card('Implied 314 Ah cell price', fmtUsd1(cell) + '/kWh', [`${dCell >= 0 ? '+' : '−'}$${Math.abs(dCell).toFixed(1)} (${pctS(dCell / ref.cell314 * 100)})`, dCell]);
-    card('Cell cost per GWh', '$' + cell.toFixed(1) + 'M', [`vs $${ref.cell314.toFixed(1)}M in the reference week`, dCell]);
-    card('Implied 4-hour AC system', fmtUsd1(sys) + '/kWh', [`${pctS(dCell / ref.ac_4h * 100)} vs ${fmtUsd1(ref.ac_4h)}`, dCell]);
-    $('#calc-explain').textContent = `Reference week ${dayFmt(parse(ref.date))}: lithium ${fmtUsd0(ref.lithium_usd_t)}/t, cell ${fmtUsd1(ref.cell314)}/kWh, 4-hour system ${fmtUsd1(ref.ac_4h)}/kWh (InfoLink). Change in cell cost = change in lithium price × ${S.calc.kg.toFixed(2)} kg per kWh, with China's 13% VAT removed. The system figure assumes about 1 kWh of cells per kWh of system and holds all other costs fixed.`;
-    if (S.tab === 'cells') renderCells();
-  }
-
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, lithium: renderLithium, cells: renderCells, materials: renderMaterials, news: renderNews, calculator: renderCalc };
-  function go(tab, push = true) {
-    if (tab === 'systems') tab = 'cells';
+  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc };
+  function go(route, push = true) {
+    const path = String(route || 'overview').split('?')[0];
+    let [tab, sub] = (LEGACY[path] || path).split('/');
     if (!TABS.includes(tab)) tab = 'overview';
+    if (tab === 'materials' && SUBS.includes(sub)) S.sub = sub;
     S.tab = tab; hideTip();
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
-    if (push) { try { history.replaceState(null, '', '#' + tab); } catch (e) { /* ignore */ } }
+    $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
+    $$('.subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
+    if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab)); } catch (e) { /* ignore */ } }
     try { RENDER[tab](); } catch (e) { console.error(e); }
     if (push) window.scrollTo({ top: 0 });
   }
   $$('.tab').forEach((b) => b.addEventListener('click', () => go(b.dataset.tab)));
+  $$('.subnav button').forEach((b) => b.addEventListener('click', () => go('materials/' + b.dataset.sub)));
   $$('[data-goto]').forEach((b) => b.addEventListener('click', () => go(b.dataset.goto)));
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
@@ -462,7 +772,7 @@
 
   // ---------- CSV ----------
   $$('[data-csv]').forEach((b) => b.addEventListener('click', () => {
-    const key = b.dataset.csv; const rows = D[key] || []; if (!rows.length) return;
+    const key = b.dataset.csv; const rows = key === 'allprices' ? allPrices().map(({ stage_i, chart, ...r }) => r) : D[key] || []; if (!rows.length) return;
     const cols = [...new Set(rows.flatMap((r) => Object.keys(r)))];
     const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
     const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');

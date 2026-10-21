@@ -4,6 +4,7 @@ A daily market intelligence page for the LFP battery supply chain: lithium, LFP 
 
 - Live page: https://kaniket796.github.io/battery-monitor/
 - Data: `data/*.json` (the page reads only these files)
+- Tabs: Overview · Raw materials (every price, plus lithium, cell and storage-system charts) · News · Cost calculator (builds cell and system cost from raw-material prices; scenarios can be shared by link)
 - How it is updated: see `UPDATING.md`
 
 Compiled from public sources for internal information only. Check the original source before relying on a figure.

@@ -7,7 +7,10 @@
   "move": "−10% in a week",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "stage": "Ore & lithium chemicals",
+  "unit": "per tonne",
+  "usd": 1530.0
  },
  {
   "material": "Lithium hydroxide",
@@ -17,7 +20,10 @@
   "move": "−2.3% on the day",
   "direction": "down",
   "source": "LME",
-  "url": "https://www.lme.com/metals/ev/lme-lithium-hydroxide-cif-fastmarkets-mb"
+  "url": "https://www.lme.com/metals/ev/lme-lithium-hydroxide-cif-fastmarkets-mb",
+  "stage": "Ore & lithium chemicals",
+  "unit": "per tonne",
+  "usd": 15262.0
  },
  {
   "material": "Iron phosphate",
@@ -27,7 +33,10 @@
   "move": "+50% since January",
   "direction": "up",
   "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1"
+  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1",
+  "stage": "Cathode & anode",
+  "unit": "per tonne",
+  "usd": 2240.0
  },
  {
   "material": "LFP electrolyte",
@@ -37,7 +46,10 @@
   "move": "Edging up",
   "direction": "up",
   "source": "SMM weekly review",
-  "url": "https://news.metal.com/newscontent/104133836-electrolyte-prices-edged-up-this-week-2026921-924-smm-lithium-battery-electrolyte-market-weekly-review"
+  "url": "https://news.metal.com/newscontent/104133836-electrolyte-prices-edged-up-this-week-2026921-924-smm-lithium-battery-electrolyte-market-weekly-review",
+  "stage": "Other cell materials",
+  "unit": "per tonne",
+  "usd": 4870.0
  },
  {
   "material": "Copper",
@@ -47,7 +59,10 @@
   "move": "−1.9% in a week",
   "direction": "down",
   "source": "Trading Economics",
-  "url": "https://tradingeconomics.com/commodity/copper"
+  "url": "https://tradingeconomics.com/commodity/copper",
+  "stage": "Metals",
+  "unit": "per tonne",
+  "usd": 14480.0
  },
  {
   "material": "Aluminium",
@@ -57,16 +72,63 @@
   "move": "−1.8% in a week",
   "direction": "down",
   "source": "Trading Economics",
-  "url": "https://tradingeconomics.com/commodity/aluminum"
+  "url": "https://tradingeconomics.com/commodity/aluminum",
+  "stage": "Metals",
+  "unit": "per tonne",
+  "usd": 2994.0
  },
  {
   "material": "Graphite anode",
-  "role": "Anode material",
-  "price": "Pending",
-  "asof": "—",
-  "move": "No free source found",
+  "role": "Anode (artificial, storage grade)",
+  "price": "$3,710",
+  "asof": "Feb 2026",
+  "move": "Stable in mid-Oct (SMM weekly)",
+  "direction": "flat",
+  "source": "SMM cost model (Mar 2026)",
+  "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf",
+  "stage": "Cathode & anode",
+  "unit": "per tonne",
+  "usd": 3710,
+  "source2": "SMM anode weekly, 15 Oct",
+  "url2": "https://news.metal.com/newscontent/104157767-costs-hold-quotes-firm-and-destocking-continues-artificial-graphite-prices-still-have-upward-momentum-smm-lithium-battery-anode-raw-material-market-weekly-review"
+ },
+ {
+  "material": "Separator",
+  "role": "Wet-process coated film, 7+2 µm",
+  "price": "$0.19",
+  "usd": 0.186,
+  "unit": "per m²",
+  "asof": "15 Oct",
+  "move": "Tight supply, steady",
+  "direction": "flat",
+  "source": "SMM separator weekly",
+  "url": "https://news.metal.com/newscontent/104160065-smm-separator-weekly-review-supply-demand-tight-pattern-persists",
+  "stage": "Other cell materials"
+ },
+ {
+  "material": "Copper foil",
+  "role": "6 µm anode current collector",
+  "price": "$18,000",
+  "usd": 18000,
+  "unit": "per tonne",
+  "asof": "Feb 2026",
+  "move": "Follows copper",
   "direction": "none",
-  "source": "SMM search",
-  "url": "https://www.metal.com/search?keyword=graphite&type=price"
+  "source": "SMM cost model (Mar 2026)",
+  "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf",
+  "stage": "Other cell materials"
+ },
+ {
+  "material": "Aluminium foil",
+  "role": "12 µm cathode current collector",
+  "price": "$5,430",
+  "usd": 5430,
+  "unit": "per tonne",
+  "asof": "Feb 2026",
+  "move": "Follows aluminium",
+  "direction": "none",
+  "source": "SMM cost model (Mar 2026)",
+  "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf",
+  "stage": "Other cell materials"
  }
 ]

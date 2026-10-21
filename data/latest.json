@@ -14,14 +14,14 @@
  {
   "id": "cathode",
   "layer": "LFP cathode",
-  "label": "LFP cathode average, China",
-  "price": "$9,120",
+  "label": "LFP cathode, China (compaction ≥2.5)",
+  "price": "$6,770",
   "unit": "per tonne",
-  "asof": "June avg",
-  "move": "+19% since January",
-  "direction": "up",
+  "asof": "15 Oct",
+  "move": "−10% in a week",
+  "direction": "down",
   "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1"
+  "url": "https://news.metal.com/newscontent/104160467-smm-cobalt-lithium-morning-meeting-summary-supply-demand-expectations-diverge-material-prices-under-pressure-industry-chain-prosperity-diverges"
  },
  {
   "id": "cell314",

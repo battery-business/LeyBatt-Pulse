@@ -1,0 +1,89 @@
+{
+ "about": "Defaults for the cost calculator. Prices come live from rawmats.json, lithium.json and weekly.json; this file holds quantities per kWh, fixed costs and calibration. US$, China prices include 13% VAT unless marked ex-VAT.",
+ "cathode_kg": 2.2,
+ "anode_kg": 1.2,
+ "electrolyte_kg": 1.1,
+ "separator_m2": 13,
+ "cu_foil_kg": 0.36,
+ "al_foil_kg": 0.25,
+ "lc_per_t_lfp": 0.24,
+ "fepo4_per_t_lfp": 0.96,
+ "cathode_processing_usd_t": 880,
+ "cu_foil_fee_usd_t": 2710,
+ "al_foil_fee_usd_t": 1840,
+ "aux_usd_kwh": 1.3,
+ "structural_usd_kwh": 2.6,
+ "mfg_usd_kwh": 5.3,
+ "yield_pct": 95,
+ "bcd_pct": 10,
+ "sws_pct_of_bcd": 10,
+ "export_rebate_pct": 6,
+ "lithium_points": [
+  {
+   "label": "Jan 2026 high",
+   "usd_t": 27090,
+   "source": "SMM",
+   "url": "https://news.metal.com/newscontent/103741566-smm-analysis-cost-driven-price-game-market-trend-analysis-of-314ah-ess-battery-cells"
+  },
+  {
+   "label": "Oct 2025 low",
+   "usd_t": 10980,
+   "source": "SMM",
+   "url": "https://news.metal.com/newscontent/103741566-smm-analysis-cost-driven-price-game-market-trend-analysis-of-314ah-ess-battery-cells"
+  }
+ ],
+ "notes": [
+  {
+   "what": "Material quantities per kWh of cell",
+   "text": "Cathode 2.2 kg, graphite 1.2 kg, electrolyte 1.1 kg, separator 13 m², copper foil 0.36 kg, aluminium foil 0.25 kg. Worked back from SMM's 314 Ah cell cost model (cost per Wh divided by unit price). Cathode is in line with Anaphite's 2.10–2.20 kg/kWh for LFP; electrolyte with Fastmarkets' 1.18 kg/kWh for a Tesla LFP pack.",
+   "source": "SMM 314 Ah cell cost model, Mar 2026",
+   "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf",
+   "source2": "Anaphite, Sep 2026",
+   "url2": "https://anaphite.com/2026/09/22/dry-coating-technoeconomics-chapter-2-how-materials-shape-the-numbers/"
+  },
+  {
+   "what": "Lithium and iron phosphate in the cathode",
+   "text": "Each tonne of LFP needs about 0.24 t of lithium carbonate and 0.96 t of iron phosphate (chemical formula, plus small losses). That puts about 0.53 kg of lithium carbonate in each kWh, close to Fastmarkets' 0.56 kg/kWh for a Tesla LFP pack.",
+   "source": "Fastmarkets",
+   "url": "https://www.fastmarkets.com/insights/electric-vehicle-economics-how-lithium-ion-battery-costs-impact-ev-prices/"
+  },
+  {
+   "what": "Cathode processing fee",
+   "text": "About $880/t: the SMM LFP cathode price on 15 Oct ($6,770/t) minus its lithium carbonate (SMM $15,580/t that day) and iron phosphate (SMM July, $2,240/t). With these, the calculator reproduces the SMM cathode price.",
+   "source": "SMM, 15 Oct",
+   "url": "https://news.metal.com/newscontent/104160467-smm-cobalt-lithium-morning-meeting-summary-supply-demand-expectations-diverge-material-prices-under-pressure-industry-chain-prosperity-diverges"
+  },
+  {
+   "what": "Foil processing fees",
+   "text": "Copper foil about $2,710/t and aluminium foil about $1,840/t over the metal: SMM foil prices (Feb 2026) minus SMM copper and aluminium prices (26 Jan 2026). The metal part follows the live copper and aluminium prices.",
+   "source": "SMM",
+   "url": "https://news.metal.com/newscontent/103741566-smm-analysis-cost-driven-price-game-market-trend-analysis-of-314ah-ess-battery-cells"
+  },
+  {
+   "what": "Cell case, other materials, manufacturing, yield",
+   "text": "Case and structural parts $2.6/kWh, other materials (binders, conductive carbon, solvent) $1.3/kWh, manufacturing $5.3/kWh, yield 95%. SMM's assumptions, VAT removed.",
+   "source": "SMM 314 Ah cell cost model, Mar 2026",
+   "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf"
+  },
+  {
+   "what": "Rest of the storage system",
+   "text": "InfoLink's latest 4-hour AC system price minus its 314 Ah cell price in the same week. Covers power conversion, container, thermal and fire systems, BMS/EMS, integration and margin, assuming about 1 kWh of cells per kWh of system.",
+   "source": "InfoLink weekly",
+   "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+  },
+  {
+   "what": "India import duty",
+   "text": "Basic customs duty 10% (concessional rate for stationary battery storage systems, per the Finance Ministry clarification), plus Social Welfare Surcharge of 10% of the duty. Cells or packs may be classified differently: check the tariff line. IGST (18%) is left out because a GST-registered buyer can usually claim it back.",
+   "source": "Mercom India, 12 Oct 2026",
+   "url": "https://www.mercomindia.com/finance-ministry-clarifies-battery-storage-systems-attract-10-customs-duty",
+   "source2": "xbattery",
+   "url2": "https://xbattery.energy/learn/import-duty-and-customs-policy-on-lithium-ion-cells"
+  },
+  {
+   "what": "China export rebate",
+   "text": "China's export VAT rebate on batteries (now 6%) is due to end on 1 January 2027. If exporters pass it on in full, export prices rise by about 6%.",
+   "source": "CnEVPost",
+   "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
+  }
+ ]
+}

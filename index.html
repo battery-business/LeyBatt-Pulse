@@ -23,8 +23,6 @@
     </div>
     <nav class="wrap tabs" id="tabs" aria-label="Sections">
       <button type="button" data-tab="overview" class="tab">Overview</button>
-      <button type="button" data-tab="lithium" class="tab">Lithium</button>
-      <button type="button" data-tab="cells" class="tab">Cells &amp; systems</button>
       <button type="button" data-tab="materials" class="tab">Raw materials</button>
       <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
       <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
@@ -50,8 +48,44 @@
     </div>
   </section>
 
-  <!-- LITHIUM -->
-  <section class="page" id="page-lithium" data-page="lithium" hidden>
+  <!-- RAW MATERIALS: all prices, lithium, cells, systems -->
+  <section class="page" id="page-materials" data-page="materials" hidden>
+    <div class="subnav" role="tablist" aria-label="Raw materials sections">
+      <button type="button" role="tab" data-sub="all"><span class="dot" style="--dc:var(--plum)"></span>All prices</button>
+      <button type="button" role="tab" data-sub="lithium"><span class="dot" style="--dc:var(--amber)"></span>Lithium</button>
+      <button type="button" role="tab" data-sub="cells"><span class="dot" style="--dc:var(--blue)"></span>Cells</button>
+      <button type="button" role="tab" data-sub="systems"><span class="dot" style="--dc:var(--indigo)"></span>Storage systems</button>
+    </div>
+
+    <div class="subpage" data-sub="all" style="--sec:var(--plum)">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Every price along the chain, from ore to storage system</h2>
+          <div class="controls">
+            <input class="search" id="raw-search" type="search" placeholder="Filter" aria-label="Filter prices">
+            <button class="btn ghost small" type="button" data-csv="allprices">Download CSV</button>
+          </div>
+        </div>
+        <p class="sub">US$. Dates differ by item; each row shows its own. Click a stage to filter, a column heading to sort, or a chart link to open its history.</p>
+        <div class="chips" id="raw-stages"></div>
+        <div class="tablewrap">
+          <table class="table sortable" id="raw-table">
+            <thead><tr>
+              <th><button type="button" data-sort="stage_i">Stage</button></th>
+              <th><button type="button" data-sort="material">Item</button></th>
+              <th class="r"><button type="button" data-sort="usd">Price</button></th>
+              <th><button type="button" data-sort="unit">Unit</button></th>
+              <th><button type="button" data-sort="asof">As of</button></th>
+              <th><button type="button" data-sort="direction">Move</button></th>
+              <th>Source</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="subpage" data-sub="lithium" style="--sec:var(--amber)" hidden>
     <div class="panel">
       <div class="panel-head">
         <h2>Lithium carbonate, US$ per tonne</h2>
@@ -77,11 +111,9 @@
         <div class="tablewrap"><table class="table" id="forecast-table"><thead><tr><th>Who</th><th>Period</th><th class="r">Forecast</th><th class="r">vs today</th><th>Source</th></tr></thead><tbody></tbody></table></div>
       </div>
     </div>
-  </section>
+      </div>
 
-  <!-- CELLS -->
-  <section class="page" id="page-cells" data-page="cells" hidden>
-    <h2 class="section-title cell">Cells</h2>
+    <div class="subpage" data-sub="cells" style="--sec:var(--blue)" hidden>
     <div class="panel">
       <div class="panel-head">
         <h2>314 Ah LFP storage cell, China, US$ per kWh</h2>
@@ -103,7 +135,7 @@
           <span class="lbl" id="gap-to"></span>
         </div>
         <div class="chart" id="gap-chart"></div>
-        <p class="sub">Implied move uses about 0.55 kg of lithium carbonate per kWh of cell, an industry rule of thumb. Change it in the cost calculator.</p>
+        <p class="sub">Implied move uses <span id="gap-kg">0.53</span> kg of lithium carbonate per kWh of cell, the cost calculator's default.</p>
       </div>
       <div class="panel">
         <div class="panel-head"><h2>587 Ah vs 314 Ah cells, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="cellbids">Download CSV</button></div>
@@ -118,7 +150,9 @@
         <p class="srcs" id="share-srcs"></p>
       </div>
     </div>
-      <h2 class="section-title sys">Storage systems</h2>
+    </div>
+
+    <div class="subpage" data-sub="systems" style="--sec:var(--indigo)" hidden>
     <div class="panel">
       <div class="panel-head">
         <h2>Storage systems (containers), China, US$ per kWh</h2>
@@ -138,33 +172,7 @@
       <div class="chart" id="system-chart"></div>
       <p class="srcs" id="system-srcs"></p>
     </div>
-  </section>
-
-  <!-- MATERIALS -->
-  <section class="page" id="page-materials" data-page="materials" hidden>
-    <div class="panel">
-      <div class="panel-head">
-        <h2>LFP raw materials</h2>
-        <div class="controls">
-          <input class="search" id="raw-search" type="search" placeholder="Filter materials" aria-label="Filter materials">
-          <button class="btn ghost small" type="button" data-csv="rawmats">Download CSV</button>
-        </div>
       </div>
-      <p class="sub">US$ per tonne. Dates differ by material; each row shows its own. Click a column heading to sort.</p>
-      <div class="tablewrap">
-        <table class="table sortable" id="raw-table">
-          <thead><tr>
-            <th><button type="button" data-sort="material">Material</button></th>
-            <th><button type="button" data-sort="role">Used for</button></th>
-            <th class="r"><button type="button" data-sort="price_num">Price</button></th>
-            <th><button type="button" data-sort="asof">As of</button></th>
-            <th><button type="button" data-sort="direction">Move</button></th>
-            <th>Source</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
   </section>
 
   <!-- NEWS -->
@@ -191,35 +199,67 @@
 
   <!-- CALCULATOR -->
   <section class="page" id="page-calculator" data-page="calculator" hidden>
-    <div class="grid2 calc">
+    <div class="panel calc-head">
+      <div class="panel-head">
+        <h2>Battery cost builder: from raw materials to a storage cell and a 4-hour system</h2>
+        <div class="controls">
+          <button class="btn small" type="button" id="calc-share">Copy link to this scenario</button>
+          <button class="btn ghost small" type="button" id="calc-reset">Reset to latest prices</button>
+        </div>
+      </div>
+      <p class="sub">Starts from the latest prices on this site. Move any slider, or pick a scenario, and every number below updates. An estimate built from public price data, not a quote.</p>
+      <div class="chips scen" id="calc-scen"></div>
+      <p class="sub share-msg" id="calc-share-msg" aria-live="polite"></p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="panel calc-inputs" id="calc-inputs"></div>
+
+      <div class="calc-out">
+        <div class="panel">
+          <div class="panel-head"><h2>314 Ah LFP storage cell, US$ per kWh, excluding VAT</h2></div>
+          <div class="kpis" id="calc-kpis"></div>
+          <div class="stackbar" id="calc-stack" aria-label="Cell cost by component"></div>
+          <div class="legend" id="calc-legend"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Storage system and your project</h2></div>
+          <div class="proj">
+            <label class="lbl" for="calc-mwh">Project size</label>
+            <input class="num-in" type="number" id="calc-mwh" min="1" max="100000" step="1" value="100"> <span class="lbl">MWh</span>
+          </div>
+          <div id="calc-sys"></div>
+          <details class="india" id="calc-india-box" open>
+            <summary>If you import it into India</summary>
+            <div class="india-inputs" id="calc-india-in"></div>
+            <div id="calc-india"></div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
       <div class="panel">
-        <div class="panel-head"><h2>What does a lithium move do to cell and system cost?</h2></div>
-        <p class="sub">A rule-of-thumb estimate, not a quote: it moves only the lithium part of the cost and keeps everything else as it was in the reference week.</p>
-        <div class="field">
-          <label for="calc-ref">Reference week (InfoLink)</label>
-          <select id="calc-ref" class="select"></select>
-        </div>
-        <div class="field">
-          <label for="calc-li">Lithium carbonate price <output id="calc-li-out"></output></label>
-          <input type="range" id="calc-li" min="8000" max="35000" step="100">
-          <div class="presets" id="calc-presets"></div>
-        </div>
-        <div class="field">
-          <label for="calc-kg">Lithium carbonate per kWh of cell <output id="calc-kg-out"></output></label>
-          <input type="range" id="calc-kg" min="0.45" max="0.65" step="0.01" value="0.55">
-        </div>
-        <button class="btn ghost small" type="button" id="calc-reset">Reset to latest</button>
+        <div class="panel-head"><h2>Which price matters most?</h2></div>
+        <p class="sub">Change in cell cost if each input rose 20% from where the sliders are now. Hover a bar for detail.</p>
+        <div class="chart" id="calc-tornado"></div>
       </div>
       <div class="panel">
-        <div class="panel-head"><h2>Result</h2></div>
-        <div class="results" id="calc-results"></div>
-        <p class="sub" id="calc-explain"></p>
+        <div class="panel-head"><h2>Where lithium starts to squeeze cell makers</h2></div>
+        <p class="sub" id="calc-sweep-sub">Modelled cell cost as lithium moves, against today's market cell price.</p>
+        <div class="chart" id="calc-sweep"></div>
       </div>
+    </div>
+
+    <div class="calc-mini" id="calc-mini" aria-live="polite"></div>
+    <div class="panel">
+      <div class="panel-head"><h2>How the calculator works, and its sources</h2></div>
+      <ul class="method" id="calc-method"></ul>
     </div>
   </section>
 
   <footer class="foot">
-    <p>Method: prices come from the public sources linked on each item and are converted to US$ at a fixed US$1 = 6.70 yuan; older dates use the same rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Cathode, iron phosphate and graphite have no free weekly source yet.</p>
+    <p>Method: prices come from the public sources linked on each item and are converted to US$ at a fixed US$1 = 6.70 yuan; older dates use the same rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Iron phosphate, graphite and foil prices have no free weekly source, so the latest public figures are used and dated.</p>
     <p><b>Automatic updates:</b> this website updates itself every day at 4:00 am IST. Chinese markets open later, so each morning shows the previous trading day’s prices; weekend updates mainly add news.</p>
     <p>For internal information only. Check the original source before relying on a figure.</p>
   </footer>

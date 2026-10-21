@@ -1,0 +1,72 @@
+[
+ {
+  "material": "Spodumene SC6",
+  "role": "Lithium ore",
+  "price": "$1,530",
+  "asof": "14 Oct",
+  "move": "−10% in a week",
+  "direction": "down",
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
+  "material": "Lithium hydroxide",
+  "role": "Lithium salt, CIF Asia",
+  "price": "$15,262",
+  "asof": "19 Oct",
+  "move": "−2.3% on the day",
+  "direction": "down",
+  "source": "LME",
+  "url": "https://www.lme.com/metals/ev/lme-lithium-hydroxide-cif-fastmarkets-mb"
+ },
+ {
+  "material": "Iron phosphate",
+  "role": "LFP precursor",
+  "price": "$2,240",
+  "asof": "Jul",
+  "move": "+50% since January",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1"
+ },
+ {
+  "material": "LFP electrolyte",
+  "role": "Electrolyte for LFP cells",
+  "price": "$4,870",
+  "asof": "21–24 Sep",
+  "move": "Edging up",
+  "direction": "up",
+  "source": "SMM weekly review",
+  "url": "https://news.metal.com/newscontent/104133836-electrolyte-prices-edged-up-this-week-2026921-924-smm-lithium-battery-electrolyte-market-weekly-review"
+ },
+ {
+  "material": "Copper",
+  "role": "Anode foil, busbars",
+  "price": "$14,480",
+  "asof": "19 Oct",
+  "move": "−1.9% in a week",
+  "direction": "down",
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/copper"
+ },
+ {
+  "material": "Aluminium",
+  "role": "Cathode foil, cell cans",
+  "price": "$2,994",
+  "asof": "19 Oct",
+  "move": "−1.8% in a week",
+  "direction": "down",
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/aluminum"
+ },
+ {
+  "material": "Graphite anode",
+  "role": "Anode material",
+  "price": "Pending",
+  "asof": "—",
+  "move": "No free source found",
+  "direction": "none",
+  "source": "SMM search",
+  "url": "https://www.metal.com/search?keyword=graphite&type=price"
+ }
+]

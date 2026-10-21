@@ -1,0 +1,74 @@
+[
+ {
+  "id": "lithium",
+  "layer": "Raw material",
+  "label": "Lithium carbonate futures",
+  "price": "$15,010",
+  "unit": "per tonne",
+  "asof": "19 Oct",
+  "move": "−16.2% since 30 Sep",
+  "direction": "down",
+  "source": "SMM daily review",
+  "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level"
+ },
+ {
+  "id": "cathode",
+  "layer": "LFP cathode",
+  "label": "LFP cathode average, China",
+  "price": "$9,120",
+  "unit": "per tonne",
+  "asof": "June avg",
+  "move": "+19% since January",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1"
+ },
+ {
+  "id": "cell314",
+  "layer": "Cell",
+  "label": "314 Ah LFP storage cell",
+  "price": "$47.5",
+  "unit": "per kWh",
+  "asof": "14 Oct",
+  "move": "−0.7% in a week",
+  "direction": "down",
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
+  "id": "cell587",
+  "layer": "Cell",
+  "label": "587 Ah class, CALB tender bid",
+  "price": "$49.5",
+  "unit": "per kWh",
+  "asof": "May",
+  "move": "+3% vs its 314 Ah bid",
+  "direction": "flat",
+  "source": "CEEC tender via ESS News",
+  "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
+ },
+ {
+  "id": "pack",
+  "layer": "Pack",
+  "label": "Storage pack, global average",
+  "price": "$70",
+  "unit": "per kWh",
+  "asof": "2025",
+  "move": "Annual survey only",
+  "direction": "flat",
+  "source": "BloombergNEF",
+  "url": "https://about.bnef.com/insights/clean-transport/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"
+ },
+ {
+  "id": "system",
+  "layer": "Container",
+  "label": "4-hour system, China awards",
+  "price": "$70.0",
+  "unit": "per kWh",
+  "asof": "Sep",
+  "move": "−11.6% in a month",
+  "direction": "down",
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20261016-52306.html"
+ }
+]

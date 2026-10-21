@@ -1,0 +1,44 @@
+[
+ {
+  "label": "314 Ah market average (14 Oct)",
+  "usd_kwh": 47.5,
+  "kind": "Market",
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
+  "label": "314 Ah, CALB bid (May)",
+  "usd_kwh": 48.2,
+  "kind": "314 Ah tender",
+  "source": "CEEC tender via ESS News",
+  "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
+ },
+ {
+  "label": "≥500 Ah, lowest bid (May)",
+  "usd_kwh": 47.5,
+  "kind": "≥500 Ah tender",
+  "source": "CEEC tender via ESS News",
+  "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
+ },
+ {
+  "label": "≥500 Ah, CALB bid (May)",
+  "usd_kwh": 49.5,
+  "kind": "≥500 Ah tender",
+  "source": "CEEC tender via ESS News",
+  "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
+ },
+ {
+  "label": "≥500 Ah, EVE bid (May)",
+  "usd_kwh": 50.6,
+  "kind": "≥500 Ah tender",
+  "source": "CEEC tender via ESS News",
+  "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
+ },
+ {
+  "label": "CATL 587 Ah online list price (Sep)",
+  "usd_kwh": 57.5,
+  "kind": "List price",
+  "source": "CarNewsChina",
+  "url": "https://carnewschina.com/2026/09/15/catl-begins-direct-online-sales-of-giant-587-ah-lfp-cells-at-65-usd-kwh/"
+ }
+]

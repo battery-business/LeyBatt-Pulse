@@ -1,0 +1,138 @@
+[
+ {
+  "date": "2026-05-13",
+  "series": "Futures",
+  "usd_t": 31330,
+  "source": "Mining Weekly",
+  "url": "https://www.miningweekly.com/article/chinese-lithium-prices-tumble-to-nearly-10-month-low-on-demand-concerns-2026-10-12",
+  "note": "Contract high"
+ },
+ {
+  "date": "2026-09-01",
+  "series": "Futures",
+  "usd_t": 23880,
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-09-30/lithium-plunges-25-in-china-on-fears-over-battery-demand-growth",
+  "note": ""
+ },
+ {
+  "date": "2026-09-22",
+  "series": "Futures",
+  "usd_t": 20000,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-09-23",
+  "series": "Futures",
+  "usd_t": 19550,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-09-24",
+  "series": "Futures",
+  "usd_t": 19100,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-09-28",
+  "series": "Futures",
+  "usd_t": 18360,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-09-29",
+  "series": "Futures",
+  "usd_t": 18210,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-09-30",
+  "series": "Futures",
+  "usd_t": 17910,
+  "source": "SunSirs",
+  "url": "https://www.sunsirs.com/uk/frodetail-1162.html",
+  "note": ""
+ },
+ {
+  "date": "2026-10-12",
+  "series": "Futures",
+  "usd_t": 15630,
+  "source": "Mining Weekly",
+  "url": "https://www.miningweekly.com/article/chinese-lithium-prices-tumble-to-nearly-10-month-low-on-demand-concerns-2026-10-12",
+  "note": "Fell 11.8 percent in one day"
+ },
+ {
+  "date": "2026-10-19",
+  "series": "Futures",
+  "usd_t": 15010,
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level",
+  "note": ""
+ },
+ {
+  "date": "2025-07-01",
+  "series": "Spot",
+  "usd_t": 8960,
+  "source": "InfoLink via ESS News",
+  "url": "https://www.ess-news.com/2026/07/16/flexibility-shapes-europes-storage-future-signals-from-chinas-supply-chain/",
+  "note": "Approximate, reported as mid-2025"
+ },
+ {
+  "date": "2026-01-26",
+  "series": "Spot",
+  "usd_t": 27090,
+  "source": "SMM via Discovery Alert",
+  "url": "https://discoveryalert.com.au/314-ah-storage-cell-prices-impact-2026/",
+  "note": ""
+ },
+ {
+  "date": "2026-04-20",
+  "series": "Spot",
+  "usd_t": 24930,
+  "source": "InfoLink via ESS News",
+  "url": "https://www.ess-news.com/2026/04/22/chinas-314-ah-storage-cell-prices-climb-more-than-20-in-six-months/",
+  "note": ""
+ },
+ {
+  "date": "2026-09-09",
+  "series": "Spot",
+  "usd_t": 21490,
+  "source": "InfoLink via SolarBytes",
+  "url": "https://solarbytes.info/battery-and-energy-storage-system/infolink-china-lfp-cell-ess-prices-stable-lithium-declines-september-2026-12540544",
+  "note": ""
+ },
+ {
+  "date": "2026-09-30",
+  "series": "Spot",
+  "usd_t": 17910,
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": ""
+ },
+ {
+  "date": "2026-10-14",
+  "series": "Spot",
+  "usd_t": 16270,
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": ""
+ },
+ {
+  "date": "2026-10-19",
+  "series": "Spot",
+  "usd_t": 15370,
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level",
+  "note": ""
+ }
+]

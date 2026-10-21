@@ -1,0 +1,44 @@
+[
+ {
+  "date": "2025-10-31",
+  "usd_kwh": 39.6,
+  "source": "InfoLink via ESS News",
+  "url": "https://www.ess-news.com/2026/04/22/chinas-314-ah-storage-cell-prices-climb-more-than-20-in-six-months/",
+  "note": "Late October 2025"
+ },
+ {
+  "date": "2026-03-06",
+  "usd_kwh": 47.5,
+  "source": "InfoLink via Energy-Storage.News",
+  "url": "https://www.energy-storage.news/price-jump-chinese-firms-battery-cell-quotes-approach-0-4-rmb-wh-system-prices-follow-suit/",
+  "note": ""
+ },
+ {
+  "date": "2026-04-20",
+  "usd_kwh": 48.2,
+  "source": "InfoLink via ESS News",
+  "url": "https://www.ess-news.com/2026/04/22/chinas-314-ah-storage-cell-prices-climb-more-than-20-in-six-months/",
+  "note": ""
+ },
+ {
+  "date": "2026-09-09",
+  "usd_kwh": 48.2,
+  "source": "InfoLink via SolarBytes",
+  "url": "https://solarbytes.info/battery-and-energy-storage-system/infolink-china-lfp-cell-ess-prices-stable-lithium-declines-september-2026-12540544",
+  "note": ""
+ },
+ {
+  "date": "2026-09-30",
+  "usd_kwh": 47.9,
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": ""
+ },
+ {
+  "date": "2026-10-14",
+  "usd_kwh": 47.5,
+  "source": "InfoLink",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": "Supplier range $43.6–$51.5"
+ }
+]

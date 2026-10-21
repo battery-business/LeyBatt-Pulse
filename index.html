@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Battery Price Monitor</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="bpm">
+  <header class="head" id="top">
+    <p class="eyebrow">LFP battery supply chain · daily price and news monitor</p>
+    <h1>Battery Price Monitor</h1>
+    <p class="take" id="takeaway"><span class="skeleton">Loading latest prices…</span></p>
+    <p class="meta" id="updated"></p>
+  </header>
+
+  <section id="headline" class="sec">
+    <h2>Where each layer stands</h2>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section id="news" class="sec">
+    <h2>Top news</h2>
+    <p class="sub">Summarised in our own words, newest first. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
+    <div class="panel"><div class="tablewrap">
+      <table class="table" id="news-table">
+        <thead><tr><th>Date</th><th>What happened</th><th>Effect</th><th>Source</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section id="charts" class="sec">
+    <h2>Price trends</h2>
+    <div class="grid">
+      <div class="panel">
+        <h3>Lithium carbonate, US$ per tonne</h3>
+        <p class="sub">Guangzhou futures (most-active contract) and China spot, battery grade. Dots are verified dates; lines join them.</p>
+        <div class="chart" id="lithium-chart"></div>
+        <p class="srcs" id="lithium-srcs"></p>
+      </div>
+      <div class="panel">
+        <h3>314 Ah LFP storage cell, China, US$ per kWh</h3>
+        <p class="sub">Market average, excluding VAT.</p>
+        <div class="chart" id="cell-chart"></div>
+        <p class="srcs" id="cell-srcs"></p>
+      </div>
+      <div class="panel">
+        <h3>China 4-hour storage systems, US$ per kWh</h3>
+        <p class="sub">Average tender award price, excluding VAT (assumed included in awards).</p>
+        <div class="chart" id="system-chart"></div>
+        <p class="srcs" id="system-srcs"></p>
+      </div>
+      <div class="panel">
+        <h3>587 Ah vs 314 Ah cells, US$ per kWh</h3>
+        <p class="sub">No weekly market price exists for 587 Ah yet, so tender bids and list prices stand in. Excluding VAT.</p>
+        <div class="chart" id="bids-chart"></div>
+        <p class="srcs" id="bids-srcs"></p>
+      </div>
+      <div class="panel wide">
+        <h3>Lithium fall vs cell price move</h3>
+        <p class="sub" id="gap-sub">Expected move assumes about 0.55 kg of lithium carbonate per kWh of cell, an industry rule of thumb.</p>
+        <div class="chart" id="gap-chart"></div>
+        <p class="srcs">Computed from the lithium spot and 314 Ah cell series above.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="raw" class="sec">
+    <h2>Other LFP raw materials</h2>
+    <p class="sub">US$ per tonne. Dates differ by material; each row shows its own.</p>
+    <div class="panel"><div class="tablewrap">
+      <table class="table" id="raw-table">
+        <thead><tr><th>Material</th><th>Used for</th><th>Price</th><th>As of</th><th>Move</th><th>Source</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <footer class="foot">
+    <p>Method: prices are collected from public sources and converted to US$ at a fixed rate of US$1 = 6.70 yuan; older dates use this rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Cathode, iron phosphate and graphite have no free weekly source yet.</p>
+    <p>For internal information only. Market data is compiled from the public sources linked on each item; check the original before relying on a figure.</p>
+  </footer>
+</main>
+<script src="assets/d3.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

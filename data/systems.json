@@ -1,0 +1,30 @@
+[
+ {
+  "period": "H1 2026",
+  "usd_kwh": 71.5,
+  "source": "CNESA",
+  "url": "https://en.cnesa.org/latest-news/2026/7/15/china-energy-storage-tenders-amp-awards-h1-2026-system-and-epc-prices-rebound-across-the-board-with-4-hour-ess-seeing-stronger-growth-than-2-hour-systems",
+  "note": "Six-month average"
+ },
+ {
+  "period": "Jul 2026",
+  "usd_kwh": 66.0,
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20260817-51955.html",
+  "note": "Single quote, indicative"
+ },
+ {
+  "period": "Aug 2026",
+  "usd_kwh": 79.2,
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20260910-52114.html",
+  "note": ""
+ },
+ {
+  "period": "Sep 2026",
+  "usd_kwh": 70.0,
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20261016-52306.html",
+  "note": "Range $68.7–$76.6"
+ }
+]

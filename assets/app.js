@@ -3,8 +3,11 @@
   const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'lithium', 'cells', 'systems', 'materials', 'news', 'calculator'];
-  const CARD_TAB = { lithium: 'lithium', cathode: 'materials', cell314: 'cells', cell587: 'cells', pack: 'cells', system: 'systems' };
+  const TABS = ['overview', 'lithium', 'cells', 'materials', 'news', 'calculator'];
+  const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', pack: '--green', system: '--indigo' };
+  const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Energy storage': '--indigo', 'EV market': '--green', 'India': '--rose', 'Regulation & trade': '--plum', 'Technology': '--teal' };
+  const catColor = (c) => css(CAT_COLOR[c] || '--slate');
+  const CARD_TAB = { lithium: 'lithium', cathode: 'materials', cell314: 'cells', cell587: 'cells', pack: 'cells', system: 'cells' };
 
   const D = {};
   const S = {
@@ -200,9 +203,9 @@
     const sparks = { lithium: futPts().map((p) => p.v), cell314: weekly().map((w) => w.cell314), system: (D.systems || []).map((r) => +r.usd_kwh) };
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
-      const c = el('button', 'card'); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open the ' + (CARD_TAB[r.id] || 'overview') + ' tab';
+      const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open the ' + (CARD_TAB[r.id] || 'overview') + ' tab';
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), el('span', 'unit', `${r.unit} · ${r.asof}`), el('span', 'move' + dirClass(r.direction), r.move));
-      if (sparks[r.id]) spark(c, sparks[r.id], r.direction === 'down' ? css('--ok') : r.direction === 'up' ? css('--warn') : css('--blue'));
+      if (sparks[r.id]) spark(c, sparks[r.id], css(LAYER_COLOR[r.id] || '--slate'));
       c.appendChild(el('span', 'src', 'Source: ' + r.source));
       c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
       cards.appendChild(c);
@@ -329,12 +332,13 @@
       hBars(sb, rows, { label: 'maker', value: 'share', fmt: (v) => v.toFixed(1) + '%', color: (r) => (r.maker === 'All others' ? css('--chart-muted') : css('--teal')), tip: (t, r) => tipNote(t, `${r.gwh} GWh installed`) });
       srcLinks($('#share-srcs'), rows);
     } catch (e) { console.error(e); fail(sb); }
+    renderSystems();
   }
 
   function renderSystems() {
     const box = $('#sys-chart');
     try {
-      const defs = [['AC 1-hour', 'ac_1h', '--plum'], ['AC 2-hour', 'ac_2h', '--teal'], ['AC 4-hour', 'ac_4h', '--blue'], ['DC 2-hour', 'dc_2h', '--amber']];
+      const defs = [['AC 1-hour', 'ac_1h', '--plum'], ['AC 2-hour', 'ac_2h', '--teal'], ['AC 4-hour', 'ac_4h', '--indigo'], ['DC 2-hour', 'dc_2h', '--amber']];
       toggles($('#sys-toggles'), defs.map((d) => d[0]), defs.map((d) => css(d[2])), S.hidden.sys, renderSystems);
       rangeSeg('sysweekly', renderSystems);
       const w = weekly();
@@ -345,7 +349,7 @@
     const tb = $('#system-chart');
     try {
       const rows = (D.systems || []).map((r) => ({ ...r, usd_kwh: +r.usd_kwh }));
-      vBars(tb, rows, { label: 'period', value: 'usd_kwh', fmt: fmtUsd1, color: (r, i) => (i === rows.length - 1 ? css('--blue') : css('--chart-muted')), tip: (t, r) => { tipNote(t, 'Source: ' + r.source); if (r.note) tipNote(t, r.note); } });
+      vBars(tb, rows, { label: 'period', value: 'usd_kwh', fmt: fmtUsd1, color: (r, i) => (i === rows.length - 1 ? css('--indigo') : css('--chart-muted')), tip: (t, r) => { tipNote(t, 'Source: ' + r.source); if (r.note) tipNote(t, r.note); } });
       srcLinks($('#system-srcs'), D.systems);
     } catch (e) { console.error(e); fail(tb); }
   }
@@ -375,6 +379,7 @@
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
   function newsItem(n) {
     const li = el('li');
+    li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
     meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
@@ -383,11 +388,12 @@
   }
   function renderNews() {
     const all = sortedNews();
-    const cats = [...new Set(all.map((n) => n.category || 'News'))].sort();
+    const cats = [...new Set(all.map((n) => n.category || 'News'))].sort((a, b) => all.filter((x) => x.category === b).length - all.filter((x) => x.category === a).length);
     const chips = $('#news-cats'); chips.replaceChildren();
     [['', 'All'], ...cats.map((c) => [c, c])].forEach(([val, lab]) => {
       const n = val ? all.filter((x) => (x.category || 'News') === val).length : all.length;
       const b = el('button', null, `${lab} (${n})`); b.type = 'button'; b.setAttribute('aria-pressed', String(S.news.cat === val));
+      if (val) b.style.setProperty('--cc', catColor(val));
       b.addEventListener('click', () => { S.news.cat = val; renderNews(); });
       chips.appendChild(b);
     });
@@ -433,8 +439,9 @@
   }
 
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, lithium: renderLithium, cells: renderCells, systems: renderSystems, materials: renderMaterials, news: renderNews, calculator: renderCalc };
+  const RENDER = { overview: renderOverview, lithium: renderLithium, cells: renderCells, materials: renderMaterials, news: renderNews, calculator: renderCalc };
   function go(tab, push = true) {
+    if (tab === 'systems') tab = 'cells';
     if (!TABS.includes(tab)) tab = 'overview';
     S.tab = tab; hideTip();
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });

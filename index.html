@@ -9,31 +9,33 @@
 </head>
 <body>
 <header class="top">
-  <div class="wrap top-row">
-    <div class="brand">
-      <span class="eyebrow">LFP battery supply chain</span>
-      <h1>Battery Price Monitor</h1>
+  <div class="band">
+    <div class="wrap top-row">
+      <div class="brand">
+        <span class="eyebrow">LFP battery supply chain · prices &amp; news</span>
+        <h1>Battery Price Monitor</h1>
+      </div>
+      <div class="top-actions">
+        <span class="auto"><span class="pulse" aria-hidden="true"></span>Updates automatically every day at 4:00 am IST</span>
+        <span class="updated" id="updated"></span>
+        <button class="btn on-dark" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Auto</button>
+      </div>
     </div>
-    <div class="top-actions">
-      <span class="updated" id="updated"></span>
-      <button class="btn ghost" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Auto</button>
-    </div>
+    <nav class="wrap tabs" id="tabs" aria-label="Sections">
+      <button type="button" data-tab="overview" class="tab">Overview</button>
+      <button type="button" data-tab="lithium" class="tab">Lithium</button>
+      <button type="button" data-tab="cells" class="tab">Cells &amp; systems</button>
+      <button type="button" data-tab="materials" class="tab">Raw materials</button>
+      <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
+      <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
+    </nav>
   </div>
-  <nav class="wrap tabs" id="tabs" aria-label="Sections">
-    <button type="button" data-tab="overview" class="tab">Overview</button>
-    <button type="button" data-tab="lithium" class="tab">Lithium</button>
-    <button type="button" data-tab="cells" class="tab">Cells</button>
-    <button type="button" data-tab="systems" class="tab">Systems</button>
-    <button type="button" data-tab="materials" class="tab">Raw materials</button>
-    <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
-    <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
-  </nav>
 </header>
 
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="page" id="page-overview" data-page="overview">
-    <p class="take" id="takeaway">Loading latest prices…</p>
+    <div class="hero"><p class="take" id="takeaway">Loading latest prices…</p><p class="hero-note">This page refreshes itself every morning at 4:00 am IST with the latest public prices and news. Every figure links to its source.</p></div>
     <div class="cards" id="cards"></div>
     <div class="grid2">
       <div class="panel">
@@ -79,6 +81,7 @@
 
   <!-- CELLS -->
   <section class="page" id="page-cells" data-page="cells" hidden>
+    <h2 class="section-title cell">Cells</h2>
     <div class="panel">
       <div class="panel-head">
         <h2>314 Ah LFP storage cell, China, US$ per kWh</h2>
@@ -115,13 +118,10 @@
         <p class="srcs" id="share-srcs"></p>
       </div>
     </div>
-  </section>
-
-  <!-- SYSTEMS -->
-  <section class="page" id="page-systems" data-page="systems" hidden>
+      <h2 class="section-title sys">Storage systems</h2>
     <div class="panel">
       <div class="panel-head">
-        <h2>China storage system quotes, US$ per kWh</h2>
+        <h2>Storage systems (containers), China, US$ per kWh</h2>
         <div class="controls">
           <div class="seg" data-range-for="sysweekly"></div>
           <button class="btn ghost small" type="button" data-csv="weekly">Download CSV</button>
@@ -220,6 +220,7 @@
 
   <footer class="foot">
     <p>Method: prices come from the public sources linked on each item and are converted to US$ at a fixed US$1 = 6.70 yuan; older dates use the same rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Cathode, iron phosphate and graphite have no free weekly source yet.</p>
+    <p><b>Automatic updates:</b> this website updates itself every day at 4:00 am IST. Chinese markets open later, so each morning shows the previous trading day’s prices; weekend updates mainly add news.</p>
     <p>For internal information only. Check the original source before relying on a figure.</p>
   </footer>
 </main>

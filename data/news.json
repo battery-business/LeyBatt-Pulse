@@ -25,7 +25,7 @@
   "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level",
   "source2": "",
   "url2": "",
-  "category": "Lithium"
+  "category": "Lithium & materials"
  },
  {
   "id": "n03",
@@ -39,7 +39,7 @@
   "url": "https://www.energytrend.com/research/20261016-52306.html",
   "source2": "",
   "url2": "",
-  "category": "Storage China"
+  "category": "Energy storage"
  },
  {
   "id": "n04",
@@ -53,7 +53,7 @@
   "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
   "source2": "",
   "url2": "",
-  "category": "Storage China"
+  "category": "Energy storage"
  },
  {
   "id": "n05",
@@ -67,7 +67,7 @@
   "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
   "source2": "IndexBox",
   "url2": "https://www.indexbox.io/blog/lithium-prices-fall-after-eu-china-hybrid-vehicle-deal/",
-  "category": "Lithium"
+  "category": "Lithium & materials"
  },
  {
   "id": "n06",
@@ -95,7 +95,7 @@
   "url": "https://www.miningweekly.com/article/chinese-lithium-prices-tumble-to-nearly-10-month-low-on-demand-concerns-2026-10-12",
   "source2": "Bloomberg",
   "url2": "https://www.bloomberg.com/news/articles/2026-10-12/chinese-lithium-slumps-10-after-eu-deal-slashes-hybrid-exports",
-  "category": "Lithium"
+  "category": "Lithium & materials"
  },
  {
   "id": "n08",
@@ -109,7 +109,7 @@
   "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
   "source2": "",
   "url2": "",
-  "category": "Lithium"
+  "category": "Lithium & materials"
  },
  {
   "id": "n09",
@@ -137,7 +137,7 @@
   "url": "https://cnevpost.com/2026/10/09/china-eu-make-progress-hybrid-trade/",
   "source2": "",
   "url2": "",
-  "category": "Policy & trade"
+  "category": "Regulation & trade"
  },
  {
   "id": "n11",
@@ -151,7 +151,7 @@
   "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
   "source2": "Xinhua",
   "url2": "https://english.news.cn/africa/20260625/9264fe69e9604e67aa986c313d1ae213/c.html",
-  "category": "Policy & trade"
+  "category": "Regulation & trade"
  },
  {
   "id": "n12",
@@ -172,7 +172,7 @@
   "date": "2026-10-20",
   "day": "20 Oct",
   "headline": "CATL's third-quarter profit misses estimates as competition and outlook concerns weigh (headline only, not verified)",
-  "category": "Cells & makers",
+  "category": "Cell makers & competitors",
   "effect": "Maker margins down",
   "direction": "down",
   "source": "Bloomberg",
@@ -186,7 +186,7 @@
   "date": "2026-10-20",
   "day": "20 Oct",
   "headline": "CATL launches a swappable 'dual-electric' battery system for heavy trucks (432–513 kWh main pack plus 77 kWh backup) and targets 900 swap stations by end-2026",
-  "category": "Cells & makers",
+  "category": "Cell makers & competitors",
   "effect": "E-truck demand up",
   "direction": "up",
   "source": "CarNewsChina",
@@ -200,7 +200,7 @@
   "date": "2026-10-20",
   "day": "20 Oct",
   "headline": "China lithium spot edges down to about $15,280/t as buyers wait for lower prices",
-  "category": "Lithium",
+  "category": "Lithium & materials",
   "effect": "Lithium steadies",
   "direction": "flat",
   "source": "SMM",
@@ -214,7 +214,7 @@
   "date": "2026-10-15",
   "day": "15 Oct",
   "headline": "China's September EV battery installations reach 87.2 GWh, 85.5% LFP; CATL 40.9%, BYD 21.1%, CALB 7.0% share",
-  "category": "Cells & makers",
+  "category": "Cell makers & competitors",
   "effect": "LFP demand up",
   "direction": "up",
   "source": "CnEVPost",
@@ -242,7 +242,7 @@
   "date": "2026-10-09",
   "day": "9 Oct",
   "headline": "Wood Mackenzie: 4-hour battery storage is now cheaper than gas peaker plants in all 43 markets it models",
-  "category": "Storage global",
+  "category": "Energy storage",
   "effect": "Storage demand up",
   "direction": "up",
   "source": "ESS News",
@@ -270,7 +270,7 @@
   "date": "2026-10-01",
   "day": "1 Oct",
   "headline": "Bloomberg: a Chilean lithium project draws investors despite the price rout (headline only, not verified)",
-  "category": "Lithium",
+  "category": "Lithium & materials",
   "effect": "Supply outlook",
   "direction": "flat",
   "source": "Bloomberg",
@@ -278,5 +278,131 @@
   "source2": "",
   "url2": "",
   "sources": "Bloomberg"
+ },
+ {
+  "id": "n21",
+  "date": "2026-10-07",
+  "day": "7 Oct",
+  "headline": "India's EV retail sales hit a record 3.34 lakh units in September, up 74% on a year earlier; EVs reached about 13% of all vehicle sales",
+  "category": "EV market",
+  "effect": "EV demand up",
+  "direction": "up",
+  "source": "ETV Bharat (FADA data)",
+  "url": "https://www.etvbharat.com/en/business/indias-ev-retail-sales-hit-record-3-dot-33-lakh-units-in-september-up-74-percent-yoy-enn26100704612",
+  "source2": "",
+  "url2": "",
+  "sources": "ETV Bharat (FADA data)"
+ },
+ {
+  "id": "n22",
+  "date": "2026-10-12",
+  "day": "12 Oct",
+  "headline": "China's September NEV retail sales fall 16.7% to 1.08 million, the ninth straight yearly decline, though NEVs hit a record 67% of car sales",
+  "category": "EV market",
+  "effect": "China EV demand down",
+  "direction": "down",
+  "source": "CnEVPost (CPCA data)",
+  "url": "https://cnevpost.com/2026/10/12/china-sept-2026-nev-retail-cpca/",
+  "source2": "",
+  "url2": "",
+  "sources": "CnEVPost (CPCA data)"
+ },
+ {
+  "id": "n23",
+  "date": "2026-10-12",
+  "day": "12 Oct",
+  "headline": "China's total NEV sales rise 13.6% to 1.82 million in September as exports jump 160% to 571,000 vehicles",
+  "category": "EV market",
+  "effect": "EV exports up",
+  "direction": "up",
+  "source": "CnEVPost (CAAM data)",
+  "url": "https://cnevpost.com/2026/10/12/china-sept-2026-nev-sales-caam/",
+  "source2": "",
+  "url2": "",
+  "sources": "CnEVPost (CAAM data)"
+ },
+ {
+  "id": "n24",
+  "date": "2026-10-13",
+  "day": "13 Oct",
+  "headline": "India's cell factories: Tata Agratas receives first equipment for its 20 GWh Sanand plant, Amara Raja runs a qualification line, Exide plans 12 GWh; installed PLI capacity was about 2.5% of the 40 GWh awarded",
+  "category": "India",
+  "effect": "Local supply slow",
+  "direction": "flat",
+  "source": "GreentechLead",
+  "url": "https://greentechlead.com/electric-vehicle/india-ev-and-battery-investments-2026-tata-amara-raja-and-exide-expand-gigafactory-plans-55902",
+  "source2": "",
+  "url2": "",
+  "sources": "GreentechLead"
+ },
+ {
+  "id": "n25",
+  "date": "2026-10-20",
+  "day": "20 Oct",
+  "headline": "EU publishes a draft act on who may access battery passport data; digital passports become mandatory for large batteries from February 2027",
+  "category": "Regulation & trade",
+  "effect": "Compliance cost up",
+  "direction": "up",
+  "source": "Product Compliance Institute",
+  "url": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/",
+  "source2": "",
+  "url2": "",
+  "sources": "Product Compliance Institute"
+ },
+ {
+  "id": "n26",
+  "date": "2026-10-02",
+  "day": "2 Oct",
+  "headline": "Tesla deploys 13.7 GWh of energy storage and delivers 486,532 vehicles in the third quarter",
+  "category": "Cell makers & competitors",
+  "effect": "Storage demand up",
+  "direction": "up",
+  "source": "Tesla",
+  "url": "https://ir.tesla.com/press-release/tesla-third-quarter-2026-production-deliveries-and-deployments",
+  "source2": "",
+  "url2": "",
+  "sources": "Tesla"
+ },
+ {
+  "id": "n27",
+  "date": "2026-10-08",
+  "day": "8 Oct",
+  "headline": "LG Energy Solution posts record quarterly revenue on US storage demand and plans over 50 GWh of North American LFP storage capacity by end-2026",
+  "category": "Cell makers & competitors",
+  "effect": "More LFP competition",
+  "direction": "down",
+  "source": "Korea JoongAng Daily",
+  "url": "https://www.koreajoongangdaily.com/business/lg-energy-solution-tops-9-trillion-won-in-revenue-for-first-time-in-earnings-surprise/12909919",
+  "source2": "",
+  "url2": "",
+  "sources": "Korea JoongAng Daily"
+ },
+ {
+  "id": "n28",
+  "date": "2026-10-19",
+  "day": "19 Oct",
+  "headline": "BYD Energy Storage expands its global after-sales network to nine service centres; says it shipped over 60 GWh of storage systems in 2025, the most worldwide",
+  "category": "Cell makers & competitors",
+  "effect": "Competition up",
+  "direction": "flat",
+  "source": "BYD (GlobeNewswire)",
+  "url": "https://www.globenewswire.com/news-release/2026/10/19/3383012/0/en/byd-energy-storage-accelerates-global-bess-after-sales-network-expansion.html",
+  "source2": "",
+  "url2": "",
+  "sources": "BYD (GlobeNewswire)"
+ },
+ {
+  "id": "n29",
+  "date": "2026-10-20",
+  "day": "20 Oct",
+  "headline": "BYD launches the second-generation Seagull from about $9,810 with 30–39 kWh batteries and 5-minute 10–70% flash charging on upper trims",
+  "category": "EV market",
+  "effect": "Cheaper EVs",
+  "direction": "down",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/20/byd-launches-second-gen-seagull",
+  "source2": "",
+  "url2": "",
+  "sources": "CnEVPost"
  }
 ]

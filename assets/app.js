@@ -358,46 +358,79 @@
     } catch (e) { console.error(e); fail(tb); }
   }
 
-  // ---------- raw materials: one table for every price ----------
-  const STAGES = ['Ore & lithium chemicals', 'Cathode & anode', 'Other cell materials', 'Metals', 'Cells', 'Packs & systems'];
-  const STAGE_COLOR = ['--amber', '--plum', '--teal', '--orange', '--blue', '--indigo'];
-  const LATEST_STAGE = { lithium: ['Ore & lithium chemicals', 'lithium'], cathode: ['Cathode & anode', null], cell314: ['Cells', 'cells'], cell587: ['Cells', 'cells'], pack: ['Packs & systems', null], system: ['Packs & systems', 'systems'] };
+  // ---------- raw materials: price map ----------
+  // Each step lists [kind, key, display name, short description]; kind 'latest' = latest.json id, 'raw' = rawmats material.
+  const FLOW = [
+    { step: 'Mined and refined inputs', color: '--amber', items: [['latest', 'lithium', 'Lithium carbonate', 'China futures price'], ['raw', 'Spodumene SC6', 'Spodumene', 'Lithium ore, 6% grade'], ['raw', 'Lithium hydroxide', 'Lithium hydroxide', 'Lithium salt, delivered Asia'], ['raw', 'Copper', 'Copper', 'World benchmark price'], ['raw', 'Aluminium', 'Aluminium', 'World benchmark price']] },
+    { step: 'Cathode and anode', color: '--plum', items: [['raw', 'Iron phosphate', 'Iron phosphate', 'Raw material for the cathode'], ['latest', 'cathode', 'LFP cathode', 'Cathode powder, China'], ['raw', 'Graphite anode', 'Graphite anode', 'Artificial graphite, storage grade']] },
+    { step: 'Other cell materials', color: '--teal', items: [['raw', 'LFP electrolyte', 'Electrolyte', 'Liquid inside LFP cells'], ['raw', 'Separator', 'Separator', 'Film between the electrodes'], ['raw', 'Copper foil', 'Copper foil', 'Carries current on the anode side'], ['raw', 'Aluminium foil', 'Aluminium foil', 'Carries current on the cathode side']] },
+    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid']] },
+    { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey'], ['latest', 'system', '4-hour storage system', 'China tender awards']] },
+  ];
+  const CHART_OF = { lithium: 'lithium', 'Spodumene SC6': 'lithium', 'Lithium hydroxide': 'lithium', cell314: 'cells', cell587: 'cells', system: 'systems' };
+  const UNIT_SHORT = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' };
   const numOf = (p) => (/\d/.test(p || '') ? Number(String(p).replace(/[^0-9.]/g, '')) : null);
+  const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  // Age in days of an "as of" label such as "19 Oct", "21–24 Sep", "Feb 2026", "Jul", "2025".
+  function ageDays(asof) {
+    const ref = D.meta ? parse(D.meta.updated) : new Date();
+    const t = String(asof || '');
+    const yr = (t.match(/(20\d\d)/) || [])[1];
+    const m = t.match(/(?:(\d{1,2})\s*(?:[–-]\s*(\d{1,2}))?\s+)?([A-Za-z]{3})[a-z]*/);
+    let d;
+    if (m && MON[m[3].toLowerCase()] != null) {
+      const mo = MON[m[3].toLowerCase()], y = yr ? +yr : ref.getUTCFullYear();
+      const day = m[2] || m[1];
+      d = day ? new Date(Date.UTC(y, mo, +day)) : new Date(Date.UTC(y, mo + 1, 0));
+      if (!yr && d > ref) d = new Date(Date.UTC(y - 1, d.getUTCMonth(), d.getUTCDate()));
+    } else if (yr) d = new Date(Date.UTC(+yr, 11, 31));
+    else return 999;
+    return Math.round((ref - d) / 864e5);
+  }
   function allPrices() {
-    const ROLE = { lithium: 'China futures, most-active contract', cathode: 'Cathode powder for LFP cells', cell314: 'Storage cell, China average excl. VAT', cell587: 'Large storage cell, tender bid', pack: 'Storage battery pack', system: '4-hour storage container, tender awards' };
-    const fromLatest = (D.latest || []).map((r) => ({ material: r.label, role: ROLE[r.id] || r.layer, price: r.price, usd: numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, stage: (LATEST_STAGE[r.id] || ['Cells'])[0], chart: (LATEST_STAGE[r.id] || [])[1] || null }));
-    const raw = (D.rawmats || []).map((r) => ({ ...r, usd: r.usd != null ? r.usd : numOf(r.price), chart: /Spodumene|hydroxide/.test(r.material) ? 'lithium' : null }));
-    return [...fromLatest, ...raw].map((r) => ({ ...r, stage_i: Math.max(0, STAGES.indexOf(r.stage)) }));
+    const latest = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
+    const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
+    const used = new Set();
+    const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
+      const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
+      return { name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
+    }).filter(Boolean) }));
+    // anything new in rawmats.json that the map does not know yet goes under "Other cell materials"
+    (D.rawmats || []).filter((r) => !used.has(r.material)).forEach((r) => steps[2].rows.push({ name: r.material, desc: r.role, price: r.price, usd: r.usd, unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, chart: null, step: steps[2].step }));
+    return steps;
   }
   function renderMaterials() {
-    const all = allPrices();
-    const chips = $('#raw-stages'); chips.replaceChildren();
-    [['', 'All stages'], ...STAGES.map((s) => [s, s])].forEach(([val, lab], i) => {
-      const n = val ? all.filter((r) => r.stage === val).length : all.length; if (!n) return;
-      const b = el('button', null, `${lab} (${n})`); b.type = 'button'; b.setAttribute('aria-pressed', String(S.raw.stage === val));
-      if (val) b.style.setProperty('--cc', css(STAGE_COLOR[i - 1]));
-      b.addEventListener('click', () => { S.raw.stage = val; renderMaterials(); });
-      chips.appendChild(b);
+    const steps = allPrices();
+    const ol = $('#price-flow'); ol.replaceChildren();
+    steps.forEach((st, i) => {
+      const li = el('li', 'step'); li.style.setProperty('--sc', css(st.color));
+      const head = el('div', 'step-head'); head.append(el('span', 'num', String(i + 1)), el('h3', null, st.step));
+      const grid = el('div', 'pcards');
+      st.rows.forEach((r) => {
+        const c = el('div', 'pcard');
+        const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
+        const fresh = ageDays(r.asof) <= 10;
+        const meta = el('div', 'pm'); const dot = el('i', 'fdot ' + (fresh ? 'fresh' : 'old')); dot.title = fresh ? 'Updated in the last 10 days' : 'Older figure, still the latest public one';
+        meta.append(dot, document.createTextNode(r.asof + ' · '), link(r.source, r.url));
+        c.append(el('div', 'pn', r.name), el('div', 'pd', r.desc || ''), pr);
+        if (r.move) c.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
+        c.appendChild(meta);
+        if (r.chart) { const b = el('button', 'btn link small', 'See chart →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); c.appendChild(b); }
+        grid.appendChild(c);
+      });
+      li.append(head, grid); ol.appendChild(li);
     });
+    // table view
     const tb = $('#raw-table tbody'); tb.replaceChildren();
-    const q = S.raw.q.toLowerCase();
-    let rows = all.filter((r) => (!S.raw.stage || r.stage === S.raw.stage) && (!q || [r.material, r.role, r.source, r.stage].join(' ').toLowerCase().includes(q)));
-    const k = S.raw.key || 'stage_i', dir = S.raw.key ? S.raw.dir : 1;
-    const rank = { down: 0, flat: 1, up: 2, none: 3 };
-    rows.sort((a, b) => dir * (k === 'usd' || k === 'stage_i' ? (a[k] ?? -1) - (b[k] ?? -1) : k === 'direction' ? rank[a[k]] - rank[b[k]] : d3.ascending(String(a[k]), String(b[k]))) || a.stage_i - b.stage_i);
-    $$('#raw-table th').forEach((th) => { const b = $('button', th); th.removeAttribute('aria-sort'); if (b && b.dataset.sort === S.raw.key) th.setAttribute('aria-sort', S.raw.dir > 0 ? 'ascending' : 'descending'); });
-    if (!rows.length) { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = 7; td.className = 'empty'; td.textContent = 'Nothing matches that filter.'; return; }
-    rows.forEach((r) => {
+    steps.forEach((st) => st.rows.forEach((r) => {
       const tr = tb.insertRow();
-      const st = tr.insertCell(); const tg = el('span', 'tag', r.stage); tg.style.setProperty('--cc', css(STAGE_COLOR[r.stage_i])); st.appendChild(tg);
-      const it = tr.insertCell(); it.appendChild(el('span', 'item', r.material)); if (r.role) it.appendChild(el('span', 'role', r.role));
-      if (r.chart) { const b = el('button', 'btn link small chartlink', 'Open chart →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); it.appendChild(b); }
-      const p = tr.insertCell(); p.className = 'num r'; p.textContent = r.price;
-      const u = tr.insertCell(); u.className = 'nowrap'; u.textContent = r.unit || '';
+      tr.insertCell().textContent = st.step;
+      const it = tr.insertCell(); it.appendChild(el('span', 'item', r.name)); if (r.desc) it.appendChild(el('span', 'role', r.desc));
+      const p = tr.insertCell(); p.className = 'num r'; p.textContent = r.price + (UNIT_SHORT[r.unit] || '');
       const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof;
-      const m = tr.insertCell(); m.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
+      tr.insertCell().appendChild(el('span', 'chip' + dirClass(r.direction), r.move || ''));
       const sc = tr.insertCell(); sc.appendChild(link(r.source, r.url)); if (r.source2) { sc.appendChild(document.createTextNode(' · ')); sc.appendChild(link(r.source2, r.url2)); }
-    });
+    }));
   }
   function renderMaterialsPage() { ({ all: renderMaterials, lithium: renderLithium, cells: renderCells, systems: renderSystems })[S.sub](); }
 
@@ -767,12 +800,10 @@
   // ---------- inputs ----------
   $('#news-search').addEventListener('input', (e) => { S.news.q = e.target.value; renderNews(); });
   $('#news-effect').addEventListener('change', (e) => { S.news.effect = e.target.value; renderNews(); });
-  $('#raw-search').addEventListener('input', (e) => { S.raw.q = e.target.value; renderMaterials(); });
-  $$('#raw-table th button').forEach((b) => b.addEventListener('click', () => { const k = b.dataset.sort; S.raw.dir = S.raw.key === k ? -S.raw.dir : 1; S.raw.key = k; renderMaterials(); }));
 
   // ---------- CSV ----------
   $$('[data-csv]').forEach((b) => b.addEventListener('click', () => {
-    const key = b.dataset.csv; const rows = key === 'allprices' ? allPrices().map(({ stage_i, chart, ...r }) => r) : D[key] || []; if (!rows.length) return;
+    const key = b.dataset.csv; const rows = key === 'allprices' ? allPrices().flatMap((st) => st.rows.map(({ chart, ...r }) => r)) : D[key] || []; if (!rows.length) return;
     const cols = [...new Set(rows.flatMap((r) => Object.keys(r)))];
     const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
     const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');

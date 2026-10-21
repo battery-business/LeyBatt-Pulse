@@ -51,7 +51,7 @@
   <!-- RAW MATERIALS: all prices, lithium, cells, systems -->
   <section class="page" id="page-materials" data-page="materials" hidden>
     <div class="subnav" role="tablist" aria-label="Raw materials sections">
-      <button type="button" role="tab" data-sub="all"><span class="dot" style="--dc:var(--plum)"></span>All prices</button>
+      <button type="button" role="tab" data-sub="all"><span class="dot" style="--dc:var(--plum)"></span>Price map</button>
       <button type="button" role="tab" data-sub="lithium"><span class="dot" style="--dc:var(--amber)"></span>Lithium</button>
       <button type="button" role="tab" data-sub="cells"><span class="dot" style="--dc:var(--blue)"></span>Cells</button>
       <button type="button" role="tab" data-sub="systems"><span class="dot" style="--dc:var(--indigo)"></span>Storage systems</button>
@@ -59,29 +59,21 @@
 
     <div class="subpage" data-sub="all" style="--sec:var(--plum)">
       <div class="panel">
-        <div class="panel-head">
-          <h2>Every price along the chain, from ore to storage system</h2>
-          <div class="controls">
-            <input class="search" id="raw-search" type="search" placeholder="Filter" aria-label="Filter prices">
-            <button class="btn ghost small" type="button" data-csv="allprices">Download CSV</button>
+        <div class="panel-head"><h2>Price map: from lithium to a storage system</h2></div>
+        <p class="sub">Read from top to bottom: each step is made from the one above it. All prices in US$.
+          <span class="fkey"><i class="fdot fresh"></i>updated in the last 10 days</span>
+          <span class="fkey"><i class="fdot old"></i>older, but still the latest public figure</span></p>
+        <ol class="flow" id="price-flow"></ol>
+        <details class="astable">
+          <summary>Show as a table</summary>
+          <div class="controls"><button class="btn ghost small" type="button" data-csv="allprices">Download CSV</button></div>
+          <div class="tablewrap">
+            <table class="table" id="raw-table">
+              <thead><tr><th>Step</th><th>Item</th><th class="r">Price</th><th>As of</th><th>Move</th><th>Source</th></tr></thead>
+              <tbody></tbody>
+            </table>
           </div>
-        </div>
-        <p class="sub">US$. Dates differ by item; each row shows its own. Click a stage to filter, a column heading to sort, or a chart link to open its history.</p>
-        <div class="chips" id="raw-stages"></div>
-        <div class="tablewrap">
-          <table class="table sortable" id="raw-table">
-            <thead><tr>
-              <th><button type="button" data-sort="stage_i">Stage</button></th>
-              <th><button type="button" data-sort="material">Item</button></th>
-              <th class="r"><button type="button" data-sort="usd">Price</button></th>
-              <th><button type="button" data-sort="unit">Unit</button></th>
-              <th><button type="button" data-sort="asof">As of</button></th>
-              <th><button type="button" data-sort="direction">Move</button></th>
-              <th>Source</th>
-            </tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
+        </details>
       </div>
     </div>
 

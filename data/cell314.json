@@ -4,41 +4,152 @@
   "usd_kwh": 39.6,
   "source": "InfoLink via ESS News",
   "url": "https://www.ess-news.com/2026/04/22/chinas-314-ah-storage-cell-prices-climb-more-than-20-in-six-months/",
-  "note": "Late October 2025"
+  "note": "Late October 2025",
+  "lo": null,
+  "hi": null
  },
  {
   "date": "2026-03-06",
   "usd_kwh": 47.5,
   "source": "InfoLink via Energy-Storage.News",
   "url": "https://www.energy-storage.news/price-jump-chinese-firms-battery-cell-quotes-approach-0-4-rmb-wh-system-prices-follow-suit/",
-  "note": ""
+  "note": "",
+  "lo": null,
+  "hi": null
  },
  {
   "date": "2026-04-20",
   "usd_kwh": 48.2,
   "source": "InfoLink via ESS News",
   "url": "https://www.ess-news.com/2026/04/22/chinas-314-ah-storage-cell-prices-climb-more-than-20-in-six-months/",
-  "note": ""
+  "note": "",
+  "lo": null,
+  "hi": null
+ },
+ {
+  "date": "2026-07-08",
+  "usd_kwh": 49.3,
+  "lo": 45.6,
+  "hi": 52.8,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260708",
+  "note": "Lithium up 2.6%; cells down 0.7%"
+ },
+ {
+  "date": "2026-07-15",
+  "usd_kwh": 48.9,
+  "lo": 44.9,
+  "hi": 52.8,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260715",
+  "note": "Lithium down 5.0% on Jianxiawo restart and cautious demand"
+ },
+ {
+  "date": "2026-07-22",
+  "usd_kwh": 48.9,
+  "lo": 44.9,
+  "hi": 52.8,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260722",
+  "note": "Lithium down 7.2% on expected supply increases"
+ },
+ {
+  "date": "2026-07-29",
+  "usd_kwh": 47.5,
+  "lo": 43.6,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260729",
+  "note": "Cells down 2.7% as makers offered concessions to keep customers"
+ },
+ {
+  "date": "2026-08-05",
+  "usd_kwh": 47.5,
+  "lo": 43.6,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260805",
+  "note": "Lithium down 2.8%; cells and systems flat"
+ },
+ {
+  "date": "2026-08-12",
+  "usd_kwh": 47.5,
+  "lo": 43.6,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260812",
+  "note": "Lithium slipped; cells and systems flat"
+ },
+ {
+  "date": "2026-08-19",
+  "usd_kwh": 47.5,
+  "lo": 43.6,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260819",
+  "note": "Lithium up 5.3% on tight spot supply"
+ },
+ {
+  "date": "2026-08-26",
+  "usd_kwh": 47.9,
+  "lo": 44.2,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260826",
+  "note": "Cells edged up 0.7% on lithium cost pressure"
+ },
+ {
+  "date": "2026-09-02",
+  "usd_kwh": 48.2,
+  "lo": 44.9,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260902",
+  "note": "Lithium up 1.7% on restocking; cells up 0.7%"
  },
  {
   "date": "2026-09-09",
   "usd_kwh": 48.2,
-  "source": "InfoLink via SolarBytes",
-  "url": "https://solarbytes.info/battery-and-energy-storage-system/infolink-china-lfp-cell-ess-prices-stable-lithium-declines-september-2026-12540544",
-  "note": ""
+  "lo": 44.9,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260909",
+  "note": "Lithium down 5.3% on inventory data and Zimbabwe supply"
+ },
+ {
+  "date": "2026-09-16",
+  "usd_kwh": 48.2,
+  "lo": 44.9,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260916",
+  "note": "Lithium down 9.7% on weaker demand outlook"
+ },
+ {
+  "date": "2026-09-23",
+  "usd_kwh": 48.2,
+  "lo": 44.9,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20260923",
+  "note": "Lithium rebounded 1.5% on pre-holiday stocking"
  },
  {
   "date": "2026-09-30",
   "usd_kwh": 47.9,
-  "source": "InfoLink",
-  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
-  "note": ""
+  "lo": 44.2,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
+  "url": "https://market-report.infolink-group.com/energy-article/ess-spot-price-20260930",
+  "note": "Lithium down 9.1%; cells edged lower"
  },
  {
   "date": "2026-10-14",
   "usd_kwh": 47.5,
-  "source": "InfoLink",
+  "lo": 43.6,
+  "hi": 51.5,
+  "source": "InfoLink weekly",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
-  "note": "Supplier range $43.6–$51.5"
+  "note": "Lithium down 9.2%; cells down 0.7%"
  }
 ]

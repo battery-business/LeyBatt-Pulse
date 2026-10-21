@@ -8,82 +8,222 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<main class="bpm">
-  <header class="head" id="top">
-    <p class="eyebrow">LFP battery supply chain · daily price and news monitor</p>
-    <h1>Battery Price Monitor</h1>
-    <p class="take" id="takeaway"><span class="skeleton">Loading latest prices…</span></p>
-    <p class="meta" id="updated"></p>
-  </header>
+<header class="top">
+  <div class="wrap top-row">
+    <div class="brand">
+      <span class="eyebrow">LFP battery supply chain</span>
+      <h1>Battery Price Monitor</h1>
+    </div>
+    <div class="top-actions">
+      <span class="updated" id="updated"></span>
+      <button class="btn ghost" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Auto</button>
+    </div>
+  </div>
+  <nav class="wrap tabs" id="tabs" aria-label="Sections">
+    <button type="button" data-tab="overview" class="tab">Overview</button>
+    <button type="button" data-tab="lithium" class="tab">Lithium</button>
+    <button type="button" data-tab="cells" class="tab">Cells</button>
+    <button type="button" data-tab="systems" class="tab">Systems</button>
+    <button type="button" data-tab="materials" class="tab">Raw materials</button>
+    <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
+    <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
+  </nav>
+</header>
 
-  <section id="headline" class="sec">
-    <h2>Where each layer stands</h2>
+<main class="wrap">
+  <!-- OVERVIEW -->
+  <section class="page" id="page-overview" data-page="overview">
+    <p class="take" id="takeaway">Loading latest prices…</p>
     <div class="cards" id="cards"></div>
-  </section>
-
-  <section id="news" class="sec">
-    <h2>Top news</h2>
-    <p class="sub">Summarised in our own words, newest first. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
-    <div class="panel"><div class="tablewrap">
-      <table class="table" id="news-table">
-        <thead><tr><th>Date</th><th>What happened</th><th>Effect</th><th>Source</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div></div>
-  </section>
-
-  <section id="charts" class="sec">
-    <h2>Price trends</h2>
-    <div class="grid">
+    <div class="grid2">
       <div class="panel">
-        <h3>Lithium carbonate, US$ per tonne</h3>
-        <p class="sub">Guangzhou futures (most-active contract) and China spot, battery grade. Dots are verified dates; lines join them.</p>
-        <div class="chart" id="lithium-chart"></div>
-        <p class="srcs" id="lithium-srcs"></p>
+        <div class="panel-head"><h2>What changed in the latest week</h2></div>
+        <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
+        <ul class="changes" id="changes"></ul>
       </div>
       <div class="panel">
-        <h3>314 Ah LFP storage cell, China, US$ per kWh</h3>
-        <p class="sub">Market average, excluding VAT.</p>
-        <div class="chart" id="cell-chart"></div>
-        <p class="srcs" id="cell-srcs"></p>
-      </div>
-      <div class="panel">
-        <h3>China 4-hour storage systems, US$ per kWh</h3>
-        <p class="sub">Average tender award price, excluding VAT (assumed included in awards).</p>
-        <div class="chart" id="system-chart"></div>
-        <p class="srcs" id="system-srcs"></p>
-      </div>
-      <div class="panel">
-        <h3>587 Ah vs 314 Ah cells, US$ per kWh</h3>
-        <p class="sub">No weekly market price exists for 587 Ah yet, so tender bids and list prices stand in. Excluding VAT.</p>
-        <div class="chart" id="bids-chart"></div>
-        <p class="srcs" id="bids-srcs"></p>
-      </div>
-      <div class="panel wide">
-        <h3>Lithium fall vs cell price move</h3>
-        <p class="sub" id="gap-sub">Expected move assumes about 0.55 kg of lithium carbonate per kWh of cell, an industry rule of thumb.</p>
-        <div class="chart" id="gap-chart"></div>
-        <p class="srcs">Computed from the lithium spot and 314 Ah cell series above.</p>
+        <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
+        <ul class="newslist compact" id="news-preview"></ul>
       </div>
     </div>
   </section>
 
-  <section id="raw" class="sec">
-    <h2>Other LFP raw materials</h2>
-    <p class="sub">US$ per tonne. Dates differ by material; each row shows its own.</p>
-    <div class="panel"><div class="tablewrap">
-      <table class="table" id="raw-table">
-        <thead><tr><th>Material</th><th>Used for</th><th>Price</th><th>As of</th><th>Move</th><th>Source</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div></div>
+  <!-- LITHIUM -->
+  <section class="page" id="page-lithium" data-page="lithium" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Lithium carbonate, US$ per tonne</h2>
+        <div class="controls">
+          <div class="seg" data-range-for="lithium"></div>
+          <button class="btn ghost small" type="button" data-csv="lithium">Download CSV</button>
+        </div>
+      </div>
+      <p class="sub">Click a series name to show or hide it. Hover the chart for exact values and sources.</p>
+      <div class="toggles" id="lithium-toggles"></div>
+      <div class="chart tall" id="lithium-chart"></div>
+      <p class="srcs" id="lithium-srcs"></p>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-head"><h2>Week-on-week change in spot lithium</h2></div>
+        <p class="sub">InfoLink weekly spot. Hover a bar for the reason InfoLink gave.</p>
+        <div class="chart" id="lithium-wow"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Where analysts see lithium going</h2></div>
+        <p class="sub">Forecasts, not facts. US$ per tonne, China spot.</p>
+        <div class="tablewrap"><table class="table" id="forecast-table"><thead><tr><th>Who</th><th>Period</th><th class="r">Forecast</th><th class="r">vs today</th><th>Source</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CELLS -->
+  <section class="page" id="page-cells" data-page="cells" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>314 Ah LFP storage cell, China, US$ per kWh</h2>
+        <div class="controls">
+          <div class="seg" data-range-for="cell"></div>
+          <button class="btn ghost small" type="button" data-csv="cell314">Download CSV</button>
+        </div>
+      </div>
+      <p class="sub">Market average excluding VAT. The shaded band is the low–high range of supplier quotes.</p>
+      <div class="chart tall" id="cell-chart"></div>
+      <p class="srcs" id="cell-srcs"></p>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-head"><h2>Lithium fall vs cell price move</h2></div>
+        <div class="controls row">
+          <label for="gap-from" class="lbl">Compare from</label>
+          <select id="gap-from" class="select"></select>
+          <span class="lbl" id="gap-to"></span>
+        </div>
+        <div class="chart" id="gap-chart"></div>
+        <p class="sub">Implied move uses about 0.55 kg of lithium carbonate per kWh of cell, an industry rule of thumb. Change it in the cost calculator.</p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>587 Ah vs 314 Ah cells, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="cellbids">Download CSV</button></div>
+        <p class="sub">No weekly market price exists for 587 Ah yet, so tender bids and list prices stand in.</p>
+        <div class="chart" id="bids-chart"></div>
+        <p class="srcs" id="bids-srcs"></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Who supplies China's EV batteries</h2></div>
+        <p class="sub" id="share-sub">Share of installations.</p>
+        <div class="chart" id="share-chart"></div>
+        <p class="srcs" id="share-srcs"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEMS -->
+  <section class="page" id="page-systems" data-page="systems" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>China storage system quotes, US$ per kWh</h2>
+        <div class="controls">
+          <div class="seg" data-range-for="sysweekly"></div>
+          <button class="btn ghost small" type="button" data-csv="weekly">Download CSV</button>
+        </div>
+      </div>
+      <p class="sub">InfoLink weekly averages for liquid-cooled containers, excluding VAT. Click a series name to show or hide it.</p>
+      <div class="toggles" id="sys-toggles"></div>
+      <div class="chart tall" id="sys-chart"></div>
+      <p class="srcs" id="sys-srcs"></p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>China 4-hour system tender awards, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="systems">Download CSV</button></div>
+      <p class="sub">Average awarded price, excluding VAT (assumed included in awards). Hover a bar for its note.</p>
+      <div class="chart" id="system-chart"></div>
+      <p class="srcs" id="system-srcs"></p>
+    </div>
+  </section>
+
+  <!-- MATERIALS -->
+  <section class="page" id="page-materials" data-page="materials" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>LFP raw materials</h2>
+        <div class="controls">
+          <input class="search" id="raw-search" type="search" placeholder="Filter materials" aria-label="Filter materials">
+          <button class="btn ghost small" type="button" data-csv="rawmats">Download CSV</button>
+        </div>
+      </div>
+      <p class="sub">US$ per tonne. Dates differ by material; each row shows its own. Click a column heading to sort.</p>
+      <div class="tablewrap">
+        <table class="table sortable" id="raw-table">
+          <thead><tr>
+            <th><button type="button" data-sort="material">Material</button></th>
+            <th><button type="button" data-sort="role">Used for</button></th>
+            <th class="r"><button type="button" data-sort="price_num">Price</button></th>
+            <th><button type="button" data-sort="asof">As of</button></th>
+            <th><button type="button" data-sort="direction">Move</button></th>
+            <th>Source</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="page" id="page-news" data-page="news" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Battery market news</h2>
+        <div class="controls">
+          <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
+          <select class="select" id="news-effect" aria-label="Filter by effect">
+            <option value="">All effects</option>
+            <option value="down">Pushes prices or demand down</option>
+            <option value="up">Pushes prices or demand up</option>
+            <option value="flat">Neutral or mixed</option>
+          </select>
+        </div>
+      </div>
+      <div class="chips" id="news-cats"></div>
+      <p class="sub" id="news-status"></p>
+      <ul class="newslist" id="news-list"></ul>
+      <p class="sub">Summarised in our own words. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="page" id="page-calculator" data-page="calculator" hidden>
+    <div class="grid2 calc">
+      <div class="panel">
+        <div class="panel-head"><h2>What does a lithium move do to cell and system cost?</h2></div>
+        <p class="sub">A rule-of-thumb estimate, not a quote: it moves only the lithium part of the cost and keeps everything else as it was in the reference week.</p>
+        <div class="field">
+          <label for="calc-ref">Reference week (InfoLink)</label>
+          <select id="calc-ref" class="select"></select>
+        </div>
+        <div class="field">
+          <label for="calc-li">Lithium carbonate price <output id="calc-li-out"></output></label>
+          <input type="range" id="calc-li" min="8000" max="35000" step="100">
+          <div class="presets" id="calc-presets"></div>
+        </div>
+        <div class="field">
+          <label for="calc-kg">Lithium carbonate per kWh of cell <output id="calc-kg-out"></output></label>
+          <input type="range" id="calc-kg" min="0.45" max="0.65" step="0.01" value="0.55">
+        </div>
+        <button class="btn ghost small" type="button" id="calc-reset">Reset to latest</button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Result</h2></div>
+        <div class="results" id="calc-results"></div>
+        <p class="sub" id="calc-explain"></p>
+      </div>
+    </div>
   </section>
 
   <footer class="foot">
-    <p>Method: prices are collected from public sources and converted to US$ at a fixed rate of US$1 = 6.70 yuan; older dates use this rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Cathode, iron phosphate and graphite have no free weekly source yet.</p>
-    <p>For internal information only. Market data is compiled from the public sources linked on each item; check the original before relying on a figure.</p>
+    <p>Method: prices come from the public sources linked on each item and are converted to US$ at a fixed US$1 = 6.70 yuan; older dates use the same rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Cathode, iron phosphate and graphite have no free weekly source yet.</p>
+    <p>For internal information only. Check the original source before relying on a figure.</p>
   </footer>
 </main>
+<div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
 <script src="assets/app.js"></script>
 </body>

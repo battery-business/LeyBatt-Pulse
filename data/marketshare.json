@@ -1,0 +1,34 @@
+[
+ {
+  "maker": "CATL",
+  "share": 40.92,
+  "gwh": 35.49,
+  "period": "Sep 2026",
+  "source": "CnEVPost (CABIA data)",
+  "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/"
+ },
+ {
+  "maker": "BYD",
+  "share": 21.09,
+  "gwh": 18.29,
+  "period": "Sep 2026",
+  "source": "CnEVPost (CABIA data)",
+  "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/"
+ },
+ {
+  "maker": "CALB",
+  "share": 6.97,
+  "gwh": 6.04,
+  "period": "Sep 2026",
+  "source": "CnEVPost (CABIA data)",
+  "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/"
+ },
+ {
+  "maker": "All others",
+  "share": 31.02,
+  "gwh": 27.38,
+  "period": "Sep 2026",
+  "source": "CnEVPost (CABIA data)",
+  "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/"
+ }
+]

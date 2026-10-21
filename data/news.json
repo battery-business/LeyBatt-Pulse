@@ -10,7 +10,8 @@
   "source": "Saur Energy",
   "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "India"
  },
  {
   "id": "n02",
@@ -23,7 +24,8 @@
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "Lithium"
  },
  {
   "id": "n03",
@@ -36,7 +38,8 @@
   "source": "TrendForce",
   "url": "https://www.energytrend.com/research/20261016-52306.html",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "Storage China"
  },
  {
   "id": "n04",
@@ -49,7 +52,8 @@
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "Storage China"
  },
  {
   "id": "n05",
@@ -62,7 +66,8 @@
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
   "source2": "IndexBox",
-  "url2": "https://www.indexbox.io/blog/lithium-prices-fall-after-eu-china-hybrid-vehicle-deal/"
+  "url2": "https://www.indexbox.io/blog/lithium-prices-fall-after-eu-china-hybrid-vehicle-deal/",
+  "category": "Lithium"
  },
  {
   "id": "n06",
@@ -75,7 +80,8 @@
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/13/utex-plans-20-gwh-battery-storage-assembly-plant-in-india/",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "India"
  },
  {
   "id": "n07",
@@ -88,7 +94,8 @@
   "source": "Mining Weekly",
   "url": "https://www.miningweekly.com/article/chinese-lithium-prices-tumble-to-nearly-10-month-low-on-demand-concerns-2026-10-12",
   "source2": "Bloomberg",
-  "url2": "https://www.bloomberg.com/news/articles/2026-10-12/chinese-lithium-slumps-10-after-eu-deal-slashes-hybrid-exports"
+  "url2": "https://www.bloomberg.com/news/articles/2026-10-12/chinese-lithium-slumps-10-after-eu-deal-slashes-hybrid-exports",
+  "category": "Lithium"
  },
  {
   "id": "n08",
@@ -101,7 +108,8 @@
   "source": "BigGo Finance",
   "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "Lithium"
  },
  {
   "id": "n09",
@@ -114,7 +122,8 @@
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/12/ntpc-tenders-3-3-gwh-of-battery-storage-in-india/",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "India"
  },
  {
   "id": "n10",
@@ -127,7 +136,8 @@
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/09/china-eu-make-progress-hybrid-trade/",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "Policy & trade"
  },
  {
   "id": "n11",
@@ -140,7 +150,8 @@
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
   "source2": "Xinhua",
-  "url2": "https://english.news.cn/africa/20260625/9264fe69e9604e67aa986c313d1ae213/c.html"
+  "url2": "https://english.news.cn/africa/20260625/9264fe69e9604e67aa986c313d1ae213/c.html",
+  "category": "Policy & trade"
  },
  {
   "id": "n12",
@@ -153,6 +164,119 @@
   "source": "SolarQuarter",
   "url": "https://solarquarter.com/2026/10/08/indias-bess-market-set-for-seven-fold-growth-to-236-gwh-by-fy2031-32-report/",
   "source2": "",
-  "url2": ""
+  "url2": "",
+  "category": "India"
+ },
+ {
+  "id": "n13",
+  "date": "2026-10-20",
+  "day": "20 Oct",
+  "headline": "CATL's third-quarter profit misses estimates as competition and outlook concerns weigh (headline only, not verified)",
+  "category": "Cells & makers",
+  "effect": "Maker margins down",
+  "direction": "down",
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-third-quarter-profit-misses-estimates-amid-outlook-concerns",
+  "source2": "Bloomberg (21 Oct)",
+  "url2": "https://www.bloomberg.com/news/articles/2026-10-21/catl-s-slower-profit-growth-fans-fears-for-china-battery-rivals",
+  "sources": "Bloomberg · Bloomberg (21 Oct)"
+ },
+ {
+  "id": "n14",
+  "date": "2026-10-20",
+  "day": "20 Oct",
+  "headline": "CATL launches a swappable 'dual-electric' battery system for heavy trucks (432–513 kWh main pack plus 77 kWh backup) and targets 900 swap stations by end-2026",
+  "category": "Cells & makers",
+  "effect": "E-truck demand up",
+  "direction": "up",
+  "source": "CarNewsChina",
+  "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/",
+  "source2": "",
+  "url2": "",
+  "sources": "CarNewsChina"
+ },
+ {
+  "id": "n15",
+  "date": "2026-10-20",
+  "day": "20 Oct",
+  "headline": "China lithium spot edges down to about $15,280/t as buyers wait for lower prices",
+  "category": "Lithium",
+  "effect": "Lithium steadies",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104168938-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-on-october-20",
+  "source2": "",
+  "url2": "",
+  "sources": "SMM"
+ },
+ {
+  "id": "n16",
+  "date": "2026-10-15",
+  "day": "15 Oct",
+  "headline": "China's September EV battery installations reach 87.2 GWh, 85.5% LFP; CATL 40.9%, BYD 21.1%, CALB 7.0% share",
+  "category": "Cells & makers",
+  "effect": "LFP demand up",
+  "direction": "up",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/",
+  "source2": "",
+  "url2": "",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n17",
+  "date": "2026-10-13",
+  "day": "13 Oct",
+  "headline": "CATL and German integrator Intilion target up to 3 GWh of sodium-ion storage projects in Germany, Austria and Switzerland over five years",
+  "category": "Technology",
+  "effect": "Alternative chemistry",
+  "direction": "flat",
+  "source": "pv magazine",
+  "url": "https://www.pv-magazine.com/2026/10/13/catl-intilion-target-up-to-3-gwh-of-sodium-ion-storage-in-europe/",
+  "source2": "",
+  "url2": "",
+  "sources": "pv magazine"
+ },
+ {
+  "id": "n18",
+  "date": "2026-10-09",
+  "day": "9 Oct",
+  "headline": "Wood Mackenzie: 4-hour battery storage is now cheaper than gas peaker plants in all 43 markets it models",
+  "category": "Storage global",
+  "effect": "Storage demand up",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/10/09/four-hour-bess-undercuts-gas-peakers-in-43-global-markets/",
+  "source2": "",
+  "url2": "",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n19",
+  "date": "2026-10-05",
+  "day": "5 Oct",
+  "headline": "SECI tenders 800 MW / 3.2 GWh of standalone 4-hour storage (build-own-operate, 20-year PPA, commissioning by 30 Apr 2027)",
+  "category": "India",
+  "effect": "India demand up",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/10/05/seci-issues-800-mw-3200-mwh-standalone-bess-tender-under-tariff-based-competitive-bidding/",
+  "source2": "",
+  "url2": "",
+  "sources": "SolarQuarter"
+ },
+ {
+  "id": "n20",
+  "date": "2026-10-01",
+  "day": "1 Oct",
+  "headline": "Bloomberg: a Chilean lithium project draws investors despite the price rout (headline only, not verified)",
+  "category": "Lithium",
+  "effect": "Supply outlook",
+  "direction": "flat",
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-10-01/chile-lithium-project-draws-investors-despite-battery-metal-rout",
+  "source2": "",
+  "url2": "",
+  "sources": "Bloomberg"
  }
 ]

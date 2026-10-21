@@ -6,7 +6,7 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 ## Rules
 
 - **US$ only.** Never show yuan/CNY. Convert with `scripts/convert.py` (US$1 = 6.70 yuan; cell and system prices from China have 13% VAT removed).
-- **Public market data only.** No company names of the site owner, no supplier negotiation notes, no internal programme details (bids, customers, targets).
+- **Public market data only.** Nothing internal about the site owner's company: no supplier negotiation notes, no internal programme details (bids, customers, targets). Public news about any company is fine.
 - **Every number needs a working source link** (`source` + `url`). Only add a figure you read on a page you opened. Search snippets alone are not enough.
 - **Never invent or interpolate.** If a source has not published since the last update, leave the old row; its date shows it is older.
 - **Summarise news in your own words.** Never copy article text. Bloomberg is usually readable only as a headline: summarise the headline and link it.
@@ -29,12 +29,28 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 | Analyst lithium price forecasts | Reputable news reports of bank or broker forecasts | When published | `forecasts.json` (`who`, `period`, `low`, `high` in US$/t, `source`, `url`) |
 | News | Bloomberg headlines on lithium/batteries/energy storage/EVs; ESS News; Energy-Storage.News; SMM; Mining Weekly; CnEVPost (China EV and battery data); company press releases (CATL, BYD, LG Energy Solution, Tesla, CALB, EVE, Panasonic, Samsung SDI, SK On); Indian sources (Saur Energy, pv magazine India, Mercom, ETAuto, Autocar Pro, FADA/Vahan EV sales, Indian cell makers such as Tata Agratas, Amara Raja, Exide, Ola, Reliance); regulation (MHI/PLI, MNRE/CEA, BIS, customs, EU Battery Regulation, US tariffs and FEOC rules) | Daily | `news.json`. Aim for a mix across categories, not only lithium. |
 
+## News categories (cover every one each week)
+
+Each daily run should aim for a spread: at most 3 lithium items, and at least one item from the India categories and one from Packs & BMS or R&D whenever something new is published.
+
+| Category | What goes in it | Where to look |
+|---|---|---|
+| Lithium & materials | Lithium, cathode, graphite, electrolyte prices and supply; mines and export bans | SMM, Mining Weekly, Bloomberg headlines |
+| Cell makers & competitors | Global cell makers: results, new plants, market share, big supply deals (CATL, BYD, EVE, CALB, Hithium, Gotion, LGES, Samsung SDI, SK On, Panasonic) | CnEVPost, Battery-Tech Network, company press releases |
+| Packs & BMS | Battery packs, cell-to-pack, swappable packs, thermal design, battery management systems (BMS) and BMS chips (NXP, TI, Infineon, ADI), pack makers | electrive, Charged EVs, Battery-Tech Network, CnEVPost, EVreporter |
+| R&D & new products | New cells and chemistries (sodium-ion, solid-state, LMFP), new storage products, research results, patents | Battery-Tech Network, CarNewsChina, The Driven, Energy-Storage.News |
+| Energy storage | Global storage tenders, prices, deployments, forecasts | ESS News, Energy-Storage.News, TrendForce/EnergyTrend, Wood Mackenzie |
+| EV market | Global EV and NEV sales, new models, pack sizes | CnEVPost (CPCA/CAAM), electrive |
+| India BESS | Indian storage tenders and awards (SECI, NTPC, NHPC, SJVN, state utilities), BESS factories and integrators (Tata Power, JSW, Waaree, Reliance, Trontek, GoodEnough) | Mercom India, Saur Energy, pv magazine India, ET EnergyWorld |
+| India EV & battery makers | Indian EV sales (FADA/Vahan), e-bus and e-truck orders and launches (Tata Motors, Olectra, JBM, PMI, EKA, Switch, Eicher), Indian cell, pack and BMS makers (Tata Agratas, Amara Raja, Exide, Ola, Lohum, Log9, TVS Indeon, Exponent) | Autocar Professional, ETAuto, EVreporter, The Machine Maker, electrive |
+| Regulation & trade | Tariffs, export rebates, PLI/MHI, BIS/CEA rules, EU Battery Regulation and passports, US FEOC rules | CnEVPost, Mercom, PIB, EU sources |
+
 ## Steps
 
 1. Check each source above. Record only new, verified figures.
 2. Append new rows to the series files (`lithium.json`, `cell314.json`, `systems.json`) with `date` (YYYY-MM-DD), value, `source`, `url`, `note`.
 3. Update the matching card in `latest.json`: `price` (formatted, e.g. "$15,010"), `asof` (e.g. "21 Oct"), `move` (signed %, e.g. "−2.1% in a week", using a real minus sign "−"), `direction` (`down`/`up`/`flat`), `source`, `url`.
-4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `category` = one of Lithium & materials / Cell makers & competitors / Energy storage / EV market / India / Regulation & trade / Technology, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Keep about 30 items; drop the oldest beyond 45 days.
+4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `category` = one of the categories listed below, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Keep about 40–50 items; drop the oldest beyond 60 days, but keep at least 3 items in every category.
 5. Update `data/meta.json`: `updated` (YYYY-MM-DD), `updated_label` (e.g. "21 Oct 2026"), `note` (one line on which prices moved).
 6. Validate: every file parses as JSON (`python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('data/*.json')]"`), and no displayed field (anything other than `url`/`url2`) contains "CNY", "RMB" or "yuan".
 7. Commit to `main` with a message like `Daily update 21 Oct 2026` and push. GitHub Pages republishes within a few minutes.

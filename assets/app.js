@@ -5,7 +5,7 @@
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
   const TABS = ['overview', 'lithium', 'cells', 'materials', 'news', 'calculator'];
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', pack: '--green', system: '--indigo' };
-  const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Energy storage': '--indigo', 'EV market': '--green', 'India': '--rose', 'Regulation & trade': '--plum', 'Technology': '--teal' };
+  const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
   const catColor = (c) => css(CAT_COLOR[c] || '--slate');
   const CARD_TAB = { lithium: 'lithium', cathode: 'materials', cell314: 'cells', cell587: 'cells', pack: 'cells', system: 'cells' };
 
@@ -471,13 +471,14 @@
   }));
 
   // ---------- theme ----------
-  const themes = ['auto', 'light', 'dark'];
-  let theme = store.get('bpm-theme') || 'auto';
+  const themes = ['light', 'dark', 'auto'];
+  let theme = store.get('bmi-theme') || 'light';
+  if (!themes.includes(theme)) theme = 'light';
   const applyTheme = () => {
     if (theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', theme);
     $('#theme-btn').textContent = 'Theme: ' + theme[0].toUpperCase() + theme.slice(1);
   };
-  $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 3]; store.set('bpm-theme', theme); applyTheme(); go(S.tab, false); });
+  $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 3]; store.set('bmi-theme', theme); applyTheme(); go(S.tab, false); });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => go(S.tab, false));
   applyTheme();
 

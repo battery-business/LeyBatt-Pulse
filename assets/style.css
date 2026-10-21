@@ -3,7 +3,7 @@
 :root {
   --bg: #eef2f7; --panel: #ffffff; --fg: #14213d; --muted: #5a6475; --line: #dbe1ea; --soft: #f2f5f9;
   --band: #14213d; --band-2: #1c2c4f; --band-fg: #f4f6fb; --band-muted: #aab6cc;
-  --amber: #c27c02; --plum: #8a4fb8; --blue: #2f6db5; --teal: #138a82; --green: #2f8a4f; --indigo: #4a55c4; --rose: #c2415d; --slate: #637089;
+  --amber: #c27c02; --plum: #8a4fb8; --blue: #2f6db5; --teal: #138a82; --green: #2f8a4f; --indigo: #4a55c4; --rose: #c2415d; --orange: #c8571b; --magenta: #a8388a; --slate: #637089;
   --chart-muted: #a7afba; --grid: #e6eaf0; --axis: #b8bfca;
   --ok: #1f7a4d; --warn: #b05f00; --bad: #b42318; --tipbg: #ffffff;
   --tint: 9%;
@@ -15,7 +15,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0d1320; --panel: #151d2c; --fg: #e6eaf2; --muted: #9aa4b5; --line: #263044; --soft: #1b2436;
     --band: #0a1020; --band-2: #121a2e; --band-fg: #eef2f8; --band-muted: #93a0b8;
-    --amber: #eaa93d; --plum: #b98be0; --blue: #72a5e6; --teal: #4cc2b8; --green: #63c28a; --indigo: #8d95ef; --rose: #ec7f96; --slate: #9aa6bd;
+    --amber: #eaa93d; --plum: #b98be0; --blue: #72a5e6; --teal: #4cc2b8; --green: #63c28a; --indigo: #8d95ef; --rose: #ec7f96; --orange: #f0915a; --magenta: #df7cc6; --slate: #9aa6bd;
     --chart-muted: #5b6577; --grid: #222b3c; --axis: #3c475b;
     --ok: #5cc28f; --warn: #eaa93d; --bad: #f07a6e; --tipbg: #1b2436; --tint: 14%;
     color-scheme: dark;
@@ -24,7 +24,7 @@
 :root[data-theme="dark"] {
   --bg: #0d1320; --panel: #151d2c; --fg: #e6eaf2; --muted: #9aa4b5; --line: #263044; --soft: #1b2436;
   --band: #0a1020; --band-2: #121a2e; --band-fg: #eef2f8; --band-muted: #93a0b8;
-  --amber: #eaa93d; --plum: #b98be0; --blue: #72a5e6; --teal: #4cc2b8; --green: #63c28a; --indigo: #8d95ef; --rose: #ec7f96; --slate: #9aa6bd;
+  --amber: #eaa93d; --plum: #b98be0; --blue: #72a5e6; --teal: #4cc2b8; --green: #63c28a; --indigo: #8d95ef; --rose: #ec7f96; --orange: #f0915a; --magenta: #df7cc6; --slate: #9aa6bd;
   --chart-muted: #5b6577; --grid: #222b3c; --axis: #3c475b;
   --ok: #5cc28f; --warn: #eaa93d; --bad: #f07a6e; --tipbg: #1b2436; --tint: 14%;
   color-scheme: dark;

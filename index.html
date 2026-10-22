@@ -118,6 +118,22 @@
       <div class="chart tall" id="cell-chart"></div>
       <p class="srcs" id="cell-srcs"></p>
     </div>
+    <div class="panel" style="--sec:var(--magenta)">
+      <div class="panel-head">
+        <h2>EV cells: 230 Ah and 324 Ah, US$ per kWh</h2>
+        <button class="btn ghost small" type="button" data-csv="evseries">Download CSV</button>
+      </div>
+      <p class="sub">No public price exists for each cell size; makers quote them on request. Both sizes are prismatic LFP cells for vehicles, so this uses TrendForce's China average for that category (excluding VAT), shown against the 314 Ah storage cell.</p>
+      <div class="chart" id="ev-chart"></div>
+      <div class="tablewrap">
+        <table class="table" id="ev-table">
+          <thead><tr><th>Cell</th><th>Typical use</th><th>Examples</th><th class="r">Energy per cell</th><th class="r">Price per kWh</th><th class="r">Price per cell</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="sub" id="ev-note"></p>
+      <p class="srcs" id="ev-srcs"></p>
+    </div>
     <div class="grid2">
       <div class="panel">
         <div class="panel-head"><h2>Lithium fall vs cell price move</h2></div>

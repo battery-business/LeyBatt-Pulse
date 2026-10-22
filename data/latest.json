@@ -48,6 +48,18 @@
   "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"
  },
  {
+  "id": "evcell",
+  "layer": "EV cell",
+  "label": "EV prismatic LFP cell (230 / 324 Ah class)",
+  "price": "$54.2",
+  "unit": "per kWh",
+  "asof": "22 Oct",
+  "move": "+2.5% vs previous",
+  "direction": "up",
+  "source": "TrendForce",
+  "url": "https://www.trendforce.com/price/battery-price"
+ },
+ {
   "id": "pack",
   "layer": "Pack",
   "label": "Storage pack, global average",

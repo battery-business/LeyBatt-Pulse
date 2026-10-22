@@ -1,0 +1,59 @@
+{
+ "series": [
+  {
+   "date": "2025-10-31",
+   "usd_kwh": 44.9,
+   "source": "TrendForce",
+   "url": "https://www.trendforce.com/presscenter/news/20251215-12837.html",
+   "note": "October 2025, square LFP EV cell (unchanged in November)"
+  },
+  {
+   "date": "2025-11-30",
+   "usd_kwh": 44.9,
+   "source": "TrendForce",
+   "url": "https://www.trendforce.com/presscenter/news/20251215-12837.html",
+   "note": "November 2025, square LFP EV cell"
+  },
+  {
+   "date": "2026-03-31",
+   "usd_kwh": 50.2,
+   "source": "TrendForce",
+   "url": "https://www.trendforce.com/presscenter/news/20260416-13015.html",
+   "note": "March 2026 (1Q26), LFP EV cell"
+  },
+  {
+   "date": "2026-10-22",
+   "usd_kwh": 54.2,
+   "source": "TrendForce",
+   "url": "https://www.trendforce.com/price/battery-price",
+   "note": "Square LFP EV cell, up 2.5% from the previous reading"
+  }
+ ],
+ "formats": [
+  {
+   "format": "230 Ah",
+   "volts": 3.2,
+   "ah": 230,
+   "examples": "EVE LF230, CALB L173F230",
+   "use": "Buses, coaches, heavy trucks, passenger EVs",
+   "url": "https://www.evemall.eu/power-battery/prismatic-lfp-cell/lf230",
+   "source": "EVE spec sheet"
+  },
+  {
+   "format": "324 Ah",
+   "volts": 3.22,
+   "ah": 324,
+   "examples": "EVE LF324, REPT 324 Ah",
+   "use": "Electric heavy trucks",
+   "url": "https://www.lifepo4-battery.com/News/rept-launches-324ah-battery-for-ev-truck.html",
+   "source": "REPT launch note"
+  }
+ ],
+ "ess_benchmark": {
+  "date": "2026-10-22",
+  "usd_kwh": 50.2,
+  "source": "TrendForce",
+  "url": "https://www.trendforce.com/price/battery-price",
+  "note": "Square LFP storage cell, same TrendForce table"
+ }
+}

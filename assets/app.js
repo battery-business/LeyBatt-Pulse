@@ -1,15 +1,15 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'calculator'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
-  const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', pack: '--green', system: '--indigo' };
+  const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
   const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
   const catColor = (c) => css(CAT_COLOR[c] || '--slate');
-  const CARD_TAB = { lithium: 'materials/lithium', cathode: 'materials/all', cell314: 'materials/cells', cell587: 'materials/cells', pack: 'materials/all', system: 'materials/systems' };
+  const CARD_TAB = { lithium: 'materials/lithium', cathode: 'materials/all', cell314: 'materials/cells', cell587: 'materials/cells', evcell: 'materials/cells', pack: 'materials/all', system: 'materials/systems' };
 
   const D = {};
   const S = {
@@ -204,7 +204,7 @@
     if (L.lithium && L.cell314 && L.system) {
       take.replaceChildren(document.createTextNode('Lithium carbonate futures are at '), el('b', null, L.lithium.price), document.createTextNode(` a tonne (${L.lithium.move}), while 314 Ah storage cells sit at `), el('b', null, L.cell314.price), document.createTextNode(`/kWh (${L.cell314.move}) and China 4-hour systems at `), el('b', null, L.system.price), document.createTextNode(`/kWh (${L.system.move}).`));
     }
-    const sparks = { lithium: futPts().map((p) => p.v), cell314: weekly().map((w) => w.cell314), system: (D.systems || []).map((r) => +r.usd_kwh) };
+    const sparks = { evcell: ((D.evcells || {}).series || []).map((r) => r.usd_kwh), lithium: futPts().map((p) => p.v), cell314: weekly().map((w) => w.cell314), system: (D.systems || []).map((r) => +r.usd_kwh) };
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
       const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
@@ -299,7 +299,37 @@
     ] };
   }
 
+  function evRows() {
+    const ev = D.evcells; if (!ev || !(ev.series || []).length) return [];
+    const s = [...ev.series].sort((a, b) => d3.ascending(a.date, b.date)); const last = s[s.length - 1], prev = s[s.length - 2];
+    const L = (D.latest || []).find((r) => r.id === 'evcell') || {};
+    return (ev.formats || []).map((f) => { const kwh = f.volts * f.ah / 1000; return { ...f, kwh, usd_kwh: last.usd_kwh, perCell: kwh * last.usd_kwh, asof: L.asof || shortDay(parse(last.date)), move: L.move || (prev ? pctS((last.usd_kwh / prev.usd_kwh - 1) * 100) : ''), direction: L.direction || 'flat', source: last.source, url: last.url, date: last.date }; });
+  }
+  function renderEv() {
+    const box = $('#ev-chart'); const ev = D.evcells;
+    try {
+      if (!ev) throw new Error('no ev data');
+      const evPts = ev.series.map((r) => ({ d: parse(r.date), v: r.usd_kwh, source: r.source, note: r.note }));
+      const first = d3.min(evPts, (p) => p.d);
+      const essPts = (D.cell314 || []).map((r) => ({ d: parse(r.date), v: +r.usd_kwh, source: r.source, note: r.note })).filter((p) => p.d >= first);
+      timeChart(box, [{ name: 'EV prismatic LFP (230/324 Ah class)', color: css('--magenta'), points: evPts }, { name: '314 Ah storage (InfoLink)', color: css('--blue'), points: essPts }], { fmt: fmtUsd1, height: 260 });
+      const tb = $('#ev-table tbody'); tb.replaceChildren();
+      evRows().forEach((e) => {
+        const tr = tb.insertRow();
+        tr.insertCell().appendChild(el('span', 'item', e.format + ' LFP'));
+        tr.insertCell().textContent = e.use;
+        const ex = tr.insertCell(); ex.appendChild(link(e.examples, e.url));
+        const en = tr.insertCell(); en.className = 'num r'; en.textContent = e.kwh.toFixed(3) + ' kWh';
+        const pk = tr.insertCell(); pk.className = 'num r'; pk.textContent = fmtUsd1(e.usd_kwh);
+        const pc = tr.insertCell(); pc.className = 'num r'; pc.appendChild(el('b', null, fmt2(e.perCell)));
+      });
+      const last = evPts[evPts.length - 1].v, ess = (ev.ess_benchmark || {}).usd_kwh;
+      $('#ev-note').textContent = `EV cells average about ${fmtUsd1(last)}/kWh${ess ? `, ${fmtUsd1(last - ess)} (${((last / ess - 1) * 100).toFixed(0)}%) more than storage cells in the same TrendForce table (${fmtUsd1(ess)})` : ''}, and are up ${((last / ev.series[0].usd_kwh - 1) * 100).toFixed(0)}% since October 2025, which TrendForce puts down to rising raw-material costs. Price per cell = price per kWh × the cell's energy (volts × amp-hours). Real quotes vary with volume, maker and specification.`;
+      srcLinks($('#ev-srcs'), [...ev.series, ...(ev.formats || [])]);
+    } catch (e) { console.error(e); fail(box); }
+  }
   function renderCells() {
+    renderEv();
     const box = $('#cell-chart');
     try {
       rangeSeg('cell', renderCells);
@@ -364,10 +394,10 @@
     { step: 'Mined and refined inputs', color: '--amber', items: [['latest', 'lithium', 'Lithium carbonate', 'China futures price'], ['raw', 'Spodumene SC6', 'Spodumene', 'Lithium ore, 6% grade'], ['raw', 'Lithium hydroxide', 'Lithium hydroxide', 'Lithium salt, delivered Asia'], ['raw', 'Copper', 'Copper', 'World benchmark price'], ['raw', 'Aluminium', 'Aluminium', 'World benchmark price']] },
     { step: 'Cathode and anode', color: '--plum', items: [['raw', 'Iron phosphate', 'Iron phosphate', 'Raw material for the cathode'], ['latest', 'cathode', 'LFP cathode', 'Cathode powder, China'], ['raw', 'Graphite anode', 'Graphite anode', 'Artificial graphite, storage grade']] },
     { step: 'Other cell materials', color: '--teal', items: [['raw', 'LFP electrolyte', 'Electrolyte', 'Liquid inside LFP cells'], ['raw', 'Separator', 'Separator', 'Film between the electrodes'], ['raw', 'Copper foil', 'Copper foil', 'Carries current on the anode side'], ['raw', 'Aluminium foil', 'Aluminium foil', 'Carries current on the cathode side']] },
-    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid']] },
+    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid'], ['ev', 0], ['ev', 1]] },
     { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey'], ['latest', 'system', '4-hour storage system', 'China tender awards']] },
   ];
-  const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', system: 'systems' }; // only items with a price history on the site
+  const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', evcell: 'cells', system: 'systems' }; // only items with a price history on the site
   const UNIT_SHORT = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' };
   const numOf = (p) => (/\d/.test(p || '') ? Number(String(p).replace(/[^0-9.]/g, '')) : null);
   const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
@@ -392,6 +422,7 @@
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
+      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; return { name: e.format + ' EV cell', desc: `About ${fmt2(e.perCell).replace('.00', '')} per cell (${e.kwh.toFixed(2)} kWh) at the EV average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: e.asof, move: e.move, direction: e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
       return { name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
@@ -852,7 +883,7 @@
 
   // ---------- CSV ----------
   $$('[data-csv]').forEach((b) => b.addEventListener('click', () => {
-    const key = b.dataset.csv; const rows = key === 'allprices' ? allPrices().flatMap((st) => st.rows.map(({ chart, ...r }) => r)) : D[key] || []; if (!rows.length) return;
+    const key = b.dataset.csv; const rows = key === 'evseries' ? ((D.evcells || {}).series || []) : key === 'allprices' ? allPrices().flatMap((st) => st.rows.map(({ chart, ...r }) => r)) : D[key] || []; if (!rows.length) return;
     const cols = [...new Set(rows.flatMap((r) => Object.keys(r)))];
     const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
     const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');

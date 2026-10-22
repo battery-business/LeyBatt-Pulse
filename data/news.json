@@ -28,6 +28,20 @@
   "sources": "Mercom India"
  },
  {
+  "id": "n60",
+  "date": "2026-10-22",
+  "day": "22 Oct",
+  "headline": "GM's fourth-generation EV platform will use prismatic lithium manganese-rich (LMR) cells from its LG Energy Solution joint venture in Tennessee, aiming for 33% more energy density than LFP at similar cost",
+  "category": "R&D & new products",
+  "effect": "LFP rival chemistry",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104173796-gm-plans-lmr-prismatic-batteries-from-lg-energy-solution-joint-venture-for-fourth-generation-ev-platform",
+  "source2": "Bloomberg",
+  "url2": "https://www.bloomberg.com/news/articles/2026-10-21/gm-pushes-ahead-with-next-generation-ev-even-as-sales-have-slid",
+  "sources": "SMM · Bloomberg"
+ },
+ {
   "id": "n54",
   "date": "2026-10-21",
   "day": "21 Oct",
@@ -68,20 +82,6 @@
   "source2": "",
   "url2": "",
   "sources": "ESS News"
- },
- {
-  "id": "n60",
-  "date": "2026-10-21",
-  "day": "21 Oct",
-  "headline": "Bloomberg: GM pushes ahead with its next-generation EV programme even as its EV sales have fallen 43% (headline only, not verified)",
-  "category": "EV market",
-  "effect": "Weak EV demand",
-  "direction": "down",
-  "source": "Bloomberg",
-  "url": "https://www.bloomberg.com/news/articles/2026-10-21/gm-pushes-ahead-with-next-generation-ev-even-as-sales-have-slid",
-  "source2": "",
-  "url2": "",
-  "sources": "Bloomberg"
  },
  {
   "id": "n45",

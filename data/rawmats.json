@@ -41,15 +41,15 @@
  {
   "material": "LFP electrolyte",
   "role": "Electrolyte for LFP cells",
-  "price": "$4,870",
-  "asof": "21–24 Sep",
-  "move": "Edging up",
-  "direction": "up",
+  "price": "$4,910",
+  "asof": "19–22 Oct",
+  "move": "Stable this week",
+  "direction": "flat",
   "source": "SMM weekly review",
-  "url": "https://news.metal.com/newscontent/104133836-electrolyte-prices-edged-up-this-week-2026921-924-smm-lithium-battery-electrolyte-market-weekly-review",
+  "url": "https://news.metal.com/newscontent/104173695-electrolyte-prices-remained-stable-this-week-20261019-1022-smm-lithium-battery-electrolyte-market-weekly-review",
   "stage": "Other cell materials",
   "unit": "per tonne",
-  "usd": 4870.0
+  "usd": 4910.0
  },
  {
   "material": "Copper",

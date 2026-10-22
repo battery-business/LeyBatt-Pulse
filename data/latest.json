@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$15,010",
+  "price": "$14,060",
   "unit": "per tonne",
-  "asof": "19 Oct",
-  "move": "−16.2% since 30 Sep",
+  "asof": "22 Oct",
+  "move": "−6.3% since 19 Oct",
   "direction": "down",
-  "source": "SMM daily review",
-  "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level"
+  "source": "JRJ Finance (GFEX close)",
+  "url": "https://finance.jrj.com.cn/2026/10/22152858821247.shtml"
  },
  {
   "id": "cathode",
@@ -27,10 +27,10 @@
   "id": "cell314",
   "layer": "Cell",
   "label": "314 Ah LFP storage cell",
-  "price": "$47.5",
+  "price": "$47.3",
   "unit": "per kWh",
-  "asof": "14 Oct",
-  "move": "−0.7% in a week",
+  "asof": "21 Oct",
+  "move": "−0.6% in a week",
   "direction": "down",
   "source": "InfoLink",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/"

@@ -2,15 +2,15 @@
  {
   "material": "Spodumene SC6",
   "role": "Lithium ore",
-  "price": "$1,530",
-  "asof": "14 Oct",
-  "move": "−10% in a week",
+  "price": "$1,500",
+  "asof": "21 Oct",
+  "move": "−2.0% in a week",
   "direction": "down",
   "source": "InfoLink",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
   "stage": "Ore & lithium chemicals",
   "unit": "per tonne",
-  "usd": 1530.0
+  "usd": 1500.0
  },
  {
   "material": "Lithium hydroxide",
@@ -28,15 +28,15 @@
  {
   "material": "Iron phosphate",
   "role": "LFP precursor",
-  "price": "$2,240",
-  "asof": "Jul",
-  "move": "+50% since January",
+  "price": "$2,430",
+  "asof": "21 Oct",
+  "move": "Up from $2,240 (SMM, Jul)",
   "direction": "up",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104008673-smm-lithium-battery-lfp-market-leader-announces-price-increase-all-series-to-raise-by-2000-yuanmt-from-august-1",
+  "source": "TrendForce",
+  "url": "https://www.trendforce.com/price/battery-price/precursor_and_cathode_material",
   "stage": "Cathode & anode",
   "unit": "per tonne",
-  "usd": 2240.0
+  "usd": 2430.0
  },
  {
   "material": "LFP electrolyte",

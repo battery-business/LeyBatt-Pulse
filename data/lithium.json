@@ -80,6 +80,14 @@
   "note": ""
  },
  {
+  "date": "2026-10-22",
+  "series": "Futures",
+  "usd_t": 14060,
+  "source": "JRJ Finance (GFEX close)",
+  "url": "https://finance.jrj.com.cn/2026/10/22152858821247.shtml",
+  "note": "Most-active contract closed down 3.6%"
+ },
+ {
   "date": "2025-07-01",
   "series": "Spot",
   "usd_t": 8960,
@@ -238,5 +246,21 @@
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/lithium",
   "note": "China battery-grade spot, up 0.3% on the day"
+ },
+ {
+  "date": "2026-10-21",
+  "series": "Spot",
+  "usd_t": 15220,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": "Lithium down 6.4%; cells down 0.6%; systems flat"
+ },
+ {
+  "date": "2026-10-22",
+  "series": "Spot",
+  "usd_t": 14830,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/lithium",
+  "note": "China battery-grade spot, down 3.3% on the day"
  }
 ]

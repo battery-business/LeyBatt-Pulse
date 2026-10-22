@@ -258,6 +258,15 @@ input[type=range] { width: 100%; accent-color: var(--teal); margin: 2px 0; }
 .method { margin: 0; padding-left: 18px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; max-width: 72rem; }
 @media (prefers-reduced-motion: reduce) { .stackbar span { transition: none; } }
 .calc-mini { display: none; }
+.calc-simple { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 16px; align-items: start; }
+@media (max-width: 960px) { .calc-simple { grid-template-columns: 1fr; } }
+.calc-detail { display: flex; flex-direction: column; gap: 16px; }
+.seg.mode button { font-size: 13px; padding: 6px 16px; }
+.kpis.big { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kpis.big .v { font-size: 30px; }
+@media (max-width: 480px) { .kpis.big .v { font-size: 22px; } .kpis.big .kpi { padding: 9px 10px; } }
+.insight { margin: 6px 0 0; font-size: 14px; line-height: 1.5; padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--amber) var(--tint), var(--panel)); border: 1px solid color-mix(in srgb, var(--amber) 25%, var(--line)); }
+.calc-head .controls { margin-top: 4px; }
 @media (max-width: 960px) {
   .calc-mini { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; justify-content: space-around; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); background: var(--band); color: var(--band-fg); box-shadow: 0 -4px 14px rgba(10, 16, 32, .25); }
   .calc-mini span { display: flex; flex-direction: column; align-items: center; line-height: 1.2; }

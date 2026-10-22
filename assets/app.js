@@ -367,7 +367,7 @@
     { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid']] },
     { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey'], ['latest', 'system', '4-hour storage system', 'China tender awards']] },
   ];
-  const CHART_OF = { lithium: 'lithium', 'Spodumene SC6': 'lithium', 'Lithium hydroxide': 'lithium', cell314: 'cells', cell587: 'cells', system: 'systems' };
+  const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', system: 'systems' }; // only items with a price history on the site
   const UNIT_SHORT = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' };
   const numOf = (p) => (/\d/.test(p || '') ? Number(String(p).replace(/[^0-9.]/g, '')) : null);
   const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
@@ -474,6 +474,21 @@
   ];
   const SPECS = [...INPUTS, ...ADV, ...INDIA];
   const SENS = ['li', 'fe', 'proc', 'gr', 'el', 'sep', 'cu', 'al', 'mfg'];
+  const OTH = ['fe', 'gr', 'el', 'sep', 'al'];
+  const othPct = () => Math.round(d3.mean(OTH, (k) => (S.calc[k] / S.calcBase[k] - 1) * 100));
+  const SIMPLE = [
+    INPUTS[0],
+    INPUTS[6],
+    { k: 'oth', label: 'All other materials (iron phosphate, graphite, electrolyte, separator, aluminium)', min: -30, max: 30, step: 1, base: 0, f: (v) => (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(v) + '%', get: othPct, set: (v) => OTH.forEach((k) => { S.calc[k] = +(S.calcBase[k] * (1 + v / 100)).toFixed(3); }) },
+  ];
+  const SIMPLE_SCEN = ['latest', 'lp0', 'lp1', 'metals'];
+  const GROUPS = [
+    ['Lithium', '--amber', ['li']],
+    ['Iron phosphate, cathode processing, graphite', '--plum', ['fe', 'proc', 'gr']],
+    ['Electrolyte and separator', '--blue', ['el', 'sep']],
+    ['Copper and aluminium foils', '--orange', ['cu', 'al']],
+    ['Cell case, other materials, manufacturing, yield loss', '--muted', ['aux', 'struct', 'loss', 'mfg']],
+  ];
   const r1 = (v) => Math.round(v * 10) / 10;
 
   function cellCost(s) {
@@ -531,21 +546,21 @@
   }
   function syncHash() {
     if (S.tab !== 'calculator') return;
-    const q = Object.keys(S.calcBase).filter((k) => Math.abs(S.calc[k] - S.calcBase[k]) > 1e-9).map((k) => `${k}=${+S.calc[k].toFixed(4)}`).join('&');
+    const q = [...Object.keys(S.calcBase).filter((k) => Math.abs(S.calc[k] - S.calcBase[k]) > 1e-9).map((k) => `${k}=${+S.calc[k].toFixed(4)}`), ...(S.calcMode === 'detail' ? ['mode=detail'] : [])].join('&');
     try { history.replaceState(null, '', '#calculator' + (q ? '?' + q : '')); } catch (e) { /* ignore */ }
   }
-  function calcField(spec, hints) {
-    const b = S.calcBase[spec.k];
+  function calcField(spec, hints, prefix = 'ci') {
+    const b = spec.base != null ? spec.base : S.calcBase[spec.k];
     const f = el('div', 'field'); f.dataset.k = spec.k;
-    const lab = el('label'); lab.htmlFor = 'ci-' + spec.k;
-    const name = el('span', 'nm', spec.label); const out = el('output'); out.id = 'co-' + spec.k;
+    const id = prefix + '-' + spec.k; const lab = el('label'); lab.htmlFor = id;
+    const name = el('span', 'nm', spec.label); const out = el('output'); out.id = id + '-out';
     const rs = el('button', 'reset-one', '↺'); rs.type = 'button'; rs.title = 'Back to the latest value'; rs.setAttribute('aria-label', 'Reset ' + spec.label);
-    rs.addEventListener('click', (e) => { e.preventDefault(); S.calc[spec.k] = S.calcBase[spec.k]; S.scen = null; renderCalc(); });
+    rs.addEventListener('click', (e) => { e.preventDefault(); if (spec.set) spec.set(0); else S.calc[spec.k] = S.calcBase[spec.k]; S.scen = null; renderCalc(); });
     const right = el('span', 'val'); right.append(out, rs);
     lab.append(name, right);
-    const inp = el('input'); inp.type = 'range'; inp.id = 'ci-' + spec.k;
-    inp.min = String(Math.min(spec.min, b * 0.5)); inp.max = String(Math.max(spec.max, b * 1.6)); inp.step = String(spec.step);
-    inp.addEventListener('input', () => { S.calc[spec.k] = +inp.value; S.scen = null; renderCalc(); });
+    const inp = el('input'); inp.type = 'range'; inp.id = id;
+    inp.min = String(b > 0 ? Math.min(spec.min, b * 0.5) : spec.min); inp.max = String(b > 0 ? Math.max(spec.max, b * 1.6) : spec.max); inp.step = String(spec.step);
+    inp.addEventListener('input', () => { if (spec.set) spec.set(+inp.value); else S.calc[spec.k] = +inp.value; S.scen = null; renderCalc(); });
     f.append(lab, inp);
     const h = hints[spec.k];
     if (h) { const hint = el('div', 'hint'); if (h[1]) hint.appendChild(link(h[0], h[1])); else hint.textContent = h[0]; f.appendChild(hint); }
@@ -568,11 +583,18 @@
     rl.append(cb, document.createTextNode(` China ends its ${CM().export_rebate_pct || 6}% battery export rebate (due 1 Jan 2027), passed on in full`));
     ib.appendChild(rl);
     $('#calc-mwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc.mwh = v; renderCalc(); } });
+    $('#cs-mwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc.mwh = v; renderCalc(); } });
+    const csi = $('#cs-inputs'); csi.replaceChildren();
+    const sh = { ...hints, oth: ['Moves all of them together from today\'s prices', null] };
+    SIMPLE.forEach((spec) => csi.appendChild(calcField(spec, sh, 'cs')));
+    $('#cs-india').addEventListener('change', (e) => { S.calcIndia = e.target.checked; renderCalc(); });
+    $('#cs-to-detail').addEventListener('click', () => { S.calcMode = 'detail'; renderCalc(); window.scrollTo({ top: 0 }); });
+    $$('#calc-mode button').forEach((x) => x.addEventListener('click', () => { S.calcMode = x.dataset.mode; renderCalc(); }));
     // scenarios
     const b = S.calcBase, cm = CM();
     const gs = (D.forecasts || []).find((f) => /Goldman/.test(f.who) && /2027/.test(f.period));
     const scen = [
-      ['latest', 'Latest prices', {}],
+      ['latest', 'Today\'s prices', {}],
       ...(cm.lithium_points || []).map((p, i) => ['lp' + i, `Lithium at ${p.label} (${fmtUsd0(p.usd_t)})`, { li: p.usd_t }]),
       ...(gs ? [['gs', `Lithium at Goldman's 2027 view (${fmtUsd0(gs.low)})`, { li: gs.low }]] : []),
       ['metals', 'Copper and aluminium +20%', { cu: Math.round(b.cu * 1.2), al: Math.round(b.al * 1.2) }],
@@ -670,15 +692,26 @@
       S.calcBase = calcBase();
       S.calc = { ...S.calcBase, ...hashParams() };
       S.scen = Object.keys(hashParams()).length ? null : 'latest';
+      S.calcMode = /[?&]mode=detail/.test(location.hash) ? 'detail' : 'simple';
+      S.calcIndia = false;
       buildCalc();
     }
     const s = S.calc, b = S.calcBase, w = weekly(), last = w[w.length - 1];
     // sync inputs
-    SPECS.forEach((spec) => {
-      const inp = $('#ci-' + spec.k); if (!inp) return;
-      inp.value = s[spec.k]; $('#co-' + spec.k).textContent = spec.f(s[spec.k]);
-      inp.closest('.field').classList.toggle('changed', Math.abs(s[spec.k] - b[spec.k]) > 1e-9);
-    });
+    const syncField = (spec, prefix) => {
+      const inp = $(`#${prefix}-${spec.k}`); if (!inp) return;
+      const v = spec.get ? spec.get() : s[spec.k], v0 = spec.base != null ? spec.base : b[spec.k];
+      inp.value = v; $(`#${prefix}-${spec.k}-out`).textContent = spec.f(v);
+      inp.closest('.field').classList.toggle('changed', Math.abs(v - v0) > 1e-9);
+    };
+    SPECS.forEach((spec) => syncField(spec, 'ci'));
+    SIMPLE.forEach((spec) => syncField(spec, 'cs'));
+    const simple = S.calcMode !== 'detail';
+    $('#calc-simple').hidden = !simple; $('#calc-detail').hidden = simple;
+    $$('#calc-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.mode === S.calcMode)));
+    $$('#calc-scen button').forEach((x) => { x.hidden = simple && !SIMPLE_SCEN.includes(x.dataset.id); });
+    $('#cs-india').checked = !!S.calcIndia;
+    if (+$('#cs-mwh').value !== s.mwh) $('#cs-mwh').value = s.mwh;
     $('#calc-rebate').checked = s.rebate > 0;
     if (+$('#calc-mwh').value !== s.mwh) $('#calc-mwh').value = s.mwh;
     $$('#calc-scen button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.id === S.scen)));
@@ -742,7 +775,23 @@
         ? `At today's market price of ${fmtUsd1(market)}/kWh, the modelled cost reaches the price if lithium carbonate rises to about ${fmtUsd0(Math.round(r.be / 10) * 10)}/t (${pctS((r.be / s.li - 1) * 100)} from the slider). ${per}`
         : `At these inputs the modelled cost is already above today's market price of ${fmtUsd1(market)}/kWh; lithium would need to fall to about ${fmtUsd0(Math.round(r.be / 10) * 10)}/t for makers to break even. ${per}`;
     } catch (e) { console.error(e); fail(sw); }
-    const mini = $('#calc-mini'); mini.replaceChildren();
+    // simple results
+    const csk = $('#cs-kpis'); csk.replaceChildren();
+    const chg = (v, v0, unit = '') => (Math.abs(v - v0) < 0.05 ? ['Today\'s prices', null] : [`${fmtSigned(v - v0)}${unit} (${pctS((v / v0 - 1) * 100)}) vs today`, v - v0]);
+    const sys0 = (c0.total + b.margin) * b.ratio + b.ros;
+    kpi(csk, 'Cell: cost to make', perK(c.total), chg(c.total, c0.total), 'main');
+    kpi(csk, 'Cell: price to buyers', perK(price), [`Cost plus today's maker margin of ${fmtUsd1(s.margin)}`, null]);
+    kpi(csk, '4-hour storage system', perK(sysP), chg(sysP, sys0));
+    const land = (x) => (x * (1 + s.rebate / 100) + s.freight) * (1 + (s.bcd / 100) * (1 + (cm.sws_pct_of_bcd ?? 10) / 100));
+    const projV = S.calcIndia ? land(sysP) : sysP, proj0 = S.calcIndia ? land(sys0) : sys0;
+    kpi(csk, `${d3.format(',')(mwh)} MWh project${S.calcIndia ? ', landed in India' : ''}`, fmtM(projV * mwh / 1000), Math.abs(projV - proj0) < 0.05 ? [S.calcIndia ? 'Includes customs duty, before GST' : 'System only, before installation', null] : [`${fmtSigned((projV - proj0) * mwh / 1000)}M vs today`, projV - proj0]);
+    const gparts = GROUPS.map(([label, color, keys]) => ({ label, color, v: d3.sum(c.parts.filter((p) => keys.includes(p.k)), (p) => p.v) }));
+    stackBar($('#cs-stack'), gparts, c.total); legendList($('#cs-legend'), gparts, c.total);
+    const swR = { slope: (cellCost({ ...s, li: s.li + 1000 }).total - c.total) / 1000 };
+    const be = s.li + (market - c.total) / swR.slope;
+    const ins = $('#cs-insight'); ins.replaceChildren();
+    ins.append(el('b', null, 'Lithium is ' + (c.parts[0].v / c.total * 100).toFixed(0) + '% of cell cost. '), document.createTextNode(`Every $1,000/t on lithium carbonate adds about ${fmtUsd1(swR.slope * 1000)}/kWh to a cell. ` + (c.total <= market ? `Cell makers keep about ${fmtUsd1(market - c.total)}/kWh at today's market price, so lithium would have to reach about ${fmtUsd0(Math.round(be / 100) * 100)}/t before they sell at cost.` : `At these prices cells would cost more to make than today's market price of ${fmtUsd1(market)}/kWh.`)));
+    const mini = $('#calc-mini'); mini.replaceChildren(); mini.hidden = S.calcMode !== 'detail';
     [['Cell cost', fmtUsd1(c.total)], ['Cell price', fmtUsd1(price)], ['4-h system', fmtUsd1(sysP)], ['India landed', fmtUsd1(landed)]].forEach(([k, v]) => { const x = el('span'); x.append(el('small', null, k), el('b', null, v)); mini.appendChild(x); });
     syncHash();
   }

@@ -193,23 +193,51 @@
   <section class="page" id="page-calculator" data-page="calculator" hidden>
     <div class="panel calc-head">
       <div class="panel-head">
-        <h2>Battery cost builder: from raw materials to a storage cell and a 4-hour system</h2>
-        <div class="controls">
-          <button class="btn small" type="button" id="calc-share">Copy link to this scenario</button>
-          <button class="btn ghost small" type="button" id="calc-reset">Reset to latest prices</button>
+        <h2>Battery cost calculator</h2>
+        <div class="seg mode" id="calc-mode" role="group" aria-label="Calculator mode">
+          <button type="button" data-mode="simple" aria-pressed="true">Simple</button>
+          <button type="button" data-mode="detail" aria-pressed="false">Detailed</button>
         </div>
       </div>
-      <p class="sub">Starts from the latest prices on this site. Move any slider, or pick a scenario, and every number below updates. An estimate built from public price data, not a quote.</p>
+      <p class="sub">What would a storage cell and a 4-hour storage system cost if raw-material prices moved? Everything starts at today's prices. Estimates from public data, not quotes.</p>
       <div class="chips scen" id="calc-scen"></div>
-      <p class="sub share-msg" id="calc-share-msg" aria-live="polite"></p>
+      <div class="controls">
+        <button class="btn small" type="button" id="calc-share">Copy link to this scenario</button>
+        <button class="btn ghost small" type="button" id="calc-reset">Back to today's prices</button>
+        <span class="sub share-msg" id="calc-share-msg" aria-live="polite"></span>
+      </div>
     </div>
 
+    <!-- SIMPLE MODE -->
+    <div class="calc-simple" id="calc-simple">
+      <div class="panel">
+        <div class="panel-head"><h2>Change the prices</h2></div>
+        <div id="cs-inputs"></div>
+        <div class="proj">
+          <label class="lbl" for="cs-mwh">Project size</label>
+          <input class="num-in" type="number" id="cs-mwh" min="1" max="100000" step="1" value="100"> <span class="lbl">MWh</span>
+        </div>
+        <label class="check"><input type="checkbox" id="cs-india"> Importing into India? Add customs duty (10% plus surcharge)</label>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>What it costs</h2></div>
+        <div class="kpis big" id="cs-kpis"></div>
+        <h3 class="grp">Where the cell cost goes</h3>
+        <div class="stackbar" id="cs-stack"></div>
+        <div class="legend" id="cs-legend"></div>
+        <p class="insight" id="cs-insight"></p>
+        <p class="sub">Want to change graphite, electrolyte, manufacturing cost, freight or duty one by one? Switch to <button type="button" class="btn link" id="cs-to-detail">Detailed</button>.</p>
+      </div>
+    </div>
+
+    <!-- DETAILED MODE -->
+    <div class="calc-detail" id="calc-detail" hidden>
     <div class="calc-grid">
       <div class="panel calc-inputs" id="calc-inputs"></div>
 
       <div class="calc-out">
         <div class="panel">
-          <div class="panel-head"><h2>314 Ah LFP storage cell, US$ per kWh, excluding VAT</h2></div>
+          <div class="panel-head"><h2>314 Ah storage cell, US$ per kWh, excluding VAT</h2></div>
           <div class="kpis" id="calc-kpis"></div>
           <div class="stackbar" id="calc-stack" aria-label="Cell cost by component"></div>
           <div class="legend" id="calc-legend"></div>
@@ -243,11 +271,12 @@
       </div>
     </div>
 
-    <div class="calc-mini" id="calc-mini" aria-live="polite"></div>
     <div class="panel">
       <div class="panel-head"><h2>How the calculator works, and its sources</h2></div>
       <ul class="method" id="calc-method"></ul>
     </div>
+    </div>
+    <div class="calc-mini" id="calc-mini" aria-live="polite"></div>
   </section>
 
   <footer class="foot">

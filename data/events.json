@@ -1,0 +1,62 @@
+[
+ {
+  "date": "2026-10-22",
+  "end": "2026-10-24",
+  "what": "The Battery Show India, Greater Noida",
+  "kind": "Event",
+  "source": "The Machine Maker",
+  "url": "https://themachinemaker.com/news/trontek-to-unveil-5-mwh-ekom-battery-energy-storage-system-at-the-battery-show-india-2026/"
+ },
+ {
+  "date": "2026-11-05",
+  "what": "MAHAGENCO 500 MW / 1.6 GWh storage tender: bids due",
+  "kind": "India tender",
+  "source": "Saur Energy",
+  "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135"
+ },
+ {
+  "date": "2027-01-01",
+  "what": "China ends its 6% export VAT rebate on batteries",
+  "kind": "Rule change",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
+ },
+ {
+  "date": "2027-01-01",
+  "precision": "month",
+  "what": "Zimbabwe bans lithium concentrate exports",
+  "kind": "Supply",
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban"
+ },
+ {
+  "date": "2027-02-01",
+  "precision": "month",
+  "what": "EU digital battery passports become mandatory for large batteries",
+  "kind": "Rule change",
+  "source": "Product Compliance Institute",
+  "url": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/"
+ },
+ {
+  "date": "2027-04-01",
+  "what": "China cuts the export VAT rebate on EVs, e-buses and e-truck tractors from 13% to 9%",
+  "kind": "Rule change",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
+ },
+ {
+  "date": "2027-04-01",
+  "precision": "month",
+  "what": "VSL PowerHive (Vikram Solar) 7.5 GWh storage assembly plant near Chennai due to start",
+  "kind": "India competitor",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/"
+ },
+ {
+  "date": "2027-04-30",
+  "what": "SECI 800 MW / 3.2 GWh storage projects: commissioning deadline",
+  "kind": "India tender",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/10/05/seci-issues-800-mw-3200-mwh-standalone-bess-tender-under-tariff-based-competitive-bidding/"
+ }
+]

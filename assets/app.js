@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'calculator'];
@@ -266,9 +266,45 @@
         ul.appendChild(li);
       });
     }
+    // cell makers' margin, from the cost model at today's prices
+    const mb = $('#ov-margin');
+    try {
+      mb.replaceChildren();
+      const base = calcBase(); const c = cellCost(base); const w = weekly(); const last = w[w.length - 1];
+      const market = last.cell314, keep = market - c.total;
+      const slope = (cellCost({ ...base, li: base.li + 1000 }).total - c.total) / 1000;
+      const be = base.li + keep / slope;
+      const k = el('div', 'kpis three');
+      kpi(k, 'Cost to make a 314 Ah cell', perK(c.total), ['Built from today\'s material prices', null]);
+      kpi(k, `Market price (${shortDay(parse(last.date))})`, perK(market), ['InfoLink average', null]);
+      kpi(k, 'What makers keep', fmtUsd1(keep) + '/kWh', [`${(keep / market * 100).toFixed(0)}% of the price`, null], 'main');
+      mb.appendChild(k);
+      const bar = el('div', 'stackbar'); mb.appendChild(bar);
+      stackBar(bar, [{ label: 'Cost to make', color: '--teal', v: c.total }, { label: 'Maker margin', color: '--green', v: Math.max(0, keep) }], Math.max(market, c.total));
+      mb.appendChild(el('p', 'sub', keep > 0 ? `Makers would only be selling at cost if lithium carbonate rose to about ${fmtUsd0(Math.round(be / 100) * 100)}/t, ${((be / base.li - 1) * 100).toFixed(0)}% above today.` : 'At today\'s prices, cells sell below the modelled cost to make them.'));
+    } catch (e) { console.error(e); fail(mb, 'Cost model unavailable'); }
+    // dates to watch
+    const dl = $('#ov-dates');
+    try {
+      dl.replaceChildren();
+      const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
+      const evs = (D.events || []).filter((e) => +parse(e.end || e.date) >= today || (e.precision === 'month' && +new Date(Date.UTC(parse(e.date).getUTCFullYear(), parse(e.date).getUTCMonth() + 1, 0)) >= today))
+        .sort((a, b) => d3.ascending(a.date, b.date)).slice(0, 5);
+      if (!evs.length) dl.appendChild(el('li', 'empty', 'No dated events coming up.'));
+      evs.forEach((e) => {
+        const d = parse(e.date), month = e.precision === 'month';
+        const days = Math.round((+d - today) / 864e5);
+        const when = e.end && days <= 0 ? 'On now' : month ? (days < 45 ? 'This month' : `In about ${Math.round(days / 30)} months`) : days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`;
+        const li = el('li');
+        const db = el('div', 'dbox'); db.append(el('b', null, month ? d3.utcFormat('%b')(d) : d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
+        const body = el('div', 'dbody'); const top = el('div', 'dmeta'); top.append(el('span', 'dwhen' + (days < 15 ? ' soon' : ''), when), el('span', 'dkind', e.kind));
+        body.append(top, el('div', 'dwhat', e.what)); const src = el('div', 'dsrc'); src.appendChild(link(e.source, e.url)); body.appendChild(src);
+        li.append(db, body); dl.appendChild(li);
+      });
+    } catch (e) { console.error(e); fail(dl); }
     // news preview
     const pv = $('#news-preview'); pv.replaceChildren();
-    sortedNews().slice(0, 6).forEach((n) => pv.appendChild(newsItem(n)));
+    sortedNews().slice(0, 8).forEach((n) => pv.appendChild(newsItem(n)));
   }
 
   function rangeSeg(key, onChange) {

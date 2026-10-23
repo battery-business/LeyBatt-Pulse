@@ -38,6 +38,10 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 - The calculator takes its starting prices live from `lithium.json` (latest spot), `rawmats.json` (iron phosphate, graphite anode, LFP electrolyte, separator, copper, aluminium — keep these material names exactly) and `weekly.json` (cell and 4-hour system). A routine update needs no other change.
 - `costmodel.json` holds quantities per kWh, fees and calibration with their sources. Change it only when a new public cost model or cathode price justifies it, and update its `notes` to match. If the LFP cathode price in `latest.json` changes a lot, recompute `cathode_processing_usd_t` = cathode price − 0.24 × lithium carbonate price − 0.96 × iron phosphate price (same day where possible).
 
+## Dates to watch (`events.json`)
+
+When a news item you add names a future date that matters to a buyer — a tender bid deadline, a commissioning deadline, a rule or tariff that starts on a date, a big factory start, a trade show — also add it to `events.json`: `date` (YYYY-MM-DD; for a month only, use the 1st and add `"precision": "month"`), optional `end` for multi-day events, `what` (one line, own words), `kind` (India tender / Rule change / Supply / India competitor / Event), `source`, `url` (the same article). Past dates drop off the page automatically; delete entries more than 60 days old.
+
 ## News categories (cover every one each week)
 
 Each daily run should aim for a spread: at most 3 lithium items, and at least one item from the India categories and one from Packs & BMS or R&D whenever something new is published.

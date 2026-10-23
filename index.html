@@ -44,10 +44,20 @@
     <div class="hero"><p class="take" id="takeaway">Loading latest prices…</p></div>
     <div class="cards" id="cards"></div>
     <div class="grid2">
+      <div class="stack">
       <div class="panel">
         <div class="panel-head"><h2>What changed in the latest week</h2></div>
         <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
         <ul class="changes" id="changes"></ul>
+      </div>
+      <div class="panel" style="--sec:var(--teal)">
+        <div class="panel-head"><h2>How much cell makers keep</h2><button class="btn link" type="button" data-goto="calculator">Cost calculator →</button></div>
+        <div id="ov-margin"></div>
+      </div>
+      <div class="panel" style="--sec:var(--rose)">
+        <div class="panel-head"><h2>Dates to watch</h2></div>
+        <ul class="dates" id="ov-dates"></ul>
+      </div>
       </div>
       <div class="panel">
         <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>

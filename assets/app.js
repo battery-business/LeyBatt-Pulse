@@ -174,7 +174,6 @@
     const x = d3.scaleLinear([0, values.length - 1], [2, W - 4]);
     const y = d3.scaleLinear(d3.extent(values), [H - 4, 4]);
     const svg = d3.select(container).append('svg').attr('class', 'spark').attr('viewBox', `0 0 ${W} ${H}`).attr('preserveAspectRatio', 'none').attr('width', '100%').attr('height', H).attr('aria-hidden', 'true');
-    svg.append('path').attr('d', d3.area().x((_, i) => x(i)).y0(H).y1((v) => y(v))(values)).attr('fill', color).attr('fill-opacity', 0.12);
     svg.append('path').attr('d', d3.line().x((_, i) => x(i)).y((v) => y(v))(values)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('vector-effect', 'non-scaling-stroke');
     svg.append('circle').attr('cx', x(values.length - 1)).attr('cy', y(values[values.length - 1])).attr('r', 3).attr('fill', color);
   }

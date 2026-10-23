@@ -168,14 +168,15 @@
     });
   }
 
-  function spark(container, values, color) {
+  function spark(container, values, color, H = 30) {
     if (!values || values.length < 2) return;
-    const W = 160, H = 30;
+    const W = 160;
     const x = d3.scaleLinear([0, values.length - 1], [2, W - 4]);
-    const y = d3.scaleLinear(d3.extent(values), [H - 3, 3]);
+    const y = d3.scaleLinear(d3.extent(values), [H - 4, 4]);
     const svg = d3.select(container).append('svg').attr('class', 'spark').attr('viewBox', `0 0 ${W} ${H}`).attr('preserveAspectRatio', 'none').attr('width', '100%').attr('height', H).attr('aria-hidden', 'true');
-    svg.append('path').attr('d', d3.line().x((_, i) => x(i)).y((v) => y(v))(values)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 1.6).attr('vector-effect', 'non-scaling-stroke');
-    svg.append('circle').attr('cx', x(values.length - 1)).attr('cy', y(values[values.length - 1])).attr('r', 2.6).attr('fill', color);
+    svg.append('path').attr('d', d3.area().x((_, i) => x(i)).y0(H).y1((v) => y(v))(values)).attr('fill', color).attr('fill-opacity', 0.12);
+    svg.append('path').attr('d', d3.line().x((_, i) => x(i)).y((v) => y(v))(values)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('vector-effect', 'non-scaling-stroke');
+    svg.append('circle').attr('cx', x(values.length - 1)).attr('cy', y(values[values.length - 1])).attr('r', 3).attr('fill', color);
   }
 
   // ---------- derived data ----------
@@ -223,14 +224,25 @@
     const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
     const take = $('#takeaway');
     if (L.lithium && L.cell314 && L.system) {
-      take.replaceChildren(document.createTextNode('Lithium carbonate futures are at '), el('b', null, L.lithium.price), document.createTextNode(` a tonne (${L.lithium.move}), while 314 Ah storage cells sit at `), el('b', null, L.cell314.price), document.createTextNode(`/kWh (${L.cell314.move}) and China 4-hour systems at `), el('b', null, L.system.price), document.createTextNode(`/kWh (${L.system.move}).`));
+      const mv = (r) => { const m = String(r.move || '').match(/([+−-]?)(\d+(?:\.\d+)?)%/); return m ? `${m[1] === '+' ? 'up' : 'down'} ${m[2]}%` : 'steady'; };
+      take.replaceChildren(document.createTextNode(`Lithium ${mv(L.lithium)} at `), el('b', null, L.lithium.price + '/t'), document.createTextNode(`, storage cells ${mv(L.cell314)} at `), el('b', null, L.cell314.price + '/kWh'), document.createTextNode(`, 4-hour systems ${mv(L.system)} at `), el('b', null, L.system.price + '/kWh'), document.createTextNode('.'));
     }
-    const sparks = { evcell: ((D.evcells || {}).series || []).map((r) => r.usd_kwh), lithium: futPts().map((p) => p.v), cell314: weekly().map((w) => w.cell314), system: (D.systems || []).map((r) => +r.usd_kwh) };
+    const mon = d3.utcFormat('%b %Y');
+    const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
+    const sparks = {
+      evcell: [evs.map((r) => r.usd_kwh), evs[0] && mon(parse(evs[0].date))],
+      lithium: [fut.map((p) => p.v), fut[0] && mon(fut[0].d)],
+      cell314: [wk.map((w) => w.cell314), wk[0] && mon(parse(wk[0].date))],
+      system: [(D.systems || []).map((r) => +r.usd_kwh), (D.systems || [])[0] && (D.systems || [])[0].period],
+    };
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
       const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), el('span', 'unit', `${r.unit} · ${r.asof}`), el('span', 'move' + dirClass(r.direction), r.move));
-      if (sparks[r.id]) spark(c, sparks[r.id], css(LAYER_COLOR[r.id] || '--slate'));
+      const sp = el('div', 'sparkbox');
+      if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
+      else sp.appendChild(el('span', 'none', 'No price history yet'));
+      c.appendChild(sp);
       c.appendChild(el('span', 'src', 'Source: ' + r.source));
       c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
       cards.appendChild(c);

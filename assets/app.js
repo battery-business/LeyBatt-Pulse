@@ -190,12 +190,33 @@
   function renderHeader() {
     const m = D.meta;
     if (m) {
-      const days = Math.round((Date.now() - parse(m.updated)) / 864e5);
+      const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
+      const days = Math.round((today - parse(m.updated)) / 864e5);
       const ago = days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`;
       $('#updated').textContent = `Updated ${m.updated_label} (${ago})`;
       $('#updated').title = m.note || '';
     }
     $('#news-count').textContent = (D.news || []).length || '';
+    renderTicker();
+  }
+  // navy price strip under the header: the headline prices, newest moves, one click to their chart
+  function renderTicker() {
+    const box = $('#ticker'); if (!box) return; box.replaceChildren();
+    const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
+    const cu = (D.rawmats || []).find((r) => r.material === 'Copper');
+    const items = [['lithium', 'Lithium'], ['cathode', 'LFP cathode'], ['cell314', '314 Ah cell'], ['evcell', 'EV cell'], ['system', '4-h system']]
+      .filter(([id]) => L[id]).map(([id, name]) => ({ name, r: L[id], to: CARD_TAB[id] }));
+    if (cu) items.push({ name: 'Copper', r: cu, to: 'materials' });
+    items.forEach(({ name, r, to }) => {
+      const b = el('button', 'tick'); b.type = 'button'; b.title = `${r.move || ''} · ${r.asof} · ${r.source}`;
+      const m = String(r.move || '').match(/([+−-]?\d+(?:\.\d+)?)%/);
+      const dir = r.direction === 'down' ? 'is-down' : r.direction === 'up' ? 'is-up' : 'is-flat';
+      const arrow = r.direction === 'down' ? '▼' : r.direction === 'up' ? '▲' : '';
+      const unit = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' }[r.unit] || '';
+      b.append(el('span', 'tn', name), el('span', 'tv', r.price + unit), el('span', 'tc ' + dir, m ? `${arrow}${m[1].replace(/^[+−-]/, '')}%` : '–'));
+      b.addEventListener('click', () => go(to));
+      box.appendChild(b);
+    });
   }
 
   function renderOverview() {

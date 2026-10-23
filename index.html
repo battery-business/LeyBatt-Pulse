@@ -4,21 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Battery Market Intelligence</title>
+<title>Battery IQ – battery market intelligence</title>
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <header class="top">
-  <div class="band">
+  <div class="bar">
     <div class="wrap top-row">
-      <div class="brand">
-        <span class="eyebrow">LFP battery supply chain · prices &amp; news</span>
-        <h1>Battery Market Intelligence</h1>
-      </div>
+      <a class="brand" href="#overview" aria-label="Battery IQ, back to overview">
+        <svg class="mark" viewBox="0 0 46 28" aria-hidden="true">
+          <rect class="shell" x="1.2" y="1.2" width="38.6" height="25.6" rx="5"/>
+          <rect class="nub" x="41" y="9" width="4" height="10" rx="1.5"/>
+          <rect class="charge" x="4.5" y="4.5" width="32" height="19" rx="2.5"/>
+          <path class="bolt" d="M22.6 6.2 14.6 15.4h5.6l-2 6.6 8.2-9.4h-5.7z"/>
+        </svg>
+        <span class="names"><h1>Battery IQ</h1><span class="tagline">Battery market intelligence</span></span>
+      </a>
       <div class="top-actions">
-        <span class="auto"><span class="pulse" aria-hidden="true"></span>Updates automatically every day at 4:00 am IST</span>
+        <span class="auto"><span class="pulse" aria-hidden="true"></span>Fresh every morning at 4:00 am IST</span>
         <span class="updated" id="updated"></span>
-        <button class="btn on-dark" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Light</button>
+        <button class="btn on-dark small" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Light</button>
       </div>
     </div>
     <nav class="wrap tabs" id="tabs" aria-label="Sections">
@@ -28,6 +35,7 @@
       <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
     </nav>
   </div>
+  <div class="ticker" aria-label="Latest prices"><div class="wrap" id="ticker"></div></div>
 </header>
 
 <main class="wrap">

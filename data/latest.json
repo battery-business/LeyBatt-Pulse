@@ -3,25 +3,25 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$14,060",
+  "price": "$14,520",
   "unit": "per tonne",
-  "asof": "22 Oct",
-  "move": "−6.3% since 19 Oct",
-  "direction": "down",
+  "asof": "23 Oct",
+  "move": "+2.9% on the day",
+  "direction": "up",
   "source": "JRJ Finance (GFEX close)",
-  "url": "https://finance.jrj.com.cn/2026/10/22152858821247.shtml"
+  "url": "https://finance.jrj.com.cn/2026/10/23152858838383.shtml"
  },
  {
   "id": "cathode",
   "layer": "LFP cathode",
   "label": "LFP cathode, China (compaction ≥2.5)",
-  "price": "$6,770",
+  "price": "$6,550",
   "unit": "per tonne",
-  "asof": "15 Oct",
-  "move": "−10% in a week",
+  "asof": "22 Oct",
+  "move": "−1.5% since 16 Oct",
   "direction": "down",
   "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104160467-smm-cobalt-lithium-morning-meeting-summary-supply-demand-expectations-diverge-material-prices-under-pressure-industry-chain-prosperity-diverges"
+  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure"
  },
  {
   "id": "cell314",

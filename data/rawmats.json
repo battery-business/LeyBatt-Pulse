@@ -15,15 +15,15 @@
  {
   "material": "Lithium hydroxide",
   "role": "Lithium salt, CIF Asia",
-  "price": "$15,262",
-  "asof": "19 Oct",
-  "move": "−2.3% on the day",
+  "price": "$14,310",
+  "asof": "22 Oct",
+  "move": "−2.2% on the day",
   "direction": "down",
   "source": "LME",
   "url": "https://www.lme.com/metals/ev/lme-lithium-hydroxide-cif-fastmarkets-mb",
   "stage": "Ore & lithium chemicals",
   "unit": "per tonne",
-  "usd": 15262.0
+  "usd": 14310.0
  },
  {
   "material": "Iron phosphate",
@@ -54,28 +54,28 @@
  {
   "material": "Copper",
   "role": "Anode foil, busbars",
-  "price": "$14,395",
-  "asof": "21 Oct",
-  "move": "+0.1% on the day (LME)",
-  "direction": "flat",
-  "source": "SP Angel market note (LME)",
-  "url": "https://www.share-talk.com/sp-angel-todays-market-view-wednesday-21st-october-2026/",
+  "price": "$14,200",
+  "asof": "23 Oct",
+  "move": "+1.2% on the day",
+  "direction": "up",
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/copper",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 14395.0
+  "usd": 14200.0
  },
  {
   "material": "Aluminium",
   "role": "Cathode foil, cell cans",
-  "price": "$3,017",
-  "asof": "21 Oct",
-  "move": "+0.8% since 19 Oct",
-  "direction": "up",
+  "price": "$3,009",
+  "asof": "22 Oct",
+  "move": "−1.0% on the day",
+  "direction": "down",
   "source": "Trading Economics",
-  "url": "https://fr.tradingeconomics.com/commodity/aluminum",
+  "url": "https://tradingeconomics.com/commodity/aluminum",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 3017.0
+  "usd": 3009.0
  },
  {
   "material": "Graphite anode",
@@ -98,11 +98,11 @@
   "price": "$0.19",
   "usd": 0.186,
   "unit": "per m²",
-  "asof": "15 Oct",
-  "move": "Tight supply, steady",
+  "asof": "22 Oct",
+  "move": "Flat week on week",
   "direction": "flat",
-  "source": "SMM separator weekly",
-  "url": "https://news.metal.com/newscontent/104160065-smm-separator-weekly-review-supply-demand-tight-pattern-persists",
+  "source": "SMM morning meeting summary",
+  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure",
   "stage": "Other cell materials"
  },
  {

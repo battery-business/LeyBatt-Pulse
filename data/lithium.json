@@ -262,5 +262,21 @@
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/lithium",
   "note": "China battery-grade spot, down 3.3% on the day"
+ },
+ {
+  "date": "2026-10-23",
+  "series": "Futures",
+  "usd_t": 14520,
+  "source": "JRJ Finance (GFEX close)",
+  "url": "https://finance.jrj.com.cn/2026/10/23152858838383.shtml",
+  "note": "Most-active contract closed up 2.9%"
+ },
+ {
+  "date": "2026-10-23",
+  "series": "Spot",
+  "usd_t": 14480,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/lithium",
+  "note": "China battery-grade spot, down 2.4% on the day"
  }
 ]

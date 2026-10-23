@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Battery IQ daily email digest.
+"""Battery Pulse daily email digest.
 
 Builds the morning email from the data files in data/ (written by the 4 am update) and sends it
 through Gmail SMTP. Run by .github/workflows/daily-digest.yml at about 5:15 am IST.
@@ -133,13 +133,13 @@ def build(today):
         if a not in seen:
             seen.add(a)
             uniq.append(a)
-    subject = (f"[ALERT] {', '.join(uniq[:2])} – " if uniq else "") + f"Battery IQ – {date_label}"
+    subject = (f"[ALERT] {', '.join(uniq[:2])} – " if uniq else "") + f"Battery Pulse – {date_label}"
 
     # ---------- HTML ----------
     E = html.escape
     navy, muted, line, lime, green, amber = "#0e1a2b", "#566579", "#dde3eb", "#c4f23a", "#1f7a4d", "#b05f00"
     p = [f'<div style="font-family:Segoe UI,Arial,sans-serif;color:{navy};background:#ffffff;max-width:640px;margin:0 auto;padding:8px 4px;font-size:14px;line-height:1.5">']
-    p.append(f'<div style="font-size:24px;font-weight:800;letter-spacing:-0.3px">Battery IQ</div>')
+    p.append(f'<div style="font-size:24px;font-weight:800;letter-spacing:-0.3px">Battery Pulse</div>')
     p.append(f'<div style="height:4px;width:64px;background:{lime};border-radius:2px;margin:4px 0 6px"></div>')
     p.append(f'<div style="color:{muted};font-size:12.5px;margin-bottom:14px">Battery market intelligence · {E(date_label)}</div>')
     if uniq:
@@ -185,12 +185,12 @@ def build(today):
             p.append(f'<li style="margin:0 0 6px"><b>{E(when)}</b>: {E(e["what"])} <span style="color:{muted}">— <a href="{E(e["url"])}" style="color:#1652f0">{E(e["source"])}</a></span></li>')
         p.append('</ul>')
 
-    p.append(f'<p style="margin:20px 0 6px"><a href="{SITE}" style="display:inline-block;background:{navy};color:#ffffff;text-decoration:none;padding:9px 16px;border-radius:8px;font-weight:700">Open Battery IQ: prices, charts and cost calculator</a></p>')
-    p.append(f'<p style="color:{muted};font-size:11.5px;margin:14px 0 0">Battery IQ — automated daily digest from public sources. Check the original source before relying on a figure.</p></div>')
+    p.append(f'<p style="margin:20px 0 6px"><a href="{SITE}" style="display:inline-block;background:{navy};color:#ffffff;text-decoration:none;padding:9px 16px;border-radius:8px;font-weight:700">Open Battery Pulse: prices, charts and cost calculator</a></p>')
+    p.append(f'<p style="color:{muted};font-size:11.5px;margin:14px 0 0">Battery Pulse — automated daily digest from public sources. Check the original source before relying on a figure.</p></div>')
     body_html = "".join(p)
 
     # plain-text version
-    t = [f"Battery IQ — {date_label}", ""]
+    t = [f"Battery Pulse — {date_label}", ""]
     if uniq:
         t += ["ALERT: " + "; ".join(uniq), ""]
     if note:
@@ -201,7 +201,7 @@ def build(today):
     t += ["", "Top news:"] + ([f"- {n['headline']} ({n['source']}: {n['url']})" for n in top] or ["- No new stories in the last two days."])
     if up:
         t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]
-    t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "Battery IQ — automated daily digest from public sources. Check the original source before relying on a figure."]
+    t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "Battery Pulse — automated daily digest from public sources. Check the original source before relying on a figure."]
     return subject, body_html, "\n".join(t)
 
 
@@ -219,7 +219,7 @@ def main():
         sys.exit(1)
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = f"Battery IQ <{user}>"
+    msg["From"] = f"Battery Pulse <{user}>"
     msg["To"] = user
     msg["Bcc"] = ", ".join(to)
     msg.set_content(body_text)

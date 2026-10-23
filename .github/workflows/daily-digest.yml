@@ -1,0 +1,22 @@
+# Sends the Battery IQ morning email at about 5:15 am IST, after the 4 am data update.
+# Needs three repository secrets: GMAIL_USER, GMAIL_APP_PASSWORD, MAIL_TO (comma-separated).
+# To send a test now: Actions tab → "Battery IQ daily email" → Run workflow.
+name: Battery IQ daily email
+on:
+  schedule:
+    - cron: "45 23 * * *"   # 23:45 UTC = 05:15 IST
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send digest
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: python3 scripts/send_digest.py

@@ -8,6 +8,13 @@
   "url": "https://themachinemaker.com/news/trontek-to-unveil-5-mwh-ekom-battery-energy-storage-system-at-the-battery-show-india-2026/"
  },
  {
+  "date": "2026-10-27",
+  "what": "NTPC Green: EPC tender for battery storage at its Khavda (Gujarat) solar park — bids due",
+  "kind": "India tender",
+  "source": "MVApulse",
+  "url": "https://www.mvapulse.com/ntpc-green-energy-floats-bess-tender-for-khavda-solar-project/"
+ },
+ {
   "date": "2026-10-30",
   "what": "SECI 800 MW / 3.2 GWh standalone storage tender (ESS-IV): online bids due; bids open 4 Nov",
   "kind": "India tender",
@@ -43,11 +50,26 @@
   "url": "https://www.ess-news.com/2026/10/23/rwanda-tenders-800-mwh-bess-project/"
  },
  {
+  "date": "2026-11-17",
+  "what": "WBSEDCL (West Bengal) solar-plus-battery storage EPC project at Purulia — bids due",
+  "kind": "India tender",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/west-bengal-utility-floats-tender-solar-project-with-battery-storage"
+ },
+ {
   "date": "2026-11-23",
   "what": "Andhra Pradesh (APPCC) 1.25 GW / 5 GWh standalone storage tender: online bids due",
   "kind": "India tender",
   "source": "Renewable Watch",
   "url": "https://renewablewatch.in/2026/10/13/andhra-pradesh-tenders-5-gwh-bess/"
+ },
+ {
+  "date": "2026-12-01",
+  "precision": "month",
+  "what": "Himadri Speciality Chemical's first 2,000 t LFP cathode plant in Kolkata due to start",
+  "kind": "Supply",
+  "source": "Business Today",
+  "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22"
  },
  {
   "date": "2027-01-01",

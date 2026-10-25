@@ -1,5 +1,53 @@
 [
  {
+  "id": "n102",
+  "date": "2026-10-24",
+  "day": "24 Oct",
+  "headline": "Paradeep Parivahan signs a 10-year deal with JSW Cement and JSW Eco-Mobility to run 100 electric heavy trucks hauling about 125,000 t of clinker and slag a month from Nandyal (Andhra Pradesh) to Vijayanagar (Karnataka)",
+  "category": "India EV & battery makers",
+  "effect": "E-truck demand",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://autocarpro.in/news/paradeep-parivahan-secures-10-year-ev-heavy-haulage-contract-from-jsw-group-135444",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n101",
+  "date": "2026-10-25",
+  "day": "25 Oct",
+  "headline": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+  "category": "Cell makers & competitors",
+  "effect": "Tight cell capacity",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+  "sources": "SMM"
+ },
+ {
+  "id": "n100",
+  "date": "2026-10-22",
+  "day": "22 Oct",
+  "headline": "Haryana Power Purchase Centre (the state's two discoms) invites bids for solar projects with battery storage inside Haryana; bids are due 17 November (capacity not stated in the report)",
+  "category": "India BESS",
+  "effect": "More India storage demand",
+  "direction": "up",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/haryana-power-purchase-centre-invites-bids-for-solar-plus-storage-projects",
+  "sources": "Mercom India"
+ },
+ {
+  "id": "n99",
+  "date": "2026-10-24",
+  "day": "24 Oct",
+  "headline": "CATL confirms the new 60 kWh pack in Nio's Firefly uses its Qilin battery with NCM cells (560 km CLTC range), while the original 42 kWh LFP pack comes from Sunwoda; both share the same casing and mounts, so existing cars can switch packs by battery swap",
+  "category": "Packs & BMS",
+  "effect": "Swappable pack design",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/24/catl-qilin-battery-nio-firefly-60-kwh/",
+  "sources": "CnEVPost"
+ },
+ {
   "id": "n93",
   "date": "2026-10-22",
   "day": "22 Oct",

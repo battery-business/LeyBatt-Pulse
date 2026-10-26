@@ -12,6 +12,11 @@ on:
         description: "Send only to (optional test address; leave empty to send to everyone)"
         required: false
         default: ""
+      check_only:
+        description: "Only count the recipients in MAIL_TO; do not send"
+        type: boolean
+        required: false
+        default: false
 permissions:
   contents: read
 jobs:
@@ -26,6 +31,7 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           ONLY_TO: ${{ inputs.only_to }}
+          CHECK_ONLY: ${{ inputs.check_only }}
         run: |
           if [ -n "$ONLY_TO" ]; then echo "::add-mask::$ONLY_TO"; fi
           python3 scripts/send_digest.py

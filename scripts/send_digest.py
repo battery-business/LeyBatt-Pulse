@@ -316,6 +316,9 @@ def main():
         sys.exit(1)
     if test:  # a manual test run: send only to the address(es) typed in, not to everyone in MAIL_TO
         to = only
+    if os.environ.get("CHECK_ONLY", "").lower() == "true":
+        print(f"::notice::Check only, nothing sent: the email would go to {len(to)} recipient(s).")
+        return
     subject = " ".join(subject.split())
     if not (user and pw and to):
         missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]

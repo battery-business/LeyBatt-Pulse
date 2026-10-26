@@ -308,6 +308,14 @@ def main():
     if len(users) > 1:
         print(f"::warning::GMAIL_USER had {len(users)} addresses; used the first to send and added the others to the recipients. Put recipients only in MAIL_TO.")
         to += [x for x in users[1:] if x.lower() not in [y.lower() for y in to]]
+    only = [x.strip(" <>\"'") for x in re.split(r"[,;\s]+", os.environ.get("ONLY_TO", "")) if x.strip()]
+    only = [x for x in only if re.fullmatch(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}", x)]
+    test = bool(only)
+    if os.environ.get("ONLY_TO", "").strip() and not test:
+        print("::error::Email not sent: 'Send only to' was filled in but is not an email address.")
+        sys.exit(1)
+    if test:  # a manual test run: send only to the address(es) typed in, not to everyone in MAIL_TO
+        to = only
     subject = " ".join(subject.split())
     if not (user and pw and to):
         missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]
@@ -332,7 +340,7 @@ def main():
     except Exception as e:  # report the kind of failure without exposing secrets
         print(f"::error::Email not sent: {type(e).__name__}: {str(e)[:200]}")
         sys.exit(1)
-    print(f"::notice::Sent '{subject}' to {len(to)} recipient(s).")
+    print(f"::notice::Sent '{subject}' to {len(to)} recipient(s){' (test: only the address typed in)' if test else ''}.")
 
 
 if __name__ == "__main__":

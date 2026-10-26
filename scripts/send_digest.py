@@ -215,7 +215,8 @@ def main():
     user, pw = os.environ.get("GMAIL_USER", "").strip(), os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
     to = [a.strip() for a in os.environ.get("MAIL_TO", "").split(",") if a.strip()]
     if not (user and pw and to):
-        print("Email not sent: set the GMAIL_USER, GMAIL_APP_PASSWORD and MAIL_TO repository secrets.")
+        missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]
+        print(f"::error::Email not sent: these repository secrets are missing or empty: {', '.join(missing)}")
         sys.exit(1)
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -224,9 +225,16 @@ def main():
     msg["Bcc"] = ", ".join(to)
     msg.set_content(body_text)
     msg.add_alternative(body_html, subtype="html")
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
-        s.login(user, pw)
-        s.send_message(msg)
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
+            s.login(user, pw)
+            s.send_message(msg)
+    except smtplib.SMTPAuthenticationError:
+        print("::error::Gmail refused the login: check GMAIL_USER and that GMAIL_APP_PASSWORD is a current 16-letter app password (2-Step Verification must be on).")
+        sys.exit(1)
+    except Exception as e:  # report the kind of failure without exposing secrets
+        print(f"::error::Email not sent: {type(e).__name__}: {str(e)[:200]}")
+        sys.exit(1)
     print(f"Sent '{subject}' to {len(to)} recipient(s).")
 
 

@@ -289,8 +289,12 @@ def main():
     user, pw = os.environ.get("GMAIL_USER", "").strip(), os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
     # accept commas, semicolons, spaces or new lines between addresses; drop anything that is not an address
     raw = [x.strip(" <>\"'") for x in re.split(r"[,;\s]+", os.environ.get("MAIL_TO", "")) if x.strip()]
-    to = [x for x in raw if re.fullmatch(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}", x)]
-    bad = len(raw) - len(to)
+    ok = [x for x in raw if re.fullmatch(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}", x)]
+    bad = len(raw) - len(ok)
+    to = []
+    for x in ok:  # an address typed twice gets one email
+        if x.lower() not in [y.lower() for y in to]:
+            to.append(x)
     if bad:
         print(f"::warning::Ignored {bad} entr{'y' if bad == 1 else 'ies'} in MAIL_TO that did not look like an email address.")
     # GMAIL_USER must be one address (the sender). If several were entered, use the first to log in
@@ -303,7 +307,7 @@ def main():
     user = users[0]
     if len(users) > 1:
         print(f"::warning::GMAIL_USER had {len(users)} addresses; used the first to send and added the others to the recipients. Put recipients only in MAIL_TO.")
-        to += [x for x in users[1:] if x not in to]
+        to += [x for x in users[1:] if x.lower() not in [y.lower() for y in to]]
     subject = " ".join(subject.split())
     if not (user and pw and to):
         missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]

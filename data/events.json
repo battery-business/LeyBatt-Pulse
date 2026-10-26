@@ -49,6 +49,14 @@
   "short": "MAHAGENCO 1.6 GWh storage bids due"
  },
  {
+  "date": "2026-11-10",
+  "what": "China's one-year pause on export licences for lithium-ion batteries, artificial graphite anode and related equipment (Decision No. 58) is due to end unless extended",
+  "kind": "Rule change",
+  "source": "HSF Kramer",
+  "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+  "short": "China battery export-control pause ends"
+ },
+ {
   "date": "2026-11-12",
   "what": "Rwanda 200 MW floating solar + 800 MWh battery tender: pre-qualification bids due",
   "kind": "Event",

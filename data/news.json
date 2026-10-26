@@ -59,7 +59,8 @@
   "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
   "sources": "Business Today",
   "alert": true,
-  "alert_reason": "Component PLI planned"
+  "alert_reason": "Component PLI planned",
+  "short": "India plans a ₹12,000-crore PLI for cell materials"
  },
  {
   "id": "n94",
@@ -245,7 +246,8 @@
   "url": "https://www.energy-storage.news/acme-solar-ppa-seci-clean-energy-solar-india-renewables-assets/",
   "alert": true,
   "alert_reason": "1.2 GWh India storage award",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "short": "ACME wins SECI deal: 300 MW solar with 1.2 GWh of batteries"
  },
  {
   "id": "n69",
@@ -935,7 +937,8 @@
   "url2": "",
   "sources": "Powerpeak Digest",
   "alert": true,
-  "alert_reason": "5 GWh Andhra storage tender"
+  "alert_reason": "5 GWh Andhra storage tender",
+  "short": "Andhra Pradesh tenders 5 GWh of standalone battery storage"
  },
  {
   "id": "n77",
@@ -951,7 +954,8 @@
   "url2": "",
   "sources": "Powerpeak Digest",
   "alert": true,
-  "alert_reason": "6 GWh Telangana storage tender"
+  "alert_reason": "6 GWh Telangana storage tender",
+  "short": "Telangana tenders 3 GW of solar with 6 GWh of storage"
  },
  {
   "id": "n78",
@@ -967,7 +971,8 @@
   "url2": "",
   "sources": "ESS News",
   "alert": true,
-  "alert_reason": "3.3 GWh NTPC storage tender"
+  "alert_reason": "3.3 GWh NTPC storage tender",
+  "short": "NTPC Green tenders 3.3 GWh of battery storage at Khavda"
  },
  {
   "id": "n79",

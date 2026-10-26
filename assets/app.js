@@ -199,24 +199,130 @@
     $('#news-count').textContent = (D.news || []).length || '';
     renderTicker();
   }
-  // navy price strip under the header: the headline prices, newest moves, one click to their chart
-  function renderTicker() {
-    const box = $('#ticker'); if (!box) return; box.replaceChildren();
+  // navy market strip under the header: one slow loop of prices, dates coming up and alert stories.
+  // It pauses under the mouse or keyboard focus, can be dragged or swiped, and stays still for reduced motion.
+  const TAPE = { pos: 0, half: 0, last: 0, raf: 0, hover: false, focus: false, drag: null, resumeAt: 0, eatClick: false, on: false, wired: false };
+  function istToday() { const ist = new Date(Date.now() + 5.5 * 36e5); return Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate()); }
+  function clip(t, n = 72) { // fallback when a story or date has no `short` line: first clause, cut at a word
+    let s = String(t || '').split(/[:;(]| — | – |, (?=[a-z])/)[0].trim();
+    if (s.length > n) s = s.slice(0, s.lastIndexOf(' ', n - 1)).replace(/[,\s]+$/, '') + '…';
+    return s;
+  }
+  function tapeItems() {
+    const out = [];
     const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
-    const cu = (D.rawmats || []).find((r) => r.material === 'Copper');
-    const items = [['lithium', 'Lithium'], ['cathode', 'LFP cathode'], ['cell314', '314 Ah cell'], ['evcell', 'EV cell'], ['system', '4-h system']]
-      .filter(([id]) => L[id]).map(([id, name]) => ({ name, r: L[id], to: CARD_TAB[id] }));
-    if (cu) items.push({ name: 'Copper', r: cu, to: 'materials' });
-    items.forEach(({ name, r, to }) => {
-      const b = el('button', 'tick'); b.type = 'button'; b.title = `${r.move || ''} · ${r.asof} · ${r.source}`;
-      const m = String(r.move || '').match(/([+−-]?\d+(?:\.\d+)?)%/);
-      const dir = r.direction === 'down' ? 'is-down' : r.direction === 'up' ? 'is-up' : 'is-flat';
-      const arrow = r.direction === 'down' ? '▼' : r.direction === 'up' ? '▲' : '';
-      const unit = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' }[r.unit] || '';
-      b.append(el('span', 'tn', name), el('span', 'tv', r.price + unit), el('span', 'tc ' + dir, m ? `${arrow}${m[1].replace(/^[+−-]/, '')}%` : '–'));
-      b.addEventListener('click', () => go(to));
-      box.appendChild(b);
+    const M = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
+    const unitOf = (u) => ({ 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' }[u] || '');
+    const chg = (r) => { const m = String(r.move || '').match(/([+−-]?\d+(?:\.\d+)?)%/); if (m) return m[1].replace(/^[+−-]/, '') + '%'; return /stable|flat|steady/i.test(r.move || '') ? 'flat' : ''; };
+    const price = (name, r, to) => r && out.push({ k: 'price', name, val: r.price + unitOf(r.unit), chg: chg(r), dir: chg(r) === 'flat' ? 'flat' : r.direction, tip: `${r.move || ''} · ${r.asof} · ${r.source}`, to });
+    // headline prices, then the chain from ore to system, then metals
+    price('Lithium carbonate', L.lithium, CARD_TAB.lithium);
+    price('Spodumene', M['Spodumene SC6'], 'materials/lithium');
+    price('Lithium hydroxide', M['Lithium hydroxide'], 'materials/lithium');
+    price('LFP cathode', L.cathode, CARD_TAB.cathode);
+    price('Iron phosphate', M['Iron phosphate'], 'materials/all');
+    price('Electrolyte', M['LFP electrolyte'], 'materials/all');
+    price('Separator', M['Separator'], 'materials/all');
+    price('314 Ah cell', L.cell314, CARD_TAB.cell314);
+    price('EV cell', L.evcell, CARD_TAB.evcell);
+    const wk = weekly(); const w1 = wk[wk.length - 1], w0 = wk[wk.length - 2];
+    if (w1 && w1.ac_2h) {
+      const pc = w0 && w0.ac_2h ? (w1.ac_2h / w0.ac_2h - 1) * 100 : null;
+      out.push({ k: 'price', name: '2-h system', val: `$${(+w1.ac_2h).toFixed(1)}/kWh`, chg: pc == null ? '' : Math.abs(pc) < 0.05 ? 'flat' : Math.abs(pc).toFixed(1) + '%', dir: pc == null || Math.abs(pc) < 0.05 ? 'flat' : pc < 0 ? 'down' : 'up', tip: `China AC system, week to ${w1.date} · InfoLink`, to: CARD_TAB.system });
+    }
+    price('4-h system', L.system, CARD_TAB.system);
+    price('Copper', M.Copper, 'materials/all');
+    price('Aluminium', M.Aluminium, 'materials/all');
+    // dates in the next three weeks
+    const today = istToday();
+    const evs = (D.events || []).filter((e) => e.precision !== 'month' && +parse(e.end || e.date) >= today && (+parse(e.date) - today) / 864e5 <= 21)
+      .sort((a, b) => d3.ascending(a.date, b.date)).slice(0, 4);
+    evs.forEach((e) => {
+      const days = Math.round((+parse(e.date) - today) / 864e5);
+      const when = e.end && days <= 0 ? 'on now' : days === 0 ? 'today' : days === 1 ? 'tomorrow' : `in ${days} days`;
+      out.push({ k: 'next', text: e.short || clip(e.what, 60), when, soon: days <= 7, tip: `${e.what} · ${e.source}` });
     });
+    // alert stories from the last three weeks (newest first); if there are few, the latest stories
+    const ns = sortedNews(); const cut = today - 21 * 864e5;
+    let alerts = ns.filter((n) => n.alert && +parse(n.date) >= cut).slice(0, 4).map((n) => ({ n, lab: 'alert' }));
+    if (alerts.length < 2) alerts = alerts.concat(ns.filter((n) => !n.alert).slice(0, 3 - alerts.length).map((n) => ({ n, lab: 'latest' })));
+    alerts.forEach(({ n, lab }) => out.push({ k: lab, text: n.short || clip(n.headline), day: n.day, url: n.url, tip: n.headline }));
+    return out;
+  }
+  function tapeSeg(items, live) {
+    const seg = el('div', 'tk-seg'); let last = null;
+    const LAB = { price: 'Prices', next: 'Next', alert: 'Alert', latest: 'Latest' };
+    items.forEach((it) => {
+      if (it.k !== last) { seg.appendChild(el('span', 'tk-lab tk-lab-' + it.k, LAB[it.k])); last = it.k; }
+      let b;
+      if (it.k === 'price') {
+        b = el('button', 'tick'); b.type = 'button';
+        const arrow = it.dir === 'down' ? '▼' : it.dir === 'up' ? '▲' : '';
+        b.append(el('span', 'tn', it.name), el('span', 'tv', it.val));
+        if (it.chg) b.appendChild(el('span', 'tc ' + (it.dir === 'down' ? 'is-down' : it.dir === 'up' ? 'is-up' : 'is-flat'), it.chg === 'flat' ? 'flat' : arrow + it.chg));
+        b.addEventListener('click', () => go(it.to));
+      } else if (it.k === 'next') {
+        b = el('button', 'tick tk-next'); b.type = 'button';
+        b.append(el('span', 'tt', it.text), el('span', 'tw' + (it.soon ? ' soon' : ''), it.when));
+        b.addEventListener('click', () => { go('overview'); const d = $('#ov-dates'); if (d) setTimeout(() => d.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60); });
+      } else {
+        b = el('a', 'tick tk-story'); b.href = it.url; b.target = '_blank'; b.rel = 'noopener'; b.draggable = false;
+        b.append(el('span', 'tt', it.text), el('span', 'td', it.day + ' ↗'));
+      }
+      b.title = it.tip || '';
+      if (!live) b.tabIndex = -1;
+      seg.appendChild(b);
+    });
+    return seg;
+  }
+  function renderTicker() {
+    const view = $('#ticker'); if (!view) return;
+    cancelAnimationFrame(TAPE.raf); TAPE.on = false;
+    const items = tapeItems(); const track = el('div', 'tk-track');
+    track.appendChild(tapeSeg(items, true));
+    view.replaceChildren(track);
+    const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    view.classList.toggle('is-still', true);
+    if (still) return; // reduced motion: a plain strip you can scroll sideways
+    requestAnimationFrame(() => {
+      const seg = track.firstChild;
+      TAPE.half = seg.getBoundingClientRect().width;
+      if (TAPE.half <= view.clientWidth) return; // everything fits: no need to move
+      const copy = tapeSeg(items, false); copy.setAttribute('aria-hidden', 'true'); copy.inert = true; track.appendChild(copy);
+      view.classList.remove('is-still'); view.scrollLeft = 0;
+      TAPE.track = track; TAPE.view = view; TAPE.pos = norm(TAPE.pos); TAPE.on = true; TAPE.last = 0;
+      wireTape(view); paint(); TAPE.raf = requestAnimationFrame(tick);
+    });
+  }
+  const norm = (p) => (TAPE.half ? ((p % TAPE.half) + TAPE.half) % TAPE.half : 0);
+  function paint() { if (TAPE.track) TAPE.track.style.transform = `translate3d(${-TAPE.pos}px,0,0)`; }
+  function tick(t) {
+    if (!TAPE.on) return;
+    const dt = TAPE.last ? Math.min(t - TAPE.last, 100) / 1000 : 0; TAPE.last = t;
+    if (!TAPE.hover && !TAPE.focus && !TAPE.drag && t >= TAPE.resumeAt) { TAPE.pos = norm(TAPE.pos + 34 * dt); paint(); }
+    TAPE.raf = requestAnimationFrame(tick);
+  }
+  function wireTape(view) {
+    if (TAPE.wired) return; TAPE.wired = true;
+    const later = () => { TAPE.resumeAt = performance.now() + 2500; };
+    view.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') TAPE.hover = true; });
+    view.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') TAPE.hover = false; });
+    view.addEventListener('pointerdown', (e) => { if (!TAPE.on || e.button > 0) return; TAPE.drag = { x: e.clientX, pos: TAPE.pos, moved: false, id: e.pointerId }; });
+    view.addEventListener('pointermove', (e) => {
+      const d = TAPE.drag; if (!d) return;
+      const dx = e.clientX - d.x;
+      if (!d.moved && Math.abs(dx) > 6) { d.moved = true; try { view.setPointerCapture(d.id); } catch (err) { /* ignore */ } view.classList.add('is-drag'); }
+      if (d.moved) { TAPE.pos = norm(d.pos - dx); paint(); }
+    });
+    const end = () => { const d = TAPE.drag; if (!d) return; if (d.moved) TAPE.eatClick = true; TAPE.drag = null; view.classList.remove('is-drag'); later(); };
+    view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
+    view.addEventListener('click', (e) => { if (TAPE.eatClick) { e.preventDefault(); e.stopPropagation(); TAPE.eatClick = false; } }, true);
+    view.addEventListener('wheel', (e) => { if (!TAPE.on || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; e.preventDefault(); TAPE.pos = norm(TAPE.pos + e.deltaX); paint(); later(); }, { passive: false });
+    view.addEventListener('focusin', (e) => { TAPE.focus = true; const b = e.target.closest('.tick'); if (b && TAPE.on) { view.scrollLeft = 0; TAPE.pos = norm(b.offsetLeft - 24); paint(); } });
+    view.addEventListener('focusout', () => { TAPE.focus = false; });
+    view.addEventListener('scroll', () => { if (TAPE.on && view.scrollLeft) view.scrollLeft = 0; }); // focus can scroll the box; the loop moves by transform only
+    let w = view.clientWidth;
+    window.addEventListener('resize', () => { if (Math.abs(view.clientWidth - w) > 40) { w = view.clientWidth; renderTicker(); } });
   }
 
   function renderOverview() {

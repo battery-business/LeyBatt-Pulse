@@ -75,19 +75,36 @@ h2 { font-size: 16.5px; font-weight: 650; margin: 0; }
 .tab[aria-selected="true"] { color: var(--head-fg); border-bottom-color: var(--volt); box-shadow: inset 0 -3px 0 var(--volt); }
 .count { display: inline-block; min-width: 22px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--volt); font-family: var(--sans); font-size: 11px; font-weight: 700; text-align: center; vertical-align: 1px; }
 
-/* price ticker */
-.ticker { background: var(--ink); color: var(--ink-fg); }
-.ticker .wrap { display: flex; gap: 6px 22px; overflow-x: auto; scrollbar-width: none; padding-top: 8px; padding-bottom: 8px; align-items: baseline; }
-.ticker .wrap::-webkit-scrollbar { display: none; }
-.tick { appearance: none; border: 0; background: none; color: inherit; font: inherit; display: inline-flex; align-items: baseline; gap: 8px; white-space: nowrap; cursor: pointer; padding: 0; font-size: 13px; }
+/* market strip: one slow loop of prices, dates coming up and alert stories */
+.ticker { background: var(--ink); color: var(--ink-fg); position: relative; }
+.tk-view { overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 36px, #000 calc(100% - 36px), transparent 100%); }
+.tk-view.is-drag { cursor: grabbing; }
+.tk-view.is-still { overflow-x: auto; scrollbar-width: none; cursor: auto; -webkit-mask-image: none; mask-image: none; touch-action: auto; }
+.tk-view.is-still::-webkit-scrollbar { display: none; }
+.tk-view.is-still .tk-track { padding-left: max(16px, 3vw); }
+.tk-track { display: flex; width: max-content; will-change: transform; }
+.tk-seg { display: flex; align-items: center; gap: 22px; padding: 9px 22px 9px 0; flex: none; }
+.tk-lab { flex: none; font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-muted); border: 1px solid rgba(159, 176, 198, .35); border-radius: 4px; padding: 2px 6px; margin-left: 10px; }
+.tk-lab-next { color: var(--volt); border-color: color-mix(in srgb, var(--volt) 45%, transparent); }
+.tk-lab-alert { color: var(--ink); background: var(--volt); border-color: var(--volt); }
+.tick { appearance: none; border: 0; background: none; color: inherit; font: inherit; display: inline-flex; align-items: baseline; gap: 8px; white-space: nowrap; cursor: pointer; padding: 0; font-size: 13px; text-decoration: none; flex: none; }
+.tk-view.is-drag .tick { cursor: grabbing; }
+.tk-view a { -webkit-user-drag: none; }
 .tick .tn { color: var(--ink-muted); }
 .tick .tv { font-family: var(--display); font-stretch: 110%; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 14px; }
 .tick .tc { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 12.5px; }
 .tick .tc.is-down { color: #6fe3a5; }
 .tick .tc.is-up { color: #ffb45c; }
-.tick .tc.is-flat { color: var(--ink-muted); }
-.tick:hover .tn { color: var(--ink-fg); }
-.ticker .asof { color: var(--ink-muted); font-size: 12px; white-space: nowrap; margin-left: auto; }
+.tick .tc.is-flat { color: var(--ink-muted); font-weight: 600; }
+.tick .tt { color: var(--ink-fg); }
+.tick .tw { color: var(--ink-muted); font-weight: 600; font-size: 12.5px; }
+.tick .tw.soon { color: var(--volt); }
+.tick .td { color: var(--ink-muted); font-size: 12px; }
+.tick:hover .tn, .tick:hover .td { color: var(--ink-fg); }
+.tick:hover .tt { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(238, 243, 250, .45); }
+.tick:focus-visible { outline: 2px solid var(--volt); outline-offset: 3px; border-radius: 3px; }
 @media (max-width: 700px) { .top { position: static; } }
 
 /* buttons, inputs */

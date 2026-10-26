@@ -5,70 +5,80 @@
   "what": "The Battery Show India, Greater Noida",
   "kind": "Event",
   "source": "The Machine Maker",
-  "url": "https://themachinemaker.com/news/trontek-to-unveil-5-mwh-ekom-battery-energy-storage-system-at-the-battery-show-india-2026/"
+  "url": "https://themachinemaker.com/news/trontek-to-unveil-5-mwh-ekom-battery-energy-storage-system-at-the-battery-show-india-2026/",
+  "short": "The Battery Show India"
  },
  {
   "date": "2026-10-27",
   "what": "NTPC Green: EPC tender for battery storage at its Khavda (Gujarat) solar park — bids due",
   "kind": "India tender",
   "source": "MVApulse",
-  "url": "https://www.mvapulse.com/ntpc-green-energy-floats-bess-tender-for-khavda-solar-project/"
+  "url": "https://www.mvapulse.com/ntpc-green-energy-floats-bess-tender-for-khavda-solar-project/",
+  "short": "NTPC Green Khavda storage EPC bids due"
  },
  {
   "date": "2026-10-30",
   "what": "SECI 800 MW / 3.2 GWh standalone storage tender (ESS-IV): online bids due; bids open 4 Nov",
   "kind": "India tender",
   "source": "TaiyangNews",
-  "url": "https://taiyangnews.info/tenders/seci-invites-bids-800-mw-bess-60-mw-solar-india"
+  "url": "https://taiyangnews.info/tenders/seci-invites-bids-800-mw-bess-60-mw-solar-india",
+  "short": "SECI 3.2 GWh storage bids due"
  },
  {
   "date": "2026-10-30",
   "what": "Tata Motors due to complete its Iveco takeover (offer closes 26 Oct)",
   "kind": "India competitor",
   "source": "Business Today",
-  "url": "https://businesstoday.in/markets/stocks/story/tata-motors-q2-net-profit-at-rs-1257-crore-revenue-up-36-shares-update-on-iveco-deal-563321-2026-10-23"
+  "url": "https://businesstoday.in/markets/stocks/story/tata-motors-q2-net-profit-at-rs-1257-crore-revenue-up-36-shares-update-on-iveco-deal-563321-2026-10-23",
+  "short": "Tata Motors–Iveco deal due to close"
  },
  {
   "date": "2026-11-04",
   "what": "Telangana (TGREDCO) 3 GW solar with 1 GW / 6 GWh storage: bids due",
   "kind": "India tender",
   "source": "Powerpeak Digest",
-  "url": "https://powerpeakdigest.com/renewable-energy-tenders-october-2026/"
+  "url": "https://powerpeakdigest.com/renewable-energy-tenders-october-2026/",
+  "short": "Telangana 6 GWh storage bids due"
  },
  {
   "date": "2026-11-05",
   "what": "MAHAGENCO 500 MW / 1.6 GWh storage tender: bids due (Powerpeak Digest lists 6 Nov)",
   "kind": "India tender",
   "source": "Saur Energy",
-  "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135"
+  "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135",
+  "short": "MAHAGENCO 1.6 GWh storage bids due"
  },
  {
   "date": "2026-11-12",
   "what": "Rwanda 200 MW floating solar + 800 MWh battery tender: pre-qualification bids due",
   "kind": "Event",
   "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/23/rwanda-tenders-800-mwh-bess-project/"
+  "url": "https://www.ess-news.com/2026/10/23/rwanda-tenders-800-mwh-bess-project/",
+  "short": "Rwanda 800 MWh battery pre-qualification due"
  },
  {
   "date": "2026-11-17",
   "what": "WBSEDCL (West Bengal) solar-plus-battery storage EPC project at Purulia — bids due",
   "kind": "India tender",
   "source": "Mercom India",
-  "url": "https://www.mercomindia.com/west-bengal-utility-floats-tender-solar-project-with-battery-storage"
+  "url": "https://www.mercomindia.com/west-bengal-utility-floats-tender-solar-project-with-battery-storage",
+  "short": "West Bengal solar-plus-storage EPC bids due"
  },
  {
   "date": "2026-11-17",
   "what": "Haryana (HPPC) solar-plus-battery-storage projects: bids due",
   "kind": "India tender",
   "source": "Mercom India",
-  "url": "https://www.mercomindia.com/haryana-power-purchase-centre-invites-bids-for-solar-plus-storage-projects"
+  "url": "https://www.mercomindia.com/haryana-power-purchase-centre-invites-bids-for-solar-plus-storage-projects",
+  "short": "Haryana solar-plus-storage bids due"
  },
  {
   "date": "2026-11-23",
   "what": "Andhra Pradesh (APPCC) 1.25 GW / 5 GWh standalone storage tender: online bids due",
   "kind": "India tender",
   "source": "Renewable Watch",
-  "url": "https://renewablewatch.in/2026/10/13/andhra-pradesh-tenders-5-gwh-bess/"
+  "url": "https://renewablewatch.in/2026/10/13/andhra-pradesh-tenders-5-gwh-bess/",
+  "short": "Andhra Pradesh 5 GWh storage bids due"
  },
  {
   "date": "2026-12-01",
@@ -76,14 +86,16 @@
   "what": "Himadri Speciality Chemical's first 2,000 t LFP cathode plant in Kolkata due to start",
   "kind": "Supply",
   "source": "Business Today",
-  "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22"
+  "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
+  "short": "Himadri’s first LFP cathode plant due to start"
  },
  {
   "date": "2027-01-01",
   "what": "China ends its 6% export VAT rebate on batteries",
   "kind": "Rule change",
   "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
+  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+  "short": "China ends 6% battery export VAT rebate"
  },
  {
   "date": "2027-01-01",
@@ -91,7 +103,8 @@
   "what": "Zimbabwe bans lithium concentrate exports",
   "kind": "Supply",
   "source": "Bloomberg",
-  "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban"
+  "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
+  "short": "Zimbabwe bans lithium concentrate exports"
  },
  {
   "date": "2027-02-01",
@@ -99,14 +112,16 @@
   "what": "EU digital battery passports become mandatory for large batteries",
   "kind": "Rule change",
   "source": "Product Compliance Institute",
-  "url": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/"
+  "url": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/",
+  "short": "EU battery passports become mandatory"
  },
  {
   "date": "2027-04-01",
   "what": "China cuts the export VAT rebate on EVs, e-buses and e-truck tractors from 13% to 9%",
   "kind": "Rule change",
   "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
+  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+  "short": "China cuts EV export VAT rebate to 9%"
  },
  {
   "date": "2027-04-01",
@@ -114,13 +129,15 @@
   "what": "VSL PowerHive (Vikram Solar) 7.5 GWh storage assembly plant near Chennai due to start",
   "kind": "India competitor",
   "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/"
+  "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/",
+  "short": "Vikram Solar 7.5 GWh storage plant due to start"
  },
  {
   "date": "2027-04-30",
   "what": "SECI 800 MW / 3.2 GWh storage projects: commissioning deadline",
   "kind": "India tender",
   "source": "SolarQuarter",
-  "url": "https://solarquarter.com/2026/10/05/seci-issues-800-mw-3200-mwh-standalone-bess-tender-under-tariff-based-competitive-bidding/"
+  "url": "https://solarquarter.com/2026/10/05/seci-issues-800-mw-3200-mwh-standalone-bess-tender-under-tariff-based-competitive-bidding/",
+  "short": "SECI 3.2 GWh storage commissioning deadline"
  }
 ]

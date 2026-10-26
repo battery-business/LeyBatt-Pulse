@@ -38,15 +38,19 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 - The calculator takes its starting prices live from `lithium.json` (latest spot), `rawmats.json` (iron phosphate, graphite anode, LFP electrolyte, separator, copper, aluminium — keep these material names exactly) and `weekly.json` (cell and 4-hour system). A routine update needs no other change.
 - `costmodel.json` holds quantities per kWh, fees and calibration with their sources. Change it only when a new public cost model or cathode price justifies it, and update its `notes` to match. If the LFP cathode price in `latest.json` changes a lot, recompute `cathode_processing_usd_t` = cathode price − 0.24 × lithium carbonate price − 0.96 × iron phosphate price (same day where possible).
 
+## Moving strip under the header
+
+The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
+
 ## Morning email
 
 The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) at about 5:15 am IST, built from the data files — the daily run does not send email itself. To make it useful:
 - Write `meta.json` `note` as two short plain sentences (under 45 words in all): first the price picture, then the single most important story. It is the email's opening, read on phones.
-- On a news item that meets an alert rule, add `"alert": true` and `"alert_reason"` (2–4 words, e.g. "1.6 GWh India tender"). Alert rules: an Indian battery-storage tender or award of 1 GWh or more; a change to Indian customs duty, PLI, BIS or battery rules; a Chinese export rebate, export control or tariff change on batteries, cells or lithium; a new product, price cut or large order from a competitor in Indian electric buses, trucks or batteries. Price alerts are worked out by the script.
+- On a news item that meets an alert rule, add `"alert": true` and `"alert_reason"` (2–4 words, e.g. "1.6 GWh India tender"). Also add `"short"`: the story in at most 70 characters, own words, plain (e.g. "Andhra Pradesh tenders 5 GWh of standalone battery storage"). It runs in the moving strip under the site header, so it must make sense on its own. Alert rules: an Indian battery-storage tender or award of 1 GWh or more; a change to Indian customs duty, PLI, BIS or battery rules; a Chinese export rebate, export control or tariff change on batteries, cells or lithium; a new product, price cut or large order from a competitor in Indian electric buses, trucks or batteries. Price alerts are worked out by the script.
 
 ## Dates to watch (`events.json`)
 
-When a news item you add names a future date that matters to a buyer — a tender bid deadline, a commissioning deadline, a rule or tariff that starts on a date, a big factory start, a trade show — also add it to `events.json`: `date` (YYYY-MM-DD; for a month only, use the 1st and add `"precision": "month"`), optional `end` for multi-day events, `what` (one line, own words), `kind` (India tender / Rule change / Supply / India competitor / Event), `source`, `url` (the same article). Past dates drop off the page automatically; delete entries more than 60 days old.
+When a news item you add names a future date that matters to a buyer — a tender bid deadline, a commissioning deadline, a rule or tariff that starts on a date, a big factory start, a trade show — also add it to `events.json`: `date` (YYYY-MM-DD; for a month only, use the 1st and add `"precision": "month"`), optional `end` for multi-day events, `what` (one line, own words), `kind` (India tender / Rule change / Supply / India competitor / Event), `source`, `url` (the same article). Also add `short` (at most 50 characters, written so a countdown can follow it, e.g. "SECI 3.2 GWh storage bids due" → the strip shows "… in 4 days"). Past dates drop off the page automatically; delete entries more than 60 days old.
 
 ## News categories (cover every one each week)
 

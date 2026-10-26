@@ -318,7 +318,9 @@
     view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
     view.addEventListener('click', (e) => { if (TAPE.eatClick) { e.preventDefault(); e.stopPropagation(); TAPE.eatClick = false; } }, true);
     view.addEventListener('wheel', (e) => { if (!TAPE.on || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; e.preventDefault(); TAPE.pos = norm(TAPE.pos + e.deltaX); paint(); later(); }, { passive: false });
-    view.addEventListener('focusin', (e) => { TAPE.focus = true; const b = e.target.closest('.tick'); if (b && TAPE.on) { view.scrollLeft = 0; TAPE.pos = norm(b.offsetLeft - 24); paint(); } });
+    view.addEventListener('focusin', (e) => { // keyboard focus only: a mouse click also focuses, and must not stop the loop
+      let kb = false; try { kb = e.target.matches(':focus-visible'); } catch (err) { /* old browser */ } if (!kb) return;
+      TAPE.focus = true; const b = e.target.closest('.tick'); if (b && TAPE.on) { view.scrollLeft = 0; TAPE.pos = norm(b.offsetLeft - 24); paint(); } });
     view.addEventListener('focusout', () => { TAPE.focus = false; });
     view.addEventListener('scroll', () => { if (TAPE.on && view.scrollLeft) view.scrollLeft = 0; }); // focus can scroll the box; the loop moves by transform only
     let w = view.clientWidth;

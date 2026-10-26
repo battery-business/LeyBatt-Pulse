@@ -220,7 +220,18 @@ def main():
     bad = len(raw) - len(to)
     if bad:
         print(f"::warning::Ignored {bad} entr{'y' if bad == 1 else 'ies'} in MAIL_TO that did not look like an email address.")
-    user = user.strip(" <>\"'")
+    # GMAIL_USER must be one address (the sender). If several were entered, use the first to log in
+    # and treat the rest as extra recipients, so a mix-up between the two secrets still delivers.
+    users = [x.strip(" <>\"'") for x in re.split(r"[,;\s]+", user) if x.strip()]
+    users = [x for x in users if re.fullmatch(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}", x)]
+    if not users:
+        print("::error::Email not sent: GMAIL_USER does not contain a valid Gmail address.")
+        sys.exit(1)
+    user = users[0]
+    if len(users) > 1:
+        print(f"::warning::GMAIL_USER had {len(users)} addresses; used the first to send and added the others to the recipients. Put recipients only in MAIL_TO.")
+        to += [x for x in users[1:] if x not in to]
+    subject = " ".join(subject.split())
     if not (user and pw and to):
         missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]
         print(f"::error::Email not sent: these repository secrets are missing or empty: {', '.join(missing)}")

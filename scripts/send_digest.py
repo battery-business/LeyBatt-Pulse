@@ -15,6 +15,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 import smtplib
 import sys
 from email.message import EmailMessage
@@ -213,29 +214,37 @@ def main():
         print("SUBJECT:", subject)
         return
     user, pw = os.environ.get("GMAIL_USER", "").strip(), os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
-    to = [a.strip() for a in os.environ.get("MAIL_TO", "").split(",") if a.strip()]
+    # accept commas, semicolons, spaces or new lines between addresses; drop anything that is not an address
+    raw = [x.strip(" <>\"'") for x in re.split(r"[,;\s]+", os.environ.get("MAIL_TO", "")) if x.strip()]
+    to = [x for x in raw if re.fullmatch(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}", x)]
+    bad = len(raw) - len(to)
+    if bad:
+        print(f"::warning::Ignored {bad} entr{'y' if bad == 1 else 'ies'} in MAIL_TO that did not look like an email address.")
+    user = user.strip(" <>\"'")
     if not (user and pw and to):
         missing = [n for n, v in (("GMAIL_USER", user), ("GMAIL_APP_PASSWORD", pw), ("MAIL_TO", to)) if not v]
         print(f"::error::Email not sent: these repository secrets are missing or empty: {', '.join(missing)}")
         sys.exit(1)
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    msg["From"] = f"Battery Pulse <{user}>"
-    msg["To"] = user
-    msg["Bcc"] = ", ".join(to)
-    msg.set_content(body_text)
-    msg.add_alternative(body_html, subtype="html")
     try:
+        msg = EmailMessage()
+        msg["Subject"] = subject
+        msg["From"] = f"Battery Pulse <{user}>"
+        msg["To"] = user
+        msg["Bcc"] = ", ".join(to)
+        msg.set_content(body_text)
+        msg.add_alternative(body_html, subtype="html")
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as s:
             s.login(user, pw)
-            s.send_message(msg)
+            refused = s.send_message(msg)
+        if refused:
+            print(f"::warning::Gmail refused {len(refused)} recipient address(es); check MAIL_TO for typos.")
     except smtplib.SMTPAuthenticationError:
         print("::error::Gmail refused the login: check GMAIL_USER and that GMAIL_APP_PASSWORD is a current 16-letter app password (2-Step Verification must be on).")
         sys.exit(1)
     except Exception as e:  # report the kind of failure without exposing secrets
         print(f"::error::Email not sent: {type(e).__name__}: {str(e)[:200]}")
         sys.exit(1)
-    print(f"Sent '{subject}' to {len(to)} recipient(s).")
+    print(f"::notice::Sent '{subject}' to {len(to)} recipient(s).")
 
 
 if __name__ == "__main__":

@@ -4,6 +4,8 @@ Writes data/history/<name>.csv with columns date,usd_t (one row per trading day 
 Tries each source in turn and keeps the saved file if every source fails.
   copper, aluminium: LME cash settlement (daily, via Westmetall), else the World Bank Pink Sheet (monthly),
   else COMEX futures (Yahoo Finance), else IMF monthly via FRED
+  lithium_futures   : Guangzhou Futures Exchange lithium carbonate main contract (LC0), daily close in yuan/t, via Sina
+  fx                : ECB daily euro reference rates, turned into US$-rupee and US$-yuan cross rates
 """
 import csv, io, json, re, sys, urllib.request
 from datetime import datetime, timezone
@@ -127,10 +129,77 @@ def worldbank(column):
     return [], None
 
 
+def sina_futures(symbol):
+    """Daily bars of a China futures main continuous contract (e.g. LC0 = Guangzhou lithium carbonate), yuan/t."""
+    day = datetime.now(timezone.utc).strftime("%Y_%m_%d")
+    url = (f"https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20_{symbol}{day}="
+           f"/InnerFuturesNewService.getDailyKLine?symbol={symbol}&_={day}")
+    try:
+        req = urllib.request.Request(url, headers={**UA, "Referer": "https://finance.sina.com.cn/"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            body = r.read().decode("utf-8", "replace")
+        data = json.loads(body[body.find("([") + 1: body.rfind("])") + 1])
+        rows = [(x["d"], float(x["c"])) for x in data if x.get("c")]
+        if len(rows) > 200:
+            return rows, f"Guangzhou Futures Exchange {symbol} main contract, daily close (via Sina Finance)"
+        print(f"::warning::Sina {symbol}: only {len(rows)} rows; first bytes {body[:80]!r}")
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::Sina {symbol}: {type(e).__name__} {str(e)[:150]}")
+    return [], None
+
+
+def ecb_fx():
+    """Daily ECB reference rates -> US$ to rupee and US$ to yuan (cross rates through the euro)."""
+    import zipfile
+    try:
+        req = urllib.request.Request("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip", headers=UA)
+        with urllib.request.urlopen(req, timeout=90) as r:
+            blob = r.read()
+        with zipfile.ZipFile(io.BytesIO(blob)) as z:
+            text = z.read(z.namelist()[0]).decode("utf-8")
+        rows = []
+        for rec in csv.DictReader(io.StringIO(text)):
+            try:
+                usd, inr, cny = float(rec["USD"]), float(rec[" INR"] if " INR" in rec else rec["INR"]), float(rec[" CNY"] if " CNY" in rec else rec["CNY"])
+            except (KeyError, ValueError, TypeError):
+                try:
+                    k = {kk.strip(): vv for kk, vv in rec.items()}
+                    usd, inr, cny = float(k["USD"]), float(k["INR"]), float(k["CNY"])
+                except (KeyError, ValueError, TypeError):
+                    continue
+            if rec["Date"] >= "2015-01-01":
+                rows.append((rec["Date"], round(inr / usd, 4), round(cny / usd, 4)))
+        rows.sort()
+        if len(rows) > 200:
+            return rows
+        print(f"::warning::ECB: only {len(rows)} rows")
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::ECB rates: {type(e).__name__} {str(e)[:150]}")
+    return []
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     plan = {"copper": [lambda: westmetall("LME_Cu_cash"), lambda: worldbank("Copper"), lambda: yahoo("HG=F", LB_PER_T), lambda: fred("PCOPPUSDM")],
             "aluminium": [lambda: westmetall("LME_Al_cash"), lambda: worldbank("Aluminum"), lambda: yahoo("ALI=F", 1.0), lambda: fred("PALUMUSDM")]}
+    fx = ecb_fx()
+    if fx:
+        with open(OUT / "fx.csv", "w", newline="") as f:
+            w = csv.writer(f); w.writerow(["date", "usd_inr", "usd_cny", "source"])
+            for d, inr, cny in fx:
+                w.writerow([d, inr, cny, "ECB euro reference rates (cross rates)"])
+        print(f"fx: {len(fx)} rows, {fx[0][0]} to {fx[-1][0]}")
+    else:
+        print("::warning::Could not refresh exchange rates; keeping the saved copy.")
+    rows, src = sina_futures("LC0")
+    if rows:
+        with open(OUT / "lithium_futures.csv", "w", newline="") as f:
+            w = csv.writer(f); w.writerow(["date", "cny_t", "source"])
+            for d, v in rows:
+                w.writerow([d, v, src])
+        print(f"lithium: {len(rows)} rows, {rows[0][0]} to {rows[-1][0]}")
+    else:
+        print("::warning::Could not refresh the lithium futures history; keeping the saved copy.")
     for name, tries in plan.items():
         for t in tries:
             rows, src = t()

@@ -264,6 +264,9 @@ def build(today):
         alert_html = (f'<tr><td style="padding:18px 24px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #f59e0b;border-radius:10px">'
                       f'<tr><td style="padding:12px 14px;font-size:14px;color:{NAVY}"><b style="color:{AMBER}">⚠ Alert</b>&nbsp; {E(" · ".join(uniq))}</td></tr></table></td></tr>')
 
+    # NOTE: the hidden preview line below must keep ending with the words "Leyland Pulse briefing".
+    # Aniket's Power Automate flow cuts everything above them, which removes the company's
+    # external-sender CAUTION box before forwarding the digest to the team.
     logo = f"{SITE}assets/email-mark.png"
     body_html = f"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
 <style>@media (max-width:520px){{ .tile {{ display:block !important; width:100% !important; }} .px {{ padding-left:16px !important; padding-right:16px !important; }} }}</style></head>

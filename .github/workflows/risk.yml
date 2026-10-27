@@ -27,18 +27,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Refresh monthly metal price history (IMF series published by FRED)
-        run: |
-          mkdir -p data/history
-          for pair in PCOPPUSDM:copper PALUMUSDM:aluminium; do
-            id="${pair%%:*}"; name="${pair##*:}"
-            if curl -sfL --max-time 60 -A "Mozilla/5.0 (Leyland Pulse)" "https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}" -o "/tmp/${name}.csv" \
-               && head -1 "/tmp/${name}.csv" | grep -qi "date" && [ "$(wc -l < "/tmp/${name}.csv")" -gt 24 ]; then
-              mv "/tmp/${name}.csv" "data/history/${name}_monthly.csv"
-            else
-              echo "::warning::Could not refresh the ${name} price history; keeping the saved copy."
-            fi
-          done
+      - name: Refresh copper and aluminium price history
+        run: python3 scripts/fetch_history.py
       - name: Score price and supply risk
         run: |
           if [ -f scripts/risk.py ]; then python3 scripts/risk.py; else echo "scripts/risk.py not present yet"; fi

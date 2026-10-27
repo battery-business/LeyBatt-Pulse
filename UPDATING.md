@@ -44,7 +44,7 @@ The navy strip loops the full price board, the dates in the next 21 days (from `
 
 ## Risk Navigator (tags only)
 
-The Risk tab scores price and supply risk (0–10) for seven materials. A GitHub Action (`.github/workflows/risk.yml`, `scripts/risk.py`) recalculates everything after each push: never edit `data/risk.json`, `data/risk_history.json`, `data/pricelog.json` or `data/history/` by hand. Weights and the China-share figures live in `data/risk_config.json`; change them only with a new public source.
+The Risk tab scores price and supply risk (0–10) for seven materials. A GitHub Action (`.github/workflows/risk.yml`, `scripts/risk.py`) recalculates everything after each push: never edit `data/risk.json`, `data/risk_history.json`, `data/pricelog.json` or `data/history/` by hand. Weights, the China-share figures, the stated assumptions for each material and the India facts (duties, cell capacity) live in `data/risk_config.json`; change them only with a new public source, and update the matching assumption text. The job also refreshes long price histories into `data/history/`: Guangzhou lithium carbonate futures (daily since July 2023, via Sina), LME copper and aluminium (daily since 2018, via Westmetall) and ECB exchange rates (US$-rupee, US$-yuan).
 
 The one thing a daily update adds is **risk tags** on news items and dates that change the supply or price outlook of a tracked material:
 `"risk": [{"m": "<material>", "k": "supply" or "price", "s": <-3 to 3>}]`

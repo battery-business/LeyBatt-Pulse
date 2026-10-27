@@ -33,7 +33,8 @@
     "floor": 15,
     "upstream": 10,
     "price_news": 10,
-    "price_dates": 10
+    "price_dates": 10,
+    "rupee": 10
    },
    "supply": {
     "concentration": 40,
@@ -49,7 +50,8 @@
     "floor": 25,
     "upstream": 10,
     "price_news": 0,
-    "price_dates": 20
+    "price_dates": 20,
+    "rupee": 5
    },
    "supply": {
     "concentration": 55,
@@ -70,7 +72,11 @@
     "what": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
-   }
+   },
+   "assumptions": [
+    "Price history is the Guangzhou Futures Exchange lithium carbonate main contract (daily close since July 2023), converted to US$ at each day's ECB exchange rate. When the exchange moves to the next contract month the series can jump slightly.",
+    "Forecasts are the average of the bank and broker forecasts tracked on the Raw materials page, each taken at the middle of its range."
+   ]
   },
   {
    "id": "cathode",
@@ -84,7 +90,11 @@
     "what": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
-   }
+   },
+   "assumptions": [
+    "There is no free daily LFP cathode price. Its trend and swings are worked out from the lithium price, using the site's cost model: about 0.24 t of lithium carbonate per tonne of cathode, plus iron phosphate and processing held at today's values, then scaled to SMM's latest cathode price.",
+    "This assumes iron phosphate and processing fees move much less than lithium, which held through 2025-26 (iron phosphate rose about 8% from July to October 2026 while lithium swung far more)."
+   ]
   },
   {
    "id": "graphite",
@@ -97,6 +107,21 @@
     "what": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   },
+   "assumptions": [
+    "There is no free regular graphite anode price, so the two price drivers are assumptions, marked as such: the trend is set slightly above flat because SMM's October headlines describe artificial graphite anode as slightly raised and its raw materials as 'more likely to rise than fall' (headlines only; the articles could not be opened), and swings are set low because anode prices have moved little since early 2026.",
+    "China's export controls on artificial graphite anode, paused until 10 Nov 2026, would add licence costs and delays for buyers outside China; that date is counted as a price and supply risk."
+   ],
+   "assumed": {
+    "momentum": {
+     "score": 5.5,
+     "detail": "Assumed slightly rising: SMM headlines in October describe artificial graphite anode as slightly raised before the 1–8 Oct holiday and stable after, and its raw materials as 'more likely to rise than fall' (headlines only, not verified)",
+     "url": "https://news.metal.com/newscontent/104173668-artificial-graphite-more-likely-to-rise-than-fall-natural-graphite-consolidates-at-lows-smm-lithium-battery-anode-raw-material-market-weekly-review"
+    },
+    "volatility": {
+     "score": 1.0,
+     "detail": "Assumed low (about 10% a year): the anode price used on this site has not changed since Feb 2026 and SMM's weekly reviews mostly report stable prices"
+    }
    }
   },
   {
@@ -111,7 +136,11 @@
     "what": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
-   }
+   },
+   "assumptions": [
+    "Price history is InfoLink's weekly 314 Ah storage cell average (China, excluding VAT).",
+    "The cost to make comes from the site's cell cost model (SMM-based quantities and today's material prices)."
+   ]
   },
   {
    "id": "cell_ev",
@@ -125,7 +154,11 @@
     "what": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
-   }
+   },
+   "assumptions": [
+    "TrendForce publishes the EV cell price only every few months in its free reports, so the recent trend uses TrendForce's latest reported move plus the storage cell's 3-month trend, and swings are assumed to match storage cells (same LFP chemistry, largely the same makers).",
+    "The cost to make uses the storage cell cost model; EV cells cost a little more to make, so the real margin is thinner than shown."
+   ]
   },
   {
    "id": "copper",
@@ -139,7 +172,10 @@
     "what": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
     "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
     "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
-   }
+   },
+   "assumptions": [
+    "Price history is the LME cash settlement price, daily since 2018 (via Westmetall)."
+   ]
   },
   {
    "id": "aluminium",
@@ -153,7 +189,12 @@
     "what": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
     "source": "International Aluminium Institute, via Mysteel",
     "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025"
-   }
+   },
+   "assumptions": [
+    "Price history is the LME cash settlement price, daily since 2018 (via Westmetall).",
+    "Back-test warning: for aluminium, a high trend-and-swings score has not been followed by rises (since 2018 prices more often fell afterwards), so its price score is marked low confidence. Read it as a sign of possible swings, not of rising prices."
+   ],
+   "conf_cap": "Low"
   }
  ],
  "playbook": {
@@ -186,5 +227,41 @@
     "Normal ordering; keep watching the dates ahead"
    ]
   }
+ },
+ "india": {
+  "duties": [
+   {
+    "text": "Standard basic customs duty on lithium-ion accumulators (tariff item 8507 60 00) is 20%.",
+    "source": "CBIC Circular 45/2026-Customs, 9 Oct 2026, via TaxGuru",
+    "url": "https://taxguru.in/custom-duty/cbic-clarifies-10-percent-customs-duty-industrial-bess-power-bank-exclusion-circular-no-45-2026-customs.html"
+   },
+   {
+    "text": "Stationary, grid-scale and industrial battery storage systems qualify for a concessional 10% (Notification 45/2025-Customs, S. No. 325); battery packs for making electric vehicles are excluded from that concession.",
+    "source": "CBIC Circular 45/2026-Customs, via TaxGuru; Mercom, 12 Oct 2026",
+    "url": "https://www.mercomindia.com/finance-ministry-clarifies-battery-storage-systems-attract-10-customs-duty"
+   },
+   {
+    "text": "On top of basic duty: social welfare surcharge of 10% of the duty, and 18% IGST (normally reclaimable as input credit).",
+    "source": "EximPe tariff page for 85076000, May 2026",
+    "url": "https://eximpe.com/hsncode-finder/85076000"
+   },
+   {
+    "text": "Union Budget 2026-27 extended nil duty on capital goods for making lithium-ion cells. The duty on cells imported to build EV packs could not be confirmed from a public source; check the current notification before using a figure.",
+    "source": "pv magazine India, 2 Feb 2026",
+    "url": "https://www.pv-magazine-india.com/2026/02/02/indias-union-budget-2026-27-removes-import-duties-on-solar-glass-inputs-lithium-battery-cell-machinery-and-critical-minerals-processing-equipment/"
+   }
+  ],
+  "capacity": [
+   {
+    "text": "India has about 86 GWh of battery manufacturing capacity, but 92% of it is pack or container assembly and only about 8% (roughly 7 GWh) is cell making, much of it still being built.",
+    "source": "Mercom India, 22 Oct 2026",
+    "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh"
+   },
+   {
+    "text": "Under the ₹18,100-crore ACC PLI scheme only Ola runs cell capacity so far (2.5 of its planned 20 GWh), no maker has yet been paid an incentive, and cell imports keep rising.",
+    "source": "Business Today, 22 Oct 2026",
+    "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22"
+   }
+  ]
  }
 }

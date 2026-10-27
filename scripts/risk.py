@@ -88,6 +88,8 @@ class Inputs:
         self.news = load("news.json", [])
         self.events = load("events.json", [])
         self.pricelog = load("pricelog.json", [])
+        self.fx = self._csv("fx.csv", lambda r: (d(r["date"]), float(r["usd_inr"]), float(r["usd_cny"])))
+        self.lifut = self._csv("lithium_futures.csv", lambda r: (d(r["date"]), float(r["cny_t"])))
         self.hist = {}
         for name in ("copper", "aluminium"):
             p = DATA / "history" / f"{name}.csv"
@@ -95,14 +97,44 @@ class Inputs:
                 with open(p) as f:
                     self.hist[name] = [(d(r["date"]), float(r["usd_t"]), r.get("source", "")) for r in csv.DictReader(f) if r.get("usd_t")]
 
+    @staticmethod
+    def _csv(name, row):
+        p = DATA / "history" / name
+        if not p.exists():
+            return []
+        out = []
+        with open(p) as f:
+            for r in csv.DictReader(f):
+                try:
+                    out.append(row(r))
+                except (KeyError, ValueError):
+                    continue
+        return sorted(out)
+
+    def fx_at(self, t, col):
+        """US$ to rupee (col 1) or US$ to yuan (col 2) on the last ECB day on or before t."""
+        lo, hi = 0, len(self.fx) - 1
+        if hi < 0 or self.fx[0][0] > t:
+            return None
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if self.fx[mid][0] <= t:
+                lo = mid
+            else:
+                hi = mid - 1
+        return self.fx[lo][col]
+
     # the latest price of each material, with where it came from
     def current(self):
         L, R = self.latest, self.raw
         num = lambda s: float(re.sub(r"[^\d.]", "", str(s)) or 0)  # noqa: E731
         out = {}
-        spot = sorted((r for r in self.lithium if r.get("series") == "Spot"), key=lambda r: r["date"])
-        if spot:
-            r = spot[-1]; out["lithium"] = (d(r["date"]), float(r["usd_t"]), "China spot · " + r["source"], r["url"])
+        if "lithium" in L:  # the site's headline lithium price (Guangzhou futures settlement)
+            r = L["lithium"]; out["lithium"] = (asof_date(r["asof"], self.today), num(r["price"]), r["source"], r.get("url"))
+        else:
+            spot = sorted((r for r in self.lithium if r.get("series") == "Spot"), key=lambda r: r["date"])
+            if spot:
+                r = spot[-1]; out["lithium"] = (d(r["date"]), float(r["usd_t"]), "China spot · " + r["source"], r["url"])
         if "cathode" in L:
             r = L["cathode"]; out["cathode"] = (asof_date(r["asof"], self.today), num(r["price"]), r["source"], r.get("url"))
         if "Graphite anode" in R:
@@ -137,10 +169,22 @@ class Inputs:
         def add(dt, v):
             if dt and v:
                 pts[dt] = float(v)
+        if mid == "lithium" and self.lifut and self.fx:
+            for dt, cny in self.lifut:
+                rate = self.fx_at(dt, 2)
+                if rate:
+                    add(dt, round(cny / rate, 1))
+            return sorted(pts.items())
         if mid == "lithium":
             for r in self.lithium:
                 if r.get("series") == "Spot":
                     add(d(r["date"]), r["usd_t"])
+        elif mid == "rupee":
+            for dt, inr, _ in self.fx:
+                add(dt, inr)
+            return sorted(pts.items())
+        elif mid == "cathode":
+            return self.cathode_series()
         elif mid == "cell_ess":
             for r in self.cell314:
                 add(d(r["date"]), r["usd_kwh"])
@@ -156,6 +200,25 @@ class Inputs:
             if r["m"] == mid:
                 add(d(r["date"]), r["v"])
         return sorted(pts.items())
+
+
+    def cathode_series(self):
+        """LFP cathode price worked out from lithium: 0.24 t lithium carbonate + 0.96 t iron phosphate + processing
+        per tonne (site cost model), iron phosphate and processing held at today's values, scaled to SMM's latest price."""
+        li = self.series("lithium")
+        cm, R = self.cm, self.raw
+        try:
+            lc, fer = cm.get("lc_per_t_lfp", 0.24), cm.get("fepo4_per_t_lfp", 0.96)
+            fe, proc = float(R["Iron phosphate"]["usd"]), float(cm["cathode_processing_usd_t"])
+        except (KeyError, TypeError, ValueError):
+            return []
+        raw = [(dt, lc * v + fer * fe + proc) for dt, v in li]
+        cur = self.current().get("cathode")
+        if not raw or not cur:
+            return []
+        base = value_at(raw, cur[0]) or raw[-1][1]
+        k = cur[1] / base
+        return [(dt, round(v * k, 1)) for dt, v in raw]
 
 
 # ---------------------------------------------------------------- drivers
@@ -274,11 +337,44 @@ def score_material(inp, mat, t, horizon, li_price_score=None, light=False):
         p["momentum"] = {"label": "Recent price trend", "score": r1(clip(5 + 25 * x)), "detail": det + " (rising prices push the score up)"}
     else:
         p["momentum"] = {"label": "Recent price trend", "score": None, "detail": "Not enough price history yet"}
+    if mid == "cell_ev" and p["momentum"]["score"] is None:
+        ess = inp.series("cell_ess")
+        e3 = change(ess, t, 90)
+        card = inp.latest.get("evcell") or {}
+        mm = re.search(r"([+−-]?\d+(?:\.\d+)?)%", str(card.get("move", "")))
+        card_dt = asof_date(card.get("asof"), inp.today) if card else None
+        e1 = (float(mm.group(1).replace("−", "-")) / 100) if (mm and card_dt and 0 <= (t - card_dt).days <= 30) else change(ess, t, 30)
+        if e1 is not None or e3 is not None:
+            x = (0.6 * e1 + 0.4 * e3) if (e1 is not None and e3 is not None) else (e1 if e1 is not None else e3)
+            src1 = "TrendForce's latest EV cell move" if (mm and card_dt and 0 <= (t - card_dt).days <= 30) else "storage cell 1-month change"
+            p["momentum"] = {"label": "Recent price trend", "score": r1(clip(5 + 25 * x)), "assumed": True,
+                             "detail": f"{src1} {pct(e1) if e1 is not None else 'n/a'} · storage cell 3-month change {pct(e3) if e3 is not None else 'n/a'} (EV cell readings are too sparse; storage cells used as a stand-in)"}
     vol, n = volatility(s, t)
+    vol_proxy = False
+    if vol is None and mid == "cell_ev":
+        vol, n = volatility(inp.series("cell_ess"), t); vol_proxy = vol is not None
     if vol is not None:
-        p["volatility"] = {"label": "How much the price swings", "score": r1(clip((vol - 0.05) / 0.55 * 10)), "detail": f"About {vol * 100:.0f}% a year, from {n} price moves in the last 6 months"}
+        p["volatility"] = {"label": "How much the price swings", "score": r1(clip((vol - 0.05) / 0.55 * 10)),
+                           "detail": f"About {vol * 100:.0f}% a year, from {n} price moves in the last 6 months" + (" of storage cells (assumed to swing like EV cells)" if vol_proxy else ""),
+                           **({"assumed": True} if vol_proxy else {})}
     else:
         p["volatility"] = {"label": "How much the price swings", "score": None, "detail": "Not enough readings in the last 6 months"}
+
+    for key, av in (mat.get("assumed") or {}).items():
+        if key in p and p[key]["score"] is None:
+            p[key] = {**p[key], "score": av["score"], "detail": av["detail"], "assumed": True, **({"url": av["url"]} if av.get("url") else {})}
+
+    fx = inp.series("rupee")
+    f1, f3 = change(fx, t, 30), change(fx, t, 90)
+    if f1 is not None or f3 is not None:
+        x = (0.6 * f1 + 0.4 * f3) if (f1 is not None and f3 is not None) else (f1 if f1 is not None else f3)
+        now = value_at(fx, t)
+        word = lambda v: ("weaker" if v > 0 else "stronger") + f" by {abs(v) * 100:.1f}%"  # noqa: E731
+        p["rupee"] = {"label": "Rupee against the US$", "score": r1(clip(5 + 100 * x)),
+                      "detail": f"US$1 = ₹{now:.2f}; rupee {word(f1) if f1 is not None else 'n/a'} in a month, {word(f3) if f3 is not None else 'n/a'} in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+                      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"}
+    else:
+        p["rupee"] = {"label": "Rupee against the US$", "score": None, "detail": "No exchange-rate history"}
 
     if mid == "lithium" and inp.forecasts:
         spot = value_at(s, t)
@@ -336,7 +432,16 @@ def score_material(inp, mat, t, horizon, li_price_score=None, light=False):
     ss, sparts = combine(q, W["supply"])
     have = sum(1 for k in ("momentum", "volatility", "expectations", "floor", "upstream") if p[k]["score"] is not None)
     obs = len([1 for dt, _ in s if dt >= t - timedelta(days=180)])
+    assumed = sum(1 for k in p if p[k].get("assumed") and p[k].get("score") is not None)
+    if mid == "cathode":
+        obs = len([1 for dt, _ in inp.series("lithium") if dt >= t - timedelta(days=180)])
     conf = "High" if (obs >= 15 and have >= 3) else "Medium" if (obs >= 4 and have >= 2) else "Low"
+    if mid == "cathode" and conf == "High":
+        conf = "Medium"  # trend is worked out from lithium, not measured
+    if mat.get("conf_cap") == "Low" or assumed >= 2:
+        conf = "Low"
+    elif assumed == 1 and conf == "High":
+        conf = "Medium"
     if ps is not None and have == 0:
         ps, conf = None, "Low"
     return {"price": {"score": ps, "level": level(cfg, ps), "drivers": pparts},
@@ -363,13 +468,13 @@ def score_all(inp, t, light=False):
 
 
 # ---------------------------------------------------------------- back-test
-def backtest(inp, mid, step_days=30, ahead=91):
-    """Score each month from price trend and swings only, then look at what the price did over the next 3 months."""
+def backtest(inp, mid, step_days=14, ahead=91):
+    """Score every two weeks from price trend and swings only (the drivers that can be rebuilt for the past),
+    then compare what the price did over the next 3 months after the highest third of scores and the lowest third."""
     s = inp.series(mid)
-    if len(s) < 60:
+    if len(s) < 150:
         return None
     first, last = s[0][0] + timedelta(days=200), s[-1][0] - timedelta(days=ahead)
-    cfgw = {"momentum": 30, "volatility": 20}
     rows = []
     t = first
     while t <= last:
@@ -377,25 +482,46 @@ def backtest(inp, mid, step_days=30, ahead=91):
         vol, _ = volatility(s, t)
         if m1 is not None and m3 is not None and vol is not None:
             ms = clip(5 + 25 * (0.6 * m1 + 0.4 * m3)); vs = clip((vol - 0.05) / 0.55 * 10)
-            sc = (ms * cfgw["momentum"] + vs * cfgw["volatility"]) / 50
+            sc = (ms * 30 + vs * 20) / 50
             fut = change(s, t + timedelta(days=ahead), ahead)
             if fut is not None:
                 rows.append((sc, fut))
         t += timedelta(days=step_days)
     if len(rows) < 24:
         return None
-    hi = [f for sc, f in rows if sc >= 5.5]
-    lo = [f for sc, f in rows if sc < 4.5]
-    allr = [f for _, f in rows]
-    stat = lambda xs: {"n": len(xs), "rise5": round(100 * sum(1 for x in xs if x > 0.05) / len(xs)) if xs else None,  # noqa: E731
-                       "avg": round(100 * sum(xs) / len(xs), 1) if xs else None, "big": round(100 * sum(1 for x in xs if abs(x) > 0.10) / len(xs)) if xs else None}
-    return {"material": mid, "from": s[0][0].isoformat(), "to": s[-1][0].isoformat(), "months": len(rows),
-            "high": stat(hi), "low": stat(lo), "all": stat(allr)}
+    srt = sorted(rows, key=lambda r: r[0])
+    third = len(srt) // 3
+    lo, hi = [f for _, f in srt[:third]], [f for _, f in srt[-third:]]
+    cut_lo, cut_hi = srt[third - 1][0], srt[-third][0]
+
+    def stat(xs):
+        return {"n": len(xs), "rise5": round(100 * sum(1 for x in xs if x > 0.05) / len(xs)),
+                "fall5": round(100 * sum(1 for x in xs if x < -0.05) / len(xs)),
+                "big10": round(100 * sum(1 for x in xs if abs(x) > 0.10) / len(xs)),
+                "avg": round(100 * sum(xs) / len(xs), 1)}
+    names = {"lithium": "Lithium carbonate", "copper": "Copper", "aluminium": "Aluminium"}
+    return {"material": mid, "name": names.get(mid, mid), "from": s[0][0].isoformat(), "to": s[-1][0].isoformat(),
+            "samples": len(rows), "step_days": step_days, "cut_low": round(cut_lo, 1), "cut_high": round(cut_hi, 1),
+            "high": stat(hi), "low": stat(lo), "all": stat([f for _, f in rows])}
 
 
 # ---------------------------------------------------------------- main
 def compact(res):
     return {m: [r["price"]["score"], r["supply"]["score"]] for m, r in res.items()}
+
+
+def india_block(inp, today):
+    fx = inp.series("rupee")
+    out = dict(inp.cfg.get("india", {}))
+    if fx:
+        last_dt, last = fx[-1]
+        wk = [(dt, v) for dt, v in fx if dt >= today - timedelta(days=400)]
+        thin = [[dt.isoformat(), v] for i, (dt, v) in enumerate(wk) if i % 3 == 0 or i == len(wk) - 1]
+        out["fx"] = {"date": last_dt.isoformat(), "usd_inr": last, "usd_cny": inp.fx[-1][2],
+                     "m1": change(fx, today, 30), "m3": change(fx, today, 90), "y1": change(fx, today, 365),
+                     "series": thin, "source": "ECB euro reference rates (cross rates)",
+                     "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"}
+    return out
 
 
 def main():
@@ -437,7 +563,7 @@ def main():
     mats = []
     for m in inp.cfg["materials"]:
         mid = m["id"]
-        ent = {"id": mid, "name": m["name"], "short": m["short"], "group": m["group"], "unit": m["unit"]}
+        ent = {"id": mid, "name": m["name"], "short": m["short"], "group": m["group"], "unit": m["unit"], "assumptions": m.get("assumptions", [])}
         if mid in cur:
             dt, v, src, url = cur[mid]
             ent["now"] = {"value": v, "date": dt.isoformat(), "source": src, "url": url}
@@ -451,16 +577,16 @@ def main():
         ent["trend"] = [[x["date"], *x.get("h3", {}).get(mid, [None, None])] for x in hist][-26:]
         mats.append(ent)
 
-    bt = [b for b in (backtest(inp, "copper"), backtest(inp, "aluminium"), backtest(inp, "lithium")) if b]
+    bt = [b for b in (backtest(inp, "lithium"), backtest(inp, "copper"), backtest(inp, "aluminium")) if b]
     out = {"asof": today.isoformat(), "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "horizons": inp.cfg["horizons"], "bands": inp.cfg["bands"], "weights": inp.cfg["weights"],
-           "playbook": inp.cfg["playbook"], "materials": mats, "backtest": bt}
+           "playbook": inp.cfg["playbook"], "materials": mats, "backtest": bt, "india": india_block(inp, today)}
     save("risk.json", out)
     for m in mats:
         r = m["h3"]
         print(f"{m['short']:<14} price {r['price']['score']!s:>4} {r['price']['level'] or '-':<9} supply {r['supply']['score']!s:>4} {r['supply']['level']:<9} conf {r['confidence']}")
     for b in bt:
-        print("backtest", b)
+        print("backtest", b["material"], b["from"], b["to"], b["samples"], "top", b["high"], "bottom", b["low"])
 
 
 if __name__ == "__main__":

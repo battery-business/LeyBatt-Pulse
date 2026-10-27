@@ -75,6 +75,16 @@
     "m": "cell_ess",
     "k": "supply",
     "s": 1
+   },
+   {
+    "m": "graphite",
+    "k": "price",
+    "s": 2
+   },
+   {
+    "m": "cathode",
+    "k": "price",
+    "s": 1
    }
   ]
  },

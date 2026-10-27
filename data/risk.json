@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-27",
- "generated": "2026-10-27T10:15:18+00:00",
+ "generated": "2026-10-27T10:18:19+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -34,7 +34,8 @@
     "floor": 15,
     "upstream": 10,
     "price_news": 10,
-    "price_dates": 10
+    "price_dates": 10,
+    "rupee": 10
    },
    "supply": {
     "concentration": 40,
@@ -50,7 +51,8 @@
     "floor": 25,
     "upstream": 10,
     "price_news": 0,
-    "price_dates": 20
+    "price_dates": 20,
+    "rupee": 5
    },
    "supply": {
     "concentration": 55,
@@ -97,38 +99,50 @@
    "short": "Lithium",
    "group": "Raw material",
    "unit": "/t",
+   "assumptions": [
+    "Price history is the Guangzhou Futures Exchange lithium carbonate main contract (daily close since July 2023), converted to US$ at each day's ECB exchange rate. When the exchange moves to the next contract month the series can jump slightly.",
+    "Forecasts are the average of the bank and broker forecasts tracked on the Raw materials page, each taken at the middle of its range."
+   ],
    "now": {
-    "value": 14670.0,
+    "value": 14220.0,
     "date": "2026-10-26",
-    "source": "China spot · SMM daily review",
+    "source": "SMM (GFEX settlement)",
     "url": "https://news.metal.com/newscontent/104179171-smm-lithium-carbonate-daily-review-on-october-26-spot-lithium-carbonate-stopped-falling-and-rebounded-ending-its-previous-consecutive-decline"
    },
    "h3": {
     "price": {
-     "score": 2.9,
+     "score": 3.9,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −25.5% · 3 months −31.7% (rising prices push the score up)",
+       "detail": "1 month −20.3% · 3 months −32.4% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 40
+       "weight": 35
       },
       {
        "label": "How much the price swings",
-       "score": 5.0,
-       "detail": "About 33% a year, from 19 price moves in the last 6 months",
+       "score": 8.4,
+       "detail": "About 51% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 27
+       "weight": 24
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 12
       },
       {
        "label": "What forecasters expect",
-       "score": 5.8,
-       "detail": "Average forecast +4.8% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 5.7,
+       "detail": "Average forecast +4.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
-       "weight": 20
+       "weight": 18
       },
       {
        "label": "Room above the cost to make",
@@ -179,7 +193,7 @@
         }
        ],
        "key": "price_news",
-       "weight": 13
+       "weight": 12
       },
       {
        "label": "Known cost changes ahead",
@@ -190,7 +204,7 @@
        "weight": 0
       }
      ],
-     "change": 0.1
+     "change": 0.2
     },
     "supply": {
      "score": 4.2,
@@ -239,34 +253,42 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 20
+    "obs180": 119
    },
    "h12": {
     "price": {
-     "score": 4.5,
+     "score": 5.3,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −25.5% · 3 months −31.7% (rising prices push the score up)",
+       "detail": "1 month −20.3% · 3 months −32.4% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 18
+       "weight": 17
       },
       {
        "label": "How much the price swings",
-       "score": 5.0,
-       "detail": "About 33% a year, from 19 price moves in the last 6 months",
+       "score": 8.4,
+       "detail": "About 51% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 27
+       "weight": 25
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 8
       },
       {
        "label": "What forecasters expect",
-       "score": 5.8,
-       "detail": "Average forecast +4.8% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 5.7,
+       "detail": "Average forecast +4.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
-       "weight": 55
+       "weight": 50
       },
       {
        "label": "Room above the cost to make",
@@ -328,7 +350,7 @@
        "weight": 0
       }
      ],
-     "change": 0.3
+     "change": 0.2
     },
     "supply": {
      "score": 5.6,
@@ -377,32 +399,32 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 20
+    "obs180": 119
    },
    "trend": [
     [
      "2026-08-04",
-     1.2,
+     3.5,
      4.0
     ],
     [
      "2026-08-11",
-     2.0,
+     3.9,
      4.0
     ],
     [
      "2026-08-18",
-     2.5,
+     4.7,
      4.0
     ],
     [
      "2026-08-25",
-     3.7,
+     4.9,
      4.0
     ],
     [
      "2026-09-01",
-     3.5,
+     5.6,
      4.0
     ],
     [
@@ -412,37 +434,37 @@
     ],
     [
      "2026-09-15",
-     3.9,
+     3.4,
      4.0
     ],
     [
      "2026-09-22",
-     2.8,
+     3.6,
      4.0
     ],
     [
      "2026-09-29",
-     2.8,
+     3.5,
      4.0
     ],
     [
      "2026-10-06",
-     2.3,
+     3.6,
      4.4
     ],
     [
      "2026-10-13",
-     2.5,
+     3.6,
      4.0
     ],
     [
      "2026-10-20",
-     2.8,
+     3.7,
      4.2
     ],
     [
      "2026-10-27",
-     2.9,
+     3.9,
      4.2
     ]
    ]
@@ -453,6 +475,10 @@
    "short": "LFP cathode",
    "group": "Cell material",
    "unit": "/t",
+   "assumptions": [
+    "There is no free daily LFP cathode price. Its trend and swings are worked out from the lithium price, using the site's cost model: about 0.24 t of lithium carbonate per tonne of cathode, plus iron phosphate and processing held at today's values, then scaled to SMM's latest cathode price.",
+    "This assumes iron phosphate and processing fees move much less than lithium, which held through 2025-26 (iron phosphate rose about 8% from July to October 2026 while lithium swung far more)."
+   ],
    "now": {
     "value": 6550.0,
     "date": "2026-10-22",
@@ -461,22 +487,30 @@
    },
    "h3": {
     "price": {
-     "score": 4.5,
-     "level": "Elevated",
+     "score": 3.8,
+     "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": null,
-       "detail": "Not enough price history yet",
+       "score": 1.2,
+       "detail": "1 month −11.8% · 3 months −20.1% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 0
+       "weight": 33
       },
       {
        "label": "How much the price swings",
-       "score": null,
-       "detail": "Not enough readings in the last 6 months",
+       "score": 4.9,
+       "detail": "About 32% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 0
+       "weight": 22
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 11
       },
       {
        "label": "What forecasters expect",
@@ -494,10 +528,10 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 2.9,
-       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 50
+       "weight": 11
       },
       {
        "label": "Price news",
@@ -513,18 +547,25 @@
         }
        ],
        "key": "price_news",
-       "weight": 50
+       "weight": 11
       },
       {
        "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
+       "score": 6.3,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
        "key": "price_dates",
-       "weight": 0
+       "weight": 11
       }
      ],
-     "change": 1.7
+     "change": 0.4
     },
     "supply": {
      "score": 5.8,
@@ -570,27 +611,35 @@
      ],
      "change": 0.1
     },
-    "confidence": "Low",
-    "obs180": 2
+    "confidence": "Medium",
+    "obs180": 119
    },
    "h12": {
     "price": {
-     "score": 4.5,
+     "score": 4.8,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": null,
-       "detail": "Not enough price history yet",
+       "score": 1.2,
+       "detail": "1 month −11.8% · 3 months −20.1% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 0
+       "weight": 17
       },
       {
        "label": "How much the price swings",
-       "score": null,
-       "detail": "Not enough readings in the last 6 months",
+       "score": 4.9,
+       "detail": "About 32% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 0
+       "weight": 25
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 8
       },
       {
        "label": "What forecasters expect",
@@ -608,10 +657,10 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.5,
-       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "score": 5.3,
+       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 100
+       "weight": 17
       },
       {
        "label": "Price news",
@@ -631,14 +680,21 @@
       },
       {
        "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
+       "score": 6.5,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
        "key": "price_dates",
-       "weight": 0
+       "weight": 33
       }
      ],
-     "change": 0.3
+     "change": 0.1
     },
     "supply": {
      "score": 6.9,
@@ -684,38 +740,38 @@
      ],
      "change": 0.0
     },
-    "confidence": "Low",
-    "obs180": 2
+    "confidence": "Medium",
+    "obs180": 119
    },
    "trend": [
     [
      "2026-08-04",
-     1.2,
+     3.5,
      5.1
     ],
     [
      "2026-08-11",
-     2.0,
+     4.1,
      5.1
     ],
     [
      "2026-08-18",
-     2.5,
+     4.9,
      5.5
     ],
     [
      "2026-08-25",
-     3.7,
+     5.0,
      5.6
     ],
     [
      "2026-09-01",
-     3.5,
+     5.5,
      5.7
     ],
     [
      "2026-09-08",
-     4.6,
+     4.8,
      5.5
     ],
     [
@@ -725,32 +781,32 @@
     ],
     [
      "2026-09-22",
-     2.8,
+     4.1,
      5.6
     ],
     [
      "2026-09-29",
-     2.8,
+     3.4,
      5.6
     ],
     [
      "2026-10-06",
-     2.3,
+     4.0,
      5.7
     ],
     [
      "2026-10-13",
-     2.5,
+     3.5,
      5.7
     ],
     [
      "2026-10-20",
-     2.8,
+     3.4,
      5.7
     ],
     [
      "2026-10-27",
-     4.5,
+     3.8,
      5.8
     ]
    ]
@@ -761,6 +817,10 @@
    "short": "Graphite",
    "group": "Cell material",
    "unit": "/t",
+   "assumptions": [
+    "There is no free regular graphite anode price, so the two price drivers are assumptions, marked as such: the trend is set slightly above flat because SMM's October headlines describe artificial graphite anode as slightly raised and its raw materials as 'more likely to rise than fall' (headlines only; the articles could not be opened), and swings are set low because anode prices have moved little since early 2026.",
+    "China's export controls on artificial graphite anode, paused until 10 Nov 2026, would add licence costs and delays for buyers outside China; that date is counted as a price and supply risk."
+   ],
    "now": {
     "value": 3710.0,
     "date": "2026-02-01",
@@ -769,10 +829,80 @@
    },
    "h3": {
     "price": {
-     "score": null,
-     "level": null,
-     "drivers": [],
-     "change": null
+     "score": 4.4,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 5.5,
+       "detail": "Assumed slightly rising: SMM headlines in October describe artificial graphite anode as slightly raised before the 1–8 Oct holiday and stable after, and its raw materials as 'more likely to rise than fall' (headlines only, not verified)",
+       "assumed": true,
+       "url": "https://news.metal.com/newscontent/104173668-artificial-graphite-more-likely-to-rise-than-fall-natural-graphite-consolidates-at-lows-smm-lithium-battery-anode-raw-material-market-weekly-review",
+       "key": "momentum",
+       "weight": 43
+      },
+      {
+       "label": "How much the price swings",
+       "score": 1.0,
+       "detail": "Assumed low (about 10% a year): the anode price used on this site has not changed since Feb 2026 and SMM's weekly reviews mostly report stable prices",
+       "assumed": true,
+       "key": "volatility",
+       "weight": 29
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 14
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 7.7,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 14
+      }
+     ],
+     "change": 0.2
     },
     "supply": {
      "score": 6.6,
@@ -817,10 +947,80 @@
    },
    "h12": {
     "price": {
-     "score": null,
-     "level": null,
-     "drivers": [],
-     "change": null
+     "score": 5.0,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 5.5,
+       "detail": "Assumed slightly rising: SMM headlines in October describe artificial graphite anode as slightly raised before the 1–8 Oct holiday and stable after, and its raw materials as 'more likely to rise than fall' (headlines only, not verified)",
+       "assumed": true,
+       "url": "https://news.metal.com/newscontent/104173668-artificial-graphite-more-likely-to-rise-than-fall-natural-graphite-consolidates-at-lows-smm-lithium-battery-anode-raw-material-market-weekly-review",
+       "key": "momentum",
+       "weight": 20
+      },
+      {
+       "label": "How much the price swings",
+       "score": 1.0,
+       "detail": "Assumed low (about 10% a year): the anode price used on this site has not changed since Feb 2026 and SMM's weekly reviews mostly report stable prices",
+       "assumed": true,
+       "key": "volatility",
+       "weight": 30
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 10
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 7.9,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 40
+      }
+     ],
+     "change": 0.1
     },
     "supply": {
      "score": 7.9,
@@ -866,67 +1066,67 @@
    "trend": [
     [
      "2026-08-04",
-     null,
+     4.0,
      5.0
     ],
     [
      "2026-08-11",
-     null,
+     3.9,
      5.0
     ],
     [
      "2026-08-18",
-     null,
+     4.1,
      5.6
     ],
     [
      "2026-08-25",
-     null,
+     4.1,
      5.7
     ],
     [
      "2026-09-01",
-     null,
+     4.2,
      5.8
     ],
     [
      "2026-09-08",
-     null,
+     4.2,
      5.9
     ],
     [
      "2026-09-15",
-     null,
+     4.4,
      6.0
     ],
     [
      "2026-09-22",
-     null,
+     4.4,
      6.1
     ],
     [
      "2026-09-29",
-     null,
+     4.5,
      6.2
     ],
     [
      "2026-10-06",
-     null,
+     4.6,
      6.3
     ],
     [
      "2026-10-13",
-     null,
+     4.3,
      6.4
     ],
     [
      "2026-10-20",
-     null,
+     4.2,
      6.5
     ],
     [
      "2026-10-27",
-     null,
+     4.4,
      6.6
     ]
    ]
@@ -937,6 +1137,10 @@
    "short": "Storage cell",
    "group": "Cell",
    "unit": "/kWh",
+   "assumptions": [
+    "Price history is InfoLink's weekly 314 Ah storage cell average (China, excluding VAT).",
+    "The cost to make comes from the site's cell cost model (SMM-based quantities and today's material prices)."
+   ],
    "now": {
     "value": 47.3,
     "date": "2026-10-21",
@@ -945,7 +1149,7 @@
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.3,
      "level": "Elevated",
      "drivers": [
       {
@@ -953,14 +1157,22 @@
        "score": 4.7,
        "detail": "1 month −1.9% · 3 months −0.4% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 32
+       "weight": 29
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
        "detail": "About 6% a year, from 14 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 21
+       "weight": 19
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 10
       },
       {
        "label": "What forecasters expect",
@@ -972,16 +1184,16 @@
       {
        "label": "Room above the cost to make",
        "score": 6.4,
-       "detail": "Price $47.3/kWh vs modelled cost $42.1/kWh: margin 11% (thin margin = little room to fall)",
+       "detail": "Price $47.3/kWh vs modelled cost $42.2/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
-       "weight": 16
+       "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 2.9,
-       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 11
+       "weight": 10
       },
       {
        "label": "Price news",
@@ -1032,7 +1244,7 @@
         }
        ],
        "key": "price_news",
-       "weight": 11
+       "weight": 10
       },
       {
        "label": "Known cost changes ahead",
@@ -1047,7 +1259,7 @@
         }
        ],
        "key": "price_dates",
-       "weight": 11
+       "weight": 10
       }
      ],
      "change": 0.6
@@ -1132,7 +1344,15 @@
        "score": 0.2,
        "detail": "About 6% a year, from 14 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 19
+       "weight": 18
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 6
       },
       {
        "label": "What forecasters expect",
@@ -1144,14 +1364,14 @@
       {
        "label": "Room above the cost to make",
        "score": 6.4,
-       "detail": "Price $47.3/kWh vs modelled cost $42.1/kWh: margin 11% (thin margin = little room to fall)",
+       "detail": "Price $47.3/kWh vs modelled cost $42.2/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
-       "weight": 31
+       "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.5,
-       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "score": 5.3,
+       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12
       },
@@ -1219,7 +1439,7 @@
         }
        ],
        "key": "price_dates",
-       "weight": 25
+       "weight": 24
       }
      ],
      "change": 0.0
@@ -1290,27 +1510,27 @@
    "trend": [
     [
      "2026-08-04",
-     4.0,
+     4.4,
      4.4
     ],
     [
      "2026-08-11",
-     3.9,
+     4.3,
      4.4
     ],
     [
      "2026-08-18",
-     4.0,
+     4.4,
      4.6
     ],
     [
      "2026-08-25",
-     4.2,
+     4.3,
      4.6
     ],
     [
      "2026-09-01",
-     4.4,
+     4.7,
      4.7
     ],
     [
@@ -1325,17 +1545,17 @@
     ],
     [
      "2026-09-22",
-     4.1,
+     4.4,
      4.8
     ],
     [
      "2026-09-29",
-     4.1,
+     4.2,
      4.8
     ],
     [
      "2026-10-06",
-     3.9,
+     4.3,
      4.8
     ],
     [
@@ -1345,12 +1565,12 @@
     ],
     [
      "2026-10-20",
-     3.6,
+     3.7,
      4.5
     ],
     [
      "2026-10-27",
-     4.2,
+     4.3,
      5.4
     ]
    ]
@@ -1361,6 +1581,10 @@
    "short": "EV cell",
    "group": "Cell",
    "unit": "/kWh",
+   "assumptions": [
+    "TrendForce publishes the EV cell price only every few months in its free reports, so the recent trend uses TrendForce's latest reported move plus the storage cell's 3-month trend, and swings are assumed to match storage cells (same LFP chemistry, largely the same makers).",
+    "The cost to make uses the storage cell cost model; EV cells cost a little more to make, so the real margin is thinner than shown."
+   ],
    "now": {
     "value": 54.2,
     "date": "2026-10-22",
@@ -1369,22 +1593,32 @@
    },
    "h3": {
     "price": {
-     "score": 4.3,
-     "level": "Elevated",
+     "score": 3.9,
+     "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": null,
-       "detail": "Not enough price history yet",
+       "score": 5.3,
+       "assumed": true,
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −0.4% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
-       "weight": 0
+       "weight": 29
       },
       {
        "label": "How much the price swings",
-       "score": null,
-       "detail": "Not enough readings in the last 6 months",
+       "score": 0.2,
+       "detail": "About 6% a year, from 14 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "assumed": true,
        "key": "volatility",
-       "weight": 0
+       "weight": 19
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 10
       },
       {
        "label": "What forecasters expect",
@@ -1396,16 +1630,16 @@
       {
        "label": "Room above the cost to make",
        "score": 2.6,
-       "detail": "Price $54.2/kWh vs modelled cost $42.1/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "detail": "Price $54.2/kWh vs modelled cost $42.2/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
-       "weight": 33
+       "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 2.9,
-       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 22
+       "weight": 10
       },
       {
        "label": "Price news",
@@ -1435,7 +1669,7 @@
         }
        ],
        "key": "price_news",
-       "weight": 22
+       "weight": 10
       },
       {
        "label": "Known cost changes ahead",
@@ -1450,10 +1684,10 @@
         }
        ],
        "key": "price_dates",
-       "weight": 22
+       "weight": 10
       }
      ],
-     "change": -0.4
+     "change": 0.1
     },
     "supply": {
      "score": 4.7,
@@ -1520,22 +1754,32 @@
    },
    "h12": {
     "price": {
-     "score": 4.8,
+     "score": 4.1,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": null,
-       "detail": "Not enough price history yet",
+       "score": 5.3,
+       "assumed": true,
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −0.4% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
-       "weight": 0
+       "weight": 12
       },
       {
        "label": "How much the price swings",
-       "score": null,
-       "detail": "Not enough readings in the last 6 months",
+       "score": 0.2,
+       "detail": "About 6% a year, from 14 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "assumed": true,
        "key": "volatility",
-       "weight": 0
+       "weight": 18
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 6
       },
       {
        "label": "What forecasters expect",
@@ -1547,16 +1791,16 @@
       {
        "label": "Room above the cost to make",
        "score": 2.6,
-       "detail": "Price $54.2/kWh vs modelled cost $42.1/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "detail": "Price $54.2/kWh vs modelled cost $42.2/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
-       "weight": 45
+       "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.5,
-       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "score": 5.3,
+       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 18
+       "weight": 12
       },
       {
        "label": "Price news",
@@ -1601,10 +1845,10 @@
         }
        ],
        "key": "price_dates",
-       "weight": 36
+       "weight": 24
       }
      ],
-     "change": -1.0
+     "change": -0.5
     },
     "supply": {
      "score": 5.8,
@@ -1672,67 +1916,67 @@
    "trend": [
     [
      "2026-08-04",
-     4.8,
+     4.2,
      4.4
     ],
     [
      "2026-08-11",
-     4.9,
+     4.2,
      4.4
     ],
     [
      "2026-08-18",
-     5.1,
+     4.1,
      4.6
     ],
     [
      "2026-08-25",
-     5.7,
+     4.0,
      4.6
     ],
     [
      "2026-09-01",
-     5.7,
+     4.4,
      4.7
     ],
     [
      "2026-09-08",
-     6.2,
+     4.3,
      4.7
     ],
     [
      "2026-09-15",
-     5.7,
+     4.2,
      4.7
     ],
     [
      "2026-09-22",
-     4.8,
+     4.2,
      4.8
     ],
     [
      "2026-09-29",
-     4.9,
+     4.0,
      4.8
     ],
     [
      "2026-10-06",
-     4.8,
+     4.1,
      4.8
     ],
     [
      "2026-10-13",
-     4.9,
+     3.8,
      4.4
     ],
     [
      "2026-10-20",
-     4.7,
+     3.8,
      4.3
     ],
     [
      "2026-10-27",
-     4.3,
+     3.9,
      4.7
     ]
    ]
@@ -1743,6 +1987,9 @@
    "short": "Copper",
    "group": "Metal",
    "unit": "/t",
+   "assumptions": [
+    "Price history is the LME cash settlement price, daily since 2018 (via Westmetall)."
+   ],
    "now": {
     "value": 14200.0,
     "date": "2026-10-23",
@@ -1759,14 +2006,22 @@
        "score": 5.4,
        "detail": "1 month −1.6% · 3 months +6.4% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 60
+       "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
        "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 40
+       "weight": 33
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
       },
       {
        "label": "What forecasters expect",
@@ -1806,7 +2061,7 @@
        "weight": 0
       }
      ],
-     "change": 0.0
+     "change": 0.1
     },
     "supply": {
      "score": 1.6,
@@ -1844,7 +2099,7 @@
    },
    "h12": {
     "price": {
-     "score": 3.7,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
@@ -1852,14 +2107,22 @@
        "score": 5.4,
        "detail": "1 month −1.6% · 3 months +6.4% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 40
+       "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
        "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 60
+       "weight": 50
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
       },
       {
        "label": "What forecasters expect",
@@ -1899,7 +2162,7 @@
        "weight": 0
       }
      ],
-     "change": -0.1
+     "change": 0.0
     },
     "supply": {
      "score": 1.4,
@@ -1943,32 +2206,32 @@
     ],
     [
      "2026-08-11",
-     5.2,
+     5.1,
      1.6
     ],
     [
      "2026-08-18",
-     5.4,
+     5.2,
      1.6
     ],
     [
      "2026-08-25",
-     5.2,
+     5.0,
      1.6
     ],
     [
      "2026-09-01",
-     4.9,
+     4.8,
      1.6
     ],
     [
      "2026-09-08",
-     5.2,
+     5.1,
      1.6
     ],
     [
      "2026-09-15",
-     3.9,
+     4.3,
      1.6
     ],
     [
@@ -1978,22 +2241,22 @@
     ],
     [
      "2026-09-29",
-     4.7,
-     1.6
-    ],
-    [
-     "2026-10-06",
      4.8,
      1.6
     ],
     [
+     "2026-10-06",
+     5.1,
+     1.6
+    ],
+    [
      "2026-10-13",
-     4.9,
+     4.8,
      1.6
     ],
     [
      "2026-10-20",
-     4.3,
+     4.2,
      1.6
     ],
     [
@@ -2009,6 +2272,10 @@
    "short": "Aluminium",
    "group": "Metal",
    "unit": "/t",
+   "assumptions": [
+    "Price history is the LME cash settlement price, daily since 2018 (via Westmetall).",
+    "Back-test warning: for aluminium, a high trend-and-swings score has not been followed by rises (since 2018 prices more often fell afterwards), so its price score is marked low confidence. Read it as a sign of possible swings, not of rising prices."
+   ],
    "now": {
     "value": 3009.0,
     "date": "2026-10-22",
@@ -2017,7 +2284,7 @@
    },
    "h3": {
     "price": {
-     "score": 3.4,
+     "score": 3.6,
      "level": "Low",
      "drivers": [
       {
@@ -2025,14 +2292,123 @@
        "score": 3.6,
        "detail": "1 month −6.3% · 3 months −5.0% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 60
+       "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
        "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
+       "weight": 33
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.4
+    },
+    "supply": {
+     "score": 2.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 3.0,
+       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
+       "key": "concentration",
        "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Low",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.5,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 3.6,
+       "detail": "1 month −6.3% · 3 months −5.0% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 33
+      },
+      {
+       "label": "How much the price swings",
+       "score": 3.1,
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 50
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.4,
+       "detail": "US$1 = ₹95.19; rupee stronger by 0.7% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
       },
       {
        "label": "What forecasters expect",
@@ -2075,99 +2451,6 @@
      "change": 0.3
     },
     "supply": {
-     "score": 2.4,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Dependence on one country",
-       "score": 3.0,
-       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
-       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
-       "key": "concentration",
-       "weight": 40
-      },
-      {
-       "label": "Supply news",
-       "score": 2.0,
-       "detail": "No supply disruptions reported in the last 90 days",
-       "items": [],
-       "key": "supply_news",
-       "weight": 30
-      },
-      {
-       "label": "Rule changes and deadlines ahead",
-       "score": 2.0,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "supply_dates",
-       "weight": 30
-      }
-     ],
-     "change": 0.0
-    },
-    "confidence": "Medium",
-    "obs180": 125
-   },
-   "h12": {
-    "price": {
-     "score": 3.3,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Recent price trend",
-       "score": 3.6,
-       "detail": "1 month −6.3% · 3 months −5.0% (rising prices push the score up)",
-       "key": "momentum",
-       "weight": 40
-      },
-      {
-       "label": "How much the price swings",
-       "score": 3.1,
-       "detail": "About 22% a year, from 124 price moves in the last 6 months",
-       "key": "volatility",
-       "weight": 60
-      },
-      {
-       "label": "What forecasters expect",
-       "score": null,
-       "detail": "No public forecasts tracked",
-       "key": "expectations",
-       "weight": 0
-      },
-      {
-       "label": "Room above the cost to make",
-       "score": null,
-       "detail": "Only modelled for cells",
-       "key": "floor",
-       "weight": 0
-      },
-      {
-       "label": "Lithium price risk passed through",
-       "score": null,
-       "detail": "Not linked to lithium",
-       "key": "upstream",
-       "weight": 0
-      },
-      {
-       "label": "Price news",
-       "score": null,
-       "detail": "No tagged price news in the last 60 days",
-       "items": [],
-       "key": "price_news",
-       "weight": 0
-      },
-      {
-       "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "price_dates",
-       "weight": 0
-      }
-     ],
-     "change": 0.2
-    },
-    "supply": {
      "score": 2.5,
      "level": "Low",
      "drivers": [
@@ -2198,13 +2481,13 @@
      ],
      "change": 0.0
     },
-    "confidence": "Medium",
+    "confidence": "Low",
     "obs180": 125
    },
    "trend": [
     [
      "2026-08-04",
-     4.8,
+     4.9,
      2.4
     ],
     [
@@ -2219,12 +2502,12 @@
     ],
     [
      "2026-08-25",
-     3.9,
+     4.0,
      2.4
     ],
     [
      "2026-09-01",
-     4.0,
+     4.1,
      2.4
     ],
     [
@@ -2234,37 +2517,37 @@
     ],
     [
      "2026-09-15",
-     4.3,
+     4.5,
      2.4
     ],
     [
      "2026-09-22",
-     4.7,
+     4.8,
      2.4
     ],
     [
      "2026-09-29",
-     4.7,
+     4.8,
      2.4
     ],
     [
      "2026-10-06",
-     3.9,
+     4.3,
      2.4
     ],
     [
      "2026-10-13",
-     3.4,
+     3.5,
      2.4
     ],
     [
      "2026-10-20",
-     3.1,
+     3.2,
      2.4
     ],
     [
      "2026-10-27",
-     3.4,
+     3.6,
      2.4
     ]
    ]
@@ -2272,52 +2555,521 @@
  ],
  "backtest": [
   {
-   "material": "copper",
-   "from": "2018-01-02",
-   "to": "2026-10-26",
-   "months": 98,
+   "material": "lithium",
+   "name": "Lithium carbonate",
+   "from": "2023-07-21",
+   "to": "2026-10-27",
+   "samples": 65,
+   "step_days": 14,
+   "cut_low": 4.7,
+   "cut_high": 7.4,
    "high": {
-    "n": 17,
-    "rise5": 59,
-    "avg": 3.2,
-    "big": 29
+    "n": 21,
+    "rise5": 67,
+    "fall5": 33,
+    "big10": 81,
+    "avg": 19.5
    },
    "low": {
-    "n": 51,
-    "rise5": 31,
-    "avg": 2.3,
-    "big": 16
+    "n": 21,
+    "rise5": 43,
+    "fall5": 33,
+    "big10": 62,
+    "avg": 3.0
    },
    "all": {
-    "n": 98,
+    "n": 65,
     "rise5": 43,
-    "avg": 3.3,
-    "big": 26
+    "fall5": 46,
+    "big10": 72,
+    "avg": 7.2
+   }
+  },
+  {
+   "material": "copper",
+   "name": "Copper",
+   "from": "2018-01-02",
+   "to": "2026-10-26",
+   "samples": 210,
+   "step_days": 14,
+   "cut_low": 4.1,
+   "cut_high": 4.9,
+   "high": {
+    "n": 70,
+    "rise5": 50,
+    "fall5": 20,
+    "big10": 40,
+    "avg": 4.9
+   },
+   "low": {
+    "n": 70,
+    "rise5": 34,
+    "fall5": 14,
+    "big10": 19,
+    "avg": 2.3
+   },
+   "all": {
+    "n": 210,
+    "rise5": 39,
+    "fall5": 19,
+    "big10": 30,
+    "avg": 3.3
    }
   },
   {
    "material": "aluminium",
+   "name": "Aluminium",
    "from": "2018-01-02",
    "to": "2026-10-26",
-   "months": 98,
+   "samples": 210,
+   "step_days": 14,
+   "cut_low": 4.2,
+   "cut_high": 5.0,
    "high": {
-    "n": 16,
-    "rise5": 19,
-    "avg": -4.1,
-    "big": 44
+    "n": 70,
+    "rise5": 29,
+    "fall5": 40,
+    "big10": 31,
+    "avg": -1.7
    },
    "low": {
-    "n": 49,
-    "rise5": 35,
-    "avg": 2.6,
-    "big": 33
+    "n": 70,
+    "rise5": 34,
+    "fall5": 20,
+    "big10": 33,
+    "avg": 1.9
    },
    "all": {
-    "n": 98,
-    "rise5": 39,
-    "avg": 2.1,
-    "big": 34
+    "n": 210,
+    "rise5": 38,
+    "fall5": 27,
+    "big10": 33,
+    "avg": 1.8
    }
   }
- ]
+ ],
+ "india": {
+  "duties": [
+   {
+    "text": "Standard basic customs duty on lithium-ion accumulators (tariff item 8507 60 00) is 20%.",
+    "source": "CBIC Circular 45/2026-Customs, 9 Oct 2026, via TaxGuru",
+    "url": "https://taxguru.in/custom-duty/cbic-clarifies-10-percent-customs-duty-industrial-bess-power-bank-exclusion-circular-no-45-2026-customs.html"
+   },
+   {
+    "text": "Stationary, grid-scale and industrial battery storage systems qualify for a concessional 10% (Notification 45/2025-Customs, S. No. 325); battery packs for making electric vehicles are excluded from that concession.",
+    "source": "CBIC Circular 45/2026-Customs, via TaxGuru; Mercom, 12 Oct 2026",
+    "url": "https://www.mercomindia.com/finance-ministry-clarifies-battery-storage-systems-attract-10-customs-duty"
+   },
+   {
+    "text": "On top of basic duty: social welfare surcharge of 10% of the duty, and 18% IGST (normally reclaimable as input credit).",
+    "source": "EximPe tariff page for 85076000, May 2026",
+    "url": "https://eximpe.com/hsncode-finder/85076000"
+   },
+   {
+    "text": "Union Budget 2026-27 extended nil duty on capital goods for making lithium-ion cells. The duty on cells imported to build EV packs could not be confirmed from a public source; check the current notification before using a figure.",
+    "source": "pv magazine India, 2 Feb 2026",
+    "url": "https://www.pv-magazine-india.com/2026/02/02/indias-union-budget-2026-27-removes-import-duties-on-solar-glass-inputs-lithium-battery-cell-machinery-and-critical-minerals-processing-equipment/"
+   }
+  ],
+  "capacity": [
+   {
+    "text": "India has about 86 GWh of battery manufacturing capacity, but 92% of it is pack or container assembly and only about 8% (roughly 7 GWh) is cell making, much of it still being built.",
+    "source": "Mercom India, 22 Oct 2026",
+    "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh"
+   },
+   {
+    "text": "Under the ₹18,100-crore ACC PLI scheme only Ola runs cell capacity so far (2.5 of its planned 20 GWh), no maker has yet been paid an incentive, and cell imports keep rising.",
+    "source": "Business Today, 22 Oct 2026",
+    "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22"
+   }
+  ],
+  "fx": {
+   "date": "2026-10-26",
+   "usd_inr": 95.1855,
+   "usd_cny": 6.6681,
+   "m1": -0.0065937988233857325,
+   "m3": -0.004836478717298087,
+   "y1": 0.07865279313908591,
+   "series": [
+    [
+     "2025-09-22",
+     88.276
+    ],
+    [
+     "2025-09-25",
+     88.6886
+    ],
+    [
+     "2025-09-30",
+     88.7955
+    ],
+    [
+     "2025-10-03",
+     88.7873
+    ],
+    [
+     "2025-10-08",
+     88.7568
+    ],
+    [
+     "2025-10-13",
+     88.6905
+    ],
+    [
+     "2025-10-16",
+     87.9273
+    ],
+    [
+     "2025-10-21",
+     87.9704
+    ],
+    [
+     "2025-10-24",
+     87.804
+    ],
+    [
+     "2025-10-29",
+     88.2314
+    ],
+    [
+     "2025-11-03",
+     88.7741
+    ],
+    [
+     "2025-11-06",
+     88.5741
+    ],
+    [
+     "2025-11-11",
+     88.4924
+    ],
+    [
+     "2025-11-14",
+     88.6732
+    ],
+    [
+     "2025-11-19",
+     88.5043
+    ],
+    [
+     "2025-11-24",
+     89.1493
+    ],
+    [
+     "2025-11-27",
+     89.4023
+    ],
+    [
+     "2025-12-02",
+     89.9522
+    ],
+    [
+     "2025-12-05",
+     89.9382
+    ],
+    [
+     "2025-12-10",
+     89.9096
+    ],
+    [
+     "2025-12-15",
+     90.7453
+    ],
+    [
+     "2025-12-18",
+     90.2624
+    ],
+    [
+     "2025-12-23",
+     89.5536
+    ],
+    [
+     "2025-12-30",
+     89.8018
+    ],
+    [
+     "2026-01-05",
+     90.2915
+    ],
+    [
+     "2026-01-08",
+     89.9255
+    ],
+    [
+     "2026-01-13",
+     90.2246
+    ],
+    [
+     "2026-01-16",
+     90.7265
+    ],
+    [
+     "2026-01-21",
+     91.6411
+    ],
+    [
+     "2026-01-26",
+     91.7637
+    ],
+    [
+     "2026-01-29",
+     91.9176
+    ],
+    [
+     "2026-02-03",
+     90.1373
+    ],
+    [
+     "2026-02-06",
+     90.6618
+    ],
+    [
+     "2026-02-11",
+     90.7155
+    ],
+    [
+     "2026-02-16",
+     90.7318
+    ],
+    [
+     "2026-02-19",
+     91.1963
+    ],
+    [
+     "2026-02-24",
+     90.9285
+    ],
+    [
+     "2026-02-27",
+     91.0805
+    ],
+    [
+     "2026-03-04",
+     92.0833
+    ],
+    [
+     "2026-03-09",
+     92.2977
+    ],
+    [
+     "2026-03-12",
+     92.2097
+    ],
+    [
+     "2026-03-17",
+     92.3645
+    ],
+    [
+     "2026-03-20",
+     93.6175
+    ],
+    [
+     "2026-03-25",
+     93.9445
+    ],
+    [
+     "2026-03-30",
+     94.7132
+    ],
+    [
+     "2026-04-02",
+     93.102
+    ],
+    [
+     "2026-04-09",
+     92.6605
+    ],
+    [
+     "2026-04-14",
+     93.0862
+    ],
+    [
+     "2026-04-17",
+     92.8223
+    ],
+    [
+     "2026-04-22",
+     93.8042
+    ],
+    [
+     "2026-04-27",
+     94.1991
+    ],
+    [
+     "2026-04-30",
+     94.915
+    ],
+    [
+     "2026-05-06",
+     94.6153
+    ],
+    [
+     "2026-05-11",
+     95.3153
+    ],
+    [
+     "2026-05-14",
+     95.7678
+    ],
+    [
+     "2026-05-19",
+     96.5417
+    ],
+    [
+     "2026-05-22",
+     95.6951
+    ],
+    [
+     "2026-05-27",
+     95.6991
+    ],
+    [
+     "2026-06-01",
+     94.9931
+    ],
+    [
+     "2026-06-04",
+     95.7857
+    ],
+    [
+     "2026-06-09",
+     95.3508
+    ],
+    [
+     "2026-06-12",
+     95.115
+    ],
+    [
+     "2026-06-17",
+     94.5341
+    ],
+    [
+     "2026-06-22",
+     94.6866
+    ],
+    [
+     "2026-06-25",
+     94.3956
+    ],
+    [
+     "2026-06-30",
+     94.6608
+    ],
+    [
+     "2026-07-03",
+     95.2149
+    ],
+    [
+     "2026-07-08",
+     95.5599
+    ],
+    [
+     "2026-07-13",
+     95.6211
+    ],
+    [
+     "2026-07-16",
+     96.3543
+    ],
+    [
+     "2026-07-21",
+     96.2358
+    ],
+    [
+     "2026-07-24",
+     96.5676
+    ],
+    [
+     "2026-07-29",
+     95.6481
+    ],
+    [
+     "2026-08-03",
+     95.3381
+    ],
+    [
+     "2026-08-06",
+     95.2248
+    ],
+    [
+     "2026-08-11",
+     95.4398
+    ],
+    [
+     "2026-08-14",
+     95.4282
+    ],
+    [
+     "2026-08-19",
+     95.7574
+    ],
+    [
+     "2026-08-24",
+     95.754
+    ],
+    [
+     "2026-08-27",
+     95.541
+    ],
+    [
+     "2026-09-01",
+     94.9513
+    ],
+    [
+     "2026-09-04",
+     94.4902
+    ],
+    [
+     "2026-09-09",
+     95.1103
+    ],
+    [
+     "2026-09-14",
+     95.5549
+    ],
+    [
+     "2026-09-17",
+     95.9389
+    ],
+    [
+     "2026-09-22",
+     95.595
+    ],
+    [
+     "2026-09-25",
+     95.8173
+    ],
+    [
+     "2026-09-30",
+     95.8349
+    ],
+    [
+     "2026-10-05",
+     96.2973
+    ],
+    [
+     "2026-10-08",
+     96.7848
+    ],
+    [
+     "2026-10-13",
+     95.2807
+    ],
+    [
+     "2026-10-16",
+     94.9649
+    ],
+    [
+     "2026-10-21",
+     94.469
+    ],
+    [
+     "2026-10-26",
+     95.1855
+    ]
+   ],
+   "source": "ECB euro reference rates (cross rates)",
+   "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+  }
+ }
 }

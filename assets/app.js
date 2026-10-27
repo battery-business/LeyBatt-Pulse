@@ -1102,6 +1102,7 @@
     lg.appendChild(el('span', 'note', '▲▼ change since a week ago'));
     drawRiskMap(map, mats);
     renderRiskDetail(det, mats.find((m) => m.id === RISK.sel), R);
+    renderRiskIndia($('#risk-india'), R.india || {});
     renderRiskMethod($('#risk-method'), R);
   }
   function drawRiskMap(box, mats) {
@@ -1148,12 +1149,18 @@
         .on('mouseleave', hideTip);
     });
   }
-  function driverList(drivers) {
-    const ul = el('ul', 'drivers');
+  function driverList(all) {
+    const wrap = el('div');
+    const ul = el('ul', 'drivers'); wrap.appendChild(ul);
+    const drivers = all.filter((d) => d.score != null && d.weight);
+    const off = all.filter((d) => !(d.score != null && d.weight));
+    if (off.length) wrap.appendChild(el('p', 'doff', 'Not used here: ' + off.map((d) => `${d.label.toLowerCase()} (${(d.detail || '').replace(/\.$/, '').toLowerCase()})`).join('; ') + '.'));
     drivers.forEach((d) => {
       const li = el('li', d.score == null || !d.weight ? 'off' : null);
       const top = el('div', 'dtop');
-      top.append(el('span', 'dl', d.label), el('span', 'dw', d.score == null || !d.weight ? 'not used' : `${d.weight}% of score`));
+      const dl = el('span', 'dl', d.label);
+      if (d.assumed) { const t = el('span', 'atag', 'Assumption'); t.title = 'Not measured directly; see the assumptions for this material'; dl.appendChild(t); }
+      top.append(dl, el('span', 'dw', d.score == null || !d.weight ? 'not used' : `${d.weight}% of score`));
       const bar = el('div', 'dbar'); const fill = el('i'); fill.style.width = `${(d.score || 0) * 10}%`;
       fill.style.background = lvlColor(d.score == null ? null : d.score >= 6.5 ? 'High' : d.score >= 4 ? 'Elevated' : 'Low');
       bar.appendChild(fill);
@@ -1174,7 +1181,7 @@
       }
       ul.appendChild(li);
     });
-    return ul;
+    return wrap;
   }
   function renderRiskDetail(box, m, R) {
     box.replaceChildren(); if (!m) return;
@@ -1198,6 +1205,10 @@
     const scol = el('div', 'rd-col'); scol.append(el('h3', null, 'What drives the supply score'), driverList(r.supply.drivers));
     cols.append(pc, scol); box.appendChild(cols);
 
+    if (m.assumptions && m.assumptions.length) {
+      const ab = el('div', 'rd-assume'); ab.appendChild(el('h3', null, 'Data and assumptions for this material'));
+      const ul = el('ul'); m.assumptions.forEach((x) => ul.appendChild(el('li', null, x))); ab.appendChild(ul); box.appendChild(ab);
+    }
     // trend of the 3-month scores
     const tr = (m.trend || []).filter((x) => x[1] != null || x[2] != null);
     if (tr.length >= 2) {
@@ -1231,6 +1242,41 @@
     act.append(ag, el('p', 'sub', 'General buying practice, not a recommendation. Check the drivers above and the latest news before acting.'));
     box.appendChild(act);
   }
+  function renderRiskIndia(box, I) {
+    box.replaceChildren();
+    const fx = I.fx;
+    const card = (title, cls) => { const c = el('div', 'icard ' + (cls || '')); c.appendChild(el('h3', null, title)); box.appendChild(c); return c; };
+    if (fx) {
+      const c = card('Rupee against the US dollar', 'ifx');
+      const big = el('div', 'ifx-now'); big.append(el('b', null, `₹${fx.usd_inr.toFixed(2)}`), el('span', null, ` per US$ · ${d3.utcFormat('%-d %b %Y')(parse(fx.date))}`)); c.appendChild(big);
+      const ch = el('div', 'ifx-ch');
+      [['1 month', fx.m1], ['3 months', fx.m3], ['1 year', fx.y1]].forEach(([lab, v]) => {
+        if (v == null) return;
+        const s = el('span', v > 0.0005 ? 'up' : v < -0.0005 ? 'down' : null); s.append(el('em', null, lab), document.createTextNode(` ${v > 0 ? 'rupee weaker' : 'rupee stronger'} ${Math.abs(v * 100).toFixed(1)}%`)); ch.appendChild(s);
+      });
+      c.appendChild(ch);
+      const pts = (fx.series || []).map(([dd, v]) => ({ d: parse(dd), v }));
+      if (pts.length > 5) {
+        const holder = el('div', 'chart'); c.appendChild(holder);
+        const W = 380, H = 130, mg = { t: 8, r: 8, b: 20, l: 34 };
+        const xs = d3.scaleUtc().domain(d3.extent(pts, (p) => p.d)).range([mg.l, W - mg.r]);
+        const ys = d3.scaleLinear().domain(d3.extent(pts, (p) => p.v)).nice().range([H - mg.b, mg.t]);
+        const svg = d3.select(holder).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%');
+        svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(xs).ticks(Math.max(2, Math.floor(W / 90))).tickFormat(d3.utcFormat('%b %y')).tickSize(0).tickPadding(6)).call(axisStyle);
+        svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).ticks(3).tickSize(0).tickPadding(6)).call(axisStyle);
+        svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css('--orange')).attr('stroke-width', 2).attr('d', d3.line().x((p) => xs(p.d)).y((p) => ys(p.v)));
+      }
+      const n = el('p', 'sub'); n.append(document.createTextNode('A weaker rupee raises the rupee cost of every imported material; it is one driver in each price score. Source: '), link(fx.source, fx.url)); c.appendChild(n);
+    }
+    const list = (title, items, cls) => {
+      if (!items || !items.length) return;
+      const c = card(title, cls); const ul = el('ul', 'ilist');
+      items.forEach((it) => { const li = el('li'); li.appendChild(document.createTextNode(it.text + ' ')); const s = el('span', 'isrc'); s.appendChild(link(it.source, it.url)); li.appendChild(s); ul.appendChild(li); });
+      c.appendChild(ul);
+    };
+    list('Import duties', I.duties);
+    list('Cell making in India', I.capacity);
+  }
   function renderRiskMethod(box, R) {
     if (box.childElementCount) return;
     const p = (html) => { const e = el('p'); e.innerHTML = html; return e; };
@@ -1257,11 +1303,29 @@
     box.append(p(`<b>Weights.</b> Next 3 months — ${wt('h3')}. Next 12 months — ${wt('h12')}. The 12-month view leans more on forecasts, the cost floor, dated changes and structural dependence, and less on the latest moves.`));
     const bt = (R.backtest || []);
     if (bt.length) {
-      const items = bt.map((b) => `${b.material}: ${b.months} months (${b.from.slice(0, 4)}–${b.to.slice(0, 4)}). After a price score of 5.5 or more, prices rose more than 5% within 3 months ${b.high.rise5 ?? '–'}% of the time (n=${b.high.n}); after a score under 4.5, ${b.low.rise5 ?? '–'}% (n=${b.low.n}). Moves bigger than 10% either way: ${b.high.big ?? '–'}% vs ${b.low.big ?? '–'}%.`);
-      box.append(p('<b>Back-test (price trend and swings only).</b> ' + items.join(' ')));
+      box.append(p('<b>Back-test.</b> Only the price trend and price swings can be rebuilt for past dates (news tags, forecasts and the cost model were not kept back then), so the test uses those two drivers. Every two weeks a score was worked out from the prices known on that day; the table compares what happened over the next 3 months after the highest third of scores and after the lowest third. Windows overlap, so the real number of independent cases is smaller than shown.'));
+      const t = el('table', 'rtable mtable bt');
+      const hr = el('tr'); ['Material and period', 'Scores', 'Rose >5%', 'Fell >5%', 'Moved >10% either way', 'Average change'].forEach((x) => hr.appendChild(el('th', null, x)));
+      const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+      const tb = el('tbody');
+      bt.forEach((b) => {
+        [['Highest third', b.high, `≥ ${b.cut_high}`], ['Lowest third', b.low, `≤ ${b.cut_low}`]].forEach(([lab, st, cut], i) => {
+          const tr = el('tr', i ? 'bt-lo' : 'bt-hi');
+          if (!i) { const td = el('td', 'btname'); td.rowSpan = 2; td.append(el('b', null, b.name), el('span', null, `${b.from.slice(0, 7)} to ${b.to.slice(0, 7)} · ${b.samples} dates`)); tr.appendChild(td); }
+          tr.append(el('td', null, `${lab} (${cut})`), el('td', null, `${st.rise5}%`), el('td', null, `${st.fall5}%`), el('td', null, `${st.big10}%`), el('td', null, `${st.avg > 0 ? '+' : ''}${st.avg}%`));
+          tb.appendChild(tr);
+        });
+      });
+      t.appendChild(tb); const w = el('div', 'table-wrap'); w.appendChild(t); box.appendChild(w);
+      const verdict = bt.map((b) => {
+        const lift = b.high.rise5 - b.low.rise5, swing = b.high.big10 - b.low.big10;
+        return `<b>${b.name}:</b> ` + (lift >= 10 ? `after high scores, rises of more than 5% were ${b.high.rise5}% likely against ${b.low.rise5}% after low scores, so the score has worked as an early warning.` : swing >= 10 ? `high scores were followed by bigger moves, but not more often by rises; treat the score as a warning of swings.` : `high scores have not been followed by more rises (${b.high.rise5}% vs ${b.low.rise5}%) and prices more often fell (${b.high.fall5}% vs ${b.low.fall5}%), so the price score is marked low confidence.`);
+      });
+      box.append(p(verdict.join(' ')));
     } else {
-      box.append(p('<b>Back-test.</b> Not yet possible: the site holds months, not years, of daily prices. Copper and aluminium histories are being added automatically; the result will appear here when there is enough data.'));
+      box.append(p('<b>Back-test.</b> Not enough price history yet.'));
     }
+    box.append(p('<b>Data sources.</b> Lithium: Guangzhou Futures Exchange lithium carbonate main contract, daily close since July 2023 (via Sina Finance), in US$ at each day\'s ECB rate. Copper and aluminium: LME cash settlement, daily since 2018 (via Westmetall). Exchange rates: ECB euro reference rates. Storage cells: InfoLink weekly. EV cells: TrendForce. Cathode, separator, electrolyte, graphite: SMM and TrendForce as listed on the Raw materials page. China\'s shares: IEA Global Critical Minerals Outlook 2025 and the International Aluminium Institute. All refreshed automatically each morning.'));
     box.append(p('<b>Limits.</b> Built only from public prices and news, not from deals reported by buyers and sellers, so it complements rather than replaces paid services such as CRU, Fastmarkets or Benchmark. News tags are a judgement made when each story is added. Use the drivers and links to check before acting.'));
   }
 

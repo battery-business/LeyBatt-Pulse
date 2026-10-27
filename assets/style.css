@@ -433,3 +433,25 @@ input[type=range] { width: 100%; accent-color: var(--teal); margin: 2px 0; }
 .tick .tl.lv-elevated { color: #ffb45c; background: rgba(255, 180, 92, .14); }
 .tick .tl.lv-high { color: #ff8a80; background: rgba(255, 138, 128, .15); }
 .tk-lab-risk { color: #ffb45c; border-color: rgba(255, 180, 92, .45); }
+.atag { display: inline-block; margin-left: 8px; font-size: 10.5px; font-weight: 700; letter-spacing: .03em; color: var(--plum); background: color-mix(in srgb, var(--plum) 12%, transparent); border: 1px solid color-mix(in srgb, var(--plum) 35%, transparent); border-radius: 5px; padding: 0 5px; vertical-align: 1px; }
+.rd-assume { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.rd-assume ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.55; color: var(--fg); }
+.rd-assume li + li { margin-top: 4px; }
+.india-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 14px; }
+.icard { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.icard h3 { font-size: 14px; margin: 0; }
+.ifx-now b { font-family: var(--display); font-stretch: 110%; font-size: 26px; font-variant-numeric: tabular-nums; }
+.ifx-now span { color: var(--muted); font-size: 12.5px; }
+.ifx-ch { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; }
+.ifx-ch em { font-style: normal; color: var(--muted); }
+.ifx-ch .up { color: var(--bad); } .ifx-ch .down { color: var(--ok); }
+.ifx-ch .up em, .ifx-ch .down em { color: var(--muted); }
+.ilist { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.5; display: flex; flex-direction: column; gap: 6px; }
+.isrc { font-size: 12px; color: var(--muted); }
+.isrc a { color: var(--muted); }
+.bt td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bt .btname b { display: block; }
+.bt .btname span { font-size: 11.5px; color: var(--muted); }
+.bt tr.bt-hi td { border-bottom-style: dashed; }
+.doff { font-size: 12px; color: var(--muted); margin: 10px 0 0; line-height: 1.45; }
+.rd-assume h3 { font-size: 14px; font-weight: 700; margin: 0 0 8px; }

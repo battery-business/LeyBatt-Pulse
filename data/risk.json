@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-27",
- "generated": "2026-10-27T10:04:31+00:00",
+ "generated": "2026-10-27T10:06:38+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -2270,5 +2270,54 @@
    ]
   }
  ],
- "backtest": []
+ "backtest": [
+  {
+   "material": "copper",
+   "from": "2018-01-02",
+   "to": "2026-10-26",
+   "months": 98,
+   "high": {
+    "n": 17,
+    "rise5": 59,
+    "avg": 3.2,
+    "big": 29
+   },
+   "low": {
+    "n": 51,
+    "rise5": 31,
+    "avg": 2.3,
+    "big": 16
+   },
+   "all": {
+    "n": 98,
+    "rise5": 43,
+    "avg": 3.3,
+    "big": 26
+   }
+  },
+  {
+   "material": "aluminium",
+   "from": "2018-01-02",
+   "to": "2026-10-26",
+   "months": 98,
+   "high": {
+    "n": 16,
+    "rise5": 19,
+    "avg": -4.1,
+    "big": 44
+   },
+   "low": {
+    "n": 49,
+    "rise5": 35,
+    "avg": 2.6,
+    "big": 33
+   },
+   "all": {
+    "n": 98,
+    "rise5": 39,
+    "avg": 2.1,
+    "big": 34
+   }
+  }
+ ]
 }

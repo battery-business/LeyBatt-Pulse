@@ -28,7 +28,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Refresh copper and aluminium price history
-        run: python3 scripts/fetch_history.py
+        run: |
+          pip install --quiet openpyxl || true
+          python3 scripts/fetch_history.py
       - name: Score price and supply risk
         run: |
           if [ -f scripts/risk.py ]; then python3 scripts/risk.py; else echo "scripts/risk.py not present yet"; fi

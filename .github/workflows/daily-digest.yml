@@ -1,11 +1,11 @@
-# Sends the Leyland Pulse morning email at about 5:15 am IST, after the 4 am data update.
+# Sends the Leyland Pulse morning email at about 5:15 am IST (scheduled 5:00; GitHub runs late), after the 4 am data update.
 # Needs three repository secrets: GMAIL_USER, GMAIL_APP_PASSWORD, MAIL_TO (comma-separated).
 # To send now: Actions tab → "Leyland Pulse daily email" → Run workflow.
 # To send a test to one person only, type their address in "Send only to" before clicking Run workflow.
 name: Leyland Pulse daily email
 on:
   schedule:
-    - cron: "45 23 * * *"   # 23:45 UTC = 05:15 IST
+    - cron: "30 23 * * *"   # 23:30 UTC = 05:00 IST; GitHub usually starts scheduled runs 10-20 min late, so it lands around 5:15
   workflow_dispatch:
     inputs:
       only_to:

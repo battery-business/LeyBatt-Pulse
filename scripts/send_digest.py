@@ -268,6 +268,7 @@ def build(today):
     body_html = f"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
 <style>@media (max-width:520px){{ .tile {{ display:block !important; width:100% !important; }} .px {{ padding-left:16px !important; padding-right:16px !important; }} }}</style></head>
 <body style="margin:0;padding:0;background:{BG}">
+<!--LP-BODY-START--><style>@media (max-width:520px){{ .tile {{ display:block !important; width:100% !important; }} .px {{ padding-left:16px !important; padding-right:16px !important; }} }}</style>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{BG};font-family:{FONT}"><tr><td align="center" style="padding:20px 10px">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid {LINE}">
 <tr><td style="background:{NAVY};padding:22px 24px 18px" class="px">
@@ -292,7 +293,7 @@ def build(today):
  <div style="font-size:12px;color:{MUTED};margin-top:8px">Charts, the full price map, all news and the cost calculator</div></td></tr>
 <tr><td style="padding:18px 24px 22px;background:#f6f8fb;border-top:1px solid {LINE};font-size:11.5px;line-height:1.5;color:{MUTED}" class="px">
  Leyland Pulse is an automated daily digest built from public sources every morning at about 5:15 am IST.</td></tr>
-</table></td></tr></table></body></html>"""
+</table></td></tr></table><!--LP-BODY-END--></body></html>"""
     # plain-text version
     t = [f"Leyland Pulse | Daily | {date_label}", ""]
     if uniq:

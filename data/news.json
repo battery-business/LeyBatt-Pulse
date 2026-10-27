@@ -1,5 +1,53 @@
 [
  {
+  "id": "n111",
+  "date": "2026-10-27",
+  "day": "27 Oct",
+  "headline": "Pace Digitek wins Coal India's 187.5 MW / 750 MWh standalone battery project at Choutuppal, Telangana (₹1,074 crore, ₹3.14 lakh per MW a month, 11 bidders) and gets a BSES Rajdhani letter of intent for 57.5 MW / 115 MWh across four Delhi substations",
+  "category": "India BESS",
+  "effect": "Storage demand",
+  "direction": "up",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/pace-digitek-coal-india-bess-project-telangana/",
+  "sources": "Powerpeak Digest"
+ },
+ {
+  "id": "n112",
+  "date": "2026-10-27",
+  "day": "27 Oct",
+  "headline": "Olectra's MD calls electric trucks a bigger opportunity than buses: its first trucks cover 28–55 tonne tippers and tractor-trailers, the Sitarampur plant is sized for about 1,200 trucks a year, and he says about 74% of state bus purchases in Q1 were electric",
+  "category": "India EV & battery makers",
+  "effect": "E-truck demand",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/electric-trucks-next-big-ev-growth-opportunity-financing-key-to-adoption-olectra-md-135495",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n113",
+  "date": "2026-10-26",
+  "day": "26 Oct",
+  "headline": "Nio keeps developing its own large cylindrical cells, with EVE and Gotion reportedly making them and only a tiny batch due by year-end, while it buys more CATL prismatic cells for its Onvo and Firefly brands",
+  "category": "Cell makers & competitors",
+  "effect": "CATL share",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/26/nio-presses-ahead-cylindrical-cells-limited-output-year-end/",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n114",
+  "date": "2026-10-27",
+  "day": "27 Oct",
+  "headline": "Polish utility PGE starts building a 400 MW battery at Gryfino near Szczecin, with Fluence supplying 94 Smartstack units of 10 MWh each; operation is planned for 2028",
+  "category": "Energy storage",
+  "effect": "Storage demand",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://ess-news.com/2026/10/27/pge-hosts-groundbreaking-for-400-mw-project-in-poland-fluence-supplying-smartstack-bess",
+  "sources": "ESS News"
+ },
+ {
   "id": "n103",
   "date": "2026-10-26",
   "day": "26 Oct",

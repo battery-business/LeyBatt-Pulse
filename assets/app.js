@@ -1082,16 +1082,14 @@
     // table
     tbl.replaceChildren();
     const th = el('thead'); const hr = el('tr');
-    ['Material', 'Price risk', 'Supply risk', 'Confidence'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    ['Material', 'Price risk', 'Supply risk'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
     const tb = el('tbody');
     mats.forEach((m) => {
       const r = m[RISK.h]; const tr = el('tr', m.id === RISK.sel ? 'sel' : null); tr.tabIndex = 0;
       const n = el('td', 'rname'); n.append(el('b', null, m.short), el('span', null, m.group));
       const p = el('td'); p.append(riskChip(r.price), riskDelta(r.price));
       const s = el('td'); s.append(riskChip(r.supply), riskDelta(r.supply));
-      const c = el('td', 'rconf conf-' + r.confidence.toLowerCase(), r.confidence);
-      c.title = r.confidence === 'Low' ? 'Few price readings so far; treat the price score with care' : r.confidence === 'Medium' ? 'Some price history; most drivers available' : 'Good price history and most drivers available';
-      tr.append(n, p, s, c);
+      tr.append(n, p, s);
       const pick = () => { RISK.sel = m.id; renderRisk(); $('#risk-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
       tr.addEventListener('click', pick); tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
       tb.appendChild(tr);
@@ -1197,7 +1195,6 @@
     }
     const sc = el('div', 'rd-scores');
     [['Price risk', r.price], ['Supply risk', r.supply]].forEach(([lab, ax]) => { const b = el('div', 'rd-score'); b.append(el('span', null, lab), riskChip(ax), riskDelta(ax)); sc.appendChild(b); });
-    const cf = el('div', 'rd-score'); cf.append(el('span', null, 'Confidence'), el('span', 'rconf conf-' + r.confidence.toLowerCase(), r.confidence)); sc.appendChild(cf);
     head.append(t, sc); box.appendChild(head);
 
     const cols = el('div', 'rd-cols');
@@ -1282,7 +1279,7 @@
     const p = (html) => { const e = el('p'); e.innerHTML = html; return e; };
     box.append(
       p('<b>What the scores mean.</b> Each tracked material gets two scores from 0 to 10, seen from a buyer\'s side. <b>Price risk</b> is the risk that prices rise or swing hard. <b>Supply risk</b> is the risk of not getting material on time or on normal terms. 0–3.9 is Low, 4–6.4 Elevated, 6.5–10 High.'),
-      p('<b>How they are built.</b> Each score is a weighted average of a few driver scores, and every driver is shown with its weight and the evidence behind it. Drivers with no data are left out and the weights shared among the rest, which is why the confidence label matters.'),
+      p('<b>How they are built.</b> Each score is a weighted average of a few driver scores, and every driver is shown with its weight and the evidence behind it. Drivers with no data are left out and the weights shared among the rest; drivers that rest on an assumption are tagged so.'),
     );
     const tbl = el('table', 'rtable mtable');
     const rows = [
@@ -1319,7 +1316,7 @@
       t.appendChild(tb); const w = el('div', 'table-wrap'); w.appendChild(t); box.appendChild(w);
       const verdict = bt.map((b) => {
         const lift = b.high.rise5 - b.low.rise5, swing = b.high.big10 - b.low.big10;
-        return `<b>${b.name}:</b> ` + (lift >= 10 ? `after high scores, rises of more than 5% were ${b.high.rise5}% likely against ${b.low.rise5}% after low scores, so the score has worked as an early warning.` : swing >= 10 ? `high scores were followed by bigger moves, but not more often by rises; treat the score as a warning of swings.` : `high scores have not been followed by more rises (${b.high.rise5}% vs ${b.low.rise5}%) and prices more often fell (${b.high.fall5}% vs ${b.low.fall5}%), so the price score is marked low confidence.`);
+        return `<b>${b.name}:</b> ` + (lift >= 10 ? `after high scores, rises of more than 5% were ${b.high.rise5}% likely against ${b.low.rise5}% after low scores, so the score has worked as an early warning.` : swing >= 10 ? `high scores were followed by bigger moves, but not more often by rises; treat the score as a warning of swings.` : `high scores have not been followed by more rises (${b.high.rise5}% vs ${b.low.rise5}%) and prices more often fell (${b.high.fall5}% vs ${b.low.fall5}%), so read its price score as a sign of possible swings, not of rising prices.`);
       });
       box.append(p(verdict.join(' ')));
     } else {

@@ -192,7 +192,7 @@
    },
    "assumptions": [
     "Price history is the LME cash settlement price, daily since 2018 (via Westmetall).",
-    "Back-test warning: for aluminium, a high trend-and-swings score has not been followed by rises (since 2018 prices more often fell afterwards), so its price score is marked low confidence. Read it as a sign of possible swings, not of rising prices."
+    "Back-test warning: for aluminium, a high trend-and-swings score has not been followed by rises (since 2018 prices more often fell afterwards), so read its price score as a sign of possible swings, not of rising prices."
    ],
    "conf_cap": "Low"
   }

@@ -1,0 +1,58 @@
+[
+ {
+  "m": "aluminium",
+  "date": "2026-10-22",
+  "v": 3009.0,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/aluminum"
+ },
+ {
+  "m": "cathode",
+  "date": "2026-10-16",
+  "v": 6650,
+  "source": "SMM (implied by the −1.5% move since 16 Oct)",
+  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-"
+ },
+ {
+  "m": "cathode",
+  "date": "2026-10-22",
+  "v": 6550.0,
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure"
+ },
+ {
+  "m": "cell_ess",
+  "date": "2026-10-21",
+  "v": 47.3,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
+  "m": "cell_ev",
+  "date": "2026-10-22",
+  "v": 54.2,
+  "source": "TrendForce",
+  "url": "https://www.trendforce.com/price/battery-price"
+ },
+ {
+  "m": "copper",
+  "date": "2026-10-23",
+  "v": 14200.0,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/copper"
+ },
+ {
+  "m": "graphite",
+  "date": "2026-02-01",
+  "v": 3710.0,
+  "source": "SMM cost model (Mar 2026)",
+  "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-10-26",
+  "v": 14670.0,
+  "source": "China spot · SMM daily review",
+  "url": "https://news.metal.com/newscontent/104179171-smm-lithium-carbonate-daily-review-on-october-26-spot-lithium-carbonate-stopped-falling-and-rebounded-ending-its-previous-consecutive-decline"
+ }
+]

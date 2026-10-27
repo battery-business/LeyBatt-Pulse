@@ -54,7 +54,29 @@
   "kind": "Rule change",
   "source": "HSF Kramer",
   "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
-  "short": "China battery export-control pause ends"
+  "short": "China battery export-control pause ends",
+  "risk": [
+   {
+    "m": "graphite",
+    "k": "supply",
+    "s": 3
+   },
+   {
+    "m": "cathode",
+    "k": "supply",
+    "s": 2
+   },
+   {
+    "m": "cell_ev",
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "date": "2026-11-12",
@@ -95,7 +117,14 @@
   "kind": "Supply",
   "source": "Business Today",
   "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
-  "short": "Himadri’s first LFP cathode plant due to start"
+  "short": "Himadri’s first LFP cathode plant due to start",
+  "risk": [
+   {
+    "m": "cathode",
+    "k": "supply",
+    "s": -1
+   }
+  ]
  },
  {
   "date": "2027-01-01",
@@ -103,7 +132,19 @@
   "kind": "Rule change",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
-  "short": "China ends 6% battery export VAT rebate"
+  "short": "China ends 6% battery export VAT rebate",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 2
+   },
+   {
+    "m": "cell_ev",
+    "k": "price",
+    "s": 2
+   }
+  ]
  },
  {
   "date": "2027-01-01",
@@ -112,7 +153,14 @@
   "kind": "Supply",
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
-  "short": "Zimbabwe bans lithium concentrate exports"
+  "short": "Zimbabwe bans lithium concentrate exports",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "supply",
+    "s": 2
+   }
+  ]
  },
  {
   "date": "2027-02-01",

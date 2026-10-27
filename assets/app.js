@@ -1,9 +1,9 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'materials', 'news', 'calculator'];
+  const TABS = ['overview', 'materials', 'news', 'calculator', 'risk'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
@@ -233,6 +233,8 @@
     price('4-h system', L.system, CARD_TAB.system);
     price('Copper', M.Copper, 'materials/all');
     price('Aluminium', M.Aluminium, 'materials/all');
+    // the three highest risk scores (Risk Navigator, next 3 months)
+    riskStripItems().forEach(({ m, ax, a }) => out.push({ k: 'risk', name: `${m.short} ${ax}`, score: a.score, level: a.level, change: a.change, id: m.id, tip: `${m.name}: ${ax} risk ${a.score}/10 (${a.level}), next 3 months` }));
     // dates in the next three weeks
     const today = istToday();
     const evs = (D.events || []).filter((e) => e.precision !== 'month' && +parse(e.end || e.date) >= today && (+parse(e.date) - today) / 864e5 <= 21)
@@ -251,7 +253,7 @@
   }
   function tapeSeg(items, live) {
     const seg = el('div', 'tk-seg'); let last = null;
-    const LAB = { price: 'Prices', next: 'Next', alert: 'Alert', latest: 'Latest' };
+    const LAB = { price: 'Prices', risk: 'Risk', next: 'Next', alert: 'Alert', latest: 'Latest' };
     items.forEach((it) => {
       if (it.k !== last) { seg.appendChild(el('span', 'tk-lab tk-lab-' + it.k, LAB[it.k])); last = it.k; }
       let b;
@@ -261,6 +263,11 @@
         b.append(el('span', 'tn', it.name), el('span', 'tv', it.val));
         if (it.chg) b.appendChild(el('span', 'tc ' + (it.dir === 'down' ? 'is-down' : it.dir === 'up' ? 'is-up' : 'is-flat'), it.chg === 'flat' ? 'flat' : arrow + it.chg));
         b.addEventListener('click', () => go(it.to));
+      } else if (it.k === 'risk') {
+        b = el('button', 'tick tk-risk'); b.type = 'button';
+        b.append(el('span', 'tn', it.name), el('span', 'tv', it.score.toFixed(1)), el('span', 'tl lv-' + String(it.level).toLowerCase(), it.level));
+        if (it.change != null && Math.abs(it.change) >= 0.05) b.appendChild(el('span', 'tc ' + (it.change > 0 ? 'is-up' : 'is-down'), (it.change > 0 ? '▲' : '▼') + Math.abs(it.change).toFixed(1)));
+        b.addEventListener('click', () => { RISK.sel = it.id; go('risk'); });
       } else if (it.k === 'next') {
         b = el('button', 'tick tk-next'); b.type = 'button';
         b.append(el('span', 'tt', it.text), el('span', 'tw' + (it.soon ? ' soon' : ''), it.when));
@@ -1032,8 +1039,234 @@
     list.forEach((n) => ul.appendChild(newsItem(n)));
   }
 
+  // ---------- risk navigator ----------
+  // Scores come ready-made from data/risk.json (scripts/risk.py); this only draws them.
+  const RISK = { h: 'h3', sel: null };
+  const LVL = { Low: '--ok', Elevated: '--warn', High: '--bad' };
+  const lvlColor = (lvl) => css(LVL[lvl] || '--slate');
+  const scoreTxt = (v) => (v == null ? '–' : v.toFixed(1));
+  function riskChip(ax) {
+    const c = el('span', 'rchip' + (ax && ax.level ? ' lv-' + ax.level.toLowerCase() : ' lv-none'));
+    c.append(el('b', null, scoreTxt(ax && ax.score)), el('span', null, ax && ax.level ? ax.level : 'Not scored'));
+    return c;
+  }
+  function riskDelta(ax) {
+    const ch = ax && ax.change;
+    if (ch == null) return el('span', 'rdelta', '');
+    const t = Math.abs(ch) < 0.05 ? 'no change' : `${ch > 0 ? '▲' : '▼'} ${Math.abs(ch).toFixed(1)}`;
+    const s = el('span', 'rdelta' + (ch > 0.04 ? ' up' : ch < -0.04 ? ' down' : ''), t); s.title = 'Change since a week ago';
+    return s;
+  }
+  function riskStripItems() {
+    const R = D.risk; if (!R || !R.materials) return [];
+    const rows = [];
+    R.materials.forEach((m) => ['price', 'supply'].forEach((ax) => { const a = m.h3 && m.h3[ax]; if (a && a.score != null) rows.push({ m, ax, a }); }));
+    return rows.sort((x, y) => y.a.score - x.a.score).slice(0, 3);
+  }
+  function renderRisk() {
+    const R = D.risk;
+    const det = $('#risk-detail'), tbl = $('#risk-table'), map = $('#risk-map');
+    if (!R || !R.materials) { fail(map, 'Risk scores are not available yet'); tbl.replaceChildren(); det.replaceChildren(); return; }
+    const mats = R.materials;
+    if (!RISK.sel || !mats.some((m) => m.id === RISK.sel)) {
+      const top = [...mats].sort((a, b) => Math.max(b.h3.price.score || 0, b.h3.supply.score || 0) - Math.max(a.h3.price.score || 0, a.h3.supply.score || 0))[0];
+      RISK.sel = top && top.id;
+    }
+    // horizon switch
+    const seg = $('#risk-h'); seg.replaceChildren();
+    Object.entries(R.horizons).forEach(([k, h]) => {
+      const b = el('button', null, h.label); b.type = 'button'; b.setAttribute('aria-pressed', String(RISK.h === k));
+      b.addEventListener('click', () => { RISK.h = k; renderRisk(); }); seg.appendChild(b);
+    });
+    $('#risk-asof').textContent = `Scored ${d3.utcFormat('%-d %b %Y')(parse(R.asof))}`;
+    // table
+    tbl.replaceChildren();
+    const th = el('thead'); const hr = el('tr');
+    ['Material', 'Price risk', 'Supply risk', 'Confidence'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el('tbody');
+    mats.forEach((m) => {
+      const r = m[RISK.h]; const tr = el('tr', m.id === RISK.sel ? 'sel' : null); tr.tabIndex = 0;
+      const n = el('td', 'rname'); n.append(el('b', null, m.short), el('span', null, m.group));
+      const p = el('td'); p.append(riskChip(r.price), riskDelta(r.price));
+      const s = el('td'); s.append(riskChip(r.supply), riskDelta(r.supply));
+      const c = el('td', 'rconf conf-' + r.confidence.toLowerCase(), r.confidence);
+      c.title = r.confidence === 'Low' ? 'Few price readings so far; treat the price score with care' : r.confidence === 'Medium' ? 'Some price history; most drivers available' : 'Good price history and most drivers available';
+      tr.append(n, p, s, c);
+      const pick = () => { RISK.sel = m.id; renderRisk(); $('#risk-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+      tr.addEventListener('click', pick); tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    const lg = $('#risk-legend'); lg.replaceChildren();
+    [['Low', '0 – 3.9'], ['Elevated', '4 – 6.4'], ['High', '6.5 – 10']].forEach(([l, r]) => { const s = el('span', 'lv-' + l.toLowerCase()); s.append(el('i'), document.createTextNode(`${l} ${r}`)); lg.appendChild(s); });
+    lg.appendChild(el('span', 'note', '▲▼ change since a week ago'));
+    drawRiskMap(map, mats);
+    renderRiskDetail(det, mats.find((m) => m.id === RISK.sel), R);
+    renderRiskMethod($('#risk-method'), R);
+  }
+  function drawRiskMap(box, mats) {
+    box.replaceChildren();
+    const pts = mats.map((m) => ({ m, x: m[RISK.h].price.score, y: m[RISK.h].supply.score })).filter((p) => p.x != null && p.y != null);
+    const miss = mats.filter((m) => m[RISK.h].price.score == null).map((m) => m.short);
+    $('#risk-map-note').textContent = miss.length ? `Not on the map yet: ${miss.join(', ')} (no price history to score price risk; supply risk is in the table).` : '';
+    const W = Math.max(300, box.clientWidth || 520), H = Math.min(400, Math.max(280, W * 0.72));
+    const mg = { t: 14, r: 16, b: 40, l: 44 };
+    const x = d3.scaleLinear().domain([0, 10]).range([mg.l, W - mg.r]), y = d3.scaleLinear().domain([0, 10]).range([H - mg.b, mg.t]);
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('role', 'img').attr('aria-label', 'Risk map: price risk across, supply risk up');
+    // zones: tint by the higher of the two scores
+    const zones = [[0, 4, '--ok'], [4, 6.5, '--warn'], [6.5, 10, '--bad']];
+    [...zones].reverse().forEach(([, hi, c]) => {
+      const r = () => svg.append('rect').attr('x', x(0)).attr('y', y(hi)).attr('width', x(hi) - x(0)).attr('height', y(0) - y(hi));
+      r().attr('fill', css('--panel')); r().attr('fill', css(c)).attr('opacity', 0.08);
+    });
+    [4, 6.5].forEach((v) => {
+      svg.append('line').attr('x1', x(v)).attr('x2', x(v)).attr('y1', y(0)).attr('y2', y(10)).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 4');
+      svg.append('line').attr('x1', x(0)).attr('x2', x(10)).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 4');
+    });
+    svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(x).ticks(5).tickSize(0).tickPadding(8)).call(axisStyle);
+    svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(0).tickPadding(8)).call(axisStyle);
+    svg.append('text').attr('x', W - mg.r).attr('y', H - 6).attr('text-anchor', 'end').attr('fill', css('--muted')).attr('font-size', 12).text('Price risk →');
+    svg.append('text').attr('transform', `translate(12,${mg.t}) rotate(-90)`).attr('text-anchor', 'end').attr('fill', css('--muted')).attr('font-size', 12).text('Supply risk →');
+    svg.append('text').attr('x', x(10) - 6).attr('y', y(10) + 16).attr('text-anchor', 'end').attr('fill', css('--bad')).attr('font-size', 11.5).attr('font-weight', 700).text('High on both');
+    // nudge labels that would overlap
+    const placed = [];
+    pts.sort((a, b) => b.y - a.y).forEach((p) => {
+      let ly = y(p.y) + 4; const lx = x(p.x) + 11;
+      placed.forEach((q) => { if (Math.abs(q.x - lx) < 90 && Math.abs(q.y - ly) < 14) ly = q.y + 14; });
+      placed.push({ x: lx, y: ly }); p.ly = ly;
+    });
+    const lvlOf = (p) => (Math.max(p.x, p.y) >= 6.5 ? 'High' : Math.max(p.x, p.y) >= 4 ? 'Elevated' : 'Low');
+    const g = svg.append('g');
+    pts.forEach((p) => {
+      const sel = p.m.id === RISK.sel;
+      const a = g.append('g').attr('class', 'rpt').attr('tabindex', 0).attr('role', 'button').attr('aria-label', `${p.m.name}: price risk ${p.x}, supply risk ${p.y}`).style('cursor', 'pointer');
+      a.append('circle').attr('cx', x(p.x)).attr('cy', y(p.y)).attr('r', sel ? 9 : 7).attr('fill', lvlColor(lvlOf(p))).attr('stroke', sel ? css('--fg') : css('--panel')).attr('stroke-width', sel ? 2.5 : 2);
+      a.append('text').attr('x', x(p.x) > W - 110 ? x(p.x) - 11 : x(p.x) + 11).attr('text-anchor', x(p.x) > W - 110 ? 'end' : 'start').attr('y', p.ly).attr('font-size', 12.5).attr('font-weight', sel ? 700 : 600).attr('fill', css('--fg')).text(p.m.short);
+      const pick = () => { RISK.sel = p.m.id; renderRisk(); };
+      a.on('click', pick).on('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } })
+        .on('mousemove', (ev) => showTip(ev, (t) => { t.appendChild(el('div', 'h', p.m.name)); tipRow(t, null, 'Price risk', `${scoreTxt(p.x)} ${p.m[RISK.h].price.level}`); tipRow(t, null, 'Supply risk', `${scoreTxt(p.y)} ${p.m[RISK.h].supply.level}`); }))
+        .on('mouseleave', hideTip);
+    });
+  }
+  function driverList(drivers) {
+    const ul = el('ul', 'drivers');
+    drivers.forEach((d) => {
+      const li = el('li', d.score == null || !d.weight ? 'off' : null);
+      const top = el('div', 'dtop');
+      top.append(el('span', 'dl', d.label), el('span', 'dw', d.score == null || !d.weight ? 'not used' : `${d.weight}% of score`));
+      const bar = el('div', 'dbar'); const fill = el('i'); fill.style.width = `${(d.score || 0) * 10}%`;
+      fill.style.background = lvlColor(d.score == null ? null : d.score >= 6.5 ? 'High' : d.score >= 4 ? 'Elevated' : 'Low');
+      bar.appendChild(fill);
+      const val = el('b', 'dv', scoreTxt(d.score));
+      const row = el('div', 'drow'); row.append(bar, val);
+      const det = el('div', 'dd'); det.appendChild(document.createTextNode(d.detail || ''));
+      if (d.url) { det.appendChild(document.createTextNode(' · ')); det.appendChild(link('source', d.url)); }
+      li.append(top, row, det);
+      if (d.items && d.items.length) {
+        const il = el('ul', 'ditems');
+        d.items.slice(0, 6).forEach((it) => {
+          const x = el('li'); x.appendChild(el('span', 'ds ' + (it.s > 0 ? 'up' : 'down'), it.s > 0 ? `+${it.s}` : String(it.s)));
+          x.appendChild(el('span', 'dday', d3.utcFormat('%-d %b')(parse(it.date))));
+          x.appendChild(it.url ? link(it.text, it.url) : el('span', null, it.text));
+          il.appendChild(x);
+        });
+        li.appendChild(il);
+      }
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+  function renderRiskDetail(box, m, R) {
+    box.replaceChildren(); if (!m) return;
+    const r = m[RISK.h];
+    const head = el('div', 'rd-head');
+    const t = el('div'); t.append(el('div', 'rd-group', m.group), el('h2', 'rd-name', m.name));
+    if (m.now) {
+      const p = el('div', 'rd-now');
+      const unit = m.unit || '';
+      p.append(el('b', null, (m.now.value >= 100 ? fmtUsd0(m.now.value) : fmtUsd1(m.now.value)) + unit), document.createTextNode(` · ${d3.utcFormat('%-d %b %Y')(parse(m.now.date))} · `));
+      p.appendChild(m.now.url ? link(m.now.source, m.now.url) : document.createTextNode(m.now.source));
+      t.appendChild(p);
+    }
+    const sc = el('div', 'rd-scores');
+    [['Price risk', r.price], ['Supply risk', r.supply]].forEach(([lab, ax]) => { const b = el('div', 'rd-score'); b.append(el('span', null, lab), riskChip(ax), riskDelta(ax)); sc.appendChild(b); });
+    const cf = el('div', 'rd-score'); cf.append(el('span', null, 'Confidence'), el('span', 'rconf conf-' + r.confidence.toLowerCase(), r.confidence)); sc.appendChild(cf);
+    head.append(t, sc); box.appendChild(head);
+
+    const cols = el('div', 'rd-cols');
+    const pc = el('div', 'rd-col'); pc.append(el('h3', null, 'What drives the price score'), r.price.score == null ? el('p', 'sub', 'Not scored: there is no price history for this material yet. It builds up each day from the prices on this site.') : driverList(r.price.drivers));
+    const scol = el('div', 'rd-col'); scol.append(el('h3', null, 'What drives the supply score'), driverList(r.supply.drivers));
+    cols.append(pc, scol); box.appendChild(cols);
+
+    // trend of the 3-month scores
+    const tr = (m.trend || []).filter((x) => x[1] != null || x[2] != null);
+    if (tr.length >= 2) {
+      const tw = el('div', 'rd-trend'); tw.appendChild(el('h3', null, 'Score history (next-3-months view)'));
+      const c = el('div', 'chart'); tw.appendChild(c); box.appendChild(tw);
+      const W = Math.max(300, c.clientWidth || box.clientWidth - 40 || 600), H = 170, mg = { t: 10, r: 14, b: 24, l: 30 };
+      const xs = d3.scaleUtc().domain(d3.extent(tr, (x) => parse(x[0]))).range([mg.l, W - mg.r]), ys = d3.scaleLinear().domain([0, 10]).range([H - mg.b, mg.t]);
+      const svg = d3.select(c).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%');
+      [4, 6.5].forEach((v) => svg.append('line').attr('x1', mg.l).attr('x2', W - mg.r).attr('y1', ys(v)).attr('y2', ys(v)).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 4'));
+      svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(xs).ticks(Math.max(2, Math.min(tr.length, Math.floor(W / 85)))).tickFormat(d3.utcFormat('%-d %b')).tickSize(0).tickPadding(6)).call(axisStyle);
+      svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).tickValues([0, 4, 6.5, 10]).tickFormat(d3.format('~g')).tickSize(0).tickPadding(6)).call(axisStyle);
+      [[1, '--accent', 'Price'], [2, '--plum', 'Supply']].forEach(([i, col, name]) => {
+        const pts = tr.filter((x) => x[i] != null);
+        if (pts.length < 2) return;
+        svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css(col)).attr('stroke-width', 2.2).attr('d', d3.line().x((x) => xs(parse(x[0]))).y((x) => ys(x[i])));
+        const lp = pts[pts.length - 1];
+        svg.append('circle').attr('cx', xs(parse(lp[0]))).attr('cy', ys(lp[i])).attr('r', 3.5).attr('fill', css(col));
+      });
+      const lg = el('div', 'rd-tlegend'); [['--accent', 'Price risk'], ['--plum', 'Supply risk']].forEach(([cc, n]) => { const s = el('span'); const i = el('i'); i.style.background = css(cc); s.append(i, document.createTextNode(n)); lg.appendChild(s); });
+      lg.appendChild(el('span', 'note', 'Scores before 27 Oct 2026 are rebuilt from the prices known at the time.'));
+      tw.appendChild(lg);
+    }
+    // action
+    const act = el('div', 'rd-action'); act.appendChild(el('h3', null, 'Typical responses at this level'));
+    const ag = el('div', 'rd-acts');
+    [['Price', r.price], ['Supply', r.supply]].forEach(([lab, ax]) => {
+      if (!ax || !ax.level) return;
+      const card = el('div', 'ract lv-' + ax.level.toLowerCase()); card.appendChild(el('div', 'ract-h', `${lab} risk: ${ax.level}`));
+      const ul = el('ul'); ((R.playbook[lab.toLowerCase()] || {})[ax.level] || []).forEach((x) => ul.appendChild(el('li', null, x))); card.appendChild(ul); ag.appendChild(card);
+    });
+    act.append(ag, el('p', 'sub', 'General buying practice, not a recommendation. Check the drivers above and the latest news before acting.'));
+    box.appendChild(act);
+  }
+  function renderRiskMethod(box, R) {
+    if (box.childElementCount) return;
+    const p = (html) => { const e = el('p'); e.innerHTML = html; return e; };
+    box.append(
+      p('<b>What the scores mean.</b> Each tracked material gets two scores from 0 to 10, seen from a buyer\'s side. <b>Price risk</b> is the risk that prices rise or swing hard. <b>Supply risk</b> is the risk of not getting material on time or on normal terms. 0–3.9 is Low, 4–6.4 Elevated, 6.5–10 High.'),
+      p('<b>How they are built.</b> Each score is a weighted average of a few driver scores, and every driver is shown with its weight and the evidence behind it. Drivers with no data are left out and the weights shared among the rest, which is why the confidence label matters.'),
+    );
+    const tbl = el('table', 'rtable mtable');
+    const rows = [
+      ['Recent price trend', 'Price', 'Change over 1 and 3 months: −20% scores 0, flat 5, +20% 10'],
+      ['How much the price swings', 'Price', 'Yearly volatility over the last 6 months: 5% scores 0, 60% or more 10'],
+      ['What forecasters expect', 'Price', 'Average of tracked bank and broker forecasts vs today: −30% scores 0, +30% 10 (lithium only for now)'],
+      ['Room above the cost to make', 'Price', 'Cell price vs the site\'s cost model: margin of 30% or more scores 0, no margin 10 (cells only)'],
+      ['Lithium price risk passed through', 'Price', 'The lithium price score, for materials whose cost depends on lithium (cathode, cells)'],
+      ['Price news / known cost changes ahead', 'Price', 'Stories and dated changes tagged with their likely effect (−3 to +3). News fades with a 3-week half-life; dated changes count more as they get closer'],
+      ['Dependence on one country', 'Supply', 'China\'s share of world supply from the IEA (aluminium: IAI) divided by 10, less 3 where India has large production of its own'],
+      ['Supply news', 'Supply', 'Disruptions and new capacity tagged −3 to +3, fading with a 1-month half-life; with no news the driver sits at 2'],
+      ['Rule changes and deadlines ahead', 'Supply', 'Export controls, bans and other dated changes within the horizon, counting more as they get closer'],
+    ];
+    const th = el('thead'); const hr = el('tr'); ['Driver', 'Score', 'How it is measured'].forEach((x) => hr.appendChild(el('th', null, x))); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el('tbody'); rows.forEach((r) => { const tr = el('tr'); r.forEach((c) => tr.appendChild(el('td', null, c))); tb.appendChild(tr); }); tbl.appendChild(tb);
+    const wrap = el('div', 'table-wrap'); wrap.appendChild(tbl); box.appendChild(wrap);
+    const wt = (h) => Object.entries(R.weights[h]).map(([ax, w]) => `${ax === 'price' ? 'Price' : 'Supply'}: ` + Object.entries(w).filter(([, v]) => v > 0).map(([k, v]) => `${k.replace(/_/g, ' ')} ${v}`).join(', ')).join('. ');
+    box.append(p(`<b>Weights.</b> Next 3 months — ${wt('h3')}. Next 12 months — ${wt('h12')}. The 12-month view leans more on forecasts, the cost floor, dated changes and structural dependence, and less on the latest moves.`));
+    const bt = (R.backtest || []);
+    if (bt.length) {
+      const items = bt.map((b) => `${b.material}: ${b.months} months (${b.from.slice(0, 4)}–${b.to.slice(0, 4)}). After a price score of 5.5 or more, prices rose more than 5% within 3 months ${b.high.rise5 ?? '–'}% of the time (n=${b.high.n}); after a score under 4.5, ${b.low.rise5 ?? '–'}% (n=${b.low.n}). Moves bigger than 10% either way: ${b.high.big ?? '–'}% vs ${b.low.big ?? '–'}%.`);
+      box.append(p('<b>Back-test (price trend and swings only).</b> ' + items.join(' ')));
+    } else {
+      box.append(p('<b>Back-test.</b> Not yet possible: the site holds months, not years, of daily prices. Copper and aluminium histories are being added automatically; the result will appear here when there is enough data.'));
+    }
+    box.append(p('<b>Limits.</b> Built only from public prices and news, not from deals reported by buyers and sellers, so it complements rather than replaces paid services such as CRU, Fastmarkets or Benchmark. News tags are a judgement made when each story is added. Use the drivers and links to check before acting.'));
+  }
+
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc };
+  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc, risk: renderRisk };
   function go(route, push = true) {
     const path = String(route || 'overview').split('?')[0];
     let [tab, sub] = (LEGACY[path] || path).split('/');

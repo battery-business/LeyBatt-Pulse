@@ -1,0 +1,190 @@
+{
+ "about": "Settings for the Risk Navigator (scripts/risk.py). Scores run 0-10 from a buyer's point of view: price risk is the risk of prices rising or swinging hard; supply risk is the risk of not getting material on time or on normal terms. Change weights or concentration figures here, never in the page.",
+ "bands": [
+  {
+   "max": 4.0,
+   "level": "Low"
+  },
+  {
+   "max": 6.5,
+   "level": "Elevated"
+  },
+  {
+   "max": 10.01,
+   "level": "High"
+  }
+ ],
+ "horizons": {
+  "h3": {
+   "label": "Next 3 months",
+   "days": 90
+  },
+  "h12": {
+   "label": "Next 12 months",
+   "days": 365
+  }
+ },
+ "weights": {
+  "h3": {
+   "price": {
+    "momentum": 30,
+    "volatility": 20,
+    "expectations": 15,
+    "floor": 15,
+    "upstream": 10,
+    "price_news": 10,
+    "price_dates": 10
+   },
+   "supply": {
+    "concentration": 40,
+    "supply_news": 30,
+    "supply_dates": 30
+   }
+  },
+  "h12": {
+   "price": {
+    "momentum": 10,
+    "volatility": 15,
+    "expectations": 30,
+    "floor": 25,
+    "upstream": 10,
+    "price_news": 0,
+    "price_dates": 20
+   },
+   "supply": {
+    "concentration": 55,
+    "supply_news": 15,
+    "supply_dates": 30
+   }
+  }
+ },
+ "materials": [
+  {
+   "id": "lithium",
+   "name": "Lithium carbonate",
+   "short": "Lithium",
+   "group": "Raw material",
+   "unit": "/t",
+   "conc": {
+    "share": 70,
+    "what": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "cathode",
+   "name": "LFP cathode",
+   "short": "LFP cathode",
+   "group": "Cell material",
+   "unit": "/t",
+   "upstream": 30,
+   "conc": {
+    "share": 98,
+    "what": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "graphite",
+   "name": "Graphite anode",
+   "short": "Graphite",
+   "group": "Cell material",
+   "unit": "/t",
+   "conc": {
+    "share": 95,
+    "what": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "cell_ess",
+   "name": "Storage cell (314 Ah LFP)",
+   "short": "Storage cell",
+   "group": "Cell",
+   "unit": "/kWh",
+   "upstream": 10,
+   "conc": {
+    "share": 80,
+    "what": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "cell_ev",
+   "name": "EV cell (230 / 324 Ah LFP)",
+   "short": "EV cell",
+   "group": "Cell",
+   "unit": "/kWh",
+   "upstream": 10,
+   "conc": {
+    "share": 80,
+    "what": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "copper",
+   "name": "Copper",
+   "short": "Copper",
+   "group": "Metal",
+   "unit": "/t",
+   "india_supply": true,
+   "conc": {
+    "share": 40,
+    "what": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
+    "source": "IEA Global Critical Minerals Outlook 2025, via Mercom",
+    "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea"
+   }
+  },
+  {
+   "id": "aluminium",
+   "name": "Aluminium",
+   "short": "Aluminium",
+   "group": "Metal",
+   "unit": "/t",
+   "india_supply": true,
+   "conc": {
+    "share": 60,
+    "what": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+    "source": "International Aluminium Institute, via Mysteel",
+    "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025"
+   }
+  }
+ ],
+ "playbook": {
+  "price": {
+   "High": [
+    "Consider fixing prices for the next order window, or index-linked contracts with a cap",
+    "Check the cost floor: if the price is close to the cost to make, there is little room left to fall",
+    "Review open quotes and their validity dates before they lapse"
+   ],
+   "Elevated": [
+    "Watch weekly and have an order ready to place",
+    "Prefer index-linked pricing over long fixed-price deals until direction is clear"
+   ],
+   "Low": [
+    "Spot or index-linked buying is reasonable",
+    "A good time to negotiate longer agreements if prices are near the cost floor"
+   ]
+  },
+  "supply": {
+   "High": [
+    "Confirm allocations and shipping dates with each supplier in writing",
+    "Check second-source qualification and safety stock for critical lines",
+    "Track export-licence and customs news daily"
+   ],
+   "Elevated": [
+    "Ask suppliers about export-licence exposure and lead times",
+    "Keep a qualified alternative ready for the most critical parts"
+   ],
+   "Low": [
+    "Normal ordering; keep watching the dates ahead"
+   ]
+  }
+ }
+}

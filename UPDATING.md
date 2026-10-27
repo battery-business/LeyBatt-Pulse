@@ -42,6 +42,18 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 
 The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
 
+## Risk Navigator (tags only)
+
+The Risk tab scores price and supply risk (0–10) for seven materials. A GitHub Action (`.github/workflows/risk.yml`, `scripts/risk.py`) recalculates everything after each push: never edit `data/risk.json`, `data/risk_history.json`, `data/pricelog.json` or `data/history/` by hand. Weights and the China-share figures live in `data/risk_config.json`; change them only with a new public source.
+
+The one thing a daily update adds is **risk tags** on news items and dates that change the supply or price outlook of a tracked material:
+`"risk": [{"m": "<material>", "k": "supply" or "price", "s": <-3 to 3>}]`
+- Materials: `lithium`, `cathode` (LFP cathode), `graphite` (anode), `cell_ess` (storage cells), `cell_ev` (EV cells), `copper`, `aluminium`.
+- Sign: positive = tighter supply or upward price pressure for a buyer; negative = easier supply or downward pressure.
+- Size: 1 = notable (one company or a small share of supply); 2 = significant (a country, a large producer, a tax or rebate change); 3 = major (an export ban or control, a shutdown of more than about 5% of world supply).
+- `supply`: export controls and bans, mine or plant stoppages, new capacity starting (negative), sanctions, shipping disruption. `price`: tax, rebate or duty changes, price hikes or cuts announced by big makers, strong demand or glut signals, forecasts.
+- Do not tag plain price reports (the prices already feed the score). Tag the date in `events.json` too when the change has a start date. Leave items with no clear effect untagged.
+
 ## Morning email
 
 The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) at about 5:15 am IST, built from the data files — the daily run does not send email itself. To make it useful:

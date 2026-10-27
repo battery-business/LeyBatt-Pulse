@@ -29,6 +29,7 @@
       <button type="button" data-tab="materials" class="tab">Raw materials</button>
       <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
       <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
+      <button type="button" data-tab="risk" class="tab">Risk navigator</button>
     </nav>
   </div>
   <div class="ticker" role="region" aria-label="Market strip: prices, dates coming up and alerts"><div class="tk-view" id="ticker"></div></div>
@@ -217,6 +218,41 @@
       <ul class="newslist" id="news-list"></ul>
       <p class="sub">Summarised in our own words. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
     </div>
+  </section>
+
+  <!-- RISK NAVIGATOR: price and supply risk scores, drivers, typical responses -->
+  <section class="page" id="page-risk" data-page="risk" hidden>
+    <div class="panel risk-head">
+      <div class="rh-top">
+        <div>
+          <h2 class="rh-title">Risk Navigator</h2>
+          <p class="sub" id="risk-sub">Price and supply risk for what we buy, scored 0–10 from a buyer's point of view. Rescored every morning.</p>
+        </div>
+        <div class="seg" id="risk-h" role="group" aria-label="Time horizon"></div>
+      </div>
+      <ol class="rflow" aria-label="How to use it">
+        <li><span class="n">1</span><span><b>Awareness</b> Where the risk sits today</span></li>
+        <li><span class="n">2</span><span><b>Investigation</b> What is driving each score</span></li>
+        <li><span class="n">3</span><span><b>Action</b> Typical responses at that level</span></li>
+      </ol>
+    </div>
+    <div class="risk-grid">
+      <div class="panel" style="--sec:var(--accent)">
+        <div class="panel-head"><h2>Risk map</h2><span class="sub">Click a material to see why</span></div>
+        <div id="risk-map" class="chart risk-map"></div>
+        <p class="sub" id="risk-map-note"></p>
+      </div>
+      <div class="panel" style="--sec:var(--accent)">
+        <div class="panel-head"><h2>Scores</h2><span class="sub" id="risk-asof"></span></div>
+        <div class="table-wrap"><table class="rtable" id="risk-table"></table></div>
+        <div class="rlegend" id="risk-legend"></div>
+      </div>
+    </div>
+    <div class="panel risk-detail" id="risk-detail"></div>
+    <details class="panel risk-method">
+      <summary><h2>How the scores work</h2></summary>
+      <div id="risk-method"></div>
+    </details>
   </section>
 
   <!-- CALCULATOR -->

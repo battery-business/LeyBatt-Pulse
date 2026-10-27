@@ -63,8 +63,16 @@ def stooq(symbol, factor):
 def westmetall(field):
     """Daily LME cash settlement prices (US$/t) from westmetall.com tables."""
     try:
-        status, body = get(f"https://www.westmetall.com/en/markdaten.php?action=table&field={field}")
-        rows = []
+        rows, body = [], ""
+        this_year = datetime.now(timezone.utc).year
+        pages = [f"https://www.westmetall.com/en/markdaten.php?action=table&field={field}"]
+        pages += [f"https://www.westmetall.com/en/markdaten.php?action=table&field={field}&year={y}" for y in range(this_year - 8, this_year)]
+        for url in pages:
+            try:
+                status, page = get(url)
+            except Exception as e:  # noqa: BLE001
+                print(f"::warning::Westmetall {url[-30:]}: {type(e).__name__}"); continue
+            body += page
         for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", body, flags=re.S | re.I):
             tds = [re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, flags=re.S | re.I)]
             if len(tds) < 2:

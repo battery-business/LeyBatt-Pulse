@@ -1,0 +1,2274 @@
+{
+ "asof": "2026-10-27",
+ "generated": "2026-10-27T10:04:31+00:00",
+ "horizons": {
+  "h3": {
+   "label": "Next 3 months",
+   "days": 90
+  },
+  "h12": {
+   "label": "Next 12 months",
+   "days": 365
+  }
+ },
+ "bands": [
+  {
+   "max": 4.0,
+   "level": "Low"
+  },
+  {
+   "max": 6.5,
+   "level": "Elevated"
+  },
+  {
+   "max": 10.01,
+   "level": "High"
+  }
+ ],
+ "weights": {
+  "h3": {
+   "price": {
+    "momentum": 30,
+    "volatility": 20,
+    "expectations": 15,
+    "floor": 15,
+    "upstream": 10,
+    "price_news": 10,
+    "price_dates": 10
+   },
+   "supply": {
+    "concentration": 40,
+    "supply_news": 30,
+    "supply_dates": 30
+   }
+  },
+  "h12": {
+   "price": {
+    "momentum": 10,
+    "volatility": 15,
+    "expectations": 30,
+    "floor": 25,
+    "upstream": 10,
+    "price_news": 0,
+    "price_dates": 20
+   },
+   "supply": {
+    "concentration": 55,
+    "supply_news": 15,
+    "supply_dates": 30
+   }
+  }
+ },
+ "playbook": {
+  "price": {
+   "High": [
+    "Consider fixing prices for the next order window, or index-linked contracts with a cap",
+    "Check the cost floor: if the price is close to the cost to make, there is little room left to fall",
+    "Review open quotes and their validity dates before they lapse"
+   ],
+   "Elevated": [
+    "Watch weekly and have an order ready to place",
+    "Prefer index-linked pricing over long fixed-price deals until direction is clear"
+   ],
+   "Low": [
+    "Spot or index-linked buying is reasonable",
+    "A good time to negotiate longer agreements if prices are near the cost floor"
+   ]
+  },
+  "supply": {
+   "High": [
+    "Confirm allocations and shipping dates with each supplier in writing",
+    "Check second-source qualification and safety stock for critical lines",
+    "Track export-licence and customs news daily"
+   ],
+   "Elevated": [
+    "Ask suppliers about export-licence exposure and lead times",
+    "Keep a qualified alternative ready for the most critical parts"
+   ],
+   "Low": [
+    "Normal ordering; keep watching the dates ahead"
+   ]
+  }
+ },
+ "materials": [
+  {
+   "id": "lithium",
+   "name": "Lithium carbonate",
+   "short": "Lithium",
+   "group": "Raw material",
+   "unit": "/t",
+   "now": {
+    "value": 14670.0,
+    "date": "2026-10-26",
+    "source": "China spot · SMM daily review",
+    "url": "https://news.metal.com/newscontent/104179171-smm-lithium-carbonate-daily-review-on-october-26-spot-lithium-carbonate-stopped-falling-and-rebounded-ending-its-previous-consecutive-decline"
+   },
+   "h3": {
+    "price": {
+     "score": 2.9,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 0.0,
+       "detail": "1 month −25.5% · 3 months −31.7% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 40
+      },
+      {
+       "label": "How much the price swings",
+       "score": 5.0,
+       "detail": "About 33% a year, from 19 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 27
+      },
+      {
+       "label": "What forecasters expect",
+       "score": 5.8,
+       "detail": "Average forecast +4.8% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
+       "key": "expectations",
+       "weight": 20
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": 3.2,
+       "detail": "4 recent stories (pushing prices down)",
+       "items": [
+        {
+         "id": "n96",
+         "date": "2026-10-23",
+         "text": "Australia's resources department forecasts spodumene averaging about US$2,499/t in FY2027, up 63% from about US$1,532/t in FY2026, before easing to about US$1,684/t by FY2031",
+         "url": "https://www.fool.com.au/2026/10/23/lithium-price-set-to-soar-63-in-fy27-heres-why-and-the-asx-shares-to-buy/",
+         "s": 1
+        },
+        {
+         "id": "n88",
+         "date": "2026-10-22",
+         "text": "Benchmark Mineral Intelligence expects lithium demand from stationary storage to slow from more than 60% a year to about 5% a year through 2030; total lithium demand seen rising from 2.1 million t LCE in 2026 to about 7 million t by 2050",
+         "url": "https://www.ess-news.com/2026/10/22/lithium-demand-from-storage-expected-to-slow-to-5-annual-growth/",
+         "s": -1
+        },
+        {
+         "id": "n15",
+         "date": "2026-10-20",
+         "text": "China lithium spot edges down to about $15,280/t as buyers wait for lower prices",
+         "url": "https://news.metal.com/newscontent/104168938-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-on-october-20",
+         "s": -1
+        },
+        {
+         "id": "n05",
+         "date": "2026-10-15",
+         "text": "Bloomberg: lithium extends its slump as battery demand worries mount; down about 14% on the week",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
+         "s": -1
+        }
+       ],
+       "key": "price_news",
+       "weight": 13
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.1
+    },
+    "supply": {
+     "score": 4.2,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 7.0,
+       "detail": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 0.9,
+       "detail": "1 recent stories (easing)",
+       "items": [
+        {
+         "id": "n84",
+         "date": "2026-10-12",
+         "text": "EnergyX and Trafigura sign a 10-year take-or-pay offtake for 100,000 t of battery-grade lithium from Chile (carbonate) and Texas (hydroxide), worth over $2 billion at about $20,000/t",
+         "url": "https://battery-tech.net/battery-markets-news/energyx-trafigura-lithium-offtake/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 3.9,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "Zimbabwe bans lithium concentrate exports",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
+         "s": 2
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "High",
+    "obs180": 20
+   },
+   "h12": {
+    "price": {
+     "score": 4.5,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 0.0,
+       "detail": "1 month −25.5% · 3 months −31.7% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 18
+      },
+      {
+       "label": "How much the price swings",
+       "score": 5.0,
+       "detail": "About 33% a year, from 19 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 27
+      },
+      {
+       "label": "What forecasters expect",
+       "score": 5.8,
+       "detail": "Average forecast +4.8% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
+       "key": "expectations",
+       "weight": 55
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": 3.2,
+       "detail": "4 recent stories (pushing prices down)",
+       "items": [
+        {
+         "id": "n96",
+         "date": "2026-10-23",
+         "text": "Australia's resources department forecasts spodumene averaging about US$2,499/t in FY2027, up 63% from about US$1,532/t in FY2026, before easing to about US$1,684/t by FY2031",
+         "url": "https://www.fool.com.au/2026/10/23/lithium-price-set-to-soar-63-in-fy27-heres-why-and-the-asx-shares-to-buy/",
+         "s": 1
+        },
+        {
+         "id": "n88",
+         "date": "2026-10-22",
+         "text": "Benchmark Mineral Intelligence expects lithium demand from stationary storage to slow from more than 60% a year to about 5% a year through 2030; total lithium demand seen rising from 2.1 million t LCE in 2026 to about 7 million t by 2050",
+         "url": "https://www.ess-news.com/2026/10/22/lithium-demand-from-storage-expected-to-slow-to-5-annual-growth/",
+         "s": -1
+        },
+        {
+         "id": "n15",
+         "date": "2026-10-20",
+         "text": "China lithium spot edges down to about $15,280/t as buyers wait for lower prices",
+         "url": "https://news.metal.com/newscontent/104168938-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-on-october-20",
+         "s": -1
+        },
+        {
+         "id": "n05",
+         "date": "2026-10-15",
+         "text": "Bloomberg: lithium extends its slump as battery demand worries mount; down about 14% on the week",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
+         "s": -1
+        }
+       ],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.3
+    },
+    "supply": {
+     "score": 5.6,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 7.0,
+       "detail": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 0.9,
+       "detail": "1 recent stories (easing)",
+       "items": [
+        {
+         "id": "n84",
+         "date": "2026-10-12",
+         "text": "EnergyX and Trafigura sign a 10-year take-or-pay offtake for 100,000 t of battery-grade lithium from Chile (carbonate) and Texas (hydroxide), worth over $2 billion at about $20,000/t",
+         "url": "https://battery-tech.net/battery-markets-news/energyx-trafigura-lithium-offtake/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 5.5,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "Zimbabwe bans lithium concentrate exports",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
+         "s": 2
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "High",
+    "obs180": 20
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     1.2,
+     4.0
+    ],
+    [
+     "2026-08-11",
+     2.0,
+     4.0
+    ],
+    [
+     "2026-08-18",
+     2.5,
+     4.0
+    ],
+    [
+     "2026-08-25",
+     3.7,
+     4.0
+    ],
+    [
+     "2026-09-01",
+     3.5,
+     4.0
+    ],
+    [
+     "2026-09-08",
+     4.6,
+     4.0
+    ],
+    [
+     "2026-09-15",
+     3.9,
+     4.0
+    ],
+    [
+     "2026-09-22",
+     2.8,
+     4.0
+    ],
+    [
+     "2026-09-29",
+     2.8,
+     4.0
+    ],
+    [
+     "2026-10-06",
+     2.3,
+     4.4
+    ],
+    [
+     "2026-10-13",
+     2.5,
+     4.0
+    ],
+    [
+     "2026-10-20",
+     2.8,
+     4.2
+    ],
+    [
+     "2026-10-27",
+     2.9,
+     4.2
+    ]
+   ]
+  },
+  {
+   "id": "cathode",
+   "name": "LFP cathode",
+   "short": "LFP cathode",
+   "group": "Cell material",
+   "unit": "/t",
+   "now": {
+    "value": 6550.0,
+    "date": "2026-10-22",
+    "source": "SMM",
+    "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure"
+   },
+   "h3": {
+    "price": {
+     "score": 4.5,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": null,
+       "detail": "Not enough price history yet",
+       "key": "momentum",
+       "weight": 0
+      },
+      {
+       "label": "How much the price swings",
+       "score": null,
+       "detail": "Not enough readings in the last 6 months",
+       "key": "volatility",
+       "weight": 0
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 2.9,
+       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 50
+      },
+      {
+       "label": "Price news",
+       "score": 6.0,
+       "detail": "1 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n46",
+         "date": "2026-10-21",
+         "text": "Lopal unit signs a 2026–2030 deal to supply about 379,000–568,000 t of LFP cathode; SMM puts mid-October NEV-grade LFP at about $7,090/t, roughly 60% above the June 2025 low",
+         "url": "https://news.metal.com/en/newscontent/104171455-lfp-sees-another-large-order-as-high-end-product-supply-demand-tightens",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 50
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 1.7
+    },
+    "supply": {
+     "score": 5.8,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 9.8,
+       "detail": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 4.1,
+       "detail": "2 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 2
+        },
+        {
+         "date": "2026-12-01",
+         "text": "Himadri’s first LFP cathode plant due to start",
+         "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
+         "s": -1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.1
+    },
+    "confidence": "Low",
+    "obs180": 2
+   },
+   "h12": {
+    "price": {
+     "score": 4.5,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": null,
+       "detail": "Not enough price history yet",
+       "key": "momentum",
+       "weight": 0
+      },
+      {
+       "label": "How much the price swings",
+       "score": null,
+       "detail": "Not enough readings in the last 6 months",
+       "key": "volatility",
+       "weight": 0
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 4.5,
+       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 100
+      },
+      {
+       "label": "Price news",
+       "score": 6.0,
+       "detail": "1 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n46",
+         "date": "2026-10-21",
+         "text": "Lopal unit signs a 2026–2030 deal to supply about 379,000–568,000 t of LFP cathode; SMM puts mid-October NEV-grade LFP at about $7,090/t, roughly 60% above the June 2025 low",
+         "url": "https://news.metal.com/en/newscontent/104171455-lfp-sees-another-large-order-as-high-end-product-supply-demand-tightens",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.3
+    },
+    "supply": {
+     "score": 6.9,
+     "level": "High",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 9.8,
+       "detail": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 4.0,
+       "detail": "2 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 2
+        },
+        {
+         "date": "2026-12-01",
+         "text": "Himadri’s first LFP cathode plant due to start",
+         "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
+         "s": -1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Low",
+    "obs180": 2
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     1.2,
+     5.1
+    ],
+    [
+     "2026-08-11",
+     2.0,
+     5.1
+    ],
+    [
+     "2026-08-18",
+     2.5,
+     5.5
+    ],
+    [
+     "2026-08-25",
+     3.7,
+     5.6
+    ],
+    [
+     "2026-09-01",
+     3.5,
+     5.7
+    ],
+    [
+     "2026-09-08",
+     4.6,
+     5.5
+    ],
+    [
+     "2026-09-15",
+     3.9,
+     5.6
+    ],
+    [
+     "2026-09-22",
+     2.8,
+     5.6
+    ],
+    [
+     "2026-09-29",
+     2.8,
+     5.6
+    ],
+    [
+     "2026-10-06",
+     2.3,
+     5.7
+    ],
+    [
+     "2026-10-13",
+     2.5,
+     5.7
+    ],
+    [
+     "2026-10-20",
+     2.8,
+     5.7
+    ],
+    [
+     "2026-10-27",
+     4.5,
+     5.8
+    ]
+   ]
+  },
+  {
+   "id": "graphite",
+   "name": "Graphite anode",
+   "short": "Graphite",
+   "group": "Cell material",
+   "unit": "/t",
+   "now": {
+    "value": 3710.0,
+    "date": "2026-02-01",
+    "source": "SMM cost model (Mar 2026)",
+    "url": "https://static-metal.smm.cn/production/subscribe/email/haaQw20260323181532.pdf"
+   },
+   "h3": {
+    "price": {
+     "score": null,
+     "level": null,
+     "drivers": [],
+     "change": null
+    },
+    "supply": {
+     "score": 6.6,
+     "level": "High",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 9.5,
+       "detail": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 7.3,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 3
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.1
+    },
+    "confidence": "Low",
+    "obs180": 0
+   },
+   "h12": {
+    "price": {
+     "score": null,
+     "level": null,
+     "drivers": [],
+     "change": null
+    },
+    "supply": {
+     "score": 7.9,
+     "level": "High",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 9.5,
+       "detail": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 7.8,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 3
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Low",
+    "obs180": 0
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     null,
+     5.0
+    ],
+    [
+     "2026-08-11",
+     null,
+     5.0
+    ],
+    [
+     "2026-08-18",
+     null,
+     5.6
+    ],
+    [
+     "2026-08-25",
+     null,
+     5.7
+    ],
+    [
+     "2026-09-01",
+     null,
+     5.8
+    ],
+    [
+     "2026-09-08",
+     null,
+     5.9
+    ],
+    [
+     "2026-09-15",
+     null,
+     6.0
+    ],
+    [
+     "2026-09-22",
+     null,
+     6.1
+    ],
+    [
+     "2026-09-29",
+     null,
+     6.2
+    ],
+    [
+     "2026-10-06",
+     null,
+     6.3
+    ],
+    [
+     "2026-10-13",
+     null,
+     6.4
+    ],
+    [
+     "2026-10-20",
+     null,
+     6.5
+    ],
+    [
+     "2026-10-27",
+     null,
+     6.6
+    ]
+   ]
+  },
+  {
+   "id": "cell_ess",
+   "name": "Storage cell (314 Ah LFP)",
+   "short": "Storage cell",
+   "group": "Cell",
+   "unit": "/kWh",
+   "now": {
+    "value": 47.3,
+    "date": "2026-10-21",
+    "source": "InfoLink weekly",
+    "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+   },
+   "h3": {
+    "price": {
+     "score": 4.2,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 4.7,
+       "detail": "1 month −1.9% · 3 months −0.4% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 32
+      },
+      {
+       "label": "How much the price swings",
+       "score": 0.2,
+       "detail": "About 6% a year, from 14 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 21
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": 6.4,
+       "detail": "Price $47.3/kWh vs modelled cost $42.1/kWh: margin 11% (thin margin = little room to fall)",
+       "key": "floor",
+       "weight": 16
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 2.9,
+       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 11
+      },
+      {
+       "label": "Price news",
+       "score": 6.7,
+       "detail": "6 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n87",
+         "date": "2026-10-22",
+         "text": "BloombergNEF raises its 2026 forecast: global storage additions to jump 45% to about 188 GW / 535 GWh (from 158 GW / 459 GWh expected in mid-year), with India adding more than 6 GW this year and 638 GWh worldwide in 2027",
+         "url": "https://www.energy-storage.news/global-energy-storage-deployments-will-see-45-year-on-year-growth-surge-in-2026-bloombergnef/",
+         "s": 1
+        },
+        {
+         "id": "n45",
+         "date": "2026-10-21",
+         "text": "CATL shares drop more than 10% after Q3: profit up 14.5% but margin slips to 20.7% as China's new 2% battery consumption tax and the end of export VAT rebates (1 Jan 2027) bite; JPMorgan downgrades the Hong Kong shares",
+         "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+         "s": 1
+        },
+        {
+         "id": "n04",
+         "date": "2026-10-16",
+         "text": "CNNC awards a 2.98 GWh storage framework at about $66–70/kWh; Sungrow and CATL among five winners",
+         "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
+         "s": -1
+        },
+        {
+         "id": "n03",
+         "date": "2026-10-16",
+         "text": "China September storage awards: 4-hour systems down 12% to about $70/kWh",
+         "url": "https://www.energytrend.com/research/20261016-52306.html",
+         "s": -2
+        },
+        {
+         "id": "n81",
+         "date": "2026-10-21",
+         "text": "China's storage chain recovers: EVE Energy forecasts nine-month profit up 80–90% on revenue up about 60%; Ganfeng Lithium's nine-month revenue rises 147%; inverter maker Deye's profit rises about 80%",
+         "url": "https://www.energy-storage.news/deye-eve-and-ganfeng-lithium-strong-q3-results-for-trio-of-players-across-chinese-energy-storage-industry-value-chain/",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 11
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 6.5,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "China ends 6% battery export VAT rebate",
+         "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 11
+      }
+     ],
+     "change": 0.6
+    },
+    "supply": {
+     "score": 5.4,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 8.0,
+       "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 3.6,
+       "detail": "3 recent stories (tightening)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n57",
+         "date": "2026-10-22",
+         "text": "Mercom: India's battery-storage manufacturing capacity reaches about 86 GWh, but 92% is pack/container assembly and only 8% is cell making; most capacity is still under construction, mainly in Gujarat and Maharashtra",
+         "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh",
+         "s": 1
+        },
+        {
+         "id": "n38",
+         "date": "2026-10-15",
+         "text": "Gotion begins commissioning its LFP cell plant in Kenitra, Morocco (first phase about $1.3 billion, up to 20 GWh a year planned) to supply Africa, Europe, the Middle East and the US",
+         "url": "https://battery-tech.net/battery-markets-news/gotion-morocco-cell-plant/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 3.8,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.9
+    },
+    "confidence": "High",
+    "obs180": 15
+   },
+   "h12": {
+    "price": {
+     "score": 5.1,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 4.7,
+       "detail": "1 month −1.9% · 3 months −0.4% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 12
+      },
+      {
+       "label": "How much the price swings",
+       "score": 0.2,
+       "detail": "About 6% a year, from 14 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 19
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": 6.4,
+       "detail": "Price $47.3/kWh vs modelled cost $42.1/kWh: margin 11% (thin margin = little room to fall)",
+       "key": "floor",
+       "weight": 31
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 4.5,
+       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 12
+      },
+      {
+       "label": "Price news",
+       "score": 6.7,
+       "detail": "6 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n87",
+         "date": "2026-10-22",
+         "text": "BloombergNEF raises its 2026 forecast: global storage additions to jump 45% to about 188 GW / 535 GWh (from 158 GW / 459 GWh expected in mid-year), with India adding more than 6 GW this year and 638 GWh worldwide in 2027",
+         "url": "https://www.energy-storage.news/global-energy-storage-deployments-will-see-45-year-on-year-growth-surge-in-2026-bloombergnef/",
+         "s": 1
+        },
+        {
+         "id": "n45",
+         "date": "2026-10-21",
+         "text": "CATL shares drop more than 10% after Q3: profit up 14.5% but margin slips to 20.7% as China's new 2% battery consumption tax and the end of export VAT rebates (1 Jan 2027) bite; JPMorgan downgrades the Hong Kong shares",
+         "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+         "s": 1
+        },
+        {
+         "id": "n04",
+         "date": "2026-10-16",
+         "text": "CNNC awards a 2.98 GWh storage framework at about $66–70/kWh; Sungrow and CATL among five winners",
+         "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
+         "s": -1
+        },
+        {
+         "id": "n03",
+         "date": "2026-10-16",
+         "text": "China September storage awards: 4-hour systems down 12% to about $70/kWh",
+         "url": "https://www.energytrend.com/research/20261016-52306.html",
+         "s": -2
+        },
+        {
+         "id": "n81",
+         "date": "2026-10-21",
+         "text": "China's storage chain recovers: EVE Energy forecasts nine-month profit up 80–90% on revenue up about 60%; Ganfeng Lithium's nine-month revenue rises 147%; inverter maker Deye's profit rises about 80%",
+         "url": "https://www.energy-storage.news/deye-eve-and-ganfeng-lithium-strong-q3-results-for-trio-of-players-across-chinese-energy-storage-industry-value-chain/",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 7.6,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "China ends 6% battery export VAT rebate",
+         "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 25
+      }
+     ],
+     "change": 0.0
+    },
+    "supply": {
+     "score": 6.1,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 8.0,
+       "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 3.6,
+       "detail": "3 recent stories (tightening)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n57",
+         "date": "2026-10-22",
+         "text": "Mercom: India's battery-storage manufacturing capacity reaches about 86 GWh, but 92% is pack/container assembly and only 8% is cell making; most capacity is still under construction, mainly in Gujarat and Maharashtra",
+         "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh",
+         "s": 1
+        },
+        {
+         "id": "n38",
+         "date": "2026-10-15",
+         "text": "Gotion begins commissioning its LFP cell plant in Kenitra, Morocco (first phase about $1.3 billion, up to 20 GWh a year planned) to supply Africa, Europe, the Middle East and the US",
+         "url": "https://battery-tech.net/battery-markets-news/gotion-morocco-cell-plant/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 3.9,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.4
+    },
+    "confidence": "High",
+    "obs180": 15
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     4.0,
+     4.4
+    ],
+    [
+     "2026-08-11",
+     3.9,
+     4.4
+    ],
+    [
+     "2026-08-18",
+     4.0,
+     4.6
+    ],
+    [
+     "2026-08-25",
+     4.2,
+     4.6
+    ],
+    [
+     "2026-09-01",
+     4.4,
+     4.7
+    ],
+    [
+     "2026-09-08",
+     4.6,
+     4.7
+    ],
+    [
+     "2026-09-15",
+     4.4,
+     4.7
+    ],
+    [
+     "2026-09-22",
+     4.1,
+     4.8
+    ],
+    [
+     "2026-09-29",
+     4.1,
+     4.8
+    ],
+    [
+     "2026-10-06",
+     3.9,
+     4.8
+    ],
+    [
+     "2026-10-13",
+     4.0,
+     4.9
+    ],
+    [
+     "2026-10-20",
+     3.6,
+     4.5
+    ],
+    [
+     "2026-10-27",
+     4.2,
+     5.4
+    ]
+   ]
+  },
+  {
+   "id": "cell_ev",
+   "name": "EV cell (230 / 324 Ah LFP)",
+   "short": "EV cell",
+   "group": "Cell",
+   "unit": "/kWh",
+   "now": {
+    "value": 54.2,
+    "date": "2026-10-22",
+    "source": "TrendForce",
+    "url": "https://www.trendforce.com/price/battery-price"
+   },
+   "h3": {
+    "price": {
+     "score": 4.3,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": null,
+       "detail": "Not enough price history yet",
+       "key": "momentum",
+       "weight": 0
+      },
+      {
+       "label": "How much the price swings",
+       "score": null,
+       "detail": "Not enough readings in the last 6 months",
+       "key": "volatility",
+       "weight": 0
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": 2.6,
+       "detail": "Price $54.2/kWh vs modelled cost $42.1/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "key": "floor",
+       "weight": 33
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 2.9,
+       "detail": "Lithium price risk 2.9/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 22
+      },
+      {
+       "label": "Price news",
+       "score": 5.9,
+       "detail": "3 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n45",
+         "date": "2026-10-21",
+         "text": "CATL shares drop more than 10% after Q3: profit up 14.5% but margin slips to 20.7% as China's new 2% battery consumption tax and the end of export VAT rebates (1 Jan 2027) bite; JPMorgan downgrades the Hong Kong shares",
+         "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+         "s": 1
+        },
+        {
+         "id": "n13",
+         "date": "2026-10-20",
+         "text": "CATL's third-quarter profit misses estimates as competition and outlook concerns weigh (headline only, not verified)",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-third-quarter-profit-misses-estimates-amid-outlook-concerns",
+         "s": -1
+        },
+        {
+         "id": "n16",
+         "date": "2026-10-15",
+         "text": "China's September EV battery installations reach 87.2 GWh, 85.5% LFP; CATL 40.9%, BYD 21.1%, CALB 7.0% share",
+         "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 22
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 6.5,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "China ends 6% battery export VAT rebate",
+         "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 22
+      }
+     ],
+     "change": -0.4
+    },
+    "supply": {
+     "score": 4.7,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 8.0,
+       "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 1.2,
+       "detail": "3 recent stories (easing)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n38",
+         "date": "2026-10-15",
+         "text": "Gotion begins commissioning its LFP cell plant in Kenitra, Morocco (first phase about $1.3 billion, up to 20 GWh a year planned) to supply Africa, Europe, the Middle East and the US",
+         "url": "https://battery-tech.net/battery-markets-news/gotion-morocco-cell-plant/",
+         "s": -1
+        },
+        {
+         "id": "n83",
+         "date": "2026-10-13",
+         "text": "CATL and SERES (AITO) sign a long-term deal: a second Chongqing plant phase adds 10–12 GWh a year (over 20 GWh in total), and they will go after Europe, the Middle East and Central Asia together",
+         "url": "https://battery-tech.net/battery-markets-news/catl-seres-factory-expansion/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 3.8,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.4
+    },
+    "confidence": "Low",
+    "obs180": 1
+   },
+   "h12": {
+    "price": {
+     "score": 4.8,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": null,
+       "detail": "Not enough price history yet",
+       "key": "momentum",
+       "weight": 0
+      },
+      {
+       "label": "How much the price swings",
+       "score": null,
+       "detail": "Not enough readings in the last 6 months",
+       "key": "volatility",
+       "weight": 0
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": 2.6,
+       "detail": "Price $54.2/kWh vs modelled cost $42.1/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "key": "floor",
+       "weight": 45
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": 4.5,
+       "detail": "Lithium price risk 4.5/10 feeds into this material's cost",
+       "key": "upstream",
+       "weight": 18
+      },
+      {
+       "label": "Price news",
+       "score": 5.9,
+       "detail": "3 recent stories (pushing prices up)",
+       "items": [
+        {
+         "id": "n45",
+         "date": "2026-10-21",
+         "text": "CATL shares drop more than 10% after Q3: profit up 14.5% but margin slips to 20.7% as China's new 2% battery consumption tax and the end of export VAT rebates (1 Jan 2027) bite; JPMorgan downgrades the Hong Kong shares",
+         "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+         "s": 1
+        },
+        {
+         "id": "n13",
+         "date": "2026-10-20",
+         "text": "CATL's third-quarter profit misses estimates as competition and outlook concerns weigh (headline only, not verified)",
+         "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-third-quarter-profit-misses-estimates-amid-outlook-concerns",
+         "s": -1
+        },
+        {
+         "id": "n16",
+         "date": "2026-10-15",
+         "text": "China's September EV battery installations reach 87.2 GWh, 85.5% LFP; CATL 40.9%, BYD 21.1%, CALB 7.0% share",
+         "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/",
+         "s": 1
+        }
+       ],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": 7.6,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2027-01-01",
+         "text": "China ends 6% battery export VAT rebate",
+         "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+         "s": 2
+        }
+       ],
+       "key": "price_dates",
+       "weight": 36
+      }
+     ],
+     "change": -1.0
+    },
+    "supply": {
+     "score": 5.8,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 8.0,
+       "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 1.2,
+       "detail": "3 recent stories (easing)",
+       "items": [
+        {
+         "id": "n101",
+         "date": "2026-10-25",
+         "text": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
+         "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
+         "s": 1
+        },
+        {
+         "id": "n38",
+         "date": "2026-10-15",
+         "text": "Gotion begins commissioning its LFP cell plant in Kenitra, Morocco (first phase about $1.3 billion, up to 20 GWh a year planned) to supply Africa, Europe, the Middle East and the US",
+         "url": "https://battery-tech.net/battery-markets-news/gotion-morocco-cell-plant/",
+         "s": -1
+        },
+        {
+         "id": "n83",
+         "date": "2026-10-13",
+         "text": "CATL and SERES (AITO) sign a long-term deal: a second Chongqing plant phase adds 10–12 GWh a year (over 20 GWh in total), and they will go after Europe, the Middle East and Central Asia together",
+         "url": "https://battery-tech.net/battery-markets-news/catl-seres-factory-expansion/",
+         "s": -1
+        }
+       ],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 3.9,
+       "detail": "1 dated change(s) within the horizon",
+       "items": [
+        {
+         "date": "2026-11-10",
+         "text": "China battery export-control pause ends",
+         "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+         "s": 1
+        }
+       ],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.2
+    },
+    "confidence": "Low",
+    "obs180": 1
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     4.8,
+     4.4
+    ],
+    [
+     "2026-08-11",
+     4.9,
+     4.4
+    ],
+    [
+     "2026-08-18",
+     5.1,
+     4.6
+    ],
+    [
+     "2026-08-25",
+     5.7,
+     4.6
+    ],
+    [
+     "2026-09-01",
+     5.7,
+     4.7
+    ],
+    [
+     "2026-09-08",
+     6.2,
+     4.7
+    ],
+    [
+     "2026-09-15",
+     5.7,
+     4.7
+    ],
+    [
+     "2026-09-22",
+     4.8,
+     4.8
+    ],
+    [
+     "2026-09-29",
+     4.9,
+     4.8
+    ],
+    [
+     "2026-10-06",
+     4.8,
+     4.8
+    ],
+    [
+     "2026-10-13",
+     4.9,
+     4.4
+    ],
+    [
+     "2026-10-20",
+     4.7,
+     4.3
+    ],
+    [
+     "2026-10-27",
+     4.3,
+     4.7
+    ]
+   ]
+  },
+  {
+   "id": "copper",
+   "name": "Copper",
+   "short": "Copper",
+   "group": "Metal",
+   "unit": "/t",
+   "now": {
+    "value": 14200.0,
+    "date": "2026-10-23",
+    "source": "Trading Economics",
+    "url": "https://tradingeconomics.com/commodity/copper"
+   },
+   "h3": {
+    "price": {
+     "score": 4.3,
+     "level": "Elevated",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 5.4,
+       "detail": "1 month −1.6% · 3 months +6.4% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 60
+      },
+      {
+       "label": "How much the price swings",
+       "score": 2.6,
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 40
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.0
+    },
+    "supply": {
+     "score": 1.6,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 1.0,
+       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.7,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 5.4,
+       "detail": "1 month −1.6% · 3 months +6.4% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 40
+      },
+      {
+       "label": "How much the price swings",
+       "score": 2.6,
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 60
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": -0.1
+    },
+    "supply": {
+     "score": 1.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 1.0,
+       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 125
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     5.3,
+     1.6
+    ],
+    [
+     "2026-08-11",
+     5.2,
+     1.6
+    ],
+    [
+     "2026-08-18",
+     5.4,
+     1.6
+    ],
+    [
+     "2026-08-25",
+     5.2,
+     1.6
+    ],
+    [
+     "2026-09-01",
+     4.9,
+     1.6
+    ],
+    [
+     "2026-09-08",
+     5.2,
+     1.6
+    ],
+    [
+     "2026-09-15",
+     3.9,
+     1.6
+    ],
+    [
+     "2026-09-22",
+     5.2,
+     1.6
+    ],
+    [
+     "2026-09-29",
+     4.7,
+     1.6
+    ],
+    [
+     "2026-10-06",
+     4.8,
+     1.6
+    ],
+    [
+     "2026-10-13",
+     4.9,
+     1.6
+    ],
+    [
+     "2026-10-20",
+     4.3,
+     1.6
+    ],
+    [
+     "2026-10-27",
+     4.3,
+     1.6
+    ]
+   ]
+  },
+  {
+   "id": "aluminium",
+   "name": "Aluminium",
+   "short": "Aluminium",
+   "group": "Metal",
+   "unit": "/t",
+   "now": {
+    "value": 3009.0,
+    "date": "2026-10-22",
+    "source": "Trading Economics",
+    "url": "https://tradingeconomics.com/commodity/aluminum"
+   },
+   "h3": {
+    "price": {
+     "score": 3.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 3.6,
+       "detail": "1 month −6.3% · 3 months −5.0% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 60
+      },
+      {
+       "label": "How much the price swings",
+       "score": 3.1,
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 40
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.3
+    },
+    "supply": {
+     "score": 2.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 3.0,
+       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.3,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 3.6,
+       "detail": "1 month −6.3% · 3 months −5.0% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 40
+      },
+      {
+       "label": "How much the price swings",
+       "score": 3.1,
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 60
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.2
+    },
+    "supply": {
+     "score": 2.5,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 3.0,
+       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
+       "key": "concentration",
+       "weight": 55
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 15
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 125
+   },
+   "trend": [
+    [
+     "2026-08-04",
+     4.8,
+     2.4
+    ],
+    [
+     "2026-08-11",
+     4.9,
+     2.4
+    ],
+    [
+     "2026-08-18",
+     4.2,
+     2.4
+    ],
+    [
+     "2026-08-25",
+     3.9,
+     2.4
+    ],
+    [
+     "2026-09-01",
+     4.0,
+     2.4
+    ],
+    [
+     "2026-09-08",
+     4.5,
+     2.4
+    ],
+    [
+     "2026-09-15",
+     4.3,
+     2.4
+    ],
+    [
+     "2026-09-22",
+     4.7,
+     2.4
+    ],
+    [
+     "2026-09-29",
+     4.7,
+     2.4
+    ],
+    [
+     "2026-10-06",
+     3.9,
+     2.4
+    ],
+    [
+     "2026-10-13",
+     3.4,
+     2.4
+    ],
+    [
+     "2026-10-20",
+     3.1,
+     2.4
+    ],
+    [
+     "2026-10-27",
+     3.4,
+     2.4
+    ]
+   ]
+  }
+ ],
+ "backtest": []
+}

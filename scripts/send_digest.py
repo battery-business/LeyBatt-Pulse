@@ -195,6 +195,34 @@ def build(today):
                 f'<td style="width:4px;background:{LIME};border-radius:2px">&nbsp;</td>'
                 f'<td style="padding-left:10px;font-size:17px;font-weight:800;color:{NAVY}">{E(title)}</td></tr></table></td></tr>')
 
+    # risk navigator: the four materials with the highest score (next 3 months)
+    risk = load("risk", {}) or {}
+    rmats = [m for m in risk.get("materials", []) if m.get("h3")]
+    rmats.sort(key=lambda m: -max(m["h3"]["price"]["score"] or 0, m["h3"]["supply"]["score"] or 0))
+    rmats = rmats[:4]
+    LV = {"Low": ("#e3f4ea", GREEN), "Elevated": ("#fdf0e1", AMBER), "High": ("#fde4e1", "#b42318")}
+
+    def rchip(ax):
+        if not ax or ax.get("score") is None:
+            return f'<span style="font-size:12px;color:{MUTED}">not scored</span>'
+        bg, fg = LV.get(ax["level"], ("#eef2f7", MUTED))
+        ch = ax.get("change")
+        arrow = "" if ch is None or abs(ch) < 0.05 else f'<span style="font-size:11px;color:{"#b42318" if ch > 0 else GREEN};font-weight:700"> {"▲" if ch > 0 else "▼"}{abs(ch):.1f}</span>'
+        return (f'<span style="display:inline-block;background:{bg};color:{fg};font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px;white-space:nowrap">'
+                f'<b style="color:{NAVY};font-size:14px">{ax["score"]:.1f}</b> {E(ax["level"])}</span>{arrow}')
+    risk_html = ""
+    if rmats:
+        rows_h = "".join(
+            f'<tr><td style="padding:8px 0;border-bottom:1px solid {LINE};font-size:14px;font-weight:700;color:{NAVY}">{E(m["short"])}</td>'
+            f'<td style="padding:8px 6px;border-bottom:1px solid {LINE}">{rchip(m["h3"]["price"])}</td>'
+            f'<td style="padding:8px 0;border-bottom:1px solid {LINE}">{rchip(m["h3"]["supply"])}</td></tr>' for m in rmats)
+        risk_html = (f'<tr><td style="padding:2px 24px 0" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
+                     f'<tr><td style="font-size:11px;color:{MUTED};text-transform:uppercase;letter-spacing:.5px;padding-bottom:4px">Material</td>'
+                     f'<td style="font-size:11px;color:{MUTED};text-transform:uppercase;letter-spacing:.5px;padding:0 6px 4px">Price risk</td>'
+                     f'<td style="font-size:11px;color:{MUTED};text-transform:uppercase;letter-spacing:.5px;padding-bottom:4px">Supply risk</td></tr>{rows_h}</table>'
+                     f'<div style="font-size:12px;color:{MUTED};margin-top:8px">Scored 0–10 for the next 3 months (Low &lt;4, Elevated 4–6.4, High 6.5+); ▲▼ change in a week. '
+                     f'<a href="{SITE}#risk" style="color:{BLUE};font-weight:600;text-decoration:none">See what drives each score →</a></div></td></tr>')
+
     news_html = ""
     if top:
         for n in top:
@@ -254,6 +282,8 @@ def build(today):
 <tr><td style="padding:18px 24px 4px;font-size:15px;line-height:1.6;color:{NAVY}" class="px">{E(note) if note else "Here are today's battery market prices and news."}</td></tr>
 {section("Prices")}
 <tr><td style="padding:0 18px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{tile_rows}</table></td></tr>
+{section("Risk navigator") if risk_html else ""}
+{risk_html}
 {section("Top news")}
 {news_html}
 {section("Coming up") if up_html else ""}
@@ -272,6 +302,9 @@ def build(today):
     for r in rows:
         ch = "–" if r["chg"] is None else signed(r["chg"]) + (" " + r["vs"] if r["vs"] else "")
         t.append(f"- {r['label']}: {r['value']}{r['unit']} ({ch}) {r['date']}{'' if r['new'] else ', no new reading'}")
+    if rmats:
+        fmt = lambda ax: "not scored" if ax.get("score") is None else f"{ax['score']:.1f} {ax['level']}"  # noqa: E731
+        t += ["", "Risk navigator (next 3 months, 0-10):"] + [f"- {m['short']}: price {fmt(m['h3']['price'])}, supply {fmt(m['h3']['supply'])}" for m in rmats] + [f"  Details: {SITE}#risk"]
     t += ["", "Top news:"] + ([f"- {n['headline']} ({n['source']}: {n['url']})" for n in top] or ["- No new stories in the last two days."])
     if up:
         t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]

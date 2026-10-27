@@ -123,7 +123,24 @@
   "direction": "up",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
-  "sources": "SMM"
+  "sources": "SMM",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   },
+   {
+    "m": "cell_ev",
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n100",
@@ -200,7 +217,14 @@
   "direction": "up",
   "source": "Motley Fool Australia",
   "url": "https://www.fool.com.au/2026/10/23/lithium-price-set-to-soar-63-in-fy27-heres-why-and-the-asx-shares-to-buy/",
-  "sources": "Motley Fool Australia"
+  "sources": "Motley Fool Australia",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n97",
@@ -260,7 +284,14 @@
   "direction": "up",
   "source": "Energy-Storage.News",
   "url": "https://www.energy-storage.news/global-energy-storage-deployments-will-see-45-year-on-year-growth-surge-in-2026-bloombergnef/",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n88",
@@ -272,7 +303,14 @@
   "direction": "down",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/22/lithium-demand-from-storage-expected-to-slow-to-5-annual-growth/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n89",
@@ -449,7 +487,14 @@
   "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh",
   "source2": "",
   "url2": "",
-  "sources": "Mercom India"
+  "sources": "Mercom India",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n60",
@@ -589,7 +634,19 @@
   "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
   "source2": "",
   "url2": "",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "risk": [
+   {
+    "m": "cell_ev",
+    "k": "price",
+    "s": 1
+   },
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n46",
@@ -603,7 +660,14 @@
   "url": "https://news.metal.com/en/newscontent/104171455-lfp-sees-another-large-order-as-high-end-product-supply-demand-tightens",
   "source2": "",
   "url2": "",
-  "sources": "SMM"
+  "sources": "SMM",
+  "risk": [
+   {
+    "m": "cathode",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n47",
@@ -729,7 +793,14 @@
   "url": "https://news.metal.com/newscontent/104168938-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-on-october-20",
   "source2": "",
   "url2": "",
-  "sources": "SMM"
+  "sources": "SMM",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n14",
@@ -757,7 +828,14 @@
   "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-third-quarter-profit-misses-estimates-amid-outlook-concerns",
   "source2": "Bloomberg (21 Oct)",
   "url2": "https://www.bloomberg.com/news/articles/2026-10-21/catl-s-slower-profit-growth-fans-fears-for-china-battery-rivals",
-  "sources": "Bloomberg · Bloomberg (21 Oct)"
+  "sources": "Bloomberg · Bloomberg (21 Oct)",
+  "risk": [
+   {
+    "m": "cell_ev",
+    "k": "price",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n58",
@@ -897,7 +975,14 @@
   "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
   "source2": "",
   "url2": "",
-  "category": "Energy storage"
+  "category": "Energy storage",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n03",
@@ -911,7 +996,14 @@
   "url": "https://www.energytrend.com/research/20261016-52306.html",
   "source2": "",
   "url2": "",
-  "category": "Energy storage"
+  "category": "Energy storage",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": -2
+   }
+  ]
  },
  {
   "id": "n38",
@@ -925,7 +1017,19 @@
   "url": "https://battery-tech.net/battery-markets-news/gotion-morocco-cell-plant/",
   "source2": "",
   "url2": "",
-  "category": "Cell makers & competitors"
+  "category": "Cell makers & competitors",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": -1
+   },
+   {
+    "m": "cell_ev",
+    "k": "supply",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n34",
@@ -953,7 +1057,14 @@
   "url": "https://cnevpost.com/2026/10/15/top-ev-battery-makers-share-china-sept-2026/",
   "source2": "",
   "url2": "",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "risk": [
+   {
+    "m": "cell_ev",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n05",
@@ -967,7 +1078,14 @@
   "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
   "source2": "IndexBox",
   "url2": "https://www.indexbox.io/blog/lithium-prices-fall-after-eu-china-hybrid-vehicle-deal/",
-  "category": "Lithium & materials"
+  "category": "Lithium & materials",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n40",
@@ -1116,7 +1234,14 @@
   "url": "https://www.energy-storage.news/deye-eve-and-ganfeng-lithium-strong-q3-results-for-trio-of-players-across-chinese-energy-storage-industry-value-chain/",
   "source2": "",
   "url2": "",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n82",
@@ -1144,7 +1269,14 @@
   "url": "https://battery-tech.net/battery-markets-news/catl-seres-factory-expansion/",
   "source2": "",
   "url2": "",
-  "sources": "Battery-Tech Network"
+  "sources": "Battery-Tech Network",
+  "risk": [
+   {
+    "m": "cell_ev",
+    "k": "supply",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n84",
@@ -1158,6 +1290,13 @@
   "url": "https://battery-tech.net/battery-markets-news/energyx-trafigura-lithium-offtake/",
   "source2": "",
   "url2": "",
-  "sources": "Battery-Tech Network"
+  "sources": "Battery-Tech Network",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "supply",
+    "s": -1
+   }
+  ]
  }
 ]

@@ -1,0 +1,59 @@
+# Leyland Pulse Risk Navigator: scores price and supply risk for each tracked material.
+# Runs right after each data update is pushed (the 4 am daily update), with a backup run at 4:50 am IST,
+# so the 5:15 am email and the website show fresh scores. Can also be run by hand from the Actions tab.
+name: Leyland Pulse risk navigator
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "scripts/risk.py"
+      - "!data/risk.json"
+      - "!data/risk_history.json"
+      - "!data/pricelog.json"
+      - "!data/history/**"
+  schedule:
+    - cron: "20 23 * * *"   # 23:20 UTC = 04:50 IST
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: risk-navigator
+  cancel-in-progress: false
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refresh monthly metal price history (IMF series published by FRED)
+        run: |
+          mkdir -p data/history
+          for pair in PCOPPUSDM:copper PALUMUSDM:aluminium; do
+            id="${pair%%:*}"; name="${pair##*:}"
+            if curl -sfL --max-time 60 -A "Mozilla/5.0 (Leyland Pulse)" "https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}" -o "/tmp/${name}.csv" \
+               && head -1 "/tmp/${name}.csv" | grep -qi "date" && [ "$(wc -l < "/tmp/${name}.csv")" -gt 24 ]; then
+              mv "/tmp/${name}.csv" "data/history/${name}_monthly.csv"
+            else
+              echo "::warning::Could not refresh the ${name} price history; keeping the saved copy."
+            fi
+          done
+      - name: Score price and supply risk
+        run: |
+          if [ -f scripts/risk.py ]; then python3 scripts/risk.py; else echo "scripts/risk.py not present yet"; fi
+      - name: Save and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/history
+          for f in data/risk.json data/risk_history.json data/pricelog.json; do [ -f "$f" ] && git add "$f"; done
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -q -m "Risk navigator update $(TZ=Asia/Kolkata date +'%-d %b %Y')"
+          for i in 1 2 3; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then break; fi
+            sleep 7
+          done
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" >/dev/null 2>&1 || echo "Pages rebuild request not accepted; the next push will publish it."

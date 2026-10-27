@@ -31,7 +31,7 @@ def yahoo(symbol, factor):
             if len(rows) > 200:
                 return rows, f"Yahoo Finance {symbol}"
         except Exception as e:  # noqa: BLE001
-            print(f"  {host} {symbol}: {type(e).__name__} {str(e)[:120]}")
+            print(f"::warning::{host} {symbol}: {type(e).__name__} {str(e)[:150]}")
     return [], None
 
 
@@ -43,14 +43,27 @@ def fred(series):
         if len(rows) > 24:
             return rows, f"IMF via FRED {series} (monthly)"
     except Exception as e:  # noqa: BLE001
-        print(f"  FRED {series}: {type(e).__name__} {str(e)[:120]}")
+        print(f"::warning::FRED {series}: {type(e).__name__} {str(e)[:150]}")
+    return [], None
+
+
+def stooq(symbol, factor):
+    try:
+        status, body = get(f"https://stooq.com/q/d/l/?s={symbol}&i=d")
+        rd = csv.DictReader(io.StringIO(body))
+        rows = [(r["Date"], round(float(r["Close"]) * factor, 1)) for r in rd if r.get("Close")]
+        if len(rows) > 200:
+            return rows[-2600:], f"Stooq {symbol}"
+        print(f"::warning::Stooq {symbol}: only {len(rows)} rows; first bytes {body[:80]!r}")
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::Stooq {symbol}: {type(e).__name__} {str(e)[:150]}")
     return [], None
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    plan = {"copper": [lambda: yahoo("HG=F", LB_PER_T), lambda: fred("PCOPPUSDM")],
-            "aluminium": [lambda: yahoo("ALI=F", 1.0), lambda: fred("PALUMUSDM")]}
+    plan = {"copper": [lambda: yahoo("HG=F", LB_PER_T), lambda: stooq("hg.f", LB_PER_T), lambda: fred("PCOPPUSDM")],
+            "aluminium": [lambda: yahoo("ALI=F", 1.0), lambda: stooq("ali.f", 1.0), lambda: fred("PALUMUSDM")]}
     for name, tries in plan.items():
         for t in tries:
             rows, src = t()

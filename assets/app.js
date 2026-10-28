@@ -1,9 +1,9 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'materials', 'news', 'calculator', 'risk'];
+  const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'risk'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
@@ -1326,8 +1326,81 @@
     box.append(p('<b>Limits.</b> Built only from public prices and news, not from deals reported by buyers and sellers, so it complements rather than replaces paid services such as CRU, Fastmarkets or Benchmark. News tags are a judgement made when each story is added. Use the drivers and links to check before acting.'));
   }
 
+  // ---------- regulations ----------
+  const RULES = { region: '', area: '', status: '', q: '' };
+  const STATUS_COL = { 'In force': '--accent', 'Starts later': '--amber', 'Paused': '--plum', 'Proposed': '--slate', 'Bids under evaluation': '--teal' };
+  const effectClass = (e) => (/^cost up|supply risk|competitor/i.test(e) ? 'ef-bad' : /cost down|supply easier/i.test(e) ? 'ef-good' : /demand up/i.test(e) ? 'ef-up' : 'ef-neutral');
+  function ruleCard(r, today) {
+    const c = el('article', 'rule'); c.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
+    const top = el('div', 'rule-top');
+    top.append(el('span', 'rule-region', r.region), el('span', 'rule-area', r.area));
+    const st = el('span', 'rule-status', r.status); top.appendChild(st);
+    c.appendChild(top);
+    c.appendChild(el('h3', 'rule-title', r.title));
+    const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
+    const when = el('div', 'rule-date'); when.appendChild(document.createTextNode(r.date_label || d3.utcFormat('%-d %b %Y')(d)));
+    if (days > 0 && days <= 120) when.appendChild(el('b', 'rule-soon', days === 1 ? ' · tomorrow' : ` · in ${days} days`));
+    c.appendChild(when);
+    c.appendChild(el('p', 'rule-what', r.what));
+    const imp = el('div', 'rule-impact'); imp.append(el('b', null, 'What it means for an Indian buyer'), el('p', null, r.impact)); c.appendChild(imp);
+    const tags = el('div', 'rule-tags');
+    (r.effects || []).forEach((e) => tags.appendChild(el('span', 'rtag ' + effectClass(e), e)));
+    (r.affects || []).forEach((a) => tags.appendChild(el('span', 'rtag ef-affects', a)));
+    c.appendChild(tags);
+    const src = el('div', 'rule-src'); src.appendChild(link(r.source, r.url));
+    if (r.url2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(r.source2, r.url2)); }
+    src.appendChild(el('span', 'rule-checked', ` · checked ${d3.utcFormat('%-d %b %Y')(parse(r.checked))}`));
+    c.appendChild(src);
+    return c;
+  }
+  function renderRules() {
+    const all = D.regulations || [];
+    const list = $('#rules-list'), next = $('#rules-next');
+    if (!all.length) { fail(list, 'No regulations loaded'); return; }
+    const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
+    // stats
+    const stats = $('#rules-stats'); stats.replaceChildren();
+    const counts = d3.rollup(all, (v) => v.length, (r) => r.status);
+    ['In force', 'Starts later', 'Paused', 'Bids under evaluation', 'Proposed'].forEach((s) => { if (!counts.get(s)) return; const b = el('span', 'rstat'); b.style.setProperty('--sc', css(STATUS_COL[s])); b.append(el('b', null, String(counts.get(s))), document.createTextNode(' ' + s.toLowerCase())); stats.appendChild(b); });
+    // coming up
+    next.replaceChildren();
+    const ahead = all.filter((r) => +parse(r.date) >= today).sort((a, b) => d3.ascending(a.date, b.date));
+    if (!ahead.length) next.appendChild(el('li', 'empty', 'No dated rule changes ahead.'));
+    ahead.forEach((r) => {
+      const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
+      const li = el('li'); li.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
+      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
+      const body = el('div');
+      body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), el('div', 'rn-meta', `${r.region} · ${r.status}`));
+      const b = el('button', 'rn'); b.type = 'button'; b.append(db, body);
+      b.addEventListener('click', () => { const card = document.getElementById('rule-' + r.id); if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1600); } });
+      li.appendChild(b); next.appendChild(li);
+    });
+    // filters
+    const regions = ['', ...new Set(all.map((r) => r.region))];
+    const chips = $('#rules-region'); chips.replaceChildren();
+    regions.forEach((g) => { const b = el('button', null, g || 'All regions'); b.type = 'button'; b.setAttribute('aria-pressed', String(RULES.region === g)); b.addEventListener('click', () => { RULES.region = g; renderRules(); }); chips.appendChild(b); });
+    const fill = (sel, label, vals, key) => {
+      if (sel.dataset.ready) return; sel.dataset.ready = '1';
+      [['', label], ...vals.map((v) => [v, v])].forEach(([v, t]) => { const o = el('option', null, t); o.value = v; sel.appendChild(o); });
+      sel.addEventListener('change', () => { RULES[key] = sel.value; renderRules(); });
+    };
+    fill($('#rules-area'), 'All areas', [...new Set(all.map((r) => r.area))].sort(), 'area');
+    fill($('#rules-status'), 'Any status', [...new Set(all.map((r) => r.status))], 'status');
+    const srch = $('#rules-search'); if (!srch.dataset.ready) { srch.dataset.ready = '1'; srch.addEventListener('input', () => { RULES.q = srch.value.trim().toLowerCase(); renderRules(); }); }
+    // list: dated ahead first, then in force by newest
+    const order = { 'Paused': 0, 'Starts later': 1, 'Bids under evaluation': 2, 'Proposed': 3, 'In force': 4 };
+    const shown = all.filter((r) => (!RULES.region || r.region === RULES.region) && (!RULES.area || r.area === RULES.area) && (!RULES.status || r.status === RULES.status)
+      && (!RULES.q || [r.title, r.what, r.impact, r.region, r.area, ...(r.affects || [])].join(' ').toLowerCase().includes(RULES.q)))
+      .sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9) || (a.status === 'In force' ? (d3.ascending(a.region === 'India' ? 0 : 1, b.region === 'India' ? 0 : 1) || d3.descending(a.date, b.date)) : d3.ascending(a.date, b.date)));
+    $('#rules-count').textContent = `${shown.length} of ${all.length} rules`;
+    list.replaceChildren();
+    shown.forEach((r) => { const c = ruleCard(r, today); c.id = 'rule-' + r.id; list.appendChild(c); });
+    if (!shown.length) list.appendChild(el('p', 'sub', 'No rules match these filters.'));
+  }
+
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc, risk: renderRisk };
+  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc, risk: renderRisk, rules: renderRules };
   function go(route, push = true) {
     const path = String(route || 'overview').split('?')[0];
     let [tab, sub] = (LEGACY[path] || path).split('/');

@@ -42,6 +42,13 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 
 The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
 
+## Regulations (`regulations.json`)
+
+The Regulations tab lists rules that change the cost, supply or demand for batteries for an Indian buyer. One entry per rule:
+`id` (short, stable), `title`, `short` (≤ 55 characters, used in "Coming up"), `region` (India / China / EU / Other), `area` (Incentives / Trade & duty / Grid & storage rules / Standards & safety / Recycling & passports / Export controls & tax), `status` (In force / Starts later / Paused / Proposed / Bids under evaluation), `date` (YYYY-MM-DD: the next date that matters, otherwise the start date), `date_label` (plain words), `what` (what the rule says, own words), `impact` (what it means for an Indian buyer of cells, BESS or EVs), `effects` (from: Cost up, Cost down, Supply risk, Supply easier, Demand up, Compliance; "(long term)" allowed), `affects` (e.g. Cells, Storage cells, EV cells, EV packs, BESS, Cathode, Graphite, Lithium), `source`, `url`, optional `source2`/`url2`, `checked` (YYYY-MM-DD you last confirmed it on a source page).
+
+Daily: when a news item you add changes a rule (new rule, new date, status change such as a pause ending, a proposal being notified, bids opened), update that entry from a page you opened, set `checked` to today, and also update the matching `events.json` date. Add a new entry for any important new rule. Mondays: re-check the entries whose `date` is within the next 60 days and refresh `checked`. Never change a status or date without a source; keep internal company details out.
+
 ## Risk Navigator (tags only)
 
 The Risk tab scores price and supply risk (0–10) for seven materials. A GitHub Action (`.github/workflows/risk.yml`, `scripts/risk.py`) recalculates everything after each push: never edit `data/risk.json`, `data/risk_history.json`, `data/pricelog.json` or `data/history/` by hand. Weights, the China-share figures, the stated assumptions for each material and the India facts (duties, cell capacity) live in `data/risk_config.json`; change them only with a new public source, and update the matching assumption text. The job also refreshes long price histories into `data/history/`: Guangzhou lithium carbonate futures (daily since July 2023, via Sina), LME copper and aluminium (daily since 2018, via Westmetall) and ECB exchange rates (US$-rupee, US$-yuan).

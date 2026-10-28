@@ -1,0 +1,430 @@
+[
+ {
+  "id": "in-acc-pli",
+  "title": "ACC PLI scheme: round 3 for 10 GWh of grid-storage cells",
+  "short": "ACC PLI round 3 (10 GWh, grid storage)",
+  "region": "India",
+  "area": "Incentives",
+  "status": "Bids under evaluation",
+  "date": "2026-10-14",
+  "date_label": "Bids closed 13 Oct 2026; technical bids opened 14 Oct (dates in the July RFP)",
+  "what": "India's ₹18,100-crore programme (approved May 2021) supports 50 GWh of domestic cell making; 40 GWh was awarded in earlier rounds. Round 3 offers 10 GWh for grid-scale storage: each bidder commits 1–4 GWh within five years, with at least 25% domestic value addition in two years and 40% in five.",
+  "impact": "The first Indian-made storage cells from this round would arrive years from now; until then storage cells stay imported. Under the earlier rounds only Ola runs cell capacity (2.5 of its 20 GWh) and no incentive has been paid yet. Check MHI for addenda that may change the dates.",
+  "effects": [
+   "Supply easier (long term)"
+  ],
+  "affects": [
+   "Storage cells"
+  ],
+  "source": "ESS News, 17 Jul 2026",
+  "url": "https://www.ess-news.com/2026/07/17/india-launches-tender-for-10-gwh-battery-cell-manufacturing-capacity-for-grid-storage/",
+  "source2": "Business Today, 22 Oct 2026",
+  "url2": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-materials-pli",
+  "title": "Proposed PLI for cell materials (₹12,000 crore)",
+  "short": "Proposed ₹12,000-crore PLI for cell materials",
+  "region": "India",
+  "area": "Incentives",
+  "status": "Proposed",
+  "date": "2026-10-22",
+  "date_label": "Reported 22 Oct 2026",
+  "what": "The government is planning a ₹12,000-crore incentive for cathode and anode active materials, electrolyte, separators and foil, the parts of a cell that India now imports almost entirely.",
+  "impact": "If approved, it would start an Indian supply of cell materials over several years. No effect on prices before 2028.",
+  "effects": [
+   "Supply easier (long term)"
+  ],
+  "affects": [
+   "Cathode",
+   "Graphite",
+   "Cells"
+  ],
+  "source": "Business Today, 22 Oct 2026",
+  "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-bcd-li",
+  "title": "Customs duty on lithium-ion batteries and cells: 20%",
+  "short": "20% customs duty on lithium-ion batteries",
+  "region": "India",
+  "area": "Trade & duty",
+  "status": "In force",
+  "date": "2026-10-09",
+  "date_label": "Rate restated in CBIC Circular 45/2026, 9 Oct 2026",
+  "what": "The tariff rate for lithium-ion accumulators (8507 60 00) is 20% basic customs duty. A social welfare surcharge of 10% of the duty is added, and 18% IGST on top (normally reclaimable as input credit).",
+  "impact": "Adds about 22% to the landed cost of imported cells and batteries before IGST credit, unless a concession applies. The rate for cells imported to build EV packs depends on the exemption claimed and could not be confirmed from a public source.",
+  "effects": [
+   "Cost up"
+  ],
+  "affects": [
+   "Cells",
+   "BESS",
+   "EV packs"
+  ],
+  "source": "CBIC Circular 45/2026-Customs, via TaxGuru",
+  "url": "https://taxguru.in/custom-duty/cbic-clarifies-10-percent-customs-duty-industrial-bess-power-bank-exclusion-circular-no-45-2026-customs.html",
+  "source2": "EximPe tariff page, May 2026",
+  "url2": "https://eximpe.com/hsncode-finder/85076000",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-bcd-bess",
+  "title": "10% concessional customs duty for battery storage systems",
+  "short": "10% duty for imported BESS",
+  "region": "India",
+  "area": "Trade & duty",
+  "status": "In force",
+  "date": "2026-10-09",
+  "date_label": "Clarified 9 Oct 2026 (Notification 45/2025, S. No. 325)",
+  "what": "Stationary, grid-scale and industrial lithium-ion battery storage systems qualify for a concessional 10% duty instead of 20%. Battery packs for making electric vehicles, phone batteries and power banks are excluded.",
+  "impact": "Keeps imported storage containers cheaper than imported EV packs, and settles a dispute over whether BESS counted as \"power banks\".",
+  "effects": [
+   "Cost down"
+  ],
+  "affects": [
+   "BESS"
+  ],
+  "source": "Mercom India, 12 Oct 2026",
+  "url": "https://www.mercomindia.com/finance-ministry-clarifies-battery-storage-systems-attract-10-customs-duty",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-capgoods",
+  "title": "Nil duty on capital goods for lithium-ion cell making",
+  "short": "Nil duty on cell-making machinery",
+  "region": "India",
+  "area": "Trade & duty",
+  "status": "In force",
+  "date": "2026-02-01",
+  "date_label": "Extended in Union Budget 2026-27 (1 Feb 2026)",
+  "what": "The Union Budget extended the exemption from basic customs duty on imported capital goods used to make lithium-ion cells, including for storage.",
+  "impact": "Lowers the cost of building Indian cell plants, but matters only once those plants run.",
+  "effects": [
+   "Cost down (long term)"
+  ],
+  "affects": [
+   "Cells"
+  ],
+  "source": "pv magazine India, 2 Feb 2026",
+  "url": "https://www.pv-magazine-india.com/2026/02/02/indias-union-budget-2026-27-removes-import-duties-on-solar-glass-inputs-lithium-battery-cell-machinery-and-critical-minerals-processing-equipment/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-vgf",
+  "title": "Viability gap funding for 30 GWh of battery storage (₹5,400 crore)",
+  "short": "VGF for 30 GWh of storage",
+  "region": "India",
+  "area": "Incentives",
+  "status": "In force",
+  "date": "2025-06-10",
+  "date_label": "Announced 10 Jun 2025",
+  "what": "Support of ₹18 lakh per MWh for 30 GWh of storage: 25 GWh across 15 states and 5 GWh for NTPC. Paid 20% at financial closure, 50% at commissioning and 30% after a year; projects must be commissioned within 18 months of signing.",
+  "impact": "The main driver behind the wave of state storage tenders through 2026-27, so it supports demand for storage cells and systems in India.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "pv magazine India, 10 Jun 2025",
+  "url": "https://www.pv-magazine-india.com/2025/06/10/power-ministry-announces-inr-5400-crore-viability-gap-funding-to-support-30-gwh-bess-development/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-pmedrive",
+  "title": "PM E-DRIVE extended to 31 March 2028 (₹10,900 crore)",
+  "short": "PM E-DRIVE scheme ends",
+  "region": "India",
+  "area": "Incentives",
+  "status": "In force",
+  "date": "2028-03-31",
+  "date_label": "Scheme now ends 31 Mar 2028",
+  "what": "The scheme covers e-buses, e-trucks, e-ambulances, three-wheelers and charging. The two-wheeler subsidy ended on 31 July 2026.",
+  "impact": "Keeps support for electric buses and trucks, and so for heavy-vehicle battery demand, until March 2028.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "EV cells",
+   "EV packs"
+  ],
+  "source": "Drishti IAS, 1 Apr 2026",
+  "url": "https://www.drishtiias.com/state-pcs-current-affairs/government-extends-pm-e-drive-scheme-till-march-2028/print_manually",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-ctuil",
+  "title": "Four-hour minimum storage for BESS grid connections",
+  "short": "CTUIL: 4-hour minimum for BESS connectivity",
+  "region": "India",
+  "area": "Grid & storage rules",
+  "status": "In force",
+  "date": "2026-10-22",
+  "date_label": "Reported 22 Oct 2026",
+  "what": "India's transmission utility CTUIL sets a minimum storage duration for battery storage applying for grid connectivity: four hours for specified applications, two hours for eligible right-of-first-refusal cases.",
+  "impact": "More GWh (and so more cells) per MW of storage connected to the grid.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "Mercom India, 22 Oct 2026",
+  "url": "https://www.mercomindia.com/ctuil-sets-four-hour-battery-storage-requirement-for-grid-connectivity",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-gerc",
+  "title": "Gujarat's battery storage regulations (GERC)",
+  "short": "Gujarat BESS regulations",
+  "region": "India",
+  "area": "Grid & storage rules",
+  "status": "In force",
+  "date": "2026-10-22",
+  "date_label": "Notified Oct 2026",
+  "what": "Gujarat's regulator has notified its first rules for grid-connected battery storage, covering planning, procurement, operation and scheduling; standalone storage may not serve captive or third-party renewable plants.",
+  "impact": "A clearer framework for storage tenders in one of the largest storage states; other states may follow.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "BESS"
+  ],
+  "source": "Mercom India, 22 Oct 2026",
+  "url": "https://www.mercomindia.com/gujarat-regulator-notifies-battery-energy-storage-regulations",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-bwmr",
+  "title": "Battery Waste Management Rules (recycling and EPR)",
+  "short": "Recycled-content rule starts (FY 2027-28)",
+  "region": "India",
+  "area": "Recycling & passports",
+  "status": "In force",
+  "date": "2027-04-01",
+  "date_label": "In force since Aug 2022; recycled-content minimum from FY 2027-28",
+  "what": "Producers and importers of batteries, including EV and industrial batteries, must register and meet extended producer responsibility targets. Recyclers must recover 80% of materials in FY 2025-26 and 90% from FY 2026-27. A minimum share of recycled lithium, cobalt and nickel in batteries made in India applies from FY 2027-28 (shares notified by CPCB).",
+  "impact": "A compliance cost for anyone placing batteries on the Indian market, rising when recycled-content rules start in FY 2027-28.",
+  "effects": [
+   "Compliance"
+  ],
+  "affects": [
+   "Cells",
+   "EV packs",
+   "BESS"
+  ],
+  "source": "Gravita India guide, 2 Mar 2026 (check CPCB notifications)",
+  "url": "https://www.gravitaindia.com/blogs/battery-waste-management-rules-2025-compliance-guide-india",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "in-ais038",
+  "title": "AIS-038 Rev 2: traction battery safety for buses and trucks",
+  "short": "AIS-038 Rev 2 battery safety (buses, trucks)",
+  "region": "India",
+  "area": "Standards & safety",
+  "status": "In force",
+  "date": "2023-03-31",
+  "date_label": "Phase 2 from 31 Mar 2023",
+  "what": "Battery safety rules for M and N category vehicles (buses and trucks): cells tested to IS 16893 at an accredited lab, thermal-propagation tests, warnings of thermal events, BMS requirements and pack traceability.",
+  "impact": "Every cell used in Indian buses and trucks needs valid IS 16893 test reports, so switching cell supplier takes testing time.",
+  "effects": [
+   "Compliance"
+  ],
+  "affects": [
+   "EV cells",
+   "EV packs"
+  ],
+  "source": "EVreporter (ARAI guide)",
+  "url": "https://evreporter.com/battery-safety-standards-in-india-by-arai/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-no58",
+  "title": "China's export controls on lithium batteries, cathode and graphite anode: paused",
+  "short": "China's export-control pause on battery materials ends",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "Paused",
+  "date": "2026-11-10",
+  "date_label": "Pause ends 10 Nov 2026 unless renewed",
+  "what": "MOFCOM/GAC Announcement No. 58 of 2025 put lithium batteries, cathode materials, artificial graphite anode and related equipment and technology under export licences. Announcement No. 70 paused it from 7 Nov 2025 to 10 Nov 2026. The US says a two-month extension to 10 Jan 2027 was agreed; China has not confirmed it.",
+  "impact": "If the controls come back, every shipment of these items to India needs a Chinese licence: expect delays, paperwork and possibly higher prices. It is the main reason graphite shows High supply risk in the Risk Navigator.",
+  "effects": [
+   "Supply risk",
+   "Cost up"
+  ],
+  "affects": [
+   "Graphite",
+   "Cathode",
+   "Cells"
+  ],
+  "source": "CIRS Group",
+  "url": "https://www.cirs-group.com/en/chemicals/china-temporarily-suspends-export-controls-on-key-raw-materials-including-rare-earths-lithium-batteries-and-diamond",
+  "source2": "Global Linx, 7 Oct 2026",
+  "url2": "https://global-linx.com/2026/10/07/china-export-controls-supplier-checklist/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-graphite",
+  "title": "China's export licences for graphite (since 1 Dec 2023)",
+  "short": "China graphite export licences",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "In force",
+  "date": "2023-12-01",
+  "date_label": "In force since 1 Dec 2023",
+  "what": "Exports of high-purity, high-strength, high-density artificial graphite and of natural flake graphite and its products (including spherical graphite) need a licence.",
+  "impact": "Anode material for Indian cell makers already moves under licence, so supply can be slowed at short notice.",
+  "effects": [
+   "Supply risk"
+  ],
+  "affects": [
+   "Graphite"
+  ],
+  "source": "CIRS Group, 24 Oct 2023",
+  "url": "https://www.cirs-group.com/en/chemicals/china-imposes-export-control-measures-on-graphite-materials",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-tech",
+  "title": "China restricts export of LFP cathode and lithium processing technology",
+  "short": "China limits LFP and lithium tech exports",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "In force",
+  "date": "2025-07-15",
+  "date_label": "In force since 15 Jul 2025",
+  "what": "China's catalogue of restricted technologies now covers LFP and LMFP cathode preparation and lithium extraction and refining. These can be transferred abroad only with a Chinese export licence.",
+  "impact": "Building cathode or cell plants in India with Chinese technology partners needs Beijing's approval, which can slow localisation plans.",
+  "effects": [
+   "Supply risk (long term)"
+  ],
+  "affects": [
+   "Cathode",
+   "Lithium",
+   "Cells"
+  ],
+  "source": "electrive, 15 Jul 2025",
+  "url": "https://www.electrive.com/2025/07/15/china-restricts-battery-cathode-material-technology-exports/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-rebate",
+  "title": "China ends its export VAT rebate on batteries",
+  "short": "China ends battery export VAT rebate",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "Starts later",
+  "date": "2027-01-01",
+  "date_label": "From 1 Jan 2027",
+  "what": "China cut the export VAT rebate on battery products from 9% to 6% on 1 April 2026 and will remove it entirely on 1 January 2027.",
+  "impact": "Chinese exporters lose up to 6% of the price as a rebate, so export prices of cells and batteries are likely to rise; expect higher landed costs in India from January.",
+  "effects": [
+   "Cost up"
+  ],
+  "affects": [
+   "Cells",
+   "BESS",
+   "EV packs"
+  ],
+  "source": "CnEVPost, 21 Oct 2026",
+  "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-tax",
+  "title": "China's consumption tax on lithium-ion batteries",
+  "short": "China battery consumption tax rises to 4%",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "In force",
+  "date": "2027-09-01",
+  "date_label": "2% since 1 Sep 2026; 4% from 1 Sep 2027",
+  "what": "China resumed a consumption tax on lithium-ion batteries at 2% from 1 September 2026, rising to 4% from 1 September 2027. Sodium-ion and solid-state batteries stay exempt until at least the end of 2028.",
+  "impact": "Raises Chinese makers' costs; CATL says it is squeezing margins. How much reaches export prices is not yet clear. It also gives sodium-ion a cost edge.",
+  "effects": [
+   "Cost up"
+  ],
+  "affects": [
+   "Cells"
+  ],
+  "source": "CnEVPost, 21 Oct 2026",
+  "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+  "source2": "The Next Web, 17 Jul 2026",
+  "url2": "https://thenextweb.com/news/china-consumption-tax-lithium-solar-batteries-sodium-exempt",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "cn-ev-rebate",
+  "title": "China cuts the export VAT rebate on EVs, e-buses and e-truck tractors",
+  "short": "China EV export rebate 13% to 9%",
+  "region": "China",
+  "area": "Export controls & tax",
+  "status": "Starts later",
+  "date": "2027-04-01",
+  "date_label": "From 1 Apr 2027",
+  "what": "The export VAT rebate on new-energy vehicles, including e-buses and electric truck tractors, falls from 13% to 9%.",
+  "impact": "Chinese e-buses and e-trucks become a little dearer in export markets, easing price pressure on Indian makers abroad.",
+  "effects": [
+   "Competitor cost up"
+  ],
+  "affects": [
+   "EV"
+  ],
+  "source": "CnEVPost, 12 Oct 2026",
+  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "eu-passport",
+  "title": "EU battery passport and QR codes",
+  "short": "EU battery passports become mandatory",
+  "region": "EU",
+  "area": "Recycling & passports",
+  "status": "Starts later",
+  "date": "2027-02-18",
+  "date_label": "From 18 Feb 2027; due diligence from 18 Aug 2027",
+  "what": "Under the EU Batteries Regulation, EV, light-transport and industrial batteries above 2 kWh placed on the EU market need a digital battery passport from 18 February 2027, and all batteries need a QR code. Supply-chain due-diligence duties apply from 18 August 2027.",
+  "impact": "Matters only for batteries or vehicles we sell into Europe: we would need traceable data from our cell suppliers.",
+  "effects": [
+   "Compliance"
+  ],
+  "affects": [
+   "EV packs",
+   "BESS"
+  ],
+  "source": "Arianee, EU Batteries Regulation timeline",
+  "url": "https://www.arianee.com/en/blog/battery-passport-timeline-2027-2036",
+  "source2": "Product Compliance Institute, 20 Oct 2026",
+  "url2": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/",
+  "checked": "2026-10-28"
+ },
+ {
+  "id": "zw-ban",
+  "title": "Zimbabwe bans exports of lithium concentrate",
+  "short": "Zimbabwe lithium concentrate export ban",
+  "region": "Other",
+  "area": "Export controls & tax",
+  "status": "Starts later",
+  "date": "2027-01-01",
+  "date_label": "From 1 Jan 2027",
+  "what": "Zimbabwe says there is no reason to delay its ban on exporting lithium concentrate, pushing miners to refine locally (headline only, not verified).",
+  "impact": "Could tighten lithium raw-material supply to Chinese refiners for a while, supporting lithium prices.",
+  "effects": [
+   "Supply risk",
+   "Cost up"
+  ],
+  "affects": [
+   "Lithium"
+  ],
+  "source": "Bloomberg, 9 Oct 2026 (headline)",
+  "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
+  "checked": "2026-10-28"
+ }
+]

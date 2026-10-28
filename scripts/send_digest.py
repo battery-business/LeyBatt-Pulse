@@ -265,6 +265,25 @@ def build(today):
                     f'<div style="font-size:12px;margin-top:2px"><a href="{E(e["url"])}" style="color:{MUTED}">{E(e["source"])}</a></div>'
                     f'</td></tr></table></td></tr>')
 
+    # rules coming up: the next three regulation dates (skip one already listed above as a rule change on the same day)
+    shown = {e["date"] for e in up if "rule" in e.get("kind", "").lower()}
+    rules_up = [r for r in sorted(load("regulations", []) or [], key=lambda r: r["date"]) if d(r["date"]) >= today and r["date"] not in shown][:3]
+    STC = {"In force": BLUE, "Starts later": "#c27c02", "Paused": "#8a4fb8", "Proposed": "#5f6e86", "Bids under evaluation": "#0f8a80"}
+    rules_html = ""
+    for r in rules_up:
+        rd = d(r["date"]); n_days = (rd - today).days
+        when = "Today" if n_days == 0 else "Tomorrow" if n_days == 1 else f"In {n_days} days" if n_days < 60 else f"In about {round(n_days / 30)} months"
+        c = STC.get(r.get("status"), "#5f6e86")
+        rules_html += (f'<tr><td style="padding:6px 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid {LINE};border-left:4px solid {c};border-radius:10px"><tr>'
+                       f'<td width="64" valign="top" style="padding:10px 0 10px 12px"><div style="background:#f3f6fa;border:1px solid {LINE};color:{NAVY};font-weight:800;font-size:13px;text-align:center;border-radius:8px;padding:6px 4px;white-space:nowrap">{rd.day} {rd.strftime("%b")}<div style="font-size:10.5px;font-weight:400;color:{MUTED}">{rd.year}</div></div></td>'
+                       f'<td valign="top" style="padding:10px 14px 10px 12px">'
+                       f'<div style="font-size:12px;font-weight:700;color:{"#b42318" if n_days <= 30 else MUTED}">{E(when)}</div>'
+                       f'<div style="font-size:14px;font-weight:700;color:{NAVY};line-height:1.4;margin-top:2px">{E(r.get("short") or r["title"])}</div>'
+                       f'<div style="font-size:12px;color:{MUTED};margin-top:2px">{E(r["region"])} · {E(r["status"])} · <a href="{E(r["url"])}" style="color:{MUTED}">{E(r["source"])}</a></div>'
+                       f'</td></tr></table></td></tr>')
+    if rules_html:
+        rules_html += f'<tr><td style="padding:4px 24px 0;font-size:12px" class="px"><a href="{SITE}#rules" style="color:{BLUE};font-weight:600;text-decoration:none">All regulations and what they mean for an Indian buyer →</a></td></tr>'
+
     alert_html = ""
     if uniq:
         alert_html = (f'<tr><td style="padding:18px 24px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #f59e0b;border-radius:10px">'
@@ -283,8 +302,8 @@ def build(today):
 <tr><td style="background:{NAVY};padding:22px 24px 18px" class="px">
  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
   <td valign="middle" width="62"><img src="{logo}" width="56" height="56" alt="" style="display:block;border:0"></td>
-  <td valign="middle" style="padding-left:10px"><div style="font-size:26px;font-weight:800;color:#ffffff;letter-spacing:-0.4px;line-height:1.1">LeyBatt Pulse</div>
-   <div style="font-size:12.5px;color:#9fb0c6;margin-top:4px">Daily battery market intelligence</div></td>
+  <td valign="middle" style="padding-left:10px"><div style="font-size:27px;line-height:1.05;letter-spacing:-0.5px;white-space:nowrap"><span style="font-weight:800;color:#ffffff">LeyBatt</span><span style="font-family:'Segoe UI Light','Segoe UI',Helvetica,Arial,sans-serif;font-weight:300;color:#4fd1b5;padding-left:5px">Pulse</span></div>
+   <div style="font-size:10.5px;font-weight:600;color:#9fb0c6;margin-top:6px;letter-spacing:2.4px;text-transform:uppercase">Battery market intelligence</div></td>
   <td valign="middle" align="right"><span style="display:inline-block;background:{LIME};color:{NAVY};font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap">{E(date_label)}</span></td>
  </tr></table></td></tr>
 <tr><td style="height:4px;background:{LIME};font-size:0;line-height:0">&nbsp;</td></tr>
@@ -298,6 +317,8 @@ def build(today):
 {news_html}
 {section("Coming up") if up_html else ""}
 {up_html}
+{section("Rules coming up") if rules_html else ""}
+{rules_html}
 {brief_html}
 <tr><td align="center" style="padding:26px 24px 8px"><a href="{SITE}" style="display:inline-block;background:{LIME};color:{NAVY};font-size:15px;font-weight:800;text-decoration:none;padding:13px 26px;border-radius:10px">Open LeyBatt Pulse →</a>
  <div style="font-size:12px;color:{MUTED};margin-top:8px">Charts, the full price map, all news and the cost calculator</div></td></tr>
@@ -319,6 +340,8 @@ def build(today):
     t += ["", "Top news:"] + ([f"- {n['headline']} ({n['source']}: {n['url']})" for n in top] or ["- No new stories in the last two days."])
     if up:
         t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]
+    if rules_up:
+        t += ["", "Rules coming up:"] + [f"- {r['date']}: {r.get('short') or r['title']} ({r['region']}, {r['status']})" for r in rules_up] + [f"  Details: {SITE}#rules"]
     if today.weekday() == 0:
         t += ["", f"Weekly brief: {SITE}#brief"]
     t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "LeyBatt Pulse — automated daily digest from public sources."]

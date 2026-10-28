@@ -42,6 +42,10 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 
 The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
 
+## Page code changes
+
+Browsers and GitHub Pages keep `assets/app.js` and `assets/style.css` for a few minutes. Whenever either file changes, change the `?v=` number after it in `index.html` (and the stylesheet's in `live-test.html`), for example to the current date and time, so every reader gets the new page and the new code together. Data-only updates (the daily run) don't need this.
+
 ## New since your last visit
 
 "New since your last visit" (tags, tab counts and the line above the headline) is worked out in each reader's browser by comparing the data files with what that browser saw last time; it needs no upkeep, but it relies on stable `id`s for stories and rules, so never renumber them.

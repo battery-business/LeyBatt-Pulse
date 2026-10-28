@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'markets'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'risk', 'brief'];
@@ -97,8 +97,8 @@
         const bp = s.points.filter((p) => p.lo != null && p.hi != null);
         if (bp.length > 1) svg.append('path').datum(bp).attr('fill', s.color).attr('fill-opacity', 0.12).attr('d', d3.area().x((p) => xS(p.d)).y0((p) => yS(p.lo)).y1((p) => yS(p.hi)));
       }
-      svg.append('path').datum(s.points).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => xS(p.d)).y((p) => yS(p.v)));
-      svg.append('g').selectAll('circle').data(s.points).join('circle').attr('cx', (p) => xS(p.d)).attr('cy', (p) => yS(p.v)).attr('r', r).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 1.2);
+      svg.append('path').datum(s.points).attr('class', 'drawline').attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => xS(p.d)).y((p) => yS(p.v)));
+      svg.append('g').selectAll('circle').data(s.points).join('circle').attr('class', 'dot').attr('cx', (p) => xS(p.d)).attr('cy', (p) => yS(p.v)).attr('r', r).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 1.2);
       const last = s.points[s.points.length - 1];
       labels.push({ x: xS(last.d) + 8, y: yS(last.v) + 4, text: s.name + ' ' + fmt(last.v), color: s.color });
     });
@@ -126,6 +126,7 @@
         });
       })
       .on('pointerleave', () => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); });
+    drawIn(box);
   }
 
   function hBars(box, rows, { label, value, fmt, color, tip }) {
@@ -196,7 +197,7 @@
       $('#updated').textContent = `Updated ${m.updated_label} (${ago})`;
       $('#updated').title = m.note || '';
     }
-    $('#news-count').textContent = (D.news || []).length || '';
+    renderCounts();
     renderTicker();
   }
   // navy market strip under the header: one slow loop of prices, dates coming up and alert stories.
@@ -335,6 +336,7 @@
   }
 
   function renderOverview() {
+    renderSince();
     const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
     const take = $('#takeaway');
     if (L.lithium && L.cell314 && L.system) {
@@ -353,6 +355,7 @@
     (D.latest || []).forEach((r) => {
       const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
       const un = el('span', 'unit', `${r.unit} · ${r.asof} `); const ab = ageBadge(r.asof, CADENCE_ID[r.id]); if (ab) un.appendChild(ab);
+      const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
       const sp = el('div', 'sparkbox');
       if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
@@ -362,6 +365,8 @@
       c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
       cards.appendChild(c);
     });
+    renderSpot();
+    overviewMotion();
     // changes
     const w = weekly(); const ul = $('#changes'); ul.replaceChildren();
     if (w.length >= 2) {
@@ -1078,6 +1083,7 @@
     const li = el('li');
     li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
+    if (VISIT.news.has(n.id)) meta.appendChild(newTag('Added since your last visit'));
     meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
     li.append(meta, el('div', 'h', n.headline), src);
@@ -1198,12 +1204,28 @@
       placed.push({ x: lx, y: ly }); p.ly = ly;
     });
     const lvlOf = (p) => (Math.max(p.x, p.y) >= 6.5 ? 'High' : Math.max(p.x, p.y) >= 4 ? 'Elevated' : 'Low');
-    const g = svg.append('g');
+    // a week ago: faint ring and trail; on first view each dot travels from there to today
+    const cl = (v) => Math.max(0, Math.min(10, v));
+    const move = !reduced() && !MOTION.risk.has(RISK.h); MOTION.risk.add(RISK.h);
+    const trails = svg.append('g').attr('class', 'rtrails');
+    let anyTrail = false;
     pts.forEach((p) => {
+      const r = p.m[RISK.h]; p.x0 = cl(p.x - ((r.price && r.price.change) || 0)); p.y0 = cl(p.y - ((r.supply && r.supply.change) || 0));
+      if (Math.abs(p.x0 - p.x) + Math.abs(p.y0 - p.y) < 0.1) return;
+      anyTrail = true;
+      trails.append('circle').attr('cx', x(p.x0)).attr('cy', y(p.y0)).attr('r', 4.5).attr('fill', 'none').attr('stroke', css('--muted')).attr('stroke-width', 1.2).attr('opacity', 0.55);
+      const ln = trails.append('line').attr('x1', x(p.x0)).attr('y1', y(p.y0)).attr('x2', x(p.x0)).attr('y2', y(p.y0)).attr('stroke', css('--muted')).attr('stroke-width', 1.2).attr('stroke-dasharray', '2 3').attr('opacity', 0.7);
+      if (move) ln.transition().duration(900).delay(250).ease(d3.easeCubicOut).attr('x2', x(p.x)).attr('y2', y(p.y)); else ln.attr('x2', x(p.x)).attr('y2', y(p.y));
+    });
+    $('#risk-map-note').textContent = ($('#risk-map-note').textContent ? $('#risk-map-note').textContent + ' ' : '') + (anyTrail ? 'Faint rings show where each item stood a week ago.' : '');
+    const g = svg.append('g');
+    pts.forEach((p, i) => {
       const sel = p.m.id === RISK.sel;
       const a = g.append('g').attr('class', 'rpt').attr('tabindex', 0).attr('role', 'button').attr('aria-label', `${p.m.name}: price risk ${p.x}, supply risk ${p.y}`).style('cursor', 'pointer');
-      a.append('circle').attr('cx', x(p.x)).attr('cy', y(p.y)).attr('r', sel ? 9 : 7).attr('fill', lvlColor(lvlOf(p))).attr('stroke', sel ? css('--fg') : css('--panel')).attr('stroke-width', sel ? 2.5 : 2);
-      a.append('text').attr('x', x(p.x) > W - 110 ? x(p.x) - 11 : x(p.x) + 11).attr('text-anchor', x(p.x) > W - 110 ? 'end' : 'start').attr('y', p.ly).attr('font-size', 12.5).attr('font-weight', sel ? 700 : 600).attr('fill', css('--fg')).text(p.m.short);
+      const dot = a.append('circle').attr('cx', x(move ? p.x0 : p.x)).attr('cy', y(move ? p.y0 : p.y)).attr('r', sel ? 9 : 7).attr('fill', lvlColor(lvlOf(p))).attr('stroke', sel ? css('--fg') : css('--panel')).attr('stroke-width', sel ? 2.5 : 2);
+      if (move) dot.transition().duration(900).delay(250 + i * 40).ease(d3.easeCubicOut).attr('cx', x(p.x)).attr('cy', y(p.y));
+      const lab = a.append('text').attr('x', x(p.x) > W - 110 ? x(p.x) - 11 : x(p.x) + 11).attr('text-anchor', x(p.x) > W - 110 ? 'end' : 'start').attr('y', p.ly).attr('font-size', 12.5).attr('font-weight', sel ? 700 : 600).attr('fill', css('--fg')).text(p.m.short);
+      if (move) lab.attr('opacity', 0).transition().duration(400).delay(1000 + i * 40).attr('opacity', 1);
       const pick = () => { RISK.sel = p.m.id; renderRisk(); };
       a.on('click', pick).on('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } })
         .on('mousemove', (ev) => showTip(ev, (t) => { t.appendChild(el('div', 'h', p.m.name)); tipRow(t, null, 'Price risk', `${scoreTxt(p.x)} ${p.m[RISK.h].price.level}`); tipRow(t, null, 'Supply risk', `${scoreTxt(p.y)} ${p.m[RISK.h].supply.level}`); }))
@@ -1585,6 +1607,7 @@
     const c = el('article', 'rule'); c.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
     const top = el('div', 'rule-top');
     top.append(el('span', 'rule-region', r.region), el('span', 'rule-area', r.area));
+    if (VISIT.rules.has(r.id)) top.appendChild(newTag(r.changed ? `Changed: ${r.changed}` : 'New or changed since your last visit'));
     const st = el('span', 'rule-status', r.status); top.appendChild(st);
     c.appendChild(top);
     c.appendChild(el('h3', 'rule-title', r.title));
@@ -1650,6 +1673,315 @@
     if (!shown.length) list.appendChild(el('p', 'sub', 'No rules match these filters.'));
   }
 
+  // ---------- alive: new since your last visit ----------
+  // Kept in this browser only (localStorage); nothing is sent anywhere. A visit ends after 30 minutes away.
+  const VISIT = { prev: null, first: false, news: new Set(), rules: new Set(), prices: new Map() };
+  const ruleSig = (r) => [r.status, r.date, r.changed || ''].join('|');
+  const readJSON = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return undefined; } };
+  const writeJSON = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } };
+  function visitSnap() {
+    return {
+      p: Object.fromEntries((D.latest || []).map((r) => [r.id, [r.price, r.asof]])),
+      n: (D.news || []).map((n) => n.id),
+      r: Object.fromEntries((D.regulations || []).map((r) => [r.id, ruleSig(r)])),
+    };
+  }
+  function visitInit() {
+    let cur = readJSON('lbp-visit'); let prev = readJSON('lbp-prev');
+    if (cur === undefined) return; // storage blocked: feature off
+    const now = Date.now(), snap = visitSnap();
+    if (!cur || !cur.snap) { prev = null; VISIT.first = true; cur = { last: now, snap }; }
+    else if (now - cur.last > 30 * 60e3) { prev = { t: cur.last, snap: cur.snap }; cur = { last: now, snap }; }
+    else { cur.last = now; cur.snap = snap; }
+    writeJSON('lbp-visit', cur); writeJSON('lbp-prev', prev);
+    VISIT.prev = prev; visitDiff();
+    window.addEventListener('pagehide', () => { const c = readJSON('lbp-visit'); if (c) { c.last = Date.now(); writeJSON('lbp-visit', c); } });
+  }
+  function visitDiff() {
+    VISIT.news.clear(); VISIT.rules.clear(); VISIT.prices.clear();
+    const P = VISIT.prev && VISIT.prev.snap; if (!P) return;
+    const seen = new Set(P.n || []);
+    (D.news || []).forEach((n) => { if (!seen.has(n.id)) VISIT.news.add(n.id); });
+    (D.regulations || []).forEach((r) => { if ((P.r || {})[r.id] !== ruleSig(r)) VISIT.rules.add(r.id); });
+    (D.latest || []).forEach((r) => {
+      const o = (P.p || {})[r.id]; if (!o || (o[0] === r.price && o[1] === r.asof)) return;
+      const a = numOf(o[0]), b = numOf(r.price);
+      VISIT.prices.set(r.id, { from: o[0], to: r.price, pct: a && b ? (b / a - 1) * 100 : null });
+    });
+  }
+  function visitSeen() {
+    VISIT.prev = { t: Date.now(), snap: visitSnap() }; VISIT.first = false;
+    writeJSON('lbp-prev', VISIT.prev); visitDiff(); renderCounts(); go(S.tab, false);
+  }
+  const newTag = (title) => { const t = el('span', 'newtag', 'New'); if (title) t.title = title; return t; };
+  function whenLabel(t) {
+    const d = new Date(t), now = new Date();
+    const day0 = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+    const dd = Math.round((day0(now) - day0(d)) / 864e5);
+    const hm = d3.timeFormat('%-I:%M %p')(d).toLowerCase();
+    return dd === 0 ? `today, ${hm}` : dd === 1 ? `yesterday, ${hm}` : dd < 7 ? `${d3.timeFormat('%A')(d)}, ${hm}` : d3.timeFormat('%-d %b')(d);
+  }
+  function renderCounts() {
+    const nc = $('#news-count'), rn = $('#rules-new');
+    const nn = VISIT.news.size;
+    nc.textContent = nn ? `${nn} new` : ((D.news || []).length || '');
+    nc.classList.toggle('is-new', !!nn); nc.title = nn ? `${nn} ${nn === 1 ? 'story' : 'stories'} added since your last visit` : 'Stories on the site';
+    const rc = VISIT.rules.size; rn.hidden = !rc; rn.textContent = rc ? `${rc} new` : ''; rn.title = 'New or changed since your last visit';
+  }
+  function renderSince() {
+    const box = $('#since'); if (!box) return;
+    box.replaceChildren();
+    if (VISIT.first) {
+      box.hidden = false; box.className = 'sincebar is-first';
+      box.append(el('span', 'since-dot'), el('span', 'since-lead', 'Welcome.'), document.createTextNode(' From your next visit, this line will show what changed since you were last here: new stories, price moves and rule changes.'));
+      return;
+    }
+    if (!VISIT.prev) { box.hidden = true; return; }
+    box.hidden = false; box.className = 'sincebar';
+    box.append(el('span', 'since-dot'), el('span', 'since-lead', `Since your last visit (${whenLabel(VISIT.prev.t)}):`));
+    const parts = [];
+    const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
+    [...VISIT.prices].filter(([, c]) => c.pct != null && Math.abs(c.pct) >= 0.05).sort((a, b) => Math.abs(b[1].pct) - Math.abs(a[1].pct)).slice(0, 3).forEach(([id, c]) => {
+      const b = el('button', 'since-item'); b.type = 'button';
+      b.append(document.createTextNode((L[id] && L[id].layer === 'Raw material' ? 'Lithium' : (L[id] ? L[id].label.replace(/,.*$/, '') : id)) + ' '), el('b', c.pct < 0 ? 'is-down' : 'is-up', pctS(c.pct)));
+      b.title = `${c.from} → ${c.to}`; b.addEventListener('click', () => go(CARD_TAB[id] || 'materials')); parts.push(b);
+    });
+    const nn = VISIT.news.size, rc = VISIT.rules.size;
+    if (nn) { const b = el('button', 'since-item'); b.type = 'button'; b.append(el('b', null, String(nn)), document.createTextNode(` new ${nn === 1 ? 'story' : 'stories'}`)); b.addEventListener('click', () => go('news')); parts.push(b); }
+    if (rc) { const b = el('button', 'since-item'); b.type = 'button'; b.append(el('b', null, String(rc)), document.createTextNode(` ${rc === 1 ? 'rule' : 'rules'} new or changed`)); b.addEventListener('click', () => go('rules')); parts.push(b); }
+    const flat = [...VISIT.prices].filter(([, c]) => c.pct == null || Math.abs(c.pct) < 0.05).length;
+    if (flat && !parts.length) parts.push(el('span', 'since-item', `${flat} ${flat === 1 ? 'price' : 'prices'} re-checked, unchanged`));
+    if (!parts.length) parts.push(el('span', 'since-item', 'nothing new yet. The next update is at about 4:00 am IST.'));
+    parts.forEach((p, i) => { if (i) box.appendChild(el('span', 'since-sep', '·')); box.appendChild(p); });
+    if (nn || rc || VISIT.prices.size) { const k = el('button', 'btn link since-clear', 'Mark all as seen'); k.type = 'button'; k.addEventListener('click', visitSeen); box.appendChild(k); }
+  }
+
+  // ---------- alive: market clocks and the next update ----------
+  const istFmt = (ms, withDay) => {
+    const d = new Date(ms + 5.5 * 36e5); const t = d3.utcFormat('%-I:%M %p')(d).toLowerCase().replace(':00 ', ' ');
+    if (!withDay) return t;
+    const dd = Math.round((Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - istToday()) / 864e5);
+    return dd === 0 ? t : dd === 1 ? 'tomorrow ' + t : dd < 6 ? d3.utcFormat('%a ')(d) + t : d3.utcFormat('%-d %b, ')(d) + t;
+  };
+  const tzParts = (ms, tz) => { const o = {}; new Intl.DateTimeFormat('en-GB', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date(ms)).forEach((p) => { o[p.type] = +p.value; }); return o; };
+  function mktOffset(m, ms) { // ms of exchange wall clock minus UTC
+    if (m.utc_offset != null) return m.utc_offset * 36e5;
+    try { const t = Math.floor(ms / 6e4) * 6e4; const p = tzParts(t, m.tz); return Math.round((Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute) - t) / 6e4) * 6e4; } catch (e) { return 0; }
+  }
+  function mktStatus(m, now) {
+    const hol = new Set(m.holidays || []);
+    const off0 = mktOffset(m, now); const loc = new Date(now + off0);
+    const y = loc.getUTCFullYear(), mo = loc.getUTCMonth(), d = loc.getUTCDate();
+    let sawToday = false, beyond = false;
+    for (let k = 0; k < 14; k++) {
+      const day = new Date(Date.UTC(y, mo, d + k)); const iso = day.toISOString().slice(0, 10); const wd = day.getUTCDay();
+      if (iso > (m.holidays_through || '9999')) beyond = true;
+      const off = mktOffset(m, +day + 12 * 36e5);
+      if (wd === 0 || wd === 6 || hol.has(iso)) { if (k === 0 && wd !== 0 && wd !== 6) sawToday = 'holiday'; continue; }
+      for (const [a, b] of m.sessions) {
+        const [ah, am] = a.split(':').map(Number), [bh, bm] = b.split(':').map(Number);
+        const s = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), ah, am) - off;
+        const e = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), bh, bm) - off;
+        if (now >= s && now < e) return { state: 'open', at: e, beyond };
+        if (now < s) return { state: k === 0 && sawToday === true ? 'break' : sawToday === 'holiday' ? 'holiday' : 'closed', at: s, beyond };
+        if (k === 0) sawToday = true;
+      }
+    }
+    return { state: 'closed', at: null, beyond: true };
+  }
+  function sessionsIST(m, now) {
+    const off = mktOffset(m, now);
+    return m.sessions.map(([a, b]) => [a, b].map((t) => { const [h, mi] = t.split(':').map(Number); return istFmt(Date.UTC(2026, 0, 5, h, mi) - off); }).join('–')).join(', ');
+  }
+  function renderClocks() {
+    const now = Date.now();
+    // next update: about 4:00 am IST every day
+    const nt = $('#next-txt');
+    if (nt && D.meta) {
+      const ist = new Date(now + 5.5 * 36e5); const h = ist.getUTCHours() + ist.getUTCMinutes() / 60;
+      const updatedToday = +parse(D.meta.updated) >= istToday();
+      let next = istToday() + 4 * 36e5 - 5.5 * 36e5; if (now >= next) next += 864e5;
+      if (!updatedToday && h >= 4 && h < 12) nt.textContent = "Today's update is on its way";
+      else { const mins = Math.max(1, Math.round((next - now) / 6e4)); nt.textContent = `Next update in ${mins >= 60 ? Math.floor(mins / 60) + 'h ' : ''}${mins % 60}m`; }
+    }
+    const box = $('#mkts'); const M = (D.markets || {}).markets || [];
+    if (!box || !M.length) return;
+    box.replaceChildren();
+    M.forEach((m) => {
+      const st = mktStatus(m, now);
+      const lab = { open: 'Open', break: 'Break', closed: 'Closed', holiday: 'Holiday' }[st.state];
+      const when = st.at == null ? '' : st.state === 'open' ? `till ${istFmt(st.at, true)}` : st.state === 'break' ? `back ${istFmt(st.at, true)}` : `opens ${istFmt(st.at, true)}`;
+      const p = el('span', 'mk is-' + st.state); p.tabIndex = 0;
+      p.append(el('i', 'mk-dot'), el('b', null, m.short), el('span', 'mk-st', lab), el('span', 'mk-when', when));
+      p.title = `${m.name}. Trades ${sessionsIST(m, now)} IST, Monday to Friday, except holidays. ${m.hours_note || ''} Source: ${m.source}; holidays: ${m.holiday_source}.` + (st.beyond ? ` The holiday list after ${d3.utcFormat('%b %Y')(parse(m.holidays_through))} is not published yet, so a holiday may be missed.` : '');
+      p.setAttribute('aria-label', `${m.short}: ${lab} ${when}`);
+      box.appendChild(p);
+    });
+  }
+  let clockT = 0;
+  function startClocks() { renderClocks(); clearInterval(clockT); clockT = setInterval(() => { if (!document.hidden) renderClocks(); }, 20000); document.addEventListener('visibilitychange', () => { if (!document.hidden) { renderClocks(); checkFresh(); } }); }
+  // if the page stays open past the morning update, offer a reload
+  let freshT = 0, lastFresh = 0;
+  function checkFresh() {
+    if (!D.meta || Date.now() - lastFresh < 5 * 60e3) return; lastFresh = Date.now();
+    fetch('data/meta.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((m) => {
+      if (!m || m.updated === D.meta.updated) return;
+      const t = $('#toast'); t.replaceChildren(el('span', null, `Fresh data is in (${m.updated_label}).`));
+      const b = el('button', 'btn small', 'Reload'); b.type = 'button'; b.addEventListener('click', () => location.reload());
+      const x = el('button', 'btn link small', 'Later'); x.type = 'button'; x.addEventListener('click', () => { t.hidden = true; });
+      t.append(b, x); t.hidden = false;
+    }).catch(() => {});
+  }
+  function startFresh() { clearInterval(freshT); freshT = setInterval(() => { if (!document.hidden) checkFresh(); }, 10 * 60e3); }
+
+  // ---------- alive: motion (all of it off when the reader asks for reduced motion) ----------
+  const reduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const MOTION = { counted: false, glowed: false, risk: new Set(), drawn: new WeakSet() };
+  const ease = (t) => 1 - Math.pow(1 - t, 3);
+  function countUp(node, ms = 900) {
+    const txt = node.textContent; const m = txt.match(/^(\D*?)(\d[\d,]*)(\.\d+)?(.*)$/); if (!m) return;
+    const target = +(m[2].replace(/,/g, '') + (m[3] || '')); const dec = m[3] ? m[3].length - 1 : 0; const comma = m[2].includes(',');
+    const f = d3.format((comma ? ',' : '') + '.' + dec + 'f'); const t0 = performance.now();
+    node.classList.add('counting');
+    const step = (t) => { const k = Math.min(1, (t - t0) / ms); node.textContent = m[1] + f(target * ease(k)) + m[4]; if (k < 1) requestAnimationFrame(step); else { node.textContent = txt; node.classList.remove('counting'); } };
+    requestAnimationFrame(step);
+  }
+  function drawLines(paths, ms = 1100, delay = 0) {
+    paths.forEach((p) => {
+      let len = 0; try { len = p.getTotalLength(); } catch (e) { return; } if (!len) return;
+      p.style.strokeDasharray = `${len} ${len}`; p.style.strokeDashoffset = len; p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${ms}ms cubic-bezier(.3,.6,.2,1) ${delay}ms`; p.style.strokeDashoffset = 0;
+      setTimeout(() => { p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; p.style.transition = ''; }, ms + delay + 60);
+    });
+  }
+  function drawIn(box) { // chart lines draw themselves the first time the chart scrolls into view
+    if (reduced() || MOTION.drawn.has(box) || !('IntersectionObserver' in window)) return;
+    MOTION.drawn.add(box);
+    const svg = box.querySelector('svg'); if (!svg) return;
+    const lines = [...svg.querySelectorAll('path.drawline')]; const dots = [...svg.querySelectorAll('circle.dot')];
+    lines.forEach((p) => { p.style.opacity = 0; }); dots.forEach((c) => { c.style.opacity = 0; });
+    const io = new IntersectionObserver((ents) => {
+      if (!ents.some((e) => e.isIntersecting)) return; io.disconnect();
+      const s2 = box.querySelector('svg'); if (s2 !== svg) return; // redrawn meanwhile
+      lines.forEach((p) => { p.style.opacity = ''; }); drawLines(lines);
+      dots.forEach((c) => { c.style.transition = 'opacity .4s ease 900ms'; c.style.opacity = ''; });
+    }, { threshold: 0.25 });
+    io.observe(box);
+  }
+  function overviewMotion() {
+    if (reduced()) return;
+    if (!MOTION.counted) {
+      MOTION.counted = true;
+      $$('#cards .card .price').forEach((n) => countUp(n));
+      drawLines($$('#cards .spark path'), 1000, 150);
+    }
+    if (!MOTION.glowed && D.meta) {
+      MOTION.glowed = true;
+      const wd = parse(D.meta.updated).getUTCDay(); const lim = wd === 1 ? 3 : wd === 0 ? 2 : 1;
+      (D.latest || []).forEach((r) => {
+        if (ageDays(r.asof) > lim || /unchanged|stable|flat|survey/i.test(r.move || '')) return;
+        const c = document.getElementById('card-' + r.id); if (c) { c.classList.add('glow'); c.addEventListener('animationend', () => c.classList.remove('glow'), { once: true }); }
+      });
+    }
+  }
+
+  // ---------- alive: alert spotlight ----------
+  const SPOT = { i: 0, t: 0, hold: false, items: [] };
+  function renderSpot() {
+    const box = $('#spot'); if (!box) return;
+    const today = istToday(), cut = today - 21 * 864e5;
+    SPOT.items = sortedNews().filter((n) => n.alert && +parse(n.date) >= cut).slice(0, 6);
+    if (!SPOT.items.length) { box.hidden = true; return; }
+    box.hidden = false; SPOT.i = Math.min(SPOT.i, SPOT.items.length - 1);
+    box.replaceChildren();
+    const lab = el('span', 'spot-lab', 'Alert');
+    const stage = el('div', 'spot-stage'); stage.setAttribute('aria-live', 'polite');
+    const nav = el('div', 'spot-nav');
+    const prev = el('button', 'spot-arrow', '‹'); prev.type = 'button'; prev.setAttribute('aria-label', 'Previous alert');
+    const next = el('button', 'spot-arrow', '›'); next.type = 'button'; next.setAttribute('aria-label', 'Next alert');
+    const dots = el('span', 'spot-dots');
+    SPOT.items.forEach((_, i) => { const d = el('button', 'spot-dot'); d.type = 'button'; d.setAttribute('aria-label', `Alert ${i + 1} of ${SPOT.items.length}`); d.addEventListener('click', () => { spotShow(i); spotTimer(); }); dots.appendChild(d); });
+    prev.addEventListener('click', () => { spotShow((SPOT.i - 1 + SPOT.items.length) % SPOT.items.length); spotTimer(); });
+    next.addEventListener('click', () => { spotShow((SPOT.i + 1) % SPOT.items.length); spotTimer(); });
+    nav.append(prev, dots, next);
+    if (SPOT.items.length < 2) nav.hidden = true;
+    box.append(lab, stage, nav);
+    if (!box.dataset.wired) {
+      box.dataset.wired = '1';
+      box.addEventListener('pointerenter', () => { SPOT.hold = true; }); box.addEventListener('pointerleave', () => { SPOT.hold = false; });
+      box.addEventListener('focusin', () => { SPOT.hold = true; }); box.addEventListener('focusout', () => { SPOT.hold = false; });
+    }
+    spotShow(SPOT.i, true); spotTimer();
+  }
+  function spotShow(i, instant) {
+    const box = $('#spot'); const st = box && box.querySelector('.spot-stage'); if (!st) return;
+    SPOT.i = i; const n = SPOT.items[i];
+    const a = el('a', 'spot-item'); a.href = n.url; a.target = '_blank'; a.rel = 'noopener';
+    const meta = el('span', 'spot-meta'); meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
+    if (VISIT.news.has(n.id)) meta.appendChild(newTag());
+    a.append(meta, el('span', 'spot-h', n.headline), el('span', 'spot-src', n.source + ' ↗'));
+    if (!instant && !reduced()) a.classList.add('in');
+    st.replaceChildren(a);
+    $$('.spot-dot', box).forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
+  }
+  function spotTimer() {
+    clearInterval(SPOT.t); if (reduced() || SPOT.items.length < 2) return;
+    SPOT.t = setInterval(() => { if (SPOT.hold || document.hidden || S.tab !== 'overview') return; spotShow((SPOT.i + 1) % SPOT.items.length); }, 7000);
+  }
+
+  // ---------- alive: lithium pulse line (real daily moves of the lithium futures, last 30 sessions) ----------
+  // Built from data/history/lithium_futures.csv; only the % moves are shown.
+  const PULSE = { moves: null };
+  function loadPulse() {
+    fetch('data/history/lithium_futures.csv', { cache: 'no-store' }).then((r) => (r.ok ? r.text() : '')).then((txt) => {
+      const rows = d3.csvParse(txt || '').map((r) => ({ d: r.date, v: +r.cny_t })).filter((r) => r.d && r.v > 0);
+      if (rows.length < 5) return;
+      const last = rows.slice(-31);
+      PULSE.moves = last.slice(1).map((r, i) => ({ d: r.d, pct: (r.v / last[i].v - 1) * 100 }));
+      renderPulse();
+    }).catch(() => {});
+  }
+  function renderPulse() {
+    const box = $('#pline'); const mv = PULSE.moves; if (!box || !mv || !mv.length) return;
+    box.hidden = false; box.replaceChildren();
+    const lab = el('span', 'pl-lab', 'Lithium pulse'); lab.title = 'Daily moves of the lithium carbonate futures (Guangzhou Futures Exchange main contract), last 30 trading sessions';
+    const host = el('div', 'pl-host');
+    const lastM = mv[mv.length - 1];
+    const end = el('span', 'pl-end'); end.append(el('span', null, shortDay(parse(lastM.d)) + ' '), el('b', lastM.pct < 0 ? 'is-down' : lastM.pct > 0 ? 'is-up' : '', pctS(lastM.pct)));
+    end.title = 'Latest daily close of the lithium futures, change on the day';
+    box.append(lab, host, end);
+    requestAnimationFrame(() => {
+      const W = host.clientWidth || 600, H = 22, mid = H / 2;
+      const amp = d3.max(mv, (m) => Math.abs(m.pct)) || 1;
+      const step = W / mv.length; const yOf = (v) => mid - Math.sign(v) * Math.sqrt(Math.abs(v) / amp) * (mid - 2); // square root so small moves still show
+      let dstr = `M0,${mid}`; const peaks = [];
+      mv.forEach((m, i) => {
+        const x0 = i * step, py = yOf(m.pct);
+        dstr += ` L${(x0 + step * 0.38).toFixed(1)},${mid} L${(x0 + step * 0.5).toFixed(1)},${py.toFixed(1)} L${(x0 + step * 0.62).toFixed(1)},${mid}`;
+        peaks.push({ x: x0 + step * 0.5, y: py, m });
+      });
+      dstr += ` L${W},${mid}`;
+      const svg = d3.select(host).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('preserveAspectRatio', 'none').attr('aria-hidden', 'true');
+      svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', mid).attr('y2', mid).attr('class', 'pl-base');
+      const path = svg.append('path').attr('id', 'pl-path').attr('d', dstr).attr('class', 'pl-path');
+      const lp = peaks[peaks.length - 1];
+      svg.append('circle').attr('cx', lp.x).attr('cy', lp.y).attr('r', 2.6).attr('class', 'pl-last');
+      if (!reduced()) {
+        const g = svg.append('circle').attr('r', 2.4).attr('class', 'pl-run');
+        g.append('animateMotion').attr('dur', '7s').attr('repeatCount', 'indefinite').attr('rotate', 'auto').append('mpath').attr('href', '#pl-path');
+        if (!PULSE.drawn) { PULSE.drawn = true; drawLines([path.node()], 1400); }
+      }
+      const hi = svg.append('circle').attr('r', 3.2).attr('class', 'pl-hi').attr('opacity', 0);
+      host.addEventListener('pointermove', (ev) => {
+        const r = host.getBoundingClientRect(); const x = (ev.clientX - r.left) / r.width * W;
+        const p = peaks[Math.max(0, Math.min(peaks.length - 1, Math.floor(x / step)))];
+        hi.attr('cx', p.x).attr('cy', p.y).attr('opacity', 1);
+        showTip(ev, (t) => { t.appendChild(el('div', 'k', dayFmt(parse(p.m.d)))); tipRow(t, null, 'Lithium futures', pctS(p.m.pct) + ' on the day'); tipNote(t, 'Guangzhou Futures Exchange main contract, daily close (via Sina Finance)'); });
+      });
+      host.addEventListener('pointerleave', () => { hi.attr('opacity', 0); hideTip(); });
+    });
+  }
+
   // ---------- tabs ----------
   const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, risk: renderRisk, rules: renderRules, brief: renderBrief };
   function go(route, push = true) {
@@ -1697,13 +2029,15 @@
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => go(S.tab, false));
   applyTheme();
 
-  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(S.tab, false), 150); });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { go(S.tab, false); renderPulse(); }, 150); });
 
   // ---------- load ----------
   Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
     .then((res) => {
       FILES.forEach((f, i) => { D[f] = res[i]; });
+      visitInit();
       renderHeader();
       go(location.hash.slice(1) || 'overview', false);
+      startClocks(); startFresh(); loadPulse();
     });
 })();

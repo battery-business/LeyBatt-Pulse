@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Live feed test – LeyBatt Pulse</title>
+<link rel="icon" href="assets/icon.png" type="image/png">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  body { padding: 24px 0 48px; }
+  .lt { max-width: 52rem; }
+  .lt h1 { font-size: 26px; margin: 0 0 4px; }
+  .lt .lead { color: var(--muted); margin: 0 0 16px; }
+  .lt table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  .lt th, .lt td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .lt th { font-size: 12px; color: var(--muted); font-weight: 600; background: var(--soft); }
+  .lt tr:last-child td { border-bottom: 0; }
+  .st { font-weight: 700; white-space: nowrap; }
+  .st.wait { color: var(--muted); } .st.ok { color: var(--ok); } .st.bad { color: var(--bad); }
+  .verdict { margin: 16px 0; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); font-size: 15px; }
+  .verdict.ok { border-color: var(--ok); } .verdict.bad { border-color: var(--bad); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; }
+  .small { font-size: 12.5px; color: var(--muted); }
+  .mkt { font-weight: 700; }
+  pre { white-space: pre-wrap; font-size: 12px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+</style>
+</head>
+<body>
+<main class="wrap lt">
+  <h1>Live lithium feed: connection test</h1>
+  <p class="lead">This page checks whether your browser, on this network, can reach the free Sina Finance feed for the Guangzhou lithium carbonate futures. If it can, LeyBatt Pulse can show the lithium price live during trading hours. Nothing is sent anywhere; the test only tries to load the feed.</p>
+  <p class="small">Best run during GFEX trading hours: <span class="mkt" id="mkt">checking…</span> (6:30–7:45 am, 8:00–9:00 am and 11:00 am–12:30 pm IST, Monday to Friday). Outside those hours a pass still shows the feed is reachable; the latest price will just be the last close.</p>
+
+  <table>
+    <thead><tr><th>Test</th><th>Result</th><th>Detail</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="verdict" id="verdict">Running the tests…</div>
+  <div class="row"><button class="btn" id="again" type="button">Run again</button><button class="btn" id="copy" type="button">Copy results</button><a class="btn link" href="./">Back to LeyBatt Pulse</a></div>
+  <p class="small">US$ prices are converted at the latest ECB reference rate on the site, as the site does for the daily close. They are for checking that the data looks live, not for use.</p>
+  <pre id="log" hidden></pre>
+</main>
+<script>
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const TIMEOUT = 9000;
+  const TESTS = [
+    { id: 'daily', name: 'Daily prices (control)', why: 'The feed the site already uses on GitHub. If this fails too, the whole Sina site is blocked on this network.',
+      url: (cb) => `https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20${cb}=/InnerFuturesNewService.getDailyKLine?symbol=LC0&_=${Date.now()}`, kind: 'var', read: (v) => { const r = v[v.length - 1]; return { n: v.length, last: +r.c, when: r.d }; } },
+    { id: 'minute', name: 'One-minute prices', why: 'Needed for a live price during the day.',
+      url: (cb) => `https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20${cb}=/InnerFuturesNewService.getFewMinLine?symbol=LC0&type=1&_=${Date.now()}`, kind: 'var', read: (v) => { const r = v[v.length - 1]; return { n: v.length, last: +r.c, when: r.d }; } },
+    { id: 'quote', name: 'Live quote', why: 'The quickest live price. Sina sometimes refuses this from other websites.',
+      url: () => `https://hq.sinajs.cn/rn=${Date.now()}&list=nf_LC0`, kind: 'hq', ref: '' },
+    { id: 'quote2', name: 'Live quote (no referrer)', why: 'Same quote, sent without saying which website asked.',
+      url: () => `https://hq.sinajs.cn/rn=${Date.now()}&list=nf_LC0`, kind: 'hq', ref: 'no-referrer' },
+  ];
+  let fx = null; const results = {};
+
+  function mktNow() {
+    const bj = new Date(Date.now() + 8 * 36e5); const wd = bj.getUTCDay(); const m = bj.getUTCHours() * 60 + bj.getUTCMinutes();
+    const open = wd > 0 && wd < 6 && [[540, 615], [630, 690], [810, 900]].some(([a, b]) => m >= a && m < b);
+    $('#mkt').textContent = open ? 'the market is open now' : 'the market is closed now';
+    $('#mkt').style.color = open ? 'var(--ok)' : 'var(--muted)';
+    return open;
+  }
+  function loadScript(src, ref) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script'); s.src = src; s.async = true; s.charset = 'gbk';
+      if (ref) s.referrerPolicy = ref;
+      const t = setTimeout(() => { s.remove(); rej(new Error('no answer within ' + TIMEOUT / 1000 + ' s (blocked or very slow)')); }, TIMEOUT);
+      s.onload = () => { clearTimeout(t); s.remove(); res(); };
+      s.onerror = () => { clearTimeout(t); s.remove(); rej(new Error('blocked or refused (the browser could not load it)')); };
+      document.head.appendChild(s);
+    });
+  }
+  const usd = (cny) => (fx ? '$' + Math.round(cny / fx).toLocaleString('en-US') + '/t' : null);
+  function bjToIst(s) { // "2026-10-28 14:59:00" Beijing -> "12:29 pm IST"
+    const m = String(s || '').match(/(\d{4})-(\d\d)-(\d\d)(?:[ T](\d\d):(\d\d))?/); if (!m) return s;
+    if (!m[4]) return `${+m[3]} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2] - 1]} close`;
+    const t = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) - 8 * 36e5 + 5.5 * 36e5; const d = new Date(t);
+    let h = d.getUTCHours(); const ap = h >= 12 ? 'pm' : 'am'; h = h % 12 || 12;
+    return `${d.getUTCDate()} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]}, ${h}:${String(d.getUTCMinutes()).padStart(2, '0')} ${ap} IST`;
+  }
+  function row(t) {
+    let tr = document.getElementById('t-' + t.id);
+    if (!tr) { tr = document.createElement('tr'); tr.id = 't-' + t.id; $('#rows').appendChild(tr); }
+    const r = results[t.id] || { st: 'wait', text: 'Testing…', detail: t.why };
+    tr.innerHTML = '';
+    const a = document.createElement('td'); a.innerHTML = `<b></b><div class="small"></div>`; a.querySelector('b').textContent = t.name; a.querySelector('.small').textContent = t.why;
+    const b = document.createElement('td'); b.className = 'st ' + r.st; b.textContent = r.text;
+    const c = document.createElement('td'); c.textContent = r.detail || '';
+    tr.append(a, b, c);
+  }
+  async function run(t) {
+    results[t.id] = { st: 'wait', text: 'Testing…', detail: '' }; row(t);
+    const t0 = performance.now();
+    try {
+      if (t.kind === 'var') {
+        const cb = 'lbp_' + t.id + '_' + Math.floor(Math.random() * 1e6);
+        await loadScript(t.url(cb));
+        const v = window[cb]; try { delete window[cb]; } catch (e) { /* ignore */ }
+        if (!Array.isArray(v) || !v.length) throw new Error('loaded, but no prices came back');
+        const x = t.read(v);
+        results[t.id] = { st: 'ok', text: 'Works', detail: `${x.n} prices received in ${Math.round(performance.now() - t0)} ms. Latest: ${bjToIst(x.when)}` + (usd(x.last) ? `, about ${usd(x.last)}.` : '.') };
+      } else {
+        try { delete window.hq_str_nf_LC0; } catch (e) { window.hq_str_nf_LC0 = undefined; }
+        await loadScript(t.url(), t.ref);
+        const v = window.hq_str_nf_LC0;
+        if (typeof v !== 'string' || v.split(',').length < 8) throw new Error(typeof v === 'string' ? 'loaded, but the quote was empty (Sina refused it)' : 'loaded, but no quote came back');
+        const f = v.split(','); const last = +f[8];
+        results[t.id] = { st: 'ok', text: 'Works', detail: `Quote received in ${Math.round(performance.now() - t0)} ms (${f.length} fields)` + (last > 0 && usd(last) ? `; last trade about ${usd(last)} (field check pending).` : '.') };
+      }
+    } catch (e) {
+      results[t.id] = { st: 'bad', text: 'Failed', detail: e.message };
+    }
+    row(t);
+  }
+  function verdict() {
+    const ok = (k) => results[k] && results[k].st === 'ok';
+    const v = $('#verdict'); v.className = 'verdict';
+    if (ok('minute') || ok('quote') || ok('quote2')) { v.classList.add('ok'); v.textContent = 'Good news: a live lithium price can work on this network. Tap "Copy results" and send them over, and the live version can be built.'; }
+    else if (ok('daily')) { v.classList.add('bad'); v.textContent = 'The Sina site is reachable, but not its live prices. The live version would need a different route (for example a price refreshed every 15 minutes by GitHub). Tap "Copy results" and send them over.'; }
+    else { v.classList.add('bad'); v.textContent = 'Sina Finance is blocked on this network, so a price straight from the browser will not work here. The fallback is a price refreshed every 15 minutes by GitHub. Tap "Copy results" and send them over.'; }
+  }
+  async function all() {
+    mktNow();
+    $('#verdict').className = 'verdict'; $('#verdict').textContent = 'Running the tests…';
+    TESTS.forEach((t) => { delete results[t.id]; row(t); });
+    for (const t of TESTS) await run(t); // one at a time: the two quote tests share a variable name
+    verdict();
+  }
+  function copy() {
+    const lines = [`LeyBatt Pulse live feed test, ${new Date().toString().replace(/ \(.*\)$/, '')}`, `Market: ${$('#mkt').textContent}`, `Browser: ${navigator.userAgent}`]
+      .concat(TESTS.map((t) => `${t.name}: ${(results[t.id] || {}).text || '-'} — ${(results[t.id] || {}).detail || ''}`)).concat([$('#verdict').textContent]);
+    const txt = lines.join('\n');
+    const done = () => { $('#copy').textContent = 'Copied'; setTimeout(() => { $('#copy').textContent = 'Copy results'; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, () => { $('#log').hidden = false; $('#log').textContent = txt; });
+    else { $('#log').hidden = false; $('#log').textContent = txt; }
+  }
+  $('#again').addEventListener('click', all);
+  $('#copy').addEventListener('click', copy);
+  fetch('data/history/fx.csv', { cache: 'no-store' }).then((r) => (r.ok ? r.text() : '')).then((t) => {
+    const rows = t.trim().split('\n'); const last = rows[rows.length - 1].split(','); const v = +last[2]; if (v > 1) fx = v;
+  }).catch(() => {}).finally(all);
+})();
+</script>
+</body>
+</html>

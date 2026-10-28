@@ -8,7 +8,7 @@ Tries each source in turn and keeps the saved file if every source fails.
   fx                : ECB daily euro reference rates, turned into US$-rupee and US$-yuan cross rates
 """
 import csv, io, json, re, sys, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "history"
@@ -140,6 +140,10 @@ def sina_futures(symbol):
             body = r.read().decode("utf-8", "replace")
         data = json.loads(body[body.find("([") + 1: body.rfind("])") + 1])
         rows = [(x["d"], float(x["c"])) for x in data if x.get("c")]
+        # today's bar is still moving until the close (15:00 Beijing); keep only finished days
+        bj = datetime.now(timezone.utc) + timedelta(hours=8)
+        if rows and rows[-1][0] == bj.strftime("%Y-%m-%d") and (bj.hour, bj.minute) < (15, 15):
+            rows = rows[:-1]
         if len(rows) > 200:
             return rows, f"Guangzhou Futures Exchange {symbol} main contract, daily close (via Sina Finance)"
         print(f"::warning::Sina {symbol}: only {len(rows)} rows; first bytes {body[:80]!r}")

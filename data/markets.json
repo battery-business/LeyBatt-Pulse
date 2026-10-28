@@ -1,0 +1,37 @@
+{
+ "about": "Trading hours and holidays for the market clocks in the page header. Times are local exchange time; the page converts them to IST. Holidays are weekdays only (weekends are always closed). Add the next year's holidays when the exchanges publish them (China usually in December, see UPDATING.md).",
+ "markets": [
+  {
+   "id": "gfex",
+   "short": "GFEX lithium",
+   "name": "Lithium carbonate futures, Guangzhou Futures Exchange",
+   "utc_offset": 8,
+   "sessions": [["09:00", "10:15"], ["10:30", "11:30"], ["13:30", "15:00"]],
+   "hours_note": "Day session only; lithium carbonate has no night session.",
+   "source": "Nanhua Futures, China futures trading hours (Nov 2024)",
+   "url": "https://www.nanhua.net/cmsbigfile/2024/11/c7be3f53-3ee2-4e9d-a55f-c074f5165c5b/Trading%20Hours%202024.11.18.pdf",
+   "holidays": ["2026-01-01", "2026-01-02", "2026-02-16", "2026-02-17", "2026-02-18", "2026-02-19", "2026-02-20", "2026-02-23", "2026-04-06", "2026-05-01", "2026-05-04", "2026-05-05", "2026-06-19", "2026-09-25", "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07"],
+   "holidays_through": "2026-12-31",
+   "holiday_source": "Shanghai Futures Exchange 2026 holiday schedule (China's futures exchanges close on the same national holidays), via Mondo Visione",
+   "holiday_url": "https://mondovisione.com/media-and-resources/news/shanghai-futures-exchange-trading-schedule-during-national-holidays-for-year-20-20251217/"
+  },
+  {
+   "id": "lme",
+   "short": "LME metals",
+   "name": "London Metal Exchange, LMEselect electronic market",
+   "tz": "Europe/London",
+   "sessions": [["01:00", "19:00"]],
+   "hours_note": "Ring (open outcry) trading runs 11:40 to 17:00 London time; the inter-office telephone market is open 24 hours.",
+   "source": "Commodity.com, London Metal Exchange guide",
+   "url": "https://commodity.com/trading/exchanges/london-metal/",
+   "holidays": ["2026-12-25", "2026-12-28", "2027-01-01", "2027-03-26", "2027-03-29", "2027-05-03", "2027-05-31", "2027-08-30", "2027-12-27", "2027-12-28"],
+   "holidays_through": "2027-12-31",
+   "holiday_source": "England and Wales bank holidays (GOV.UK dates), via Hoseasons",
+   "holiday_url": "https://www.hoseasons.co.uk/blog/uk-bank-holidays"
+  }
+ ],
+ "update": {
+  "time_ist": "04:00",
+  "note": "The site's data is refreshed every morning at about 4:00 am IST; the morning email follows at 5:15 am."
+ }
+}

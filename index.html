@@ -62,9 +62,20 @@
         <ul class="dates" id="ov-dates"></ul>
       </div>
       </div>
+      <div class="stack" id="ov-right">
       <div class="panel">
         <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
         <ul class="newslist compact" id="news-preview"></ul>
+      </div>
+      <div class="panel" style="--sec:var(--bad)">
+        <div class="panel-head"><h2>Risk watch</h2><button class="btn link" type="button" data-goto="risk">Risk navigator →</button></div>
+        <p class="sub">The three highest risk scores for the next 3 months (0–10, higher is riskier for a buyer).</p>
+        <ul class="rwatch" id="ov-risk"></ul>
+      </div>
+      <div class="panel" style="--sec:var(--plum)">
+        <div class="panel-head"><h2>Rules coming up</h2><button class="btn link" type="button" data-goto="rules">Regulations →</button></div>
+        <ul class="rules-next ov-rules" id="ov-rules"></ul>
+      </div>
       </div>
     </div>
   </section>

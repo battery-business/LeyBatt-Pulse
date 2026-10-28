@@ -423,9 +423,58 @@
       });
     } catch (e) { console.error(e); fail(dl); }
     renderLandedOverview();
-    // news preview
+    renderOvRisk();
+    renderOvRules();
+    // news preview: at least 5 stories, then more until the right column is as tall as the left one (8 on phones)
     const pv = $('#news-preview'); pv.replaceChildren();
-    sortedNews().slice(0, 8).forEach((n) => pv.appendChild(newsItem(n)));
+    const ns = sortedNews(); let shown = Math.min(5, ns.length);
+    ns.slice(0, shown).forEach((n) => pv.appendChild(newsItem(n)));
+    const fill = () => {
+      const g = $('#page-overview .grid2'); if (!g || S.tab !== 'overview') return;
+      const [L, R] = g.children; if (!L || !R) return;
+      if (Math.abs(L.offsetTop - R.offsetTop) > 4) { while (shown < Math.min(ns.length, 8)) pv.appendChild(newsItem(ns[shown++])); return; } // stacked on phones
+      while (shown < Math.min(ns.length, 24)) {
+        const li = newsItem(ns[shown]); pv.appendChild(li);
+        if (R.offsetHeight > L.offsetHeight) { li.remove(); break; }
+        shown++;
+      }
+    };
+    requestAnimationFrame(fill);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => requestAnimationFrame(fill));
+  }
+  // overview: the three highest risk scores
+  function renderOvRisk() {
+    const ul = $('#ov-risk'); if (!ul) return; ul.replaceChildren();
+    const rows = riskStripItems();
+    if (!rows.length) { ul.appendChild(el('li', 'empty', 'Risk scores are not available yet.')); return; }
+    rows.forEach(({ m, ax, a }) => {
+      const top = [...(a.drivers || [])].sort((x, y) => (y.score * y.weight) - (x.score * x.weight))[0];
+      const b = el('button', 'rw'); b.type = 'button';
+      const name = el('div', 'rw-name'); name.append(el('b', null, m.short), el('span', null, ax === 'price' ? 'Price risk' : 'Supply risk'));
+      const score = el('div', 'rw-score'); score.append(riskChip(a), riskDelta(a));
+      b.append(name, score);
+      if (top) b.appendChild(el('div', 'rw-why', `Main driver: ${top.label.toLowerCase()}${top.detail ? ' — ' + clip(top.detail, 90) : ''}`));
+      b.addEventListener('click', () => { RISK.sel = m.id; RISK.h = 'h3'; go('risk'); });
+      const li = el('li'); li.appendChild(b); ul.appendChild(li);
+    });
+  }
+  // overview: the next rule dates
+  function renderOvRules() {
+    const ul = $('#ov-rules'); if (!ul) return; ul.replaceChildren();
+    const today = istToday();
+    const ahead = (D.regulations || []).filter((r) => +parse(r.date) >= today).sort((a, b) => d3.ascending(a.date, b.date)).slice(0, 3);
+    if (!ahead.length) { ul.appendChild(el('li', 'empty', 'No dated rule changes ahead.')); return; }
+    ahead.forEach((r) => {
+      const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
+      const li = el('li'); li.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
+      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
+      const body = el('div');
+      body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), el('div', 'rn-meta', `${r.region} · ${r.status}`));
+      if (VISIT.rules.has(r.id)) body.firstChild.appendChild(newTag('New or changed since your last visit'));
+      const b = el('button', 'rn'); b.type = 'button'; b.append(db, body);
+      b.addEventListener('click', () => { go('rules'); const card = document.getElementById('rule-' + r.id); if (card) { card.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1600); } });
+      li.appendChild(b); ul.appendChild(li);
+    });
   }
 
   function rangeSeg(key, onChange) {

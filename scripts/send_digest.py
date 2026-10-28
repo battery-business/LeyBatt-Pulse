@@ -223,6 +223,12 @@ def build(today):
                      f'<div style="font-size:12px;color:{MUTED};margin-top:8px">Scored 0–10 for the next 3 months (Low &lt;4, Elevated 4–6.4, High 6.5+); ▲▼ change in a week. '
                      f'<a href="{SITE}#risk" style="color:{BLUE};font-weight:600;text-decoration:none">See what drives each score →</a></div></td></tr>')
 
+    brief_html = ""
+    if today.weekday() == 0:  # Mondays: point to the weekly brief
+        brief_html = (f'<tr><td style="padding:20px 24px 0" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{NAVY};border-radius:12px">'
+                      f'<tr><td style="padding:14px 16px;color:#ffffff;font-size:14px;line-height:1.5"><b style="color:{LIME}">Weekly brief is ready.</b> Last week\'s prices, risk changes, rules and top stories on one page, with a PDF for decks. '
+                      f'<a href="{SITE}#brief" style="color:{LIME};font-weight:800;text-decoration:none">Open the brief →</a></td></tr></table></td></tr>')
+
     news_html = ""
     if top:
         for n in top:
@@ -292,6 +298,7 @@ def build(today):
 {news_html}
 {section("Coming up") if up_html else ""}
 {up_html}
+{brief_html}
 <tr><td align="center" style="padding:26px 24px 8px"><a href="{SITE}" style="display:inline-block;background:{LIME};color:{NAVY};font-size:15px;font-weight:800;text-decoration:none;padding:13px 26px;border-radius:10px">Open Leyland Pulse →</a>
  <div style="font-size:12px;color:{MUTED};margin-top:8px">Charts, the full price map, all news and the cost calculator</div></td></tr>
 <tr><td style="padding:18px 24px 22px;background:#f6f8fb;border-top:1px solid {LINE};font-size:11.5px;line-height:1.5;color:{MUTED}" class="px">
@@ -312,6 +319,8 @@ def build(today):
     t += ["", "Top news:"] + ([f"- {n['headline']} ({n['source']}: {n['url']})" for n in top] or ["- No new stories in the last two days."])
     if up:
         t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]
+    if today.weekday() == 0:
+        t += ["", f"Weekly brief: {SITE}#brief"]
     t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "Leyland Pulse — automated daily digest from public sources."]
     return subject, body_html, "\n".join(t)
 

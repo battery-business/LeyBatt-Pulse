@@ -47,7 +47,21 @@ The navy strip loops the full price board, the dates in the next 21 days (from `
 The Regulations tab lists rules that change the cost, supply or demand for batteries for an Indian buyer. One entry per rule:
 `id` (short, stable), `title`, `short` (≤ 55 characters, used in "Coming up"), `region` (India / China / EU / Other), `area` (Incentives / Trade & duty / Grid & storage rules / Standards & safety / Recycling & passports / Export controls & tax), `status` (In force / Starts later / Paused / Proposed / Bids under evaluation), `date` (YYYY-MM-DD: the next date that matters, otherwise the start date), `date_label` (plain words), `what` (what the rule says, own words), `impact` (what it means for an Indian buyer of cells, BESS or EVs), `effects` (from: Cost up, Cost down, Supply risk, Supply easier, Demand up, Compliance; "(long term)" allowed), `affects` (e.g. Cells, Storage cells, EV cells, EV packs, BESS, Cathode, Graphite, Lithium), `source`, `url`, optional `source2`/`url2`, `checked` (YYYY-MM-DD you last confirmed it on a source page).
 
+When a rule changes in substance (status, date, rate), also set `changed` to today's date: the Monday brief lists rules changed that week.
+
 Daily: when a news item you add changes a rule (new rule, new date, status change such as a pause ending, a proposal being notified, bids opened), update that entry from a page you opened, set `checked` to today, and also update the matching `events.json` date. Add a new entry for any important new rule. Mondays: re-check the entries whose `date` is within the next 60 days and refresh `checked`. Never change a status or date without a source; keep internal company details out.
+
+## Cell tender prices (`tenders.json`)
+
+The Cells page compares public cell procurement bids with InfoLink's market average. When you find a new public storage-cell procurement result (ESS News, Energy-Storage.News, EnergyTrend, SMM) with prices per bidder, append one row per bid to `rows`: `date` (award or shortlist date, YYYY-MM-DD), `when` (e.g. "Nov 2026"), `buyer` (e.g. "CGN 5 GWh cell procurement"), `size` ("314 Ah", "≥500 Ah" or "587 Ah"), `kind` ("bid", or "range" with `lo`/`hi` when only a range is published, or "list" for list prices), `bidder`, `yuan_wh` (as published, including VAT), `usd_kwh` = `python3 scripts/convert.py kwh <yuan_wh>`, `source`, `url`. System-level awards (whole containers) go in `systems.json`, not here.
+
+## Landed in India (`landed.json`)
+
+Freight, insurance, duty and rebate assumptions for the "Landed in India" panels. The page reads today's cell and system prices and the ECB rupee rate by itself, so a routine update changes nothing here. Change a default only when a new public source justifies it (a customs notification, a new freight index reading), and update its note and source in the same edit.
+
+## Weekly brief
+
+The "This week" page (`#brief`, PDF button) is built automatically from the data files; Monday's email links to it. Nothing to update by hand.
 
 ## Risk Navigator (tags only)
 

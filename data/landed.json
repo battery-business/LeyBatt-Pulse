@@ -1,0 +1,31 @@
+{
+ "about": "Assumptions for the 'Landed in India' estimate. Every number can be changed on the Cost calculator page; change the defaults here only with a new source.",
+ "freight_usd_kwh": {
+  "cells": 1.0,
+  "bess": 1.0,
+  "note": "China–India sea freight was about US$3,350–4,100 per 40ft container in October 2026 (indicative). Spread over roughly 4 MWh of 314 Ah cells per container this is about US$1/kWh; dangerous-goods (Class 9) surcharges and inland transport are not included, and heavy BESS containers often cost more to ship. Replace with your own quote.",
+  "source": "Sino-Shipping, China to India freight guide (Oct 2026)",
+  "url": "https://www.sino-shipping.com/country-guides-freight-from-china-to-india/"
+ },
+ "insurance_pct_of_fob": 1.125,
+ "insurance_note": "Indian customs takes 1.125% of FOB as notional insurance when the actual cost is not known.",
+ "insurance_source": "EximPe: CIF, FOB and assessable value",
+ "insurance_url": "https://eximpe.com/blog/b2b/cif-fob-and-assessable-value-how-customs-calculates-duty-on-imports",
+ "bcd_pct": {
+  "cells": 20,
+  "bess": 10
+ },
+ "bcd_note": "20% is the tariff rate for lithium-ion accumulators (8507 60 00); stationary BESS get a concessional 10%. The rate for cells imported to build EV packs depends on the exemption claimed and could not be confirmed from a public source, so the standard 20% is used.",
+ "bcd_source": "CBIC Circular 45/2026-Customs, via TaxGuru",
+ "bcd_url": "https://taxguru.in/custom-duty/cbic-clarifies-10-percent-customs-duty-industrial-bess-power-bank-exclusion-circular-no-45-2026-customs.html",
+ "sws_pct_of_bcd": 10,
+ "igst_pct": 18,
+ "duty_note": "Assessable value = CIF (FOB + freight + insurance). Duty = BCD on assessable value, plus social welfare surcharge of 10% of BCD. IGST of 18% is charged on assessable value + BCD + SWS and is shown separately because businesses normally reclaim it.",
+ "duty_source": "EximPe: CIF, FOB and assessable value",
+ "duty_url": "https://eximpe.com/blog/b2b/cif-fob-and-assessable-value-how-customs-calculates-duty-on-imports",
+ "export_rebate_pct": 6,
+ "rebate_note": "China removes its 6% export VAT rebate on batteries on 1 Jan 2027. The 'from 1 Jan' line assumes exporters raise prices by the full 6%.",
+ "rebate_source": "CnEVPost, 21 Oct 2026",
+ "rebate_url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
+ "fob_note": "The China price (excluding VAT) stands in for the export (FOB) price. Real export quotes can differ by supplier, volume and terms."
+}

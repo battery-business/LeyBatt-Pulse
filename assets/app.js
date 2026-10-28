@@ -1,9 +1,9 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'risk'];
+  const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'risk', 'brief'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
@@ -352,7 +352,8 @@
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
       const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
-      c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), el('span', 'unit', `${r.unit} · ${r.asof}`), el('span', 'move' + dirClass(r.direction), r.move));
+      const un = el('span', 'unit', `${r.unit} · ${r.asof} `); const ab = ageBadge(r.asof, CADENCE_ID[r.id]); if (ab) un.appendChild(ab);
+      c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
       const sp = el('div', 'sparkbox');
       if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
       else sp.appendChild(el('span', 'none', 'No price history yet'));
@@ -416,6 +417,7 @@
         li.append(db, body); dl.appendChild(li);
       });
     } catch (e) { console.error(e); fail(dl); }
+    renderLandedOverview();
     // news preview
     const pv = $('#news-preview'); pv.replaceChildren();
     sortedNews().slice(0, 8).forEach((n) => pv.appendChild(newsItem(n)));
@@ -536,12 +538,9 @@
       $('#gap-to').textContent = 'to ' + dayFmt(parse(g.to));
       hBars(gb, g.rows, { label: 'measure', value: 'pct', fmt: pctS, color: (r, i) => [css('--amber'), css('--blue'), css('--chart-muted')][i] });
     } catch (e) { console.error(e); fail(gb); }
-    // bids
+    // tender bids vs the market
     const bb = $('#bids-chart');
-    try {
-      hBars(bb, (D.cellbids || []).map((r) => ({ ...r, usd_kwh: +r.usd_kwh })), { label: 'label', value: 'usd_kwh', fmt: fmtUsd1, color: (r) => (r.kind === '≥500 Ah tender' ? css('--blue') : r.kind === 'List price' ? css('--amber') : css('--chart-muted')), tip: (t, r) => tipNote(t, 'Source: ' + r.source) });
-      srcLinks($('#bids-srcs'), D.cellbids);
-    } catch (e) { console.error(e); fail(bb); }
+    try { tenderChart(bb, $('#bids-legend')); srcLinks($('#bids-srcs'), (D.tenders || {}).rows || []); } catch (e) { console.error(e); fail(bb); }
     // market share
     const sb = $('#share-chart');
     try {
@@ -550,6 +549,55 @@
       hBars(sb, rows, { label: 'maker', value: 'share', fmt: (v) => v.toFixed(1) + '%', color: (r) => (r.maker === 'All others' ? css('--chart-muted') : css('--teal')), tip: (t, r) => tipNote(t, `${r.gwh} GWh installed`) });
       srcLinks($('#share-srcs'), rows);
     } catch (e) { console.error(e); fail(sb); }
+  }
+
+  const TSIZE = { '314 Ah': '--slate', '≥500 Ah': '--blue', '587 Ah': '--amber' };
+  function tenderChart(box, legend) {
+    box.replaceChildren();
+    const rows = ((D.tenders || {}).rows || []).map((r) => ({ ...r, d: parse(r.date) }));
+    const mk = (D.cell314 || []).map((r) => ({ d: parse(r.date), v: +r.usd_kwh })).concat(weekly().map((w) => ({ d: parse(w.date), v: +w.cell314 })))
+      .sort((a, b) => a.d - b.d).filter((p, i, arr) => !i || +p.d !== +arr[i - 1].d);
+    const ys = rows.flatMap((r) => (r.kind === 'range' ? [r.lo, r.hi] : [r.usd_kwh])).concat(mk.map((p) => p.v));
+    const t0 = d3.min([...rows.map((r) => r.d), ...mk.map((p) => p.d)]);
+    const W = Math.max(320, box.clientWidth || 640), H = 300, mg = { t: 12, r: 16, b: 28, l: 46 };
+    const x = d3.scaleUtc().domain([d3.utcMonth.offset(t0, -1), d3.utcMonth.offset(new Date(), 1)]).range([mg.l, W - mg.r]);
+    const y = d3.scaleLinear().domain([Math.floor((d3.min(ys) - 3) / 5) * 5, Math.ceil((d3.max(ys) + 3) / 5) * 5]).range([H - mg.b, mg.t]);
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%');
+    svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(5).tickFormat((v) => '$' + v).tickSize(-(W - mg.l - mg.r)).tickPadding(8)).call(axisStyle);
+    svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(W / 110))).tickFormat(d3.utcFormat('%b %y')).tickSize(0).tickPadding(8)).call(axisStyle);
+    svg.append('path').datum(mk).attr('fill', 'none').attr('stroke', css('--blue')).attr('stroke-width', 2).attr('opacity', 0.55).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
+    const tip = (r) => (ev) => showTip(ev, (t) => {
+      t.appendChild(el('div', 'h', r.bidder === 'All bids (range)' ? r.buyer : `${r.bidder} · ${r.size}`));
+      if (r.kind === 'range') tipRow(t, null, 'Bids', `${fmtUsd1(r.lo)}–${fmtUsd1(r.hi)}/kWh (${r.lo_yuan_wh}–${r.hi_yuan_wh} yuan/Wh)`);
+      else tipRow(t, null, r.kind === 'list' ? 'List price' : 'Bid', `${fmtUsd1(r.usd_kwh)}/kWh${r.yuan_wh ? ` (${r.yuan_wh} yuan/Wh)` : ''}`);
+      tipNote(t, `${r.buyer} · ${r.when} · ${r.source}`);
+    });
+    rows.forEach((r, i) => {
+      const col = css(TSIZE[r.size] || '--slate');
+      if (r.kind === 'range') {
+        svg.append('rect').attr('x', x(r.d) - 5).attr('width', 10).attr('y', y(r.hi)).attr('height', Math.max(2, y(r.lo) - y(r.hi))).attr('rx', 3).attr('fill', col).attr('opacity', 0.35)
+          .on('pointermove', tip(r)).on('pointerleave', hideTip);
+        return;
+      }
+      const same = rows.filter((q, j) => j < i && q.date === r.date && q.size === r.size && q.kind !== 'range').length;
+      const cx = x(r.d) + (r.size === '≥500 Ah' ? 10 : 0) + (same % 2 ? 4 : -4) * (same ? 1 : 0);
+      const g = svg.append('g').style('cursor', 'default');
+      if (r.kind === 'list') g.append('path').attr('d', d3.symbol(d3.symbolDiamond, 90)()).attr('transform', `translate(${cx},${y(r.usd_kwh)})`).attr('fill', col);
+      else g.append('circle').attr('cx', cx).attr('cy', y(r.usd_kwh)).attr('r', 5).attr('fill', col).attr('stroke', css('--panel')).attr('stroke-width', 1.5);
+      g.on('pointermove', tip(r)).on('pointerleave', hideTip);
+    });
+    if (legend) {
+      legend.replaceChildren(); legend.className = 'tlegend';
+      const add = (sw, txt) => { const s = el('span'); s.append(sw, document.createTextNode(txt)); legend.appendChild(s); };
+      const line = el('i', 'ln'); line.style.background = css('--blue'); add(line, 'InfoLink 314 Ah market average');
+      [['314 Ah', '314 Ah bids'], ['≥500 Ah', '500 Ah+ bids'], ['587 Ah', 'CATL 587 Ah list price']].forEach(([k, t]) => { const d = el('i', k === '587 Ah' ? 'dm' : 'dt'); d.style.background = css(TSIZE[k]); add(d, t); });
+      const rg = el('i', 'rg'); rg.style.background = css('--slate'); add(rg, 'range of bids');
+      const last = mk[mk.length - 1]; const lastBids = rows.filter((r) => r.kind === 'bid' && r.size === '314 Ah');
+      if (last && lastBids.length) {
+        const lowest = d3.min(lastBids.filter((r) => r.date === d3.max(lastBids, (q) => q.date)), (r) => r.usd_kwh);
+        legend.appendChild(el('span', 'note', `Latest market average ${fmtUsd1(last.v)}/kWh; lowest 314 Ah bid in the latest tender ${fmtUsd1(lowest)}/kWh.`));
+      }
+    }
   }
 
   function renderSystems() {
@@ -600,14 +648,30 @@
     else return 999;
     return Math.round((ref - d) / 864e5);
   }
+  // freshness: how old a price is, judged against how often that source normally publishes
+  const CADENCE_ID = { lithium: 'daily', cathode: 'weekly', cell314: 'weekly', cell587: 'irregular', evcell: 'weekly', pack: 'annual', system: 'monthly' };
+  const CADENCE_RAW = { 'Lithium hydroxide': 'daily', Copper: 'daily', Aluminium: 'daily', 'Copper foil': 'irregular', 'Aluminium foil': 'irregular' };
+  const CAD_LIM = { daily: [7, 21], weekly: [14, 60], monthly: [45, 100], annual: [400, 800], irregular: [60, 180] };
+  function ageBadge(asof, cadence) {
+    const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
+    const lag = D.meta ? Math.max(0, Math.round((today - +parse(D.meta.updated)) / 864e5)) : 0;
+    const a = ageDays(asof); if (a >= 999) return null;
+    const days = a + lag; const [w, r] = CAD_LIM[cadence] || CAD_LIM.weekly;
+    const lvl = days > r ? 'bad' : days > w ? 'warn' : 'ok';
+    const txt = days <= 0 ? 'today' : days === 1 ? '1 day old' : days < 60 ? `${days} days old` : `${Math.round(days / 30.4)} months old`;
+    const b = el('span', 'age age-' + lvl, txt);
+    b.title = lvl === 'ok' ? 'Up to date for this source' : lvl === 'warn' ? 'Older than this source usually is; check for a newer figure' : 'Stale: the latest public figure is old';
+    return b;
+  }
+
   function allPrices() {
     const latest = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
-      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; return { name: e.format + ' EV cell', desc: `About ${fmt2(e.perCell).replace('.00', '')} per cell (${e.kwh.toFixed(2)} kWh) at the EV average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: e.asof, move: e.move, direction: e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
+      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmt2(e.perCell).replace('.00', '')} per cell (${e.kwh.toFixed(2)} kWh) at the EV average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: e.asof, move: e.move, direction: e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
-      return { name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
+      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
     // anything new in rawmats.json that the map does not know yet goes under "Other cell materials"
     (D.rawmats || []).filter((r) => !used.has(r.material)).forEach((r) => steps[2].rows.push({ name: r.material, desc: r.role, price: r.price, usd: r.usd, unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, chart: null, step: steps[2].step }));
@@ -623,9 +687,8 @@
       st.rows.forEach((r) => {
         const c = el('div', 'pcard');
         const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
-        const fresh = ageDays(r.asof) <= 10;
-        const meta = el('div', 'pm'); const dot = el('i', 'fdot ' + (fresh ? 'fresh' : 'old')); dot.title = fresh ? 'Updated in the last 10 days' : 'Older figure, still the latest public one';
-        meta.append(dot, document.createTextNode(r.asof + ' · '), link(r.source, r.url));
+        const meta = el('div', 'pm'); const ab = ageBadge(r.asof, r.cad || CADENCE_RAW[r.name] || 'weekly');
+        meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url)); if (ab) meta.appendChild(ab);
         c.append(el('div', 'pn', r.name), el('div', 'pd', r.desc || ''), pr);
         if (r.move) c.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
         c.appendChild(meta);
@@ -641,7 +704,7 @@
       tr.insertCell().textContent = st.step;
       const it = tr.insertCell(); it.appendChild(el('span', 'item', r.name)); if (r.desc) it.appendChild(el('span', 'role', r.desc));
       const p = tr.insertCell(); p.className = 'num r'; p.textContent = r.price + (UNIT_SHORT[r.unit] || '');
-      const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof;
+      const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof + ' '; const ab = ageBadge(r.asof, r.cad || CADENCE_RAW[r.name] || 'weekly'); if (ab) a.appendChild(ab);
       tr.insertCell().appendChild(el('span', 'chip' + dirClass(r.direction), r.move || ''));
       const sc = tr.insertCell(); sc.appendChild(link(r.source, r.url)); if (r.source2) { sc.appendChild(document.createTextNode(' · ')); sc.appendChild(link(r.source2, r.url2)); }
     }));
@@ -1326,6 +1389,194 @@
     box.append(p('<b>Limits.</b> Built only from public prices and news, not from deals reported by buyers and sellers, so it complements rather than replaces paid services such as CRU, Fastmarkets or Benchmark. News tags are a judgement made when each story is added. Use the drivers and links to check before acting.'));
   }
 
+  // ---------- landed cost in India ----------
+  const LAND = { ready: false };
+  function landInit() {
+    if (LAND.ready) return; const L = D.landed || {}; const fx = ((D.risk || {}).india || {}).fx || {};
+    Object.assign(LAND, { ready: true, freightC: L.freight_usd_kwh ? L.freight_usd_kwh.cells : 1, freightB: L.freight_usd_kwh ? L.freight_usd_kwh.bess : 1,
+      ins: L.insurance_pct_of_fob ?? 1.125, bcdC: (L.bcd_pct || {}).cells ?? 20, bcdB: (L.bcd_pct || {}).bess ?? 10, sws: L.sws_pct_of_bcd ?? 10, igst: L.igst_pct ?? 18,
+      fx: fx.usd_inr ? +fx.usd_inr.toFixed(2) : 95, fxDate: fx.date, fxM3: fx.m3, rebate: L.export_rebate_pct ?? 6, after: false });
+  }
+  function landItems() {
+    const w = weekly(); const last = w[w.length - 1] || {};
+    const ev = [...((D.evcells || {}).series || [])].sort((a, b) => d3.ascending(a.date, b.date)).pop() || {};
+    return [
+      { id: 'cell314', name: '314 Ah storage cell', usd: +last.cell314, date: last.date, src: 'InfoLink', url: last.url, cls: 'C' },
+      { id: 'evcell', name: 'EV cell (230 / 324 Ah)', usd: +ev.usd_kwh, date: ev.date, src: ev.source, url: ev.url, cls: 'C', flag: 'duty unconfirmed' },
+      { id: 'dc2h', name: '2-hour DC block', usd: +last.dc_2h, date: last.date, src: 'InfoLink', url: last.url, cls: 'B' },
+      { id: 'ac4h', name: '4-hour AC system', usd: +last.ac_4h, date: last.date, src: 'InfoLink', url: last.url, cls: 'B' },
+    ].filter((r) => r.usd > 0);
+  }
+  function landCalc(usd, cls, after, fx) {
+    const fob = usd * (after ? 1 + LAND.rebate / 100 : 1);
+    const freight = cls === 'C' ? LAND.freightC : LAND.freightB, ins = fob * LAND.ins / 100;
+    const av = fob + freight + ins, bcd = av * (cls === 'C' ? LAND.bcdC : LAND.bcdB) / 100, sws = bcd * LAND.sws / 100;
+    const landed = av + bcd + sws, igst = landed * LAND.igst / 100;
+    return { fob, freight, ins, av, bcd, sws, duty: bcd + sws, landed, igst, inr: landed * (fx || LAND.fx) };
+  }
+  const inr = (v) => '₹' + d3.format(',.0f')(v);
+  function renderLandedOverview() {
+    const box = $('#ov-landed'); if (!box) return;
+    try {
+      landInit(); box.replaceChildren();
+      const t = el('table', 'rtable landed-mini');
+      const hr = el('tr'); ['', 'China price', 'Landed', 'Per kWh in ₹', 'From 1 Jan*'].forEach((x) => hr.appendChild(el('th', null, x)));
+      const th = el('thead'); th.appendChild(hr); t.appendChild(th); const tb = el('tbody');
+      landItems().forEach((it) => {
+        const a = landCalc(it.usd, it.cls, false), b = landCalc(it.usd, it.cls, true);
+        const tr = el('tr'); const n = el('td'); n.appendChild(el('b', null, it.name)); if (it.flag) n.appendChild(el('span', 'lflag', ' †'));
+        tr.append(n, el('td', 'num', fmtUsd1(it.usd)), el('td', 'num', fmtUsd1(a.landed)), el('td', 'num strong', inr(a.inr)), el('td', 'num up', inr(b.inr)));
+        tb.appendChild(tr);
+      });
+      t.appendChild(tb); const wrap = el('div', 'table-wrap'); wrap.appendChild(t); box.appendChild(wrap);
+      box.appendChild(el('p', 'sub', `US$/kWh excluding VAT and IGST (reclaimable). US$1 = ₹${LAND.fx.toFixed(2)} (ECB${LAND.fxDate ? ', ' + d3.utcFormat('%-d %b')(parse(LAND.fxDate)) : ''}). Freight about $${LAND.freightC}/kWh, duty ${LAND.bcdC}% on cells and ${LAND.bcdB}% on storage systems plus surcharge. *If China's 6% export rebate end is passed on in full. † Duty for cells used in EV packs unconfirmed; 20% used.`));
+    } catch (e) { console.error(e); fail(box); }
+  }
+  function renderLanded() {
+    const inBox = $('#landed-in'); if (!inBox) return;
+    landInit();
+    if (!inBox.childElementCount) {
+      const L = D.landed || {};
+      const field = (k, label, step, unit, hint) => {
+        const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
+        const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = LAND[k];
+        i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v)) { LAND[k] = v; renderLanded(); renderLandedOverview(); } });
+        const row = el('span', 'lrow'); row.append(i, el('span', 'lu', unit)); w.appendChild(row);
+        if (hint) w.appendChild(el('span', 'lh', hint)); return w;
+      };
+      inBox.append(
+        field('freightC', 'Freight, cells', '0.1', '$/kWh', 'Sea freight China–India'),
+        field('freightB', 'Freight, storage systems', '0.1', '$/kWh', 'Heavy containers may cost more'),
+        field('ins', 'Insurance', '0.125', '% of price', 'Customs default 1.125%'),
+        field('bcdC', 'Duty on cells', '1', '%', 'Standard rate 20%'),
+        field('bcdB', 'Duty on storage systems', '1', '%', 'Concessional 10%'),
+        field('fx', 'Rupees per US$', '0.01', '₹', 'ECB rate today'),
+      );
+      const tg = el('label', 'ltoggle'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = LAND.after;
+      cb.addEventListener('change', () => { LAND.after = cb.checked; renderLanded(); });
+      tg.append(cb, document.createTextNode(" Show prices after China ends its 6% export rebate (1 Jan 2027)")); inBox.appendChild(tg);
+      const rs = el('button', 'btn ghost small', 'Back to defaults'); rs.type = 'button';
+      rs.addEventListener('click', () => { LAND.ready = false; inBox.replaceChildren(); landInit(); renderLanded(); renderLandedOverview(); });
+      inBox.appendChild(rs);
+    }
+    const tbl = $('#landed-table'); tbl.replaceChildren();
+    const hr = el('tr'); ['Item', 'China price', 'Freight + insurance', 'Duty + surcharge', 'Landed, US$/kWh', 'Landed, ₹/kWh', 'IGST (reclaimable)'].forEach((x) => hr.appendChild(el('th', null, x)));
+    const th = el('thead'); th.appendChild(hr); tbl.appendChild(th); const tb = el('tbody');
+    const bars = $('#landed-bars'); bars.replaceChildren();
+    const items = landItems(); const maxL = d3.max(items, (it) => landCalc(it.usd, it.cls, LAND.after).landed) || 1;
+    items.forEach((it) => {
+      const a = landCalc(it.usd, it.cls, LAND.after);
+      const tr = el('tr'); const n = el('td'); n.appendChild(el('b', null, it.name)); n.appendChild(el('span', 'role', `${it.src}, ${d3.utcFormat('%-d %b')(parse(it.date))}${it.flag ? ' · ' + it.flag : ''}`));
+      tr.append(n, el('td', 'num', fmtUsd1(a.fob)), el('td', 'num', fmtUsd1(a.freight + a.ins)), el('td', 'num', fmtUsd1(a.duty)), el('td', 'num strong', fmtUsd1(a.landed)), el('td', 'num strong', inr(a.inr)), el('td', 'num muted', fmtUsd1(a.igst)));
+      tb.appendChild(tr);
+      const row = el('div', 'lbar'); row.appendChild(el('span', 'lbn', it.name));
+      const bar = el('div', 'stackbar'); bar.style.width = (a.landed / maxL * 100) + '%';
+      stackBar(bar, [{ label: LAND.after ? 'China price (+6%)' : 'China price', color: '--blue', v: a.fob }, { label: 'Freight + insurance', color: '--teal', v: a.freight + a.ins }, { label: 'Duty + surcharge', color: '--orange', v: a.duty }], a.landed);
+      row.append(bar, el('b', 'lbv', fmtUsd1(a.landed))); bars.appendChild(row);
+    });
+    tbl.appendChild(tb);
+    const lg = el('div', 'tlegend'); [['--blue', 'China price'], ['--teal', 'Freight + insurance'], ['--orange', 'Duty + surcharge']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(c); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
+    bars.appendChild(lg);
+    // notes
+    const L = D.landed || {}; const nb = $('#landed-notes'); nb.replaceChildren();
+    const cell = items.find((i) => i.id === 'cell314');
+    if (cell && LAND.fxM3 != null) {
+      const now = landCalc(cell.usd, 'C', LAND.after), was = landCalc(cell.usd, 'C', LAND.after, LAND.fx / (1 + LAND.fxM3));
+      nb.appendChild(el('p', 'lnote strong', `Rupee effect: over the last 3 months the rupee ${LAND.fxM3 > 0 ? 'weakened' : 'strengthened'} ${Math.abs(LAND.fxM3 * 100).toFixed(1)}% against the dollar, which ${LAND.fxM3 > 0 ? 'added' : 'saved'} about ${inr(Math.abs(now.inr - was.inr))} per kWh on a 314 Ah cell at today's dollar price.`));
+    }
+    const note = (txt, src, url) => { const p = el('p', 'lnote'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); nb.appendChild(p); };
+    note(L.fob_note || '', null, null);
+    note((L.freight_usd_kwh || {}).note || '', (L.freight_usd_kwh || {}).source, (L.freight_usd_kwh || {}).url);
+    note(`${L.insurance_note || ''} ${L.duty_note || ''}`, L.duty_source, L.duty_url);
+    note(L.bcd_note || '', L.bcd_source, L.bcd_url);
+    note(L.rebate_note || '', L.rebate_source, L.rebate_url);
+  }
+
+  // ---------- weekly brief ----------
+  function briefChange(pts, end, days = 7) {
+    const now = pts.filter((p) => p.d <= end).pop(); if (!now) return null;
+    const ref = new Date(+now.d - (days - 1) * 864e5); // a week before the latest reading (weekly series move on Wednesdays)
+    const past = pts.filter((p) => p.d <= ref).pop();
+    if (!past || (ref - past.d) / 864e5 > 21) return { now, past: null, pct: null };
+    return { now, past, pct: now.v / past.v - 1 };
+  }
+  function renderBrief() {
+    const body = $('#brief-body'); if (!body) return; body.replaceChildren();
+    const m = D.meta || {}; const end = parse(m.updated || new Date().toISOString().slice(0, 10)); const start = new Date(+end - 7 * 864e5);
+    const f = d3.utcFormat('%a %-d %b %Y'), fs = d3.utcFormat('%-d %b');
+    $('#brief-title').textContent = `Week to ${f(end)}`;
+    $('#brief-sub').textContent = m.note || '';
+    $('#brief-print').onclick = () => window.print();
+    const sec = (title, cls) => { const s = el('section', 'bsec ' + (cls || '')); s.appendChild(el('h3', null, title)); body.appendChild(s); return s; };
+    // 1. prices
+    const w = weekly().map((r) => ({ ...r, d: parse(r.date) }));
+    const ser = (k) => w.filter((r) => r[k] != null).map((r) => ({ d: r.d, v: +r[k] }));
+    const ev = ((D.evcells || {}).series || []).map((r) => ({ d: parse(r.date), v: +r.usd_kwh })).sort((a, b) => a.d - b.d);
+    const spot = (D.lithium || []).filter((r) => r.series === 'Spot').map((r) => ({ d: parse(r.date), v: +r.usd_t })).sort((a, b) => a.d - b.d);
+    const fx = ((((D.risk || {}).india || {}).fx || {}).series || []).map(([d, v]) => ({ d: parse(d), v: +v }));
+    const rows = [
+      ['Lithium carbonate futures', futPts(), (v) => fmtUsd0(v) + '/t'], ['Lithium carbonate, China spot', spot, (v) => fmtUsd0(v) + '/t'],
+      ['314 Ah storage cell', ser('cell314'), (v) => fmtUsd1(v) + '/kWh'], ['EV cell (230 / 324 Ah)', ev, (v) => fmtUsd1(v) + '/kWh'],
+      ['2-hour DC block', ser('dc_2h'), (v) => fmtUsd1(v) + '/kWh'], ['4-hour AC system', ser('ac_4h'), (v) => fmtUsd1(v) + '/kWh'],
+      ['Rupee per US$', fx, (v) => '₹' + v.toFixed(2)],
+    ];
+    const s1 = sec('Prices this week'); const t = el('table', 'rtable btable');
+    const hr = el('tr'); ['', 'Latest', 'A week earlier', 'Change'].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    const tb = el('tbody');
+    rows.forEach(([name, pts, fmt]) => {
+      const c = briefChange(pts, end); if (!c) return;
+      const tr = el('tr'); tr.append(el('td', null, name));
+      tr.append(el('td', 'num', `${fmt(c.now.v)} · ${fs(c.now.d)}`), el('td', 'num muted', c.past ? fmt(c.past.v) : '–'));
+      const ch = c.pct == null ? 'no comparable reading' : Math.abs(c.pct) < 0.0005 ? 'flat' : `${c.pct > 0 ? '▲' : '▼'} ${Math.abs(c.pct * 100).toFixed(1)}%`;
+      tr.appendChild(el('td', 'num ' + (c.pct > 0.0005 ? 'up' : c.pct < -0.0005 ? 'down' : 'muted'), ch)); tb.appendChild(tr);
+    });
+    t.appendChild(tb); const tw = el('div', 'table-wrap'); tw.appendChild(t); s1.appendChild(tw);
+    s1.appendChild(el('p', 'sub', 'US$ excluding VAT for China cell and system prices. ▲ means dearer for a buyer (for the rupee: weaker rupee). Each change compares the latest reading with the one about a week before it.'));
+    // 2. risk
+    const R = D.risk; const s2 = sec('Risk Navigator (next 3 months)');
+    if (R && R.materials) {
+      const ul = el('ul', 'blist');
+      const moves = [];
+      R.materials.forEach((mm) => ['price', 'supply'].forEach((ax) => { const a = mm.h3[ax]; if (a && a.score != null) moves.push({ mm, ax, a }); }));
+      const high = moves.filter((x) => x.a.level === 'High');
+      const big = moves.filter((x) => x.a.change != null && Math.abs(x.a.change) >= 0.3).sort((a, b) => Math.abs(b.a.change) - Math.abs(a.a.change)).slice(0, 5);
+      high.forEach((x) => ul.appendChild(el('li', null, `High: ${x.mm.name} ${x.ax} risk ${x.a.score.toFixed(1)}/10`)));
+      big.forEach((x) => ul.appendChild(el('li', null, `${x.mm.name} ${x.ax} risk ${x.a.change > 0 ? 'up' : 'down'} ${Math.abs(x.a.change).toFixed(1)} to ${x.a.score.toFixed(1)} (${x.a.level})`)));
+      if (!ul.childElementCount) ul.appendChild(el('li', null, 'No material moved by more than 0.3 points, and none is High.'));
+      s2.appendChild(ul);
+    } else s2.appendChild(el('p', 'sub', 'Risk scores not available.'));
+    // 3. rules
+    const s3 = sec('Rules'); const ul3 = el('ul', 'blist');
+    const regs = D.regulations || [];
+    regs.filter((r) => r.changed && parse(r.changed) > start && parse(r.changed) <= end).forEach((r) => { const li = el('li'); li.append(el('b', null, 'Changed: '), document.createTextNode(`${r.title} (${r.status}; ${r.date_label}) `), link(r.source, r.url)); ul3.appendChild(li); });
+    regs.filter((r) => { const d = parse(r.date); return d > end && (d - end) / 864e5 <= 60; }).sort((a, b) => d3.ascending(a.date, b.date))
+      .forEach((r) => { const li = el('li'); li.append(el('b', null, `${fs(parse(r.date))}: `), document.createTextNode(`${r.short || r.title} (${r.region})`)); ul3.appendChild(li); });
+    if (!ul3.childElementCount) ul3.appendChild(el('li', null, 'No rule changes this week and none due in the next 60 days.'));
+    s3.appendChild(ul3);
+    // 4. stories
+    const s4 = sec('Top stories');
+    const wk = (D.news || []).filter((n) => { const d = parse(n.date); return d > start && d <= end; });
+    const pick = []; const seen = new Set();
+    wk.filter((n) => n.alert).sort((a, b) => d3.descending(a.date, b.date)).forEach((n) => { if (pick.length < 6) { pick.push(n); seen.add(n.category); } });
+    [...wk].sort((a, b) => d3.descending(a.date, b.date)).forEach((n) => { if (pick.length < 6 && !pick.includes(n) && !seen.has(n.category)) { pick.push(n); seen.add(n.category); } });
+    const ol = el('ol', 'bnews');
+    pick.forEach((n) => { const li = el('li'); const h = el('div', 'bnh'); h.append(el('span', 'bcat', n.category), document.createTextNode(` · ${n.day}`)); if (n.alert) h.appendChild(el('span', 'balert', 'Alert')); li.append(h, el('div', null, n.headline)); const s = el('div', 'bsrc'); s.appendChild(link(n.source, n.url)); li.appendChild(s); ol.appendChild(li); });
+    if (!pick.length) ol.appendChild(el('li', null, 'No stories this week.'));
+    s4.appendChild(ol);
+    // 5. next 14 days
+    const s5 = sec('Next 14 days'); const ul5 = el('ul', 'blist');
+    (D.events || []).filter((e) => { const d = parse(e.date); return d > end && (d - end) / 864e5 <= 14; }).sort((a, b) => d3.ascending(a.date, b.date))
+      .forEach((e) => { const li = el('li'); li.append(el('b', null, `${fs(parse(e.date))}: `), document.createTextNode(e.what + ' ')); li.appendChild(link(e.source, e.url)); ul5.appendChild(li); });
+    if (!ul5.childElementCount) ul5.appendChild(el('li', null, 'Nothing dated in the next 14 days.'));
+    s5.appendChild(ul5);
+    // 6. landed
+    try {
+      landInit(); const s6 = sec('Landed in India today'); const ul6 = el('ul', 'blist');
+      landItems().forEach((it) => { const a = landCalc(it.usd, it.cls, false); ul6.appendChild(el('li', null, `${it.name}: ${fmtUsd1(a.landed)}/kWh, about ₹${d3.format(',.0f')(a.inr)}/kWh (China price ${fmtUsd1(it.usd)} + freight, insurance and duty; excluding IGST)`)); });
+      s6.appendChild(ul6);
+    } catch (e) { console.error(e); }
+  }
+
   // ---------- regulations ----------
   const RULES = { region: '', area: '', status: '', q: '' };
   const STATUS_COL = { 'In force': '--accent', 'Starts later': '--amber', 'Paused': '--plum', 'Proposed': '--slate', 'Bids under evaluation': '--teal' };
@@ -1400,7 +1651,7 @@
   }
 
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: renderCalc, risk: renderRisk, rules: renderRules };
+  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, risk: renderRisk, rules: renderRules, brief: renderBrief };
   function go(route, push = true) {
     const path = String(route || 'overview').split('?')[0];
     let [tab, sub] = (LEGACY[path] || path).split('/');
@@ -1426,7 +1677,7 @@
 
   // ---------- CSV ----------
   $$('[data-csv]').forEach((b) => b.addEventListener('click', () => {
-    const key = b.dataset.csv; const rows = key === 'evseries' ? ((D.evcells || {}).series || []) : key === 'allprices' ? allPrices().flatMap((st) => st.rows.map(({ chart, ...r }) => r)) : D[key] || []; if (!rows.length) return;
+    const key = b.dataset.csv; const rows = key === 'tenders' ? ((D.tenders || {}).rows || []) : key === 'evseries' ? ((D.evcells || {}).series || []) : key === 'allprices' ? allPrices().flatMap((st) => st.rows.map(({ chart, ...r }) => r)) : D[key] || []; if (!rows.length) return;
     const cols = [...new Set(rows.flatMap((r) => Object.keys(r)))];
     const esc = (v) => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
     const csv = [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');

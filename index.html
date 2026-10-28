@@ -39,7 +39,7 @@
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="page" id="page-overview" data-page="overview">
-    <div class="hero"><p class="take" id="takeaway">Loading latest prices…</p></div>
+    <div class="hero hero-row"><p class="take" id="takeaway">Loading latest prices…</p><button class="btn brief-btn" type="button" data-goto="brief">This week's brief →</button></div>
     <div class="cards" id="cards"></div>
     <div class="grid2">
       <div class="stack">
@@ -51,6 +51,10 @@
       <div class="panel" style="--sec:var(--teal)">
         <div class="panel-head"><h2>How much cell makers keep</h2><button class="btn link" type="button" data-goto="calculator">Cost calculator →</button></div>
         <div id="ov-margin"></div>
+      </div>
+      <div class="panel" style="--sec:var(--orange)">
+        <div class="panel-head"><h2>Landed in India</h2><button class="btn link" type="button" data-goto="calculator">Change assumptions →</button></div>
+        <div id="ov-landed"></div>
       </div>
       <div class="panel" style="--sec:var(--rose)">
         <div class="panel-head"><h2>Dates to watch</h2></div>
@@ -162,9 +166,10 @@
         <p class="sub">Implied move uses <span id="gap-kg">0.53</span> kg of lithium carbonate per kWh of cell, the cost calculator's default.</p>
       </div>
       <div class="panel">
-        <div class="panel-head"><h2>587 Ah vs 314 Ah cells, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="cellbids">Download CSV</button></div>
-        <p class="sub">No weekly market price exists for 587 Ah yet, so tender bids and list prices stand in.</p>
+        <div class="panel-head"><h2>What big buyers pay: cell tenders vs the market, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="tenders">Download CSV</button></div>
+        <p class="sub">Each dot is one bid in a public Chinese storage-cell procurement; the line is InfoLink's weekly 314 Ah market average. All excluding VAT. Indian cell tender prices are not published.</p>
         <div class="chart" id="bids-chart"></div>
+        <div class="legend" id="bids-legend"></div>
         <p class="srcs" id="bids-srcs"></p>
       </div>
       <div class="panel">
@@ -218,6 +223,25 @@
       <p class="sub" id="news-status"></p>
       <ul class="newslist" id="news-list"></ul>
       <p class="sub">Summarised in our own words. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
+    </div>
+  </section>
+
+  <!-- WEEKLY BRIEF: one page for the week, printable -->
+  <section class="page" id="page-brief" data-page="brief" hidden>
+    <div class="panel brief">
+      <div class="brief-head">
+        <div>
+          <div class="brief-kicker">Leyland Pulse · weekly brief</div>
+          <h2 class="brief-title" id="brief-title">This week</h2>
+          <p class="sub" id="brief-sub"></p>
+        </div>
+        <div class="brief-actions no-print">
+          <button class="btn small" type="button" id="brief-print">Download PDF</button>
+          <button class="btn ghost small" type="button" data-goto="overview">Back to overview</button>
+        </div>
+      </div>
+      <div id="brief-body"></div>
+      <p class="sub brief-foot">Built from the public sources linked on Leyland Pulse. For internal information only.</p>
     </div>
   </section>
 
@@ -379,6 +403,13 @@
     </div>
     </div>
     <div class="calc-mini" id="calc-mini" aria-live="polite"></div>
+    <div class="panel landed" id="calc-landed-panel" style="--sec:var(--orange)">
+      <div class="panel-head"><h2>Landed cost in India</h2><span class="sub">China price + freight + insurance + Indian duty, at today's rupee rate</span></div>
+      <div class="landed-in" id="landed-in"></div>
+      <div class="table-wrap"><table class="rtable landed-t" id="landed-table"></table></div>
+      <div id="landed-bars"></div>
+      <div class="landed-notes" id="landed-notes"></div>
+    </div>
   </section>
 
   <footer class="foot">

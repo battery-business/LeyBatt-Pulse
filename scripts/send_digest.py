@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
-SITE = "https://battery-business.github.io/battery-monitor/"
+SITE = "https://battery-business.github.io/LeyBatt-Pulse/"
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
 

@@ -42,11 +42,7 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 
 The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
 
-## Market clocks and lithium pulse (`markets.json`)
-
-The header shows whether the Guangzhou lithium futures and the LME are open, using the trading hours and holidays in `markets.json`, plus a countdown to the next 4:00 am update. Nothing to do on a normal day. Once a year, when China's exchanges publish the next year's holiday schedule (usually in December), add its **weekday** closures to the `gfex` `holidays` list and move `holidays_through` to 31 Dec of that year, with the notice as `holiday_source`/`holiday_url`; do the same for the LME from the GOV.UK England and Wales bank holidays. Until then the GFEX pill's tooltip says the new year's list is not published.
-
-The thin "Lithium pulse" line under the header is drawn from `data/history/lithium_futures.csv` (refreshed by the risk workflow); it shows only the daily % moves.
+## New since your last visit
 
 "New since your last visit" (tags, tab counts and the line above the headline) is worked out in each reader's browser by comparing the data files with what that browser saw last time; it needs no upkeep, but it relies on stable `id`s for stories and rules, so never renumber them.
 

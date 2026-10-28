@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'markets'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'risk', 'brief'];
@@ -1756,70 +1756,6 @@
     if (nn || rc || VISIT.prices.size) { const k = el('button', 'btn link since-clear', 'Mark all as seen'); k.type = 'button'; k.addEventListener('click', visitSeen); box.appendChild(k); }
   }
 
-  // ---------- alive: market clocks and the next update ----------
-  const istFmt = (ms, withDay) => {
-    const d = new Date(ms + 5.5 * 36e5); const t = d3.utcFormat('%-I:%M %p')(d).toLowerCase().replace(':00 ', ' ');
-    if (!withDay) return t;
-    const dd = Math.round((Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - istToday()) / 864e5);
-    return dd === 0 ? t : dd === 1 ? 'tomorrow ' + t : dd < 6 ? d3.utcFormat('%a ')(d) + t : d3.utcFormat('%-d %b, ')(d) + t;
-  };
-  const tzParts = (ms, tz) => { const o = {}; new Intl.DateTimeFormat('en-GB', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date(ms)).forEach((p) => { o[p.type] = +p.value; }); return o; };
-  function mktOffset(m, ms) { // ms of exchange wall clock minus UTC
-    if (m.utc_offset != null) return m.utc_offset * 36e5;
-    try { const t = Math.floor(ms / 6e4) * 6e4; const p = tzParts(t, m.tz); return Math.round((Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute) - t) / 6e4) * 6e4; } catch (e) { return 0; }
-  }
-  function mktStatus(m, now) {
-    const hol = new Set(m.holidays || []);
-    const off0 = mktOffset(m, now); const loc = new Date(now + off0);
-    const y = loc.getUTCFullYear(), mo = loc.getUTCMonth(), d = loc.getUTCDate();
-    let sawToday = false, beyond = false;
-    for (let k = 0; k < 14; k++) {
-      const day = new Date(Date.UTC(y, mo, d + k)); const iso = day.toISOString().slice(0, 10); const wd = day.getUTCDay();
-      if (iso > (m.holidays_through || '9999')) beyond = true;
-      const off = mktOffset(m, +day + 12 * 36e5);
-      if (wd === 0 || wd === 6 || hol.has(iso)) { if (k === 0 && wd !== 0 && wd !== 6) sawToday = 'holiday'; continue; }
-      for (const [a, b] of m.sessions) {
-        const [ah, am] = a.split(':').map(Number), [bh, bm] = b.split(':').map(Number);
-        const s = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), ah, am) - off;
-        const e = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), bh, bm) - off;
-        if (now >= s && now < e) return { state: 'open', at: e, beyond };
-        if (now < s) return { state: k === 0 && sawToday === true ? 'break' : sawToday === 'holiday' ? 'holiday' : 'closed', at: s, beyond };
-        if (k === 0) sawToday = true;
-      }
-    }
-    return { state: 'closed', at: null, beyond: true };
-  }
-  function sessionsIST(m, now) {
-    const off = mktOffset(m, now);
-    return m.sessions.map(([a, b]) => [a, b].map((t) => { const [h, mi] = t.split(':').map(Number); return istFmt(Date.UTC(2026, 0, 5, h, mi) - off); }).join('–')).join(', ');
-  }
-  function renderClocks() {
-    const now = Date.now();
-    // next update: about 4:00 am IST every day
-    const nt = $('#next-txt');
-    if (nt && D.meta) {
-      const ist = new Date(now + 5.5 * 36e5); const h = ist.getUTCHours() + ist.getUTCMinutes() / 60;
-      const updatedToday = +parse(D.meta.updated) >= istToday();
-      let next = istToday() + 4 * 36e5 - 5.5 * 36e5; if (now >= next) next += 864e5;
-      if (!updatedToday && h >= 4 && h < 12) nt.textContent = "Today's update is on its way";
-      else { const mins = Math.max(1, Math.round((next - now) / 6e4)); nt.textContent = `Next update in ${mins >= 60 ? Math.floor(mins / 60) + 'h ' : ''}${mins % 60}m`; }
-    }
-    const box = $('#mkts'); const M = (D.markets || {}).markets || [];
-    if (!box || !M.length) return;
-    box.replaceChildren();
-    M.forEach((m) => {
-      const st = mktStatus(m, now);
-      const lab = { open: 'Open', break: 'Break', closed: 'Closed', holiday: 'Holiday' }[st.state];
-      const when = st.at == null ? '' : st.state === 'open' ? `till ${istFmt(st.at, true)}` : st.state === 'break' ? `back ${istFmt(st.at, true)}` : `opens ${istFmt(st.at, true)}`;
-      const p = el('span', 'mk is-' + st.state); p.tabIndex = 0;
-      p.append(el('i', 'mk-dot'), el('b', null, m.short), el('span', 'mk-st', lab), el('span', 'mk-when', when));
-      p.title = `${m.name}. Trades ${sessionsIST(m, now)} IST, Monday to Friday, except holidays. ${m.hours_note || ''} Source: ${m.source}; holidays: ${m.holiday_source}.` + (st.beyond ? ` The holiday list after ${d3.utcFormat('%b %Y')(parse(m.holidays_through))} is not published yet, so a holiday may be missed.` : '');
-      p.setAttribute('aria-label', `${m.short}: ${lab} ${when}`);
-      box.appendChild(p);
-    });
-  }
-  let clockT = 0;
-  function startClocks() { renderClocks(); clearInterval(clockT); clockT = setInterval(() => { if (!document.hidden) renderClocks(); }, 20000); document.addEventListener('visibilitychange', () => { if (!document.hidden) { renderClocks(); checkFresh(); } }); }
   // if the page stays open past the morning update, offer a reload
   let freshT = 0, lastFresh = 0;
   function checkFresh() {
@@ -1832,7 +1768,7 @@
       t.append(b, x); t.hidden = false;
     }).catch(() => {});
   }
-  function startFresh() { clearInterval(freshT); freshT = setInterval(() => { if (!document.hidden) checkFresh(); }, 10 * 60e3); }
+  function startFresh() { clearInterval(freshT); freshT = setInterval(() => { if (!document.hidden) checkFresh(); }, 10 * 60e3); document.addEventListener('visibilitychange', () => { if (!document.hidden) checkFresh(); }); }
 
   // ---------- alive: motion (all of it off when the reader asks for reduced motion) ----------
   const reduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -1929,59 +1865,6 @@
     SPOT.t = setInterval(() => { if (SPOT.hold || document.hidden || S.tab !== 'overview') return; spotShow((SPOT.i + 1) % SPOT.items.length); }, 7000);
   }
 
-  // ---------- alive: lithium pulse line (real daily moves of the lithium futures, last 30 sessions) ----------
-  // Built from data/history/lithium_futures.csv; only the % moves are shown.
-  const PULSE = { moves: null };
-  function loadPulse() {
-    fetch('data/history/lithium_futures.csv', { cache: 'no-store' }).then((r) => (r.ok ? r.text() : '')).then((txt) => {
-      const rows = d3.csvParse(txt || '').map((r) => ({ d: r.date, v: +r.cny_t })).filter((r) => r.d && r.v > 0);
-      if (rows.length < 5) return;
-      const last = rows.slice(-31);
-      PULSE.moves = last.slice(1).map((r, i) => ({ d: r.d, pct: (r.v / last[i].v - 1) * 100 }));
-      renderPulse();
-    }).catch(() => {});
-  }
-  function renderPulse() {
-    const box = $('#pline'); const mv = PULSE.moves; if (!box || !mv || !mv.length) return;
-    box.hidden = false; box.replaceChildren();
-    const lab = el('span', 'pl-lab', 'Lithium pulse'); lab.title = 'Daily moves of the lithium carbonate futures (Guangzhou Futures Exchange main contract), last 30 trading sessions';
-    const host = el('div', 'pl-host');
-    const lastM = mv[mv.length - 1];
-    const end = el('span', 'pl-end'); end.append(el('span', null, shortDay(parse(lastM.d)) + ' '), el('b', lastM.pct < 0 ? 'is-down' : lastM.pct > 0 ? 'is-up' : '', pctS(lastM.pct)));
-    end.title = 'Latest daily close of the lithium futures, change on the day';
-    box.append(lab, host, end);
-    requestAnimationFrame(() => {
-      const W = host.clientWidth || 600, H = 22, mid = H / 2;
-      const amp = d3.max(mv, (m) => Math.abs(m.pct)) || 1;
-      const step = W / mv.length; const yOf = (v) => mid - Math.sign(v) * Math.sqrt(Math.abs(v) / amp) * (mid - 2); // square root so small moves still show
-      let dstr = `M0,${mid}`; const peaks = [];
-      mv.forEach((m, i) => {
-        const x0 = i * step, py = yOf(m.pct);
-        dstr += ` L${(x0 + step * 0.38).toFixed(1)},${mid} L${(x0 + step * 0.5).toFixed(1)},${py.toFixed(1)} L${(x0 + step * 0.62).toFixed(1)},${mid}`;
-        peaks.push({ x: x0 + step * 0.5, y: py, m });
-      });
-      dstr += ` L${W},${mid}`;
-      const svg = d3.select(host).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('preserveAspectRatio', 'none').attr('aria-hidden', 'true');
-      svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', mid).attr('y2', mid).attr('class', 'pl-base');
-      const path = svg.append('path').attr('id', 'pl-path').attr('d', dstr).attr('class', 'pl-path');
-      const lp = peaks[peaks.length - 1];
-      svg.append('circle').attr('cx', lp.x).attr('cy', lp.y).attr('r', 2.6).attr('class', 'pl-last');
-      if (!reduced()) {
-        const g = svg.append('circle').attr('r', 2.4).attr('class', 'pl-run');
-        g.append('animateMotion').attr('dur', '7s').attr('repeatCount', 'indefinite').attr('rotate', 'auto').append('mpath').attr('href', '#pl-path');
-        if (!PULSE.drawn) { PULSE.drawn = true; drawLines([path.node()], 1400); }
-      }
-      const hi = svg.append('circle').attr('r', 3.2).attr('class', 'pl-hi').attr('opacity', 0);
-      host.addEventListener('pointermove', (ev) => {
-        const r = host.getBoundingClientRect(); const x = (ev.clientX - r.left) / r.width * W;
-        const p = peaks[Math.max(0, Math.min(peaks.length - 1, Math.floor(x / step)))];
-        hi.attr('cx', p.x).attr('cy', p.y).attr('opacity', 1);
-        showTip(ev, (t) => { t.appendChild(el('div', 'k', dayFmt(parse(p.m.d)))); tipRow(t, null, 'Lithium futures', pctS(p.m.pct) + ' on the day'); tipNote(t, 'Guangzhou Futures Exchange main contract, daily close (via Sina Finance)'); });
-      });
-      host.addEventListener('pointerleave', () => { hi.attr('opacity', 0); hideTip(); });
-    });
-  }
-
   // ---------- tabs ----------
   const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, risk: renderRisk, rules: renderRules, brief: renderBrief };
   function go(route, push = true) {
@@ -2018,18 +1901,17 @@
   }));
 
   // ---------- theme ----------
-  const themes = ['light', 'dark', 'auto'];
+  const themes = ['light', 'dark'];
   let theme = store.get('bmi-theme') || 'light';
-  if (!themes.includes(theme)) theme = 'light';
+  if (!themes.includes(theme)) theme = 'light'; // older 'auto' choice falls back to light
   const applyTheme = () => {
-    if (theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     $('#theme-btn').textContent = 'Theme: ' + theme[0].toUpperCase() + theme.slice(1);
   };
-  $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 3]; store.set('bmi-theme', theme); applyTheme(); go(S.tab, false); });
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => go(S.tab, false));
+  $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 2]; store.set('bmi-theme', theme); applyTheme(); go(S.tab, false); });
   applyTheme();
 
-  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { go(S.tab, false); renderPulse(); }, 150); });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(S.tab, false), 150); });
 
   // ---------- load ----------
   Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
@@ -2038,6 +1920,6 @@
       visitInit();
       renderHeader();
       go(location.hash.slice(1) || 'overview', false);
-      startClocks(); startFresh(); loadPulse();
+      startFresh();
     });
 })();

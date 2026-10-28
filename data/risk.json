@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-28",
- "generated": "2026-10-27T23:49:20+00:00",
+ "generated": "2026-10-28T11:28:25+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -111,20 +111,20 @@
    },
    "h3": {
     "price": {
-     "score": 3.9,
-     "level": "Low",
+     "score": 4.0,
+     "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −16.7% · 3 months −29.3% (rising prices push the score up)",
+       "detail": "1 month −21.1% · 3 months −33.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 35
       },
       {
        "label": "How much the price swings",
-       "score": 8.4,
-       "detail": "About 51% a year, from 117 price moves in the last 6 months",
+       "score": 8.5,
+       "detail": "About 52% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24
       },
@@ -138,8 +138,8 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 5.7,
-       "detail": "Average forecast +4.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 6.6,
+       "detail": "Average forecast +9.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 18
@@ -204,7 +204,7 @@
        "weight": 0
       }
      ],
-     "change": 0.2
+     "change": 0.3
     },
     "supply": {
      "score": 4.3,
@@ -253,24 +253,24 @@
      "change": 0.1
     },
     "confidence": "High",
-    "obs180": 118
+    "obs180": 119
    },
    "h12": {
     "price": {
-     "score": 5.3,
+     "score": 5.8,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −16.7% · 3 months −29.3% (rising prices push the score up)",
+       "detail": "1 month −21.1% · 3 months −33.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
-       "score": 8.4,
-       "detail": "About 51% a year, from 117 price moves in the last 6 months",
+       "score": 8.5,
+       "detail": "About 52% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
@@ -284,8 +284,8 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 5.7,
-       "detail": "Average forecast +4.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 6.6,
+       "detail": "Average forecast +9.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 50
@@ -350,7 +350,7 @@
        "weight": 0
       }
      ],
-     "change": 0.2
+     "change": 0.7
     },
     "supply": {
      "score": 5.7,
@@ -399,7 +399,7 @@
      "change": 0.1
     },
     "confidence": "High",
-    "obs180": 118
+    "obs180": 119
    },
    "trend": [
     [
@@ -469,7 +469,7 @@
     ],
     [
      "2026-10-28",
-     3.9,
+     4.0,
      4.3
     ]
    ]
@@ -492,20 +492,20 @@
    },
    "h3": {
     "price": {
-     "score": 4.0,
-     "level": "Elevated",
+     "score": 3.8,
+     "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 1.8,
-       "detail": "1 month −9.5% · 3 months −17.8% (rising prices push the score up)",
+       "score": 1.2,
+       "detail": "1 month −12.0% · 3 months −20.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 117 price moves in the last 6 months",
+       "detail": "About 32% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22
       },
@@ -533,8 +533,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.0,
+       "detail": "Lithium price risk 4.0/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 11
       },
@@ -570,7 +570,7 @@
        "weight": 11
       }
      ],
-     "change": 0.6
+     "change": 0.4
     },
     "supply": {
      "score": 5.8,
@@ -617,7 +617,7 @@
      "change": 0.1
     },
     "confidence": "Medium",
-    "obs180": 118
+    "obs180": 119
    },
    "h12": {
     "price": {
@@ -626,15 +626,15 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 1.8,
-       "detail": "1 month −9.5% · 3 months −17.8% (rising prices push the score up)",
+       "score": 1.2,
+       "detail": "1 month −12.0% · 3 months −20.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 117 price moves in the last 6 months",
+       "detail": "About 32% a year, from 118 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
@@ -662,8 +662,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.3,
-       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
+       "score": 5.8,
+       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 17
       },
@@ -746,7 +746,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 118
+    "obs180": 119
    },
    "trend": [
     [
@@ -816,7 +816,7 @@
     ],
     [
      "2026-10-28",
-     4.0,
+     3.8,
      5.8
     ]
    ]
@@ -1198,15 +1198,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.4,
-       "detail": "Price $47.3/kWh vs modelled cost $42.2/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.1,
+       "detail": "Price $47.3/kWh vs modelled cost $41.8/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.0,
+       "detail": "Lithium price risk 4.0/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1378,15 +1378,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.4,
-       "detail": "Price $47.3/kWh vs modelled cost $42.2/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.1,
+       "detail": "Price $47.3/kWh vs modelled cost $41.8/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.3,
-       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
+       "score": 5.8,
+       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12
       },
@@ -1613,7 +1613,7 @@
    },
    "h3": {
     "price": {
-     "score": 3.9,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
@@ -1649,15 +1649,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 2.6,
-       "detail": "Price $54.2/kWh vs modelled cost $42.2/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "score": 2.4,
+       "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.0,
+       "detail": "Lithium price risk 4.0/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1707,7 +1707,7 @@
        "weight": 10
       }
      ],
-     "change": 0.1
+     "change": 0.0
     },
     "supply": {
      "score": 4.7,
@@ -1810,15 +1810,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 2.6,
-       "detail": "Price $54.2/kWh vs modelled cost $42.2/kWh: margin 22% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "score": 2.4,
+       "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.3,
-       "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
+       "score": 5.8,
+       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12
       },
@@ -2001,7 +2001,7 @@
     ],
     [
      "2026-10-28",
-     3.9,
+     3.8,
      4.7
     ]
    ]
@@ -2023,22 +2023,123 @@
    },
    "h3": {
     "price": {
-     "score": 4.3,
+     "score": 4.4,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.5,
-       "detail": "1 month −0.3% · 3 months +5.1% (rising prices push the score up)",
+       "score": 5.7,
+       "detail": "1 month +0.6% · 3 months +6.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 123 price moves in the last 6 months",
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.2,
+       "detail": "US$1 = ₹95.12; rupee stronger by 0.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.2
+    },
+    "supply": {
+     "score": 1.6,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 1.0,
+       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.9,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 5.7,
+       "detail": "1 month +0.6% · 3 months +6.0% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 33
+      },
+      {
+       "label": "How much the price swings",
+       "score": 2.6,
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 50
       },
       {
        "label": "Rupee against the US$",
@@ -2089,107 +2190,6 @@
      "change": 0.1
     },
     "supply": {
-     "score": 1.6,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Dependence on one country",
-       "score": 1.0,
-       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
-       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
-       "key": "concentration",
-       "weight": 40
-      },
-      {
-       "label": "Supply news",
-       "score": 2.0,
-       "detail": "No supply disruptions reported in the last 90 days",
-       "items": [],
-       "key": "supply_news",
-       "weight": 30
-      },
-      {
-       "label": "Rule changes and deadlines ahead",
-       "score": 2.0,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "supply_dates",
-       "weight": 30
-      }
-     ],
-     "change": 0.0
-    },
-    "confidence": "Medium",
-    "obs180": 124
-   },
-   "h12": {
-    "price": {
-     "score": 3.8,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Recent price trend",
-       "score": 5.5,
-       "detail": "1 month −0.3% · 3 months +5.1% (rising prices push the score up)",
-       "key": "momentum",
-       "weight": 33
-      },
-      {
-       "label": "How much the price swings",
-       "score": 2.6,
-       "detail": "About 19% a year, from 123 price moves in the last 6 months",
-       "key": "volatility",
-       "weight": 50
-      },
-      {
-       "label": "Rupee against the US$",
-       "score": 4.2,
-       "detail": "US$1 = ₹95.12; rupee stronger by 0.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
-       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
-       "key": "rupee",
-       "weight": 17
-      },
-      {
-       "label": "What forecasters expect",
-       "score": null,
-       "detail": "No public forecasts tracked",
-       "key": "expectations",
-       "weight": 0
-      },
-      {
-       "label": "Room above the cost to make",
-       "score": null,
-       "detail": "Only modelled for cells",
-       "key": "floor",
-       "weight": 0
-      },
-      {
-       "label": "Lithium price risk passed through",
-       "score": null,
-       "detail": "Not linked to lithium",
-       "key": "upstream",
-       "weight": 0
-      },
-      {
-       "label": "Price news",
-       "score": null,
-       "detail": "No tagged price news in the last 60 days",
-       "items": [],
-       "key": "price_news",
-       "weight": 0
-      },
-      {
-       "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "price_dates",
-       "weight": 0
-      }
-     ],
-     "change": 0.0
-    },
-    "supply": {
      "score": 1.4,
      "level": "Low",
      "drivers": [
@@ -2221,7 +2221,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 124
+    "obs180": 125
    },
    "trend": [
     [
@@ -2291,7 +2291,7 @@
     ],
     [
      "2026-10-28",
-     4.3,
+     4.4,
      1.6
     ]
    ]
@@ -2314,22 +2314,123 @@
    },
    "h3": {
     "price": {
-     "score": 3.5,
+     "score": 3.6,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 3.5,
-       "detail": "1 month −6.2% · 3 months −5.7% (rising prices push the score up)",
+       "score": 3.7,
+       "detail": "1 month −5.2% · 3 months −4.7% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 123 price moves in the last 6 months",
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.2,
+       "detail": "US$1 = ₹95.12; rupee stronger by 0.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.4
+    },
+    "supply": {
+     "score": 2.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 3.0,
+       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Low",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.5,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 3.7,
+       "detail": "1 month −5.2% · 3 months −4.7% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 33
+      },
+      {
+       "label": "How much the price swings",
+       "score": 3.1,
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 50
       },
       {
        "label": "Rupee against the US$",
@@ -2380,107 +2481,6 @@
      "change": 0.3
     },
     "supply": {
-     "score": 2.4,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Dependence on one country",
-       "score": 3.0,
-       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
-       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
-       "key": "concentration",
-       "weight": 40
-      },
-      {
-       "label": "Supply news",
-       "score": 2.0,
-       "detail": "No supply disruptions reported in the last 90 days",
-       "items": [],
-       "key": "supply_news",
-       "weight": 30
-      },
-      {
-       "label": "Rule changes and deadlines ahead",
-       "score": 2.0,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "supply_dates",
-       "weight": 30
-      }
-     ],
-     "change": 0.0
-    },
-    "confidence": "Low",
-    "obs180": 124
-   },
-   "h12": {
-    "price": {
-     "score": 3.4,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Recent price trend",
-       "score": 3.5,
-       "detail": "1 month −6.2% · 3 months −5.7% (rising prices push the score up)",
-       "key": "momentum",
-       "weight": 33
-      },
-      {
-       "label": "How much the price swings",
-       "score": 3.1,
-       "detail": "About 22% a year, from 123 price moves in the last 6 months",
-       "key": "volatility",
-       "weight": 50
-      },
-      {
-       "label": "Rupee against the US$",
-       "score": 4.2,
-       "detail": "US$1 = ₹95.12; rupee stronger by 0.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
-       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
-       "key": "rupee",
-       "weight": 17
-      },
-      {
-       "label": "What forecasters expect",
-       "score": null,
-       "detail": "No public forecasts tracked",
-       "key": "expectations",
-       "weight": 0
-      },
-      {
-       "label": "Room above the cost to make",
-       "score": null,
-       "detail": "Only modelled for cells",
-       "key": "floor",
-       "weight": 0
-      },
-      {
-       "label": "Lithium price risk passed through",
-       "score": null,
-       "detail": "Not linked to lithium",
-       "key": "upstream",
-       "weight": 0
-      },
-      {
-       "label": "Price news",
-       "score": null,
-       "detail": "No tagged price news in the last 60 days",
-       "items": [],
-       "key": "price_news",
-       "weight": 0
-      },
-      {
-       "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "price_dates",
-       "weight": 0
-      }
-     ],
-     "change": 0.2
-    },
-    "supply": {
      "score": 2.5,
      "level": "Low",
      "drivers": [
@@ -2512,7 +2512,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 124
+    "obs180": 125
    },
    "trend": [
     [
@@ -2582,7 +2582,7 @@
     ],
     [
      "2026-10-28",
-     3.5,
+     3.6,
      2.4
     ]
    ]
@@ -2593,7 +2593,7 @@
    "material": "lithium",
    "name": "Lithium carbonate",
    "from": "2023-07-21",
-   "to": "2026-10-27",
+   "to": "2026-10-28",
    "samples": 65,
    "step_days": 14,
    "cut_low": 4.7,
@@ -2624,7 +2624,7 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-10-26",
+   "to": "2026-10-27",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.1,
@@ -2655,7 +2655,7 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-10-26",
+   "to": "2026-10-27",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.2,

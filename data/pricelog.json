@@ -28,6 +28,13 @@
   "url": "https://www.infolink-group.com/spot-price-energy-storage/"
  },
  {
+  "m": "cell_ess",
+  "date": "2026-10-28",
+  "v": 46.9,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
   "m": "cell_ev",
   "date": "2026-10-22",
   "v": 54.2,
@@ -61,5 +68,12 @@
   "v": 14700.0,
   "source": "SMM (GFEX close)",
   "url": "https://news.metal.com/newscontent/104181671-smm-lithium-carbonate-daily-review-lithium-carbonate-futures-and-spot-prices-rebound-in-tandem-on-october-27"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-10-28",
+  "v": 13930.0,
+  "source": "SMM (GFEX close)",
+  "url": "https://news.metal.com/newscontent/104183966-smm-lithium-carbonate-daily-review-on-october-28-spot-lithium-carbonate-prices-rose-by-700-yuanmt-while-futures-retreated-after-a-rapid-rise-falling-on-increased-volume-and-open-interest"
  }
 ]

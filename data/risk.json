@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-29",
- "generated": "2026-10-28T18:42:07+00:00",
+ "generated": "2026-10-28T22:44:59+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -104,15 +104,15 @@
     "Forecasts are the average of the bank and broker forecasts tracked on the Raw materials page, each taken at the middle of its range."
    ],
    "now": {
-    "value": 14700.0,
-    "date": "2026-10-27",
+    "value": 13930.0,
+    "date": "2026-10-28",
     "source": "SMM (GFEX close)",
-    "url": "https://news.metal.com/newscontent/104181671-smm-lithium-carbonate-daily-review-lithium-carbonate-futures-and-spot-prices-rebound-in-tandem-on-october-27"
+    "url": "https://news.metal.com/newscontent/104183966-smm-lithium-carbonate-daily-review-on-october-28-spot-lithium-carbonate-prices-rose-by-700-yuanmt-while-futures-retreated-after-a-rapid-rise-falling-on-increased-volume-and-open-interest"
    },
    "h3": {
     "price": {
-     "score": 4.1,
-     "level": "Elevated",
+     "score": 3.9,
+     "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
@@ -160,8 +160,8 @@
       },
       {
        "label": "Price news",
-       "score": 3.3,
-       "detail": "4 recent stories (pushing prices down)",
+       "score": 2.1,
+       "detail": "5 recent stories (pushing prices down)",
        "items": [
         {
          "id": "n96",
@@ -190,6 +190,13 @@
          "text": "Bloomberg: lithium extends its slump as battery demand worries mount; down about 14% on the week",
          "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
          "s": -1
+        },
+        {
+         "id": "n120",
+         "date": "2026-10-28",
+         "text": "SMM expects a lithium supply surge in 2026–28 (about 458,000 t of new primary resource this year and about 500,000 t in each of 2027 and 2028) after the 2022–23 spending wave; it sees storage demand up as much as 64% this year but says price rebounds will be uneven",
+         "url": "https://news.metal.com/newscontent/104183876-takeaways-from-2026-smm-australia-metals-investment-seminar-outlook-for-ferrous-nonferrous-and-battery-metals",
+         "s": -1
         }
        ],
        "key": "price_news",
@@ -204,7 +211,7 @@
        "weight": 0
       }
      ],
-     "change": 0.4
+     "change": 0.2
     },
     "supply": {
      "score": 4.3,
@@ -306,8 +313,8 @@
       },
       {
        "label": "Price news",
-       "score": 3.3,
-       "detail": "4 recent stories (pushing prices down)",
+       "score": 2.1,
+       "detail": "5 recent stories (pushing prices down)",
        "items": [
         {
          "id": "n96",
@@ -335,6 +342,13 @@
          "date": "2026-10-15",
          "text": "Bloomberg: lithium extends its slump as battery demand worries mount; down about 14% on the week",
          "url": "https://www.bloomberg.com/news/articles/2026-10-15/lithium-extends-deep-slump-as-battery-demand-concerns-mount",
+         "s": -1
+        },
+        {
+         "id": "n120",
+         "date": "2026-10-28",
+         "text": "SMM expects a lithium supply surge in 2026–28 (about 458,000 t of new primary resource this year and about 500,000 t in each of 2027 and 2028) after the 2022–23 spending wave; it sees storage demand up as much as 64% this year but says price rebounds will be uneven",
+         "url": "https://news.metal.com/newscontent/104183876-takeaways-from-2026-smm-australia-metals-investment-seminar-outlook-for-ferrous-nonferrous-and-battery-metals",
          "s": -1
         }
        ],
@@ -474,7 +488,7 @@
     ],
     [
      "2026-10-29",
-     4.1,
+     3.9,
      4.3
     ]
    ]
@@ -497,7 +511,7 @@
    },
    "h3": {
     "price": {
-     "score": 3.9,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
@@ -538,8 +552,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.1,
-       "detail": "Lithium price risk 4.1/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 11
       },
@@ -575,7 +589,7 @@
        "weight": 11
       }
      ],
-     "change": 0.5
+     "change": 0.4
     },
     "supply": {
      "score": 5.8,
@@ -826,7 +840,7 @@
     ],
     [
      "2026-10-29",
-     3.9,
+     3.8,
      5.8
     ]
    ]
@@ -1172,8 +1186,8 @@
     "The cost to make comes from the site's cell cost model (SMM-based quantities and today's material prices)."
    ],
    "now": {
-    "value": 47.3,
-    "date": "2026-10-21",
+    "value": 46.9,
+    "date": "2026-10-28",
     "source": "InfoLink weekly",
     "url": "https://www.infolink-group.com/spot-price-energy-storage/"
    },
@@ -1184,15 +1198,15 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month −1.9% · 3 months −0.4% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 29
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 14 price moves in the last 6 months",
+       "detail": "About 6% a year, from 15 price moves in the last 6 months",
        "key": "volatility",
        "weight": 19
       },
@@ -1213,15 +1227,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.1,
-       "detail": "Price $47.3/kWh vs modelled cost $41.8/kWh: margin 12% (thin margin = little room to fall)",
+       "score": 6.4,
+       "detail": "Price $46.9/kWh vs modelled cost $41.8/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.1,
-       "detail": "Lithium price risk 4.1/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1355,24 +1369,24 @@
      "change": 0.9
     },
     "confidence": "High",
-    "obs180": 15
+    "obs180": 16
    },
    "h12": {
     "price": {
-     "score": 5.1,
+     "score": 5.2,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month −1.9% · 3 months −0.4% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 12
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 14 price moves in the last 6 months",
+       "detail": "About 6% a year, from 15 price moves in the last 6 months",
        "key": "volatility",
        "weight": 18
       },
@@ -1393,8 +1407,8 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.1,
-       "detail": "Price $47.3/kWh vs modelled cost $41.8/kWh: margin 12% (thin margin = little room to fall)",
+       "score": 6.4,
+       "detail": "Price $46.9/kWh vs modelled cost $41.8/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29
       },
@@ -1472,7 +1486,7 @@
        "weight": 24
       }
      ],
-     "change": 0.0
+     "change": 0.1
     },
     "supply": {
      "score": 6.1,
@@ -1535,7 +1549,7 @@
      "change": 0.4
     },
     "confidence": "High",
-    "obs180": 15
+    "obs180": 16
    },
    "trend": [
     [
@@ -1633,21 +1647,21 @@
    },
    "h3": {
     "price": {
-     "score": 3.9,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.3,
+       "score": 5.2,
        "assumed": true,
-       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −0.4% (EV cell readings are too sparse; storage cells used as a stand-in)",
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
        "weight": 29
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 14 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
        "weight": 19
@@ -1676,8 +1690,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.1,
-       "detail": "Lithium price risk 4.1/10 feeds into this material's cost",
+       "score": 3.9,
+       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1727,7 +1741,7 @@
        "weight": 10
       }
      ],
-     "change": 0.1
+     "change": 0.0
     },
     "supply": {
      "score": 4.7,
@@ -1799,16 +1813,16 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.3,
+       "score": 5.2,
        "assumed": true,
-       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −0.4% (EV cell readings are too sparse; storage cells used as a stand-in)",
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
        "weight": 12
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 14 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
        "weight": 18
@@ -2026,7 +2040,7 @@
     ],
     [
      "2026-10-29",
-     3.9,
+     3.8,
      4.7
     ]
    ]

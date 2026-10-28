@@ -1,8 +1,8 @@
-# Sends the Leyland Pulse morning email at about 5:15 am IST, after the 4 am data update.
+# Sends the LeyBatt Pulse morning email at about 5:15 am IST, after the 4 am data update.
 # Needs three repository secrets: GMAIL_USER, GMAIL_APP_PASSWORD, MAIL_TO (comma-separated).
-# To send now: Actions tab → "Leyland Pulse daily email" → Run workflow.
+# To send now: Actions tab → "LeyBatt Pulse daily email" → Run workflow.
 # To send a test to one person only, type their address in "Send only to" before clicking Run workflow.
-name: Leyland Pulse daily email
+name: LeyBatt Pulse daily email
 on:
   schedule:
     - cron: "45 23 * * *"   # 23:45 UTC = 05:15 IST

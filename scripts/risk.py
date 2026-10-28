@@ -1,4 +1,4 @@
-"""Leyland Pulse Risk Navigator: price and supply risk scores (0-10) for each tracked material.
+"""LeyBatt Pulse Risk Navigator: price and supply risk scores (0-10) for each tracked material.
 
 Reads the site's data files, writes:
   data/risk.json          today's scores with the drivers behind them (read by the page and the email)

@@ -1,4 +1,4 @@
-/* Leyland Pulse — light, electric, professional.
+/* LeyBatt Pulse — light, electric, professional.
    Ink navy text, electric blue for action, lime "charge" used sparingly (brand mark, active tab, ticker).
    Display: Archivo (wide) for the wordmark, headings and big numbers. Text: IBM Plex Sans. Both self-hosted. */
 @font-face { font-family: "Archivo IQ"; src: url(fonts/archivo-wdth.woff2) format("woff2-variations"), url(fonts/archivo-wdth.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }

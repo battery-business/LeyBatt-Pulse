@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Leyland Pulse daily email digest.
+"""LeyBatt Pulse daily email digest.
 
 Builds the morning email from the data files in data/ (written by the 4 am update) and sends it
 through Gmail SMTP. Run by .github/workflows/daily-digest.yml at about 5:15 am IST.
@@ -140,7 +140,7 @@ def build(today):
         if a not in seen:
             seen.add(a)
             uniq.append(a)
-    subject = f"Leyland Pulse | Daily | {today.day} {today.strftime('%b')}"
+    subject = f"LeyBatt Pulse | Daily | {today.day} {today.strftime('%b')}"
     note = meta.get("note", "")
 
     # ---------- HTML (email-safe: tables and inline styles only) ----------
@@ -283,7 +283,7 @@ def build(today):
 <tr><td style="background:{NAVY};padding:22px 24px 18px" class="px">
  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
   <td valign="middle" width="62"><img src="{logo}" width="56" height="56" alt="" style="display:block;border:0"></td>
-  <td valign="middle" style="padding-left:10px"><div style="font-size:26px;font-weight:800;color:#ffffff;letter-spacing:-0.4px;line-height:1.1">Leyland Pulse</div>
+  <td valign="middle" style="padding-left:10px"><div style="font-size:26px;font-weight:800;color:#ffffff;letter-spacing:-0.4px;line-height:1.1">LeyBatt Pulse</div>
    <div style="font-size:12.5px;color:#9fb0c6;margin-top:4px">Daily battery market intelligence</div></td>
   <td valign="middle" align="right"><span style="display:inline-block;background:{LIME};color:{NAVY};font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap">{E(date_label)}</span></td>
  </tr></table></td></tr>
@@ -299,13 +299,13 @@ def build(today):
 {section("Coming up") if up_html else ""}
 {up_html}
 {brief_html}
-<tr><td align="center" style="padding:26px 24px 8px"><a href="{SITE}" style="display:inline-block;background:{LIME};color:{NAVY};font-size:15px;font-weight:800;text-decoration:none;padding:13px 26px;border-radius:10px">Open Leyland Pulse →</a>
+<tr><td align="center" style="padding:26px 24px 8px"><a href="{SITE}" style="display:inline-block;background:{LIME};color:{NAVY};font-size:15px;font-weight:800;text-decoration:none;padding:13px 26px;border-radius:10px">Open LeyBatt Pulse →</a>
  <div style="font-size:12px;color:{MUTED};margin-top:8px">Charts, the full price map, all news and the cost calculator</div></td></tr>
 <tr><td style="padding:18px 24px 22px;background:#f6f8fb;border-top:1px solid {LINE};font-size:11.5px;line-height:1.5;color:{MUTED}" class="px">
- Leyland Pulse is an automated daily digest built from public sources every morning at about 5:15 am IST.</td></tr>
+ LeyBatt Pulse is an automated daily digest built from public sources every morning at about 5:15 am IST.</td></tr>
 </table></td></tr></table><!--LP-BODY-END--></body></html>"""
     # plain-text version
-    t = [f"Leyland Pulse | Daily | {date_label}", ""]
+    t = [f"LeyBatt Pulse | Daily | {date_label}", ""]
     if uniq:
         t += ["ALERT: " + "; ".join(uniq), ""]
     if note:
@@ -321,7 +321,7 @@ def build(today):
         t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]
     if today.weekday() == 0:
         t += ["", f"Weekly brief: {SITE}#brief"]
-    t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "Leyland Pulse — automated daily digest from public sources."]
+    t += ["", f"Full prices, charts and cost calculator: {SITE}", "", "LeyBatt Pulse — automated daily digest from public sources."]
     return subject, body_html, "\n".join(t)
 
 
@@ -373,7 +373,7 @@ def main():
     try:
         msg = EmailMessage()
         msg["Subject"] = subject
-        msg["From"] = f"Leyland Pulse <{user}>"
+        msg["From"] = f"LeyBatt Pulse <{user}>"
         msg["To"] = user
         msg["Bcc"] = ", ".join(to)
         msg.set_content(body_text)

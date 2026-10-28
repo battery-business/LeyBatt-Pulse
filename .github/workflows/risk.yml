@@ -1,7 +1,7 @@
-# Leyland Pulse Risk Navigator: scores price and supply risk for each tracked material.
+# LeyBatt Pulse Risk Navigator: scores price and supply risk for each tracked material.
 # Runs right after each data update is pushed (the 4 am daily update), with a backup run at 4:50 am IST,
 # so the 5:15 am email and the website show fresh scores. Can also be run by hand from the Actions tab.
-name: Leyland Pulse risk navigator
+name: LeyBatt Pulse risk navigator
 on:
   push:
     branches: [main]

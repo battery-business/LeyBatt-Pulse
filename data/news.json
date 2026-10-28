@@ -1346,5 +1346,101 @@
     "s": -1
    }
   ]
+ },
+ {
+  "id": "n115",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "CATL launches Tener+, a 9 MWh grid storage system it says needs up to 40% fewer containers, at All Energy Australia; it also brings its Tener Sodium system (over 30 MWh, rated to 55°C) to Australia and signs MoUs with Hitachi Energy and EPEC",
+  "category": "R&D & new products",
+  "effect": "Denser storage",
+  "direction": "down",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/28/catl-unveils-tener-plus-deepens-australian-presence/",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n116",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "CATL and German integrator INTILION sign an MoU to deploy 3 GWh of CATL's Tener sodium-ion storage systems in Germany, Switzerland and Austria over five years, for grid and commercial sites",
+  "category": "Energy storage",
+  "effect": "Sodium-ion demand",
+  "direction": "up",
+  "source": "China EV Home",
+  "url": "https://chinaevhome.com/2026/10/28/catl-signs-five-year-european-deal-for-3-gwh-sodium-ion-energy-storage/",
+  "sources": "China EV Home · TaiyangNews",
+  "source2": "TaiyangNews",
+  "url2": "https://taiyangnews.info/storage/global-battery-storage-news-snippets-october-28-2026"
+ },
+ {
+  "id": "n117",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "CATL tells investors its sulphide all-solid-state cells should reach small-batch production in 2027 (20 Ah samples now in trial, about 500 Wh/kg target), with mass production around 2030",
+  "category": "R&D & new products",
+  "effect": "Long-term tech",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104183588-catl-all-solid-state-battery-to-enter-small-batch-production-in-2027",
+  "sources": "SMM"
+ },
+ {
+  "id": "n118",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "Amazon will put 3,000 Tata Motors electric trucks on Indian roads, starting with Ultra E.7 light trucks (96 kWh LFP pack, about 130 km range) in Delhi; the first 20 were flagged off and the Delhi–Chennai NH48 corridor comes next",
+  "category": "India EV & battery makers",
+  "effect": "E-truck demand",
+  "direction": "up",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/10/28/amazon-to-deploy-3000-electric-trucks-in-india/",
+  "sources": "electrive",
+  "alert": true,
+  "alert_reason": "Tata 3,000 e-truck order",
+  "short": "Amazon to run 3,000 Tata electric trucks in India"
+ },
+ {
+  "id": "n119",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "Li Auto's 2026 i6 SUV moves to a bigger 96 kWh in-house 'Lianshan' 5C LFP pack (from 87.3 kWh) at an unchanged starting price of about $37,190",
+  "category": "Packs & BMS",
+  "effect": "In-house packs",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/28/li-auto-launches-2026-i6/",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n120",
+  "date": "2026-10-28",
+  "day": "28 Oct",
+  "headline": "SMM expects a lithium supply surge in 2026–28 (about 458,000 t of new primary resource this year and about 500,000 t in each of 2027 and 2028) after the 2022–23 spending wave; it sees storage demand up as much as 64% this year but says price rebounds will be uneven",
+  "category": "Lithium & materials",
+  "effect": "Supply growth",
+  "direction": "down",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104183876-takeaways-from-2026-smm-australia-metals-investment-seminar-outlook-for-ferrous-nonferrous-and-battery-metals",
+  "sources": "SMM",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n121",
+  "date": "2026-10-19",
+  "day": "19 Oct",
+  "headline": "Sahaj Solar plans a 1.8 GWh BESS assembly plant at Dakor, Gujarat, for about ₹25 crore in existing premises; operations are due by October 2027",
+  "category": "India BESS",
+  "effect": "Local assembly",
+  "direction": "flat",
+  "source": "Mercom India",
+  "url": "https://mercomindia.com/sahaj-solar-to-set-up-1-8-gwh-battery-energy-storage-facility-in-gujarat",
+  "sources": "Mercom India"
  }
 ]

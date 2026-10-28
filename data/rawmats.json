@@ -2,15 +2,15 @@
  {
   "material": "Spodumene SC6",
   "role": "Lithium ore",
-  "price": "$1,500",
-  "asof": "21 Oct",
-  "move": "−2.0% in a week",
+  "price": "$1,350",
+  "asof": "28 Oct",
+  "move": "−10.0% in a week",
   "direction": "down",
   "source": "InfoLink",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
   "stage": "Ore & lithium chemicals",
   "unit": "per tonne",
-  "usd": 1500.0
+  "usd": 1350.0
  },
  {
   "material": "Lithium hydroxide",

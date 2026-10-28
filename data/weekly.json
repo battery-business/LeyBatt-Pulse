@@ -208,5 +208,19 @@
   "note": "Lithium down 6.4%; cells down 0.6%; systems flat",
   "source": "InfoLink weekly",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+ },
+ {
+  "date": "2026-10-28",
+  "lithium_usd_t": 14480,
+  "cell314": 46.9,
+  "cell314_lo": 42.9,
+  "cell314_hi": 50.9,
+  "dc_2h": 64.7,
+  "ac_1h": 110.9,
+  "ac_2h": 76.6,
+  "ac_4h": 70.0,
+  "note": "Lithium down 4.9%; spodumene down 10%; cells down 0.7%; systems flat",
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
  }
 ]

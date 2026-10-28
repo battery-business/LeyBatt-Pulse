@@ -310,5 +310,29 @@
   "source": "SMM daily review",
   "url": "https://news.metal.com/newscontent/104181671-smm-lithium-carbonate-daily-review-lithium-carbonate-futures-and-spot-prices-rebound-in-tandem-on-october-27",
   "note": "China battery-grade spot, up 1.1% on the day (range $14,480–$15,180); spot supply tight"
+ },
+ {
+  "date": "2026-10-28",
+  "series": "Futures",
+  "usd_t": 13930,
+  "source": "SMM daily review (GFEX close)",
+  "url": "https://news.metal.com/newscontent/104183966-smm-lithium-carbonate-daily-review-on-october-28-spot-lithium-carbonate-prices-rose-by-700-yuanmt-while-futures-retreated-after-a-rapid-rise-falling-on-increased-volume-and-open-interest",
+  "note": "LC2701 main contract closed down 4.6% on the previous settlement after opening above the previous day's level and reversing on heavy volume"
+ },
+ {
+  "date": "2026-10-28",
+  "series": "Spot",
+  "usd_t": 14930,
+  "source": "SMM daily review",
+  "url": "https://news.metal.com/newscontent/104183966-smm-lithium-carbonate-daily-review-on-october-28-spot-lithium-carbonate-prices-rose-by-700-yuanmt-while-futures-retreated-after-a-rapid-rise-falling-on-increased-volume-and-open-interest",
+  "note": "China battery-grade spot, up 0.7% on the day (range $14,580–$15,280); third straight daily rise"
+ },
+ {
+  "date": "2026-10-28",
+  "series": "Spot",
+  "usd_t": 14480,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": "InfoLink weekly average, down 4.9% in a week"
  }
 ]

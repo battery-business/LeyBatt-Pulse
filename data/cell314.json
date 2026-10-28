@@ -160,5 +160,14 @@
   "source": "InfoLink weekly",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
   "note": "Lithium down 6.4%; cells down 0.6%; systems flat"
+ },
+ {
+  "date": "2026-10-28",
+  "usd_kwh": 46.9,
+  "lo": 42.9,
+  "hi": 50.9,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/spot-price-energy-storage/",
+  "note": "Lithium down 4.9%; cells down 0.7%; systems flat"
  }
 ]

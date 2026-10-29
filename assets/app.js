@@ -335,6 +335,8 @@
     window.addEventListener('resize', () => { if (Math.abs(view.clientWidth - w) > 40) { w = view.clientWidth; renderTicker(); } });
   }
 
+  let fitT = 0;
+  window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(() => { if (S.tab === 'overview') fitNews(); }, 200); });
   function renderOverview() {
     renderChainHero();
     renderSince();
@@ -361,8 +363,22 @@
     // coming up: dates to watch and rule changes in one timeline
     datesList($('#ov-coming'), comingUp(null, 6));
     // latest news
-    const pv = $('#news-preview'); pv.replaceChildren();
-    sortedNews().slice(0, 6).forEach((n) => pv.appendChild(newsItem(n)));
+    fitNews();
+  }
+  // latest news fills the right column to the height of the left one (6 stories when stacked on a phone)
+  function fitNews() {
+    const pv = $('#news-preview'); const panel = $('#ov-newspanel'); const col = $('.ov-col');
+    if (!pv || !panel || !col) return;
+    const all = sortedNews().slice(0, 14); pv.replaceChildren();
+    const sideBySide = getComputedStyle($('.ov-grid')).gridTemplateColumns.split(' ').length > 1;
+    if (!sideBySide || $('#page-overview').hidden) { all.slice(0, 6).forEach((n) => pv.appendChild(newsItem(n))); return; }
+    const grid = $('.ov-grid'); grid.style.alignItems = 'start'; // measure natural heights, not stretched ones
+    const target = col.getBoundingClientRect().height;
+    for (const n of all) { // add stories until the next one would overflow
+      const li = newsItem(n); pv.appendChild(li);
+      if (panel.getBoundingClientRect().height > target && pv.children.length > 4) { li.remove(); break; }
+    }
+    grid.style.alignItems = '';
   }
   // cell makers' margin, from the cost model at today's prices (shown on the Cells step)
   function renderMargin(mb) {

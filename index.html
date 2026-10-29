@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610291052">
+<link rel="stylesheet" href="assets/style.css?v=202610291630">
 </head>
 <body>
 <header class="top">
@@ -41,19 +41,21 @@
     <section class="today-band" id="today-band" aria-label="Today's prices"></section>
     <div class="sincebar" id="since" hidden></div>
     <div class="ov-grid">
-      <div class="panel rv">
-        <div class="panel-head"><h2>What moved this week</h2><button class="btn link" type="button" data-goto="brief">This week's brief →</button></div>
-        <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
-        <ul class="changes" id="changes"></ul>
+      <div class="ov-col">
+        <div class="panel rv">
+          <div class="panel-head"><h2>What moved this week</h2><button class="btn link" type="button" data-goto="brief">This week's brief →</button></div>
+          <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
+          <ul class="changes" id="changes"></ul>
+        </div>
+        <div class="panel rv">
+          <div class="panel-head"><h2>Coming up</h2><button class="btn link" type="button" data-goto="rules">Regulations →</button></div>
+          <ul class="dates" id="ov-coming"></ul>
+        </div>
       </div>
-      <div class="panel rv">
-        <div class="panel-head"><h2>Coming up</h2><button class="btn link" type="button" data-goto="rules">Regulations →</button></div>
-        <ul class="dates" id="ov-coming"></ul>
+      <div class="panel rv ov-newspanel" id="ov-newspanel">
+        <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
+        <ul class="newslist ov-news" id="news-preview"></ul>
       </div>
-    </div>
-    <div class="panel rv">
-      <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
-      <ul class="newslist ov-news" id="news-preview"></ul>
     </div>
   </section>
 
@@ -440,6 +442,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610291052"></script>
+<script src="assets/app.js?v=202610291630"></script>
 </body>
 </html>

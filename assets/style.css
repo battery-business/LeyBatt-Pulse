@@ -923,11 +923,15 @@ main { padding-top: 0; gap: 24px; }
 /* overview below the value chain: three calm sections */
 .ov-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 @media (max-width: 900px) { .ov-grid { grid-template-columns: 1fr; } }
-#page-overview > .panel, .ov-grid > .panel { border-radius: 28px; padding: clamp(22px, 2.6vw, 34px); }
+#page-overview .ov-grid .panel, .ov-grid > .panel { border-radius: 28px; padding: clamp(22px, 2.6vw, 34px); }
 #page-overview .panel-head h2 { font-size: clamp(22px, 2.2vw, 28px); font-weight: 800; letter-spacing: -0.025em; }
 .ov-news .h { font-size: 16px; line-height: 1.45; }
 .chp-sec .dates li:first-child { padding-top: 4px; }
-.ov-grid { align-items: start; }
+.ov-grid { align-items: stretch; margin-bottom: 22px; }
+.ov-col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.ov-col > .panel { margin: 0; }
+.ov-grid > .panel { margin: 0; }
+.ov-newspanel .ov-news li:last-child { border-bottom: 0; }
 /* today's prices band */
 .tb-title { margin-bottom: 8px; }
 .tb-sub { text-align: center; margin: 0 auto clamp(24px, 3.5vw, 40px); color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); }

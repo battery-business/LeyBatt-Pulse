@@ -1,9 +1,9 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'makecost', 'indiastorage'];
+  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
-  const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'storage', 'risk', 'brief'];
+  const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'storage', 'risk', 'brief', 'chain'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
@@ -19,7 +19,7 @@
     news: { q: '', cat: '', effect: '' },
     sub: 'all',
     raw: { q: '', key: null, dir: 1, stage: '' },
-    gapFrom: '2026-04-20', csub: 'china',
+    gapFrom: '2026-04-20',
     calc: null, calcBase: null, scen: 'latest',
   };
 
@@ -336,6 +336,7 @@
   }
 
   function renderOverview() {
+    renderChainHero();
     renderSince();
     const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
     const take = $('#takeaway');
@@ -1902,213 +1903,39 @@
     SPOT.t = setInterval(() => { if (SPOT.hold || document.hidden || S.tab !== 'overview') return; spotShow((SPOT.i + 1) % SPOT.items.length); }, 7000);
   }
 
-  // ---------- making cells: China vs India ----------
-  // Materials come from the main cost model at today's prices; the factory costs are in data/makecost.json.
-  const MK = { type: 'ess314', v: null };
-  const MK_TYPES = ['ess314', 'ev'];
-  const crf = (r, n) => (r <= 0 ? 1 / n : (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
-  function mkInit() {
-    if (MK.v) return; const F = (D.makecost || {}).fields || [];
-    MK.v = { china: {}, india: {}, pli: 0, dva: 60 };
-    F.forEach((f) => { MK.v.china[f.k] = f.china; MK.v.india[f.k] = f.india; });
-  }
-  function mkMaterials() {
-    const c = cellCost(calcBase());
-    return { total: d3.sum(c.parts.filter((p) => p.k !== 'loss' && p.k !== 'mfg'), (p) => p.v), smmMfg: (c.parts.find((p) => p.k === 'mfg') || {}).v };
-  }
-  function mkCost(p, mat, pliUsd) {
-    const ship = p.mfreight + (mat + p.mfreight) * p.mduty / 100;
-    const loss = (mat + ship) * (100 / p.yield - 1);
-    const out = (p.util / 100) * 1e6; // kWh of good cells a year per GWh of capacity
-    const cap = (p.capex * 1e6 * crf(p.rate / 100, p.life)) / out;
-    const power = p.energy * p.power;
-    const labour = (p.workers * p.wage) / out;
-    const detail = [
-      { label: 'Plant and equipment (repaid with interest)', color: '--indigo', v: cap },
-      { label: 'Rejected cells', color: '--rose', v: loss },
-      { label: 'Shipping and duty on materials', color: '--orange', v: ship },
-      { label: 'Electricity', color: '--teal', v: power },
-      { label: 'Factory workers', color: '--green', v: labour },
-    ];
-    const parts = [
-      { k: 'mat', label: 'Materials', color: '--amber', v: mat },
-      { k: 'fac', label: 'Factory costs (plant, power, workers)', color: '--indigo', v: cap + power + labour },
-      { k: 'waste', label: 'Waste and shipping', color: '--rose', v: loss + ship },
-    ];
-    const gross = d3.sum(parts, (x) => x.v);
-    return { parts, detail, gross, pli: pliUsd || 0, total: gross - (pliUsd || 0), conv: cap + power + labour };
-  }
-  function mkMarket(t) {
-    if (!t.market) return null;
-    if (t.market === 'cell314') { const w = weekly(); const l = w[w.length - 1]; return l ? { usd: +l.cell314, src: 'InfoLink', date: shortDay(parse(l.date)), url: l.url } : null; }
-    const r = (D.latest || []).find((x) => x.id === t.market); return r ? { usd: numOf(r.price), src: r.source, date: r.asof, url: r.url } : null;
-  }
-  function renderMake() {
-    const box = $('#mk-chart'); if (!box || !D.makecost) return;
-    try {
-      mkInit(); landInit();
-      const M = D.makecost; const types = (M.types || []).filter((x) => MK_TYPES.includes(x.id)); const t = types.find((x) => x.id === MK.type) || types[0];
-      const fx = LAND.fx; const mat = mkMaterials(); const rs = (v) => '₹' + d3.format(',.0f')(v * fx);
-      const pliUsd = (MK.v.pli * MK.v.dva / 100) / fx;
-      const cn = mkCost(MK.v.china, mat.total, 0), ind = mkCost(MK.v.india, mat.total, pliUsd);
-      const mk = mkMarket(t); const imp = mk ? landCalc(mk.usd, 'C', false) : null;
-      const ch = $('#mk-types'); ch.replaceChildren();
-      types.forEach((x) => { const b = el('button', null, x.id === 'ev' ? 'EV cell (LFP)' : 'Storage cell (LFP 314 Ah)'); b.type = 'button'; b.setAttribute('aria-pressed', String(x.id === t.id)); b.style.setProperty('--cc', css('--teal')); b.addEventListener('click', () => { MK.type = x.id; renderMake(); }); ch.appendChild(b); });
-      // one-line answer
-      const lead = $('#mk-lead'); lead.replaceChildren();
-      const name = t.id === 'ev' ? 'An EV cell' : 'A 314 Ah storage cell';
-      lead.append(document.createTextNode(`${name} costs about `), el('b', null, fmtUsd1(cn.total) + '/kWh'), document.createTextNode(' to make in China and '), el('b', null, fmtUsd1(ind.total) + '/kWh'), document.createTextNode(' in India' + (ind.pli ? ' after PLI' : '') + '. '));
-      if (imp) {
-        const dd = imp.landed - ind.total, word = Math.abs(dd) < 3 ? 'slightly ' : `about ${fmtUsd1(Math.abs(dd))}/kWh `;
-        lead.append(document.createTextNode('Importing one costs '), el('b', null, fmtUsd1(imp.landed) + '/kWh'), document.createTextNode(dd >= 0 ? `, so making in India is ${word}cheaper.` : `, so importing is ${word}cheaper.`));
-      }
-      if (t.id === 'ev') lead.append(el('span', 'lead-note', ' EV cells use the storage-cell materials recipe here; real EV cells cost somewhat more to make.'));
-      // three numbers
-      const kb = $('#mk-kpis'); kb.replaceChildren();
-      kpi(kb, 'Make in China', perK(cn.total), [rs(cn.total) + '/kWh', null]);
-      kpi(kb, 'Make in India', perK(ind.total), [rs(ind.total) + '/kWh' + (ind.pli ? ' after PLI' : ''), null], 'main');
-      if (imp) kpi(kb, 'Import from China', perK(imp.landed), [`${rs(imp.landed)}/kWh, with ${LAND.bcdC}% duty`, null]);
-      // chart: two bars, three colours
-      box.replaceChildren();
-      const W = box.clientWidth || 640, rowH = 34, H = 2 * rowH + 50;
-      const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
-      const left = 64, right = 64;
-      const maxV = d3.max([cn.gross, ind.gross, imp ? imp.landed : 0]) * 1.04;
-      const x = d3.scaleLinear([0, maxV], [left, W - right]);
-      svg.append('g').attr('transform', `translate(0,${H - 22})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor((W - left - right) / 80))).tickFormat((v) => '$' + v).tickSize(-(H - 30))).call(axisStyle);
-      [['China', cn, 6], ['India', ind, 6 + rowH + 8]].forEach(([nm, r, y]) => {
-        svg.append('text').attr('x', left - 10).attr('y', y + rowH / 2 + 5).attr('text-anchor', 'end').attr('font-size', 13.5).attr('font-weight', 700).attr('fill', css('--fg')).text(nm);
-        let acc = 0;
-        r.parts.forEach((p) => {
-          if (p.v <= 0) return;
-          svg.append('rect').attr('x', x(acc)).attr('y', y).attr('width', Math.max(0, x(acc + p.v) - x(acc))).attr('height', rowH).attr('fill', css(p.color)).attr('stroke', css('--panel')).attr('stroke-width', 1)
-            .on('pointermove', (ev) => showTip(ev, (tt) => { tt.appendChild(el('div', 'k', nm)); tipRow(tt, css(p.color), p.label, `${fmtUsd1(p.v)}/kWh`); }))
-            .on('pointerleave', hideTip);
-          acc += p.v;
-        });
-        svg.append('text').attr('x', x(r.gross) + 6).attr('y', y + rowH / 2 + 5).attr('font-size', 13).attr('font-weight', 700).attr('fill', css('--fg')).text(fmtUsd1(r.total));
-      });
-      const lg = $('#mk-legend'); lg.replaceChildren();
-      cn.parts.forEach((p) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(p.color); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(p.label)); lg.appendChild(s); });
-      // ---- inside "Change the assumptions" ----
-      const gb = $('#mk-gap'); gb.replaceChildren();
-      const rows = ind.detail.map((p, i) => ({ label: p.label, color: p.color, d: p.v - cn.detail[i].v })).filter((r) => Math.abs(r.d) >= 0.05);
-      if (ind.pli) rows.push({ label: 'PLI incentive', color: '--fg', d: -ind.pli });
-      rows.sort((a, b) => b.d - a.d);
-      const mx = d3.max(rows, (r) => Math.abs(r.d)) || 1; const gap = ind.total - cn.total;
-      rows.forEach((r) => {
-        const row = el('div', 'gaprow'); row.appendChild(el('span', 'gl', r.label));
-        const track = el('div', 'gtrack'); const bar = el('span', 'gbar' + (r.d < 0 ? ' neg' : '')); bar.style.width = (Math.abs(r.d) / mx * 50) + '%'; bar.style.background = css(r.color); track.appendChild(bar);
-        row.append(track, el('b', 'gv' + (r.d < 0 ? ' is-down' : ' is-up'), (r.d >= 0 ? '+' : '−') + fmtUsd1(Math.abs(r.d))));
-        gb.appendChild(row);
-      });
-      gb.appendChild(el('p', 'sub', `Total: India ${gap >= 0 ? '+' : '−'}${fmtUsd1(Math.abs(gap))}/kWh. China's factory costs here come to ${fmtUsd1(cn.conv)}/kWh against ${fmtUsd1((M.smm_check || {}).usd_kwh || mat.smmMfg)} in SMM's China cost model, so the China side is, if anything, on the high side.`));
-      const pb = $('#mk-pli');
-      if (!pb.childElementCount) {
-        const f = (k, label, unit, step, hint) => {
-          const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
-          const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = MK.v[k];
-          i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v)) { MK.v[k] = v; clearTimeout(MK.t); MK.t = setTimeout(renderMake, 120); } });
-          const r = el('span', 'lrow'); r.append(i, el('span', 'lu', unit)); w.appendChild(r); if (hint) w.appendChild(el('span', 'lh', hint)); return w;
-        };
-        const g = el('div', 'landed-in'); g.append(f('pli', 'PLI subsidy rate', '₹ per kWh', '50', 'Set by each bid; starts at zero'), f('dva', 'Value added in India', '%', '1', '25% needed to be paid; 60% within 5 years'));
-        pb.append(g, el('p', 'sub pli-out'));
-        const P = M.pli || {}; const n = el('p', 'lnote pli-note'); n.appendChild(document.createTextNode((P.note || '') + ' ')); if (P.url) n.appendChild(link(P.source, P.url)); pb.appendChild(n);
-      }
-      $('.pli-out', pb).textContent = ind.pli ? `PLI takes ${fmtUsd1(ind.pli)}/kWh (${rs(ind.pli)}) off the Indian cost while it is paid.` : '';
-      const tb = $('#mk-table'); if (!tb.dataset.ready) { tb.dataset.ready = '1'; tb.replaceChildren();
-        const hr = el('tr'); ['', 'China', 'India', 'Basis'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
-        const body = el('tbody');
-        const matRow = el('tr'); const mn = el('td'); mn.appendChild(el('b', null, 'Cell materials'));
-        const mb = el('td', null); mb.colSpan = 2; mb.appendChild(el('span', 'num', `${fmtUsd1(mat.total)}/kWh in both`));
-        matRow.append(mn, mb, el('td', 'mk-note', `Today's prices from the China cell calculator (VAT removed); the same for both because India imports most materials. ${M.recipe_note || ''}`)); body.appendChild(matRow);
-        (M.fields || []).forEach((f) => {
-          const tr = el('tr'); const n = el('td'); n.appendChild(el('b', null, f.label)); n.appendChild(el('span', 'role', f.unit)); if (f.assumption) n.appendChild(el('span', 'atag', 'Assumption'));
-          tr.appendChild(n);
-          ['china', 'india'].forEach((c) => {
-            const td = el('td'); const i = el('input', 'num-in'); i.type = 'number'; i.step = f.step; i.min = 0; i.value = MK.v[c][f.k]; i.setAttribute('aria-label', `${f.label}, ${c === 'china' ? 'China' : 'India'}`);
-            i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v) && v >= 0) { MK.v[c][f.k] = v; clearTimeout(MK.t); MK.t = setTimeout(renderMake, 120); } });
-            td.appendChild(i); tr.appendChild(td);
-          });
-          const nt = el('td', 'mk-note');
-          const add = (txt, src, url, src2, url2) => { const p = el('div'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); if (url2) { p.appendChild(document.createTextNode(' · ')); p.appendChild(link(src2, url2)); } nt.appendChild(p); };
-          add('China: ' + (f.china_note || ''), f.china_source, f.china_url, f.china_source2, f.china_url2);
-          add('India: ' + (f.india_note || ''), f.india_source, f.india_url, f.india_source2, f.india_url2);
-          tr.appendChild(nt); body.appendChild(tr);
-        });
-        tb.appendChild(body); }
-      const nb = $('#mk-notes'); nb.replaceChildren();
-      const note = (txt) => nb.appendChild(el('p', 'lnote', txt));
-      note(`How it is worked out: plant and equipment = investment per GWh repaid over the payback years at the interest rate, spread over the cells actually made; workers = people per GWh × pay, spread the same way; electricity = kWh used per kWh of cells × power price; rejected cells add their materials back. Rupees at US$1 = ₹${fx.toFixed(2)} (ECB).`);
-      note(M.left_out || '');
-    } catch (e) { console.error(e); fail(box, 'The China vs India model could not be drawn'); }
-  }
-
-  // ---------- India storage: tenders, cost, break-even ----------
-  const ST = { hours: 0, be: 2, v: null };
-  function stInit() {
-    if (ST.v) return; const d = ((D.indiastorage || {}).defaults) || {};
-    landInit();
-    ST.v = { 2: { site: (d.site || {})[2] ?? 38, tenure: (d.tenure || {})[2] ?? 12 }, 4: { site: (d.site || {})[4] ?? 28.5, tenure: (d.tenure || {})[4] ?? 15 },
-      om: d.om_pct ?? 2.5, vgf: d.vgf ?? 18, debt: d.debt_share ?? 70, dr: d.debt_rate ?? 8.7, er: d.equity_rate ?? 15, capex: { 2: null, 4: null } };
-  }
-  function stSystem(h) {
-    const w = weekly(); const l = w[w.length - 1] || {};
-    const usd = +(h === 2 ? l.ac_2h : l.ac_4h); if (!(usd > 0)) return null;
-    const a = landCalc(usd, 'B', false); const site = ST.v[h].site;
-    return { usd, a, site, installed: a.landed + site, date: l.date, url: l.url };
-  }
-  function stBreakEven(h, capexUsd) {
-    const fx = LAND.fx; const v = ST.v;
-    const wacc = (v.debt / 100) * (v.dr / 100) + (1 - v.debt / 100) * (v.er / 100);
-    const capMW = capexUsd * 1000 * h * fx; const vgfMW = v.vgf * 1e5 * h;
-    const annual = Math.max(0, capMW - vgfMW) * crf(wacc, v[h].tenure) + (v.om / 100) * capMW;
-    return { lakh: annual / 12 / 1e5, wacc };
-  }
-  function stCapex(h) { const s = stSystem(h); return ST.v.capex[h] != null ? ST.v.capex[h] : s ? s.installed : null; }
-  const crore = (usdKwh) => (usdKwh * 1000 * LAND.fx / 1e7);
+  // ---------- India storage tenders (facts only) ----------
+  const ST = { hours: 0 };
   function stRecent(tenders, h) {
     const last = d3.max(tenders, (t) => t.date); const cut = new Date(+parse(last) - 365 * 864e5);
     const lows = tenders.filter((t) => t.hours === h && parse(t.date) >= cut).map((t) => t.low).sort(d3.ascending);
-    return lows.length ? { n: lows.length, q1: d3.quantile(lows, 0.25), med: d3.median(lows), q3: d3.quantile(lows, 0.75), lows, last } : null;
+    return lows.length ? { n: lows.length, q1: d3.quantile(lows, 0.25), med: d3.median(lows), q3: d3.quantile(lows, 0.75) } : null;
   }
+  const stTenders = () => [...((D.indiastorage || {}).tenders || [])].sort((a, b) => d3.ascending(a.date, b.date));
   function renderStorage() {
     const X = D.indiastorage; const chart = $('#st-chart'); if (!chart) return;
     if (!X) { fail(chart, 'India storage data not available'); return; }
     try {
-      stInit();
-      const tenders = [...(X.tenders || [])].sort((a, b) => d3.ascending(a.date, b.date));
-      const r2 = stRecent(tenders, 2), r4 = stRecent(tenders, 4), s2 = stSystem(2);
-      // one-line answer
+      const tenders = stTenders(); const r2 = stRecent(tenders, 2), r4 = stRecent(tenders, 4);
       const lead = $('#st-lead'); lead.replaceChildren();
       const rng = (r) => `₹${r.q1.toFixed(2)}–${r.q3.toFixed(2)} lakh`;
-      if (r2) lead.append(document.createTextNode('In the last 12 months, 2-hour storage tenders were typically won at '), el('b', null, rng(r2)));
+      if (r2) lead.append(document.createTextNode('In the last 12 months, most 2-hour storage tenders were won at '), el('b', null, rng(r2)));
       if (r4) lead.append(document.createTextNode(' and 4-hour at '), el('b', null, rng(r4)));
       lead.append(document.createTextNode(' per MW per month.'));
-      if (s2) lead.append(document.createTextNode(' Building a 2-hour project costs about '), el('b', null, `₹${crore(s2.installed).toFixed(2)} crore per MWh`), document.createTextNode('.'));
-      // filter
       const seg = $('#st-hours'); seg.replaceChildren();
       [[0, 'All'], [2, '2-hour'], [4, '4-hour']].forEach(([h, t]) => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('aria-pressed', String(ST.hours === h)); b.addEventListener('click', () => { ST.hours = h; renderStorage(); }); seg.appendChild(b); });
       const shown = tenders.filter((t) => !ST.hours || t.hours === ST.hours);
       const HC = { 2: css('--blue'), 4: css('--orange') };
-      // chart: one dot per tender
       chart.replaceChildren();
       const W = chart.clientWidth || 700, H = 300, mg = { t: 18, r: 16, b: 30, l: 44 };
       const svg = d3.select(chart).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
       const dates = shown.map((t) => parse(t.date));
       const xs = d3.scaleUtc([new Date(+d3.min(dates) - 40 * 864e5), new Date(+d3.max(dates) + 40 * 864e5)], [mg.l, W - mg.r]);
-      const bms = (X.benchmarks || []).filter((b) => !ST.hours || ST.hours === b.hours);
-      const ys = d3.scaleLinear([0, d3.max([...shown.map((t) => t.low), ...bms.map((b) => b.value)]) * 1.15], [H - mg.b, mg.t]).nice();
+      const ys = d3.scaleLinear([0, d3.max(shown, (t) => t.low) * 1.15], [H - mg.b, mg.t]).nice();
       svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).ticks(5).tickFormat((v) => '₹' + v).tickSize(-(W - mg.l - mg.r))).call(axisStyle);
       svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(xs).ticks(Math.max(3, Math.floor((W - mg.l - mg.r) / 90))).tickFormat(d3.utcFormat('%b %y')).tickSize(0).tickPadding(8)).call(axisStyle);
-      bms.forEach((b) => {
-        svg.append('line').attr('x1', mg.l).attr('x2', W - mg.r).attr('y1', ys(b.value)).attr('y2', ys(b.value)).attr('stroke', css('--muted')).attr('stroke-width', 1.4).attr('stroke-dasharray', '3 4');
-        svg.append('text').attr('x', mg.l + 6).attr('y', ys(b.value) - 5).attr('text-anchor', 'start').attr('font-size', 11).attr('font-weight', 600).attr('fill', css('--muted')).text(`JMK 2-hour benchmark ₹${b.value}`);
-      });
-      const g = svg.append('g');
       shown.forEach((t) => {
         const c = HC[t.hours] || css('--slate');
-        const a = g.append('a').attr('href', t.url).attr('target', '_blank').attr('rel', 'noopener').attr('class', 'st-pt');
+        const a = svg.append('a').attr('href', t.url).attr('target', '_blank').attr('rel', 'noopener').attr('class', 'st-pt');
         a.append('circle').attr('cx', xs(parse(t.date))).attr('cy', ys(t.low)).attr('r', 7).attr('fill', c).attr('stroke', css('--panel')).attr('stroke-width', 2);
         a.on('pointermove', (ev) => showTip(ev, (tt) => {
           tt.appendChild(el('div', 'h', t.label)); tipRow(tt, c, `${t.hours}-hour · ${t.state}`, t.high && t.high !== t.low ? `₹${t.low}–${t.high} lakh` : `₹${t.low} lakh`);
@@ -2118,9 +1945,8 @@
       svg.append('text').attr('x', mg.l).attr('y', 11).attr('font-size', 11.5).attr('fill', css('--muted')).text('₹ lakh per MW per month (lowest winning bid)');
       const lg = $('#st-legend'); lg.replaceChildren();
       [[css('--blue'), '2-hour'], [css('--orange'), '4-hour']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = c; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
-      // table (inside "Show as a table")
       const tb = $('#st-table'); tb.replaceChildren();
-      const hr = el('tr'); ['Reported', 'Tender', 'Hours', 'MWh', 'Tariff, ₹ lakh/MW/month', 'VGF', 'Contract', 'Winners', 'Source'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
+      const hr = el('tr'); ['Reported', 'Tender', 'Hours', 'MWh', 'Tariff, ₹ lakh/MW/month', 'Govt support (VGF)', 'Contract', 'Winners', 'Source'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
       const body = el('tbody');
       [...shown].reverse().forEach((t) => {
         const tr = el('tr');
@@ -2129,120 +1955,165 @@
         body.appendChild(tr);
       });
       tb.appendChild(body);
-      renderStorageCost(X);
-      renderBreakEven(X, tenders);
+      const et = $('#st-epc'); et.replaceChildren();
+      const eh = el('tr'); ['Contract', 'MWh', 'Value', 'Per MWh', 'What it covers'].forEach((x) => eh.appendChild(el('th', null, x))); const ethd = el('thead'); ethd.appendChild(eh); et.appendChild(ethd);
+      const eb = el('tbody');
+      (X.epc_orders || []).forEach((o) => {
+        const tr = el('tr'); const n = el('td'); n.appendChild(link(o.label, o.url)); n.appendChild(el('span', 'role', `${d3.utcFormat('%-d %b %Y')(parse(o.date))}${o.hours ? ` · ${o.hours}-hour` : ''}`));
+        tr.append(n, el('td', 'num', d3.format(',')(o.mwh)), el('td', 'num', `₹${d3.format(',.0f')(o.inr_cr)} cr`), el('td', 'num strong', `₹${(o.inr_cr / o.mwh).toFixed(2)} cr`), el('td', 'mk-note', o.scope));
+        eb.appendChild(tr);
+      });
+      et.appendChild(eb);
       const nb = $('#st-notes'); nb.replaceChildren();
       (X.market_notes || []).forEach((n) => { const li = el('li'); li.appendChild(document.createTextNode(n.text + ' ')); li.appendChild(link(n.source, n.url)); nb.appendChild(li); });
     } catch (e) { console.error(e); fail(chart, 'India storage page could not be drawn'); }
   }
-  function renderStorageCost(X) {
-    const box = $('#st-cost'); box.replaceChildren();
-    const rows = [2, 4].map((h) => ({ h, s: stSystem(h) })).filter((r) => r.s);
-    const mx = d3.max(rows, (r) => r.s.installed) || 1;
-    rows.forEach(({ h, s }) => {
-      const head = el('div', 'st-costhead'); head.append(el('span', null, `${h}-hour project`), el('b', null, `₹${crore(s.installed).toFixed(2)} crore per MWh`));
-      box.appendChild(head);
-      const bar = el('div', 'stackbar'); bar.style.width = (s.installed / mx * 100) + '%';
-      stackBar(bar, [{ label: 'China storage system', color: '--blue', v: s.a.fob }, { label: 'Shipping and duty', color: '--orange', v: s.a.landed - s.a.fob }, { label: 'Indian site and contractor', color: '--plum', v: s.site }], s.installed);
-      box.appendChild(bar);
-    });
-    const lg = el('div', 'tlegend'); [['--blue', 'China storage system'], ['--orange', 'Shipping and duty'], ['--plum', 'Indian site and contractor']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(c); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
-    box.appendChild(lg);
-    // details
-    const dn = $('#st-cost-notes'); dn.replaceChildren();
-    const s2 = rows.find((r) => r.h === 2); if (s2) dn.appendChild(el('p', 'lnote', `2-hour in US$: China system ${fmtUsd1(s2.s.a.fob)}/kWh (InfoLink, ${shortDay(parse(s2.s.date))}) + shipping and ${LAND.bcdB}% duty ${fmtUsd1(s2.s.a.landed - s2.s.a.fob)} + Indian site ${fmtUsd1(s2.s.site)} = ${fmtUsd1(s2.s.installed)}/kWh.`));
-    const d = X.defaults || {}; dn.appendChild(el('p', 'lnote', d.site_note || ''));
-    const t = $('#st-epc'); t.replaceChildren();
-    const hr = el('tr'); ['Order', 'MWh', 'Value', 'Per MWh', 'Scope'].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
-    const b = el('tbody');
-    (X.epc_orders || []).forEach((o) => {
-      const tr = el('tr'); const n = el('td'); n.appendChild(link(o.label, o.url)); n.appendChild(el('span', 'role', `${d3.utcFormat('%-d %b %Y')(parse(o.date))}${o.hours ? ` · ${o.hours}-hour` : ''}`));
-      tr.append(n, el('td', 'num', d3.format(',')(o.mwh)), el('td', 'num', `₹${d3.format(',.0f')(o.inr_cr)} cr`), el('td', 'num strong', `₹${(o.inr_cr / o.mwh).toFixed(2)} cr`), el('td', 'mk-note', o.scope));
-      b.appendChild(tr);
-    });
-    t.appendChild(b);
-  }
-  function renderBreakEven(X, tenders) {
-    const v = ST.v; const d = X.defaults || {}; const h = ST.be;
-    const seg = $('#be-hours'); seg.replaceChildren();
-    [2, 4].forEach((x) => { const b = el('button', null, `${x}-hour`); b.type = 'button'; b.setAttribute('aria-pressed', String(h === x)); b.addEventListener('click', () => { ST.be = x; $('#be-in').replaceChildren(); $('#be-more').replaceChildren(); renderStorage(); }); seg.appendChild(b); });
-    const capex = stCapex(h); if (capex == null) { fail($('#be-out'), 'No system price'); return; }
-    const r = stBreakEven(h, capex); const rec = stRecent(tenders, h);
-    const out = $('#be-out'); out.replaceChildren();
-    const k = el('div', 'kpis');
-    kpi(k, `A ${h}-hour project needs`, `₹${r.lakh.toFixed(2)} lakh`, ['per MW per month to break even', null], 'main');
-    if (rec) kpi(k, 'Typical winning bid', `₹${rec.med.toFixed(2)} lakh`, [`middle of ${rec.n} tenders in the last 12 months`, null]);
-    out.appendChild(k);
-    if (rec) out.appendChild(el('p', 'sub be-say', r.lakh > rec.med ? `Winning bids are below this: winners must expect lower costs, cheaper money or extra income. These defaults are cautious, so treat the break-even as an upper estimate.` : 'Winning bids are at or above this break-even on these assumptions.'));
-    const f = (get, set, label, unit, step, hint, key) => {
-      const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
-      const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = get(); if (key) i.dataset.k = key;
-      i.addEventListener('input', () => { const x = parseFloat(i.value); if (!isNaN(x) && x >= 0) { set(x); clearTimeout(ST.t); ST.t = setTimeout(renderStorageLight, 120); } });
-      const row = el('span', 'lrow'); row.append(i, el('span', 'lu', unit)); w.appendChild(row); if (hint) w.appendChild(el('span', 'lh', hint)); return w;
-    };
-    const box = $('#be-in');
-    if (!box.childElementCount) {
-      box.append(
-        f(() => +crore(stCapex(h)).toFixed(2), (x) => { v.capex[h] = x * 1e7 / 1000 / LAND.fx; }, 'Cost to build', '₹ crore per MWh', '0.01', 'From the cost on the left; type your own', 'capex'),
-        f(() => v.vgf, (x) => { v.vgf = x; }, 'Government support (VGF)', '₹ lakh per MWh', '1', '18 under the 2025 scheme; 0 if none'),
-        f(() => v[h].tenure, (x) => { v[h].tenure = Math.max(1, Math.round(x)); }, 'Contract length', 'years', '1', h === 2 ? 'Usually 12 for 2-hour' : 'Usually 15 for 4-hour'),
-      );
+
+  // ---------- value chain: hero on the overview and one page per step ----------
+  const ICON = {
+    mine: 'M3 10h18l-2.2 7.5a1 1 0 0 1-1 .7H6.2a1 1 0 0 1-1-.7L3 10zM6.5 10l2.5-4 2.5 2 3-3 3 5M8 21.5a1.2 1.2 0 1 0 0-.01M16 21.5a1.2 1.2 0 1 0 0-.01',
+    flask: 'M9 3h6M10 3v6.2L4.6 18.6A1.6 1.6 0 0 0 6 21h12a1.6 1.6 0 0 0 1.4-2.4L14 9.2V3M7.5 15h9',
+    cell: 'M9.5 2.5h5M8 4.5h8a1.5 1.5 0 0 1 1.5 1.5v14A1.5 1.5 0 0 1 16 21.5H8A1.5 1.5 0 0 1 6.5 20V6A1.5 1.5 0 0 1 8 4.5zM12.8 8.5 10.5 13h3l-2.3 4.5',
+    pack: 'M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9zM3 7.5 12 12l9-4.5M12 12v9',
+    grid: 'M12 2.5 8 21.5M12 2.5l4 19M9.2 8h5.6M8.4 13h7.2M3 21.5h18M5 8h14',
+  };
+  const CHAIN = [
+    { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--amber', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'],
+      say: 'Where the chain starts: lithium ore and salts, plus the copper and aluminium inside every cell.' },
+    { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--plum', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'],
+      say: 'Lithium becomes LFP cathode; graphite becomes the anode; electrolyte, separator and foils complete the cell.' },
+    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--blue', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'],
+      say: 'Storage and EV cells: what they sell for and what the makers are doing.' },
+    { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--indigo', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [],
+      say: 'Cells built into battery packs and containerised storage systems.' },
+    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--green', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [],
+      say: 'Who is buying: Indian storage tenders and the EV market.' },
+  ];
+  const svgIcon = (k, size = 28) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('width', size); s.setAttribute('height', size); s.setAttribute('aria-hidden', 'true'); const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', ICON[k]); p.setAttribute('fill', 'none'); p.setAttribute('stroke', 'currentColor'); p.setAttribute('stroke-width', '1.6'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); s.appendChild(p); return s; };
+  function chainKey(c) {
+    if (c.key[0] === 'tender') {
+      const t = stTenders(); const l = t[t.length - 1]; if (!l) return null;
+      return { label: 'Latest India storage tender', value: `₹${l.low} lakh`, unit: '/MW/month', move: `${l.agency}, ${d3.utcFormat('%-d %b')(parse(l.date))}`, dir: 'flat' };
     }
-    const more = $('#be-more');
-    if (!more.childElementCount) {
-      const g = el('div', 'landed-in');
-      g.append(
-        f(() => v[h].site, (x) => { v[h].site = x; v.capex[h] = null; }, 'Indian site and contractor costs', 'US$ per kWh', '0.5', h === 2 ? 'From NTPC EPC orders' : 'Assumption, scaled from 2-hour'),
-        f(() => v.om, (x) => { v.om = x; }, 'Running costs', '% of cost a year', '0.1', 'Incl. battery top-ups (NREL, US)'),
-        f(() => v.debt, (x) => { v.debt = Math.min(100, x); }, 'Debt share', '%', '1', 'Assumption'),
-        f(() => v.dr, (x) => { v.dr = x; }, 'Interest on debt', '% a year', '0.1', 'SBI one-year MCLR'),
-        f(() => v.er, (x) => { v.er = x; }, 'Return on equity', '% a year', '0.5', 'Low end of 15–20% (JMK)'),
-      );
-      const rs = el('button', 'btn ghost small', 'Back to defaults'); rs.type = 'button'; rs.addEventListener('click', () => { ST.v = null; box.replaceChildren(); more.replaceChildren(); renderStorage(); });
-      more.append(g, rs, el('div', 'landed-notes', null));
-    }
-    const nb = $('.landed-notes', more); nb.replaceChildren();
-    const note = (txt, src, url) => { const p = el('p', 'lnote'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); nb.appendChild(p); };
-    note(`Cost of capital ${(r.wacc * 100).toFixed(1)}% a year. How it works: cost to build per MW, less VGF, is repaid in equal yearly amounts over the contract at the cost of capital, plus running costs, divided by 12 months.`);
-    note(d.charging_note || '');
-    note(d.om_note || '', d.om_source, d.om_url);
-    note(d.finance_note || '', d.finance_source, d.finance_url);
-    note(d.tenure_note || '', d.tenure_source, d.tenure_url);
+    const r = (D.latest || []).find((x) => x.id === c.key[1]); if (!r) return null;
+    return { label: r.label, value: r.price, unit: UNIT_SHORT[r.unit] || '', move: r.move, dir: r.direction };
   }
-  function renderStorageLight() { // keep the inputs the reader is typing in, redraw the rest
-    const keep = document.activeElement;
-    renderStorage();
-    const ci = $('#be-in input[data-k="capex"]'); if (ci && ci !== keep) ci.value = crore(stCapex(ST.be)).toFixed(2);
+  function renderChainHero() {
+    const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
+    const head = el('div', 'ch-head');
+    head.append(el('p', 'ch-eyebrow', 'The battery value chain'), el('h2', 'ch-title', 'From the mine to the grid.'), el('p', 'ch-sub', 'Pick a step to see its prices, news and risks.'));
+    box.appendChild(head);
+    const row = el('ol', 'ch-row');
+    CHAIN.forEach((c) => {
+      const k = chainKey(c);
+      const li = el('li', 'ch-step'); li.style.setProperty('--cc', css(c.color));
+      const b = el('button', 'ch-node'); b.type = 'button'; b.setAttribute('aria-label', `${c.name}: open prices, news and risks`);
+      const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
+      const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
+      if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move)); }
+      b.append(orb, txt);
+      b.addEventListener('click', () => go('chain/' + c.id));
+      li.appendChild(b); row.appendChild(li);
+    });
+    box.appendChild(row);
+  }
+  function renderChain() {
+    const box = $('#chain-page'); if (!box) return;
+    const i = Math.max(0, CHAIN.findIndex((c) => c.id === S.chain)); const c = CHAIN[i];
+    box.replaceChildren(); box.style.setProperty('--cc', css(c.color));
+    // step switcher
+    const nav = el('nav', 'ch-switch'); nav.setAttribute('aria-label', 'Value chain steps');
+    CHAIN.forEach((x) => { const b = el('button', null); b.type = 'button'; b.style.setProperty('--cc', css(x.color)); b.setAttribute('aria-current', String(x.id === c.id)); b.append(el('span', 'n', x.n), document.createTextNode(x.name)); b.addEventListener('click', () => go('chain/' + x.id)); nav.appendChild(b); });
+    box.appendChild(nav);
+    // hero
+    const k = chainKey(c);
+    const hero = el('header', 'chp-hero');
+    const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(c.icon, 40));
+    const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
+    hero.append(orb, ht);
+    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); hero.appendChild(kv); }
+    box.appendChild(hero);
+    // prices
+    const section = (t, sub) => { const s = el('section', 'chp-sec'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
+    const steps = allPrices();
+    const rows = c.flow.flatMap((f) => (steps[f] || {}).rows || []);
+    if (rows.length) {
+      const s = section('Prices', 'Latest public price for each item, in US$ excluding VAT.');
+      const g = el('div', 'chp-prices');
+      rows.forEach((r) => {
+        const card = el('div', 'chp-card');
+        const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
+        card.append(el('div', 'pn', r.name), pr);
+        if (r.move) card.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
+        const meta = el('div', 'pm'); meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url)); card.appendChild(meta);
+        if (r.chart) { const b = el('button', 'btn link small', 'Price history →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); card.appendChild(b); }
+        g.appendChild(card);
+      });
+      s.appendChild(g);
+    }
+    if (c.id === 'enduse') {
+      const s = section('India storage tenders', 'What state utilities pay the project owner each month for every MW of storage, for 12–15 years. Lowest winning bid of the latest tenders.');
+      const g = el('div', 'chp-prices');
+      stTenders().slice(-4).reverse().forEach((t) => {
+        const card = el('div', 'chp-card');
+        const pr = el('div', 'pp'); pr.append(el('span', 'v', `₹${t.low}`), el('span', 'u', ' lakh/MW/month'));
+        card.append(el('div', 'pn', t.label), pr, el('span', 'chip', `${t.hours}-hour · ${t.state}`));
+        const meta = el('div', 'pm'); meta.append(document.createTextNode(d3.utcFormat('%-d %b %Y')(parse(t.date)) + ' · '), link(t.source, t.url)); card.appendChild(meta);
+        g.appendChild(card);
+      });
+      s.appendChild(g);
+      const b = el('button', 'btn link', 'All India storage tenders and project costs →'); b.type = 'button'; b.addEventListener('click', () => go('storage')); s.appendChild(b);
+    }
+    // risk
+    const R = D.risk; const mats = c.risk.map((id) => ((R || {}).materials || []).find((m) => m.id === id)).filter(Boolean);
+    if (mats.length) {
+      const s = section('Risk', 'Risk navigator scores for the next 3 months, 0–10 (higher is riskier for a buyer).');
+      const g = el('div', 'chp-risk');
+      mats.forEach((m) => {
+        const b = el('button', 'chp-rcard'); b.type = 'button';
+        b.append(el('b', null, m.short));
+        const r1 = el('span', 'rr'); r1.append(el('span', 'l', 'Price'), riskChip(m.h3.price)); const r2 = el('span', 'rr'); r2.append(el('span', 'l', 'Supply'), riskChip(m.h3.supply));
+        b.append(r1, r2); b.addEventListener('click', () => { RISK.sel = m.id; go('risk'); }); g.appendChild(b);
+      });
+      s.appendChild(g);
+    }
+    // news
+    const ns = sortedNews().filter((n) => c.cats.includes(n.category)).slice(0, 6);
+    if (ns.length) {
+      const s = section('News', null);
+      const ul = el('ul', 'newslist compact'); ns.forEach((n) => ul.appendChild(newsItem(n))); s.appendChild(ul);
+      const b = el('button', 'btn link', 'All news →'); b.type = 'button'; b.addEventListener('click', () => { S.news.cat = ''; go('news'); }); s.appendChild(b);
+    }
+    // previous / next
+    const pn = el('div', 'chp-pn');
+    if (i > 0) { const b = el('button', 'chp-prev'); b.type = 'button'; b.append(el('small', null, '← Previous'), el('b', null, CHAIN[i - 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i - 1].id)); pn.appendChild(b); } else pn.appendChild(el('span'));
+    if (i < CHAIN.length - 1) { const b = el('button', 'chp-next'); b.type = 'button'; b.append(el('small', null, 'Next →'), el('b', null, CHAIN[i + 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i + 1].id)); pn.appendChild(b); }
+    box.appendChild(pn);
   }
 
   // ---------- tabs ----------
-  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { if (S.csub === 'make') renderMake(); else { renderCalc(); renderLanded(); } }, storage: renderStorage, risk: renderRisk, rules: renderRules, brief: renderBrief };
+  const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules, brief: renderBrief };
   function go(route, push = true) {
     const path = String(route || 'overview').split('?')[0];
     let [tab, sub] = (LEGACY[path] || path).split('/');
     if (!TABS.includes(tab)) tab = 'overview';
     if (tab === 'materials' && SUBS.includes(sub)) S.sub = sub;
-    if (tab === 'calculator' && sub) S.csub = sub === 'make' ? 'make' : 'china'; // no sub (e.g. a redraw on resize) keeps the current one
+    if (tab === 'chain' && sub) S.chain = sub;
     S.tab = tab; hideTip();
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });
-    $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+    $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (tab === 'chain' || tab === 'storage' ? 'overview' : tab))));
     $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
-    $$('.csubpage').forEach((p) => { p.hidden = p.dataset.csub !== S.csub; });
-    $$('.csubnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.csub === S.csub)));
-    const cmini = $('#calc-mini'); if (cmini) cmini.style.visibility = S.csub === 'make' ? 'hidden' : '';
-    if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'calculator' && S.csub === 'make' ? 'calculator/make' : tab)); } catch (e) { /* ignore */ } }
+    if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }
     try { RENDER[tab](); } catch (e) { console.error(e); }
     if (push) window.scrollTo({ top: 0 });
   }
   $$('.tab').forEach((b) => b.addEventListener('click', () => go(b.dataset.tab)));
   $$('#page-materials .subnav button').forEach((b) => b.addEventListener('click', () => go('materials/' + b.dataset.sub)));
-  $$('.csubnav button').forEach((b) => b.addEventListener('click', () => go('calculator/' + b.dataset.csub)));
   $$('[data-goto]').forEach((b) => b.addEventListener('click', () => go(b.dataset.goto)));
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
   // ---------- inputs ----------
-  { const r = $('#mk-reset'); if (r) r.addEventListener('click', () => { MK.v = null; const t = $('#mk-table'); delete t.dataset.ready; $('#mk-pli').replaceChildren(); renderMake(); }); }
   $('#news-search').addEventListener('input', (e) => { S.news.q = e.target.value; renderNews(); });
   $('#news-effect').addEventListener('change', (e) => { S.news.effect = e.target.value; renderNews(); });
 

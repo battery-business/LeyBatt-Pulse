@@ -340,7 +340,7 @@
   function renderOverview() {
     renderChainHero();
     renderSince();
-    requestAnimationFrame(() => reveal($('#page-overview')));
+    { const rp = !S.resizing; requestAnimationFrame(() => reveal($('#page-overview'), rp)); }
     // changes
     const w = weekly(); const ul = $('#changes'); ul.replaceChildren();
     if (w.length >= 2) {
@@ -1806,6 +1806,7 @@
   const MOTION = { counted: false, glowed: false, risk: new Set(), drawn: new WeakSet() };
   const ease = (t) => 1 - Math.pow(1 - t, 3);
   function countUp(node, ms = 900) {
+    if (node.classList.contains('counting')) return; // already counting: don't start from a half-way number
     const txt = node.textContent; const m = txt.match(/^(\D*?)(\d[\d,]*)(\.\d+)?(.*)$/); if (!m) return;
     const target = +(m[2].replace(/,/g, '') + (m[3] || '')); const dec = m[3] ? m[3].length - 1 : 0; const comma = m[2].includes(',');
     const f = d3.format((comma ? ',' : '') + '.' + dec + 'f'); const t0 = performance.now();
@@ -1837,11 +1838,6 @@
   }
   function overviewMotion() {
     if (reduced()) return;
-    if (!MOTION.counted) {
-      MOTION.counted = true;
-      $$('#today-band .card .price').forEach((n) => countUp(n));
-      drawLines($$('#today-band .spark path'), 1000, 150);
-    }
     if (!MOTION.glowed && D.meta) {
       MOTION.glowed = true;
       const wd = parse(D.meta.updated).getUTCDay(); const lim = wd === 1 ? 3 : wd === 0 ? 2 : 1;
@@ -2045,21 +2041,39 @@
     overviewMotion();
   }
   // Apple-style reveal: sections rise and fade in as they scroll into view (off for reduced motion)
-  function reveal(root) {
+  // sections rise into view each time they enter the screen from below (Apple-style); off for reduced motion
+  function reveal(root, replay = true) { // replay is false when a window resize re-rendered the page
     if (reduced() || !('IntersectionObserver' in window)) return;
     document.documentElement.classList.add('rv-on');
     if (!reveal.io) reveal.io = new IntersectionObserver((ents) => ents.forEach((e) => {
-      if (!e.isIntersecting) return; const n = e.target; reveal.io.unobserve(n); n.classList.add('in');
-      setTimeout(() => n.classList.remove('rv', 'in'), 1300 + (parseFloat(n.style.getPropertyValue('--rd')) || 0));
+      const n = e.target, r = e.boundingClientRect;
+      if (e.isIntersecting) { if (n.classList.contains('pre')) playIn(n); }
+      else if (e.rootBounds && r.height && r.top >= e.rootBounds.bottom) { // scrolled back below the screen: ready to play again
+        clearTimeout(n._rvT); n.classList.remove('go'); n.classList.add('pre');
+      }
     }), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
-    $$('.rv', root).forEach((n) => { const k = Array.prototype.indexOf.call(n.parentNode.children, n) % 8; n.style.setProperty('--rd', (k * 70) + 'ms'); reveal.io.observe(n); });
+    $$('.rv', root).forEach((n) => {
+      const k = Array.prototype.indexOf.call(n.parentNode.children, n) % 8; n.style.setProperty('--rd', (k * 70) + 'ms');
+      if (replay) { clearTimeout(n._rvT); n.classList.remove('go'); n.classList.add('pre'); }
+      reveal.io.unobserve(n); reveal.io.observe(n);
+    });
+  }
+  function playIn(n) {
+    const rd = parseFloat(n.style.getPropertyValue('--rd')) || 0;
+    void n.offsetWidth; // make sure the hidden state is painted first so the rise always animates
+    n.classList.remove('pre'); n.classList.add('go');
+    clearTimeout(n._rvT); n._rvT = setTimeout(() => n.classList.remove('go'), 1300 + rd);
+    if (n.matches('#today-band .card')) { // price counts up and the small chart draws itself, every time the card arrives
+      const pr = $('.price', n); if (pr) setTimeout(() => countUp(pr), rd);
+      drawLines($$('.spark path', n), 1000, rd + 150);
+    }
   }
   // the hero gently fades and shrinks as the page scrolls past it
   let heroRaf = 0;
   window.addEventListener('scroll', () => {
     if (heroRaf || S.tab !== 'overview' || reduced()) return;
     heroRaf = requestAnimationFrame(() => {
-      heroRaf = 0; const h = $('#chain-hero .ch-head'); if (!h || h.classList.contains('rv')) return;
+      heroRaf = 0; const h = $('#chain-hero .ch-head'); if (!h || h.classList.contains('pre') || h.classList.contains('go')) return;
       const y = window.scrollY, k = Math.min(1, y / 520);
       h.style.opacity = String(1 - k * 0.85); h.style.transform = y > 0 ? `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 - k * 0.05).toFixed(3)})` : '';
     });
@@ -2150,7 +2164,7 @@
     if (i > 0) { const b = el('button', 'chp-prev'); b.type = 'button'; b.append(el('small', null, '← Previous'), el('b', null, CHAIN[i - 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i - 1].id)); pn.appendChild(b); } else pn.appendChild(el('span'));
     if (i < CHAIN.length - 1) { const b = el('button', 'chp-next'); b.type = 'button'; b.append(el('small', null, 'Next →'), el('b', null, CHAIN[i + 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i + 1].id)); pn.appendChild(b); }
     box.appendChild(pn);
-    requestAnimationFrame(() => reveal(box));
+    { const rp = !S.resizing; requestAnimationFrame(() => reveal(box, rp)); }
   }
 
   // ---------- tabs ----------
@@ -2200,7 +2214,10 @@
   $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 2]; store.set('bmi-theme', theme); applyTheme(); go(S.tab, false); });
   applyTheme();
 
-  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(S.tab, false), 150); });
+  let rt, rw = window.innerWidth; window.addEventListener('resize', () => { // width changes only: phones fire resize while scrolling
+    if (Math.abs(window.innerWidth - rw) < 2) return; rw = window.innerWidth;
+    clearTimeout(rt); rt = setTimeout(() => { S.resizing = true; try { go(S.tab, false); } finally { S.resizing = false; } }, 150);
+  });
 
   // ---------- load ----------
   Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))

@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-29",
- "generated": "2026-10-28T23:52:20+00:00",
+ "generated": "2026-10-29T06:12:34+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -2067,15 +2067,15 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.7,
-       "detail": "1 month +1.0% · 3 months +5.7% (rising prices push the score up)",
+       "score": 5.8,
+       "detail": "1 month +1.4% · 3 months +6.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 123 price moves in the last 6 months",
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
       },
@@ -2159,7 +2159,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 124
+    "obs180": 125
    },
    "h12": {
     "price": {
@@ -2168,15 +2168,15 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.7,
-       "detail": "1 month +1.0% · 3 months +5.7% (rising prices push the score up)",
+       "score": 5.8,
+       "detail": "1 month +1.4% · 3 months +6.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 123 price moves in the last 6 months",
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50
       },
@@ -2260,7 +2260,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 124
+    "obs180": 125
    },
    "trend": [
     [
@@ -2358,22 +2358,123 @@
    },
    "h3": {
     "price": {
-     "score": 3.7,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 3.9,
-       "detail": "1 month −4.6% · 3 months −3.7% (rising prices push the score up)",
+       "score": 4.1,
+       "detail": "1 month −3.9% · 3 months −3.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 123 price moves in the last 6 months",
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 4.5,
+       "detail": "US$1 = ₹95.22; rupee stronger by 0.8% in a month, stronger by 0.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0
+      }
+     ],
+     "change": 0.6
+    },
+    "supply": {
+     "score": 2.4,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 3.0,
+       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
+       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
+       "key": "concentration",
+       "weight": 40
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30
+      }
+     ],
+     "change": 0.0
+    },
+    "confidence": "Low",
+    "obs180": 125
+   },
+   "h12": {
+    "price": {
+     "score": 3.7,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 4.1,
+       "detail": "1 month −3.9% · 3 months −3.0% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 33
+      },
+      {
+       "label": "How much the price swings",
+       "score": 3.1,
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 50
       },
       {
        "label": "Rupee against the US$",
@@ -2424,107 +2525,6 @@
      "change": 0.5
     },
     "supply": {
-     "score": 2.4,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Dependence on one country",
-       "score": 3.0,
-       "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
-       "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
-       "key": "concentration",
-       "weight": 40
-      },
-      {
-       "label": "Supply news",
-       "score": 2.0,
-       "detail": "No supply disruptions reported in the last 90 days",
-       "items": [],
-       "key": "supply_news",
-       "weight": 30
-      },
-      {
-       "label": "Rule changes and deadlines ahead",
-       "score": 2.0,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "supply_dates",
-       "weight": 30
-      }
-     ],
-     "change": 0.0
-    },
-    "confidence": "Low",
-    "obs180": 124
-   },
-   "h12": {
-    "price": {
-     "score": 3.6,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Recent price trend",
-       "score": 3.9,
-       "detail": "1 month −4.6% · 3 months −3.7% (rising prices push the score up)",
-       "key": "momentum",
-       "weight": 33
-      },
-      {
-       "label": "How much the price swings",
-       "score": 3.1,
-       "detail": "About 22% a year, from 123 price moves in the last 6 months",
-       "key": "volatility",
-       "weight": 50
-      },
-      {
-       "label": "Rupee against the US$",
-       "score": 4.5,
-       "detail": "US$1 = ₹95.22; rupee stronger by 0.8% in a month, stronger by 0.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
-       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
-       "key": "rupee",
-       "weight": 17
-      },
-      {
-       "label": "What forecasters expect",
-       "score": null,
-       "detail": "No public forecasts tracked",
-       "key": "expectations",
-       "weight": 0
-      },
-      {
-       "label": "Room above the cost to make",
-       "score": null,
-       "detail": "Only modelled for cells",
-       "key": "floor",
-       "weight": 0
-      },
-      {
-       "label": "Lithium price risk passed through",
-       "score": null,
-       "detail": "Not linked to lithium",
-       "key": "upstream",
-       "weight": 0
-      },
-      {
-       "label": "Price news",
-       "score": null,
-       "detail": "No tagged price news in the last 60 days",
-       "items": [],
-       "key": "price_news",
-       "weight": 0
-      },
-      {
-       "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "price_dates",
-       "weight": 0
-      }
-     ],
-     "change": 0.4
-    },
-    "supply": {
      "score": 2.5,
      "level": "Low",
      "drivers": [
@@ -2556,7 +2556,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 124
+    "obs180": 125
    },
    "trend": [
     [
@@ -2631,7 +2631,7 @@
     ],
     [
      "2026-10-29",
-     3.7,
+     3.8,
      2.4
     ]
    ]
@@ -2673,7 +2673,7 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-10-27",
+   "to": "2026-10-28",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.1,
@@ -2704,7 +2704,7 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-10-27",
+   "to": "2026-10-28",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.2,

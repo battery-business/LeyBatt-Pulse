@@ -338,36 +338,6 @@
   function renderOverview() {
     renderChainHero();
     renderSince();
-    const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
-    const take = $('#takeaway');
-    if (L.lithium && L.cell314 && L.system) {
-      const mv = (r) => { const m = String(r.move || '').match(/([+−-]?)(\d+(?:\.\d+)?)%/); return m ? `${m[1] === '+' ? 'up' : 'down'} ${m[2]}%` : 'steady'; };
-      take.replaceChildren(document.createTextNode(`Lithium ${mv(L.lithium)} at `), el('b', null, L.lithium.price + '/t'), document.createTextNode(`, storage cells ${mv(L.cell314)} at `), el('b', null, L.cell314.price + '/kWh'), document.createTextNode(`, 4-hour systems ${mv(L.system)} at `), el('b', null, L.system.price + '/kWh'), document.createTextNode('.'));
-    }
-    const mon = d3.utcFormat('%b %Y');
-    const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
-    const sparks = {
-      evcell: [evs.map((r) => r.usd_kwh), evs[0] && mon(parse(evs[0].date))],
-      lithium: [fut.map((p) => p.v), fut[0] && mon(fut[0].d)],
-      cell314: [wk.map((w) => w.cell314), wk[0] && mon(parse(wk[0].date))],
-      system: [(D.systems || []).map((r) => +r.usd_kwh), (D.systems || [])[0] && (D.systems || [])[0].period],
-    };
-    const cards = $('#cards'); cards.replaceChildren();
-    (D.latest || []).forEach((r) => {
-      const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
-      const un = el('span', 'unit', `${r.unit} · ${r.asof}`);
-      const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
-      c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
-      const sp = el('div', 'sparkbox');
-      if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
-      else sp.appendChild(el('span', 'none', 'No price history yet'));
-      c.appendChild(sp);
-      c.appendChild(el('span', 'src', 'Source: ' + r.source));
-      c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
-      cards.appendChild(c);
-    });
-    renderSpot();
-    overviewMotion();
     // changes
     const w = weekly(); const ul = $('#changes'); ul.replaceChildren();
     if (w.length >= 2) {
@@ -387,8 +357,14 @@
         ul.appendChild(li);
       });
     }
-    // cell makers' margin, from the cost model at today's prices
-    const mb = $('#ov-margin');
+    // coming up: dates to watch and rule changes in one timeline
+    datesList($('#ov-coming'), comingUp(null, 6));
+    // latest news
+    const pv = $('#news-preview'); pv.replaceChildren();
+    sortedNews().slice(0, 6).forEach((n) => pv.appendChild(newsItem(n)));
+  }
+  // cell makers' margin, from the cost model at today's prices (shown on the Cells step)
+  function renderMargin(mb) {
     try {
       mb.replaceChildren();
       const base = calcBase(); const c = cellCost(base); const w = weekly(); const last = w[w.length - 1];
@@ -404,44 +380,44 @@
       stackBar(bar, [{ label: 'Cost to make', color: '--teal', v: c.total }, { label: 'Maker margin', color: '--green', v: Math.max(0, keep) }], Math.max(market, c.total));
       mb.appendChild(el('p', 'sub', keep > 0 ? `Makers would only be selling at cost if lithium carbonate rose to about ${fmtUsd0(Math.round(be / 100) * 100)}/t, ${((be / base.li - 1) * 100).toFixed(0)}% above today.` : 'At today\'s prices, cells sell below the modelled cost to make them.'));
     } catch (e) { console.error(e); fail(mb, 'Cost model unavailable'); }
-    // dates to watch
-    const dl = $('#ov-dates');
-    try {
-      dl.replaceChildren();
-      const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
-      const evs = (D.events || []).filter((e) => +parse(e.end || e.date) >= today || (e.precision === 'month' && +new Date(Date.UTC(parse(e.date).getUTCFullYear(), parse(e.date).getUTCMonth() + 1, 0)) >= today))
-        .sort((a, b) => d3.ascending(a.date, b.date)).slice(0, 5);
-      if (!evs.length) dl.appendChild(el('li', 'empty', 'No dated events coming up.'));
-      evs.forEach((e) => {
-        const d = parse(e.date), month = e.precision === 'month';
-        const days = Math.round((+d - today) / 864e5);
-        const when = e.end && days <= 0 ? 'On now' : month ? (days < 45 ? 'This month' : `In about ${Math.round(days / 30)} months`) : days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`;
-        const li = el('li');
-        const db = el('div', 'dbox'); db.append(el('b', null, month ? d3.utcFormat('%b')(d) : d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
-        const body = el('div', 'dbody'); const top = el('div', 'dmeta'); top.append(el('span', 'dwhen' + (days < 15 ? ' soon' : ''), when), el('span', 'dkind', e.kind));
-        body.append(top, el('div', 'dwhat', e.what)); const src = el('div', 'dsrc'); src.appendChild(link(e.source, e.url)); body.appendChild(src);
-        li.append(db, body); dl.appendChild(li);
+  }
+  // dates to watch + rule changes, optionally only those that concern one value-chain step
+  function comingUp(step, n) {
+    const today = istToday();
+    const evs = (D.events || []).filter((e) => +parse(e.end || e.date) >= today || (e.precision === 'month' && +new Date(Date.UTC(parse(e.date).getUTCFullYear(), parse(e.date).getUTCMonth() + 1, 0)) >= today)).map((e) => ({ ...e }));
+    const rules = [];
+    (D.regulations || []).filter((r) => +parse(r.date) >= today).forEach((r) => {
+      const words = String(r.short || r.title).toLowerCase().match(/[a-z]{5,}/g) || [];
+      const twin = evs.find((e) => e.date === r.date && !e.affects && words.some((w) => String(e.what || '').toLowerCase().includes(w)));
+      if (twin) twin.affects = r.affects; // same change already listed as a date: keep one entry
+      else rules.push({ date: r.date, what: r.short || r.title, kind: 'Rule change', source: r.source, url: r.url, affects: r.affects });
+    });
+    let all = [...evs, ...rules];
+    if (step) {
+      const C = CHAIN.find((c) => c.id === step) || {};
+      all = all.filter((x) => {
+        const risk = (x.risk || []).map((r) => r.m);
+        if ((C.risk || []).some((m) => risk.includes(m))) return true;
+        if ((C.kinds || []).includes(x.kind)) return true;
+        return C.words ? C.words.test((x.affects || []).join(' ')) : false;
       });
-    } catch (e) { console.error(e); fail(dl); }
-    renderLandedOverview();
-    renderOvRisk();
-    renderOvRules();
-    // news preview: at least 5 stories, then more until the right column is as tall as the left one (8 on phones)
-    const pv = $('#news-preview'); pv.replaceChildren();
-    const ns = sortedNews(); let shown = Math.min(5, ns.length);
-    ns.slice(0, shown).forEach((n) => pv.appendChild(newsItem(n)));
-    const fill = () => {
-      const g = $('#page-overview .grid2'); if (!g || S.tab !== 'overview') return;
-      const [L, R] = g.children; if (!L || !R) return;
-      if (Math.abs(L.offsetTop - R.offsetTop) > 4) { while (shown < Math.min(ns.length, 8)) pv.appendChild(newsItem(ns[shown++])); return; } // stacked on phones
-      while (shown < Math.min(ns.length, 24)) {
-        const li = newsItem(ns[shown]); pv.appendChild(li);
-        if (R.offsetHeight > L.offsetHeight) { li.remove(); break; }
-        shown++;
-      }
-    };
-    requestAnimationFrame(fill);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => requestAnimationFrame(fill));
+    }
+    return all.sort((a, b) => d3.ascending(a.date, b.date)).slice(0, n);
+  }
+  function datesList(dl, items) {
+    if (!dl) return; dl.replaceChildren();
+    const today = istToday();
+    if (!items.length) dl.appendChild(el('li', 'empty', 'Nothing dated coming up.'));
+    items.forEach((e) => {
+      const d = parse(e.date), month = e.precision === 'month';
+      const days = Math.round((+d - today) / 864e5);
+      const when = e.end && days <= 0 ? 'On now' : month ? (days < 45 ? 'This month' : `In about ${Math.round(days / 30)} months`) : days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`;
+      const li = el('li');
+      const db = el('div', 'dbox'); db.append(el('b', null, month ? d3.utcFormat('%b')(d) : d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
+      const body = el('div', 'dbody'); const top = el('div', 'dmeta'); top.append(el('span', 'dwhen' + (days < 15 ? ' soon' : ''), when), el('span', 'dkind', e.kind || ''));
+      body.append(top, el('div', 'dwhat', e.short && e.short.length > 30 ? e.what : e.what)); const src = el('div', 'dsrc'); if (e.url) src.appendChild(link(e.source, e.url)); body.appendChild(src);
+      li.append(db, body); dl.appendChild(li);
+    });
   }
   // overview: the three highest risk scores
   function renderOvRisk() {
@@ -1475,8 +1451,8 @@
     return { fob, freight, ins, av, bcd, sws, duty: bcd + sws, landed, igst, inr: landed * (fx || LAND.fx) };
   }
   const inr = (v) => '₹' + d3.format(',.0f')(v);
-  function renderLandedOverview() {
-    const box = $('#ov-landed'); if (!box) return;
+  function renderLandedOverview(box) {
+    if (!box) return;
     try {
       landInit(); box.replaceChildren();
       const t = el('table', 'rtable landed-mini');
@@ -1911,21 +1887,9 @@
     return lows.length ? { n: lows.length, q1: d3.quantile(lows, 0.25), med: d3.median(lows), q3: d3.quantile(lows, 0.75) } : null;
   }
   const stTenders = () => [...((D.indiastorage || {}).tenders || [])].sort((a, b) => d3.ascending(a.date, b.date));
-  function renderStorage() {
-    const X = D.indiastorage; const chart = $('#st-chart'); if (!chart) return;
-    if (!X) { fail(chart, 'India storage data not available'); return; }
-    try {
-      const tenders = stTenders(); const r2 = stRecent(tenders, 2), r4 = stRecent(tenders, 4);
-      const lead = $('#st-lead'); lead.replaceChildren();
-      const rng = (r) => `₹${r.q1.toFixed(2)}–${r.q3.toFixed(2)} lakh`;
-      if (r2) lead.append(document.createTextNode('In the last 12 months, most 2-hour storage tenders were won at '), el('b', null, rng(r2)));
-      if (r4) lead.append(document.createTextNode(' and 4-hour at '), el('b', null, rng(r4)));
-      lead.append(document.createTextNode(' per MW per month.'));
-      const seg = $('#st-hours'); seg.replaceChildren();
-      [[0, 'All'], [2, '2-hour'], [4, '4-hour']].forEach(([h, t]) => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('aria-pressed', String(ST.hours === h)); b.addEventListener('click', () => { ST.hours = h; renderStorage(); }); seg.appendChild(b); });
-      const shown = tenders.filter((t) => !ST.hours || t.hours === ST.hours);
+  function tenderChart(chart, shown) {
       const HC = { 2: css('--blue'), 4: css('--orange') };
-      chart.replaceChildren();
+      chart.replaceChildren(); if (!shown.length) return;
       const W = chart.clientWidth || 700, H = 300, mg = { t: 18, r: 16, b: 30, l: 44 };
       const svg = d3.select(chart).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
       const dates = shown.map((t) => parse(t.date));
@@ -1943,6 +1907,22 @@
         })).on('pointerleave', hideTip);
       });
       svg.append('text').attr('x', mg.l).attr('y', 11).attr('font-size', 11.5).attr('fill', css('--muted')).text('₹ lakh per MW per month (lowest winning bid)');
+  }
+  function renderStorage() {
+    const X = D.indiastorage; const chart = $('#st-chart'); if (!chart) return;
+    if (!X) { fail(chart, 'India storage data not available'); return; }
+    try {
+      const tenders = stTenders(); const r2 = stRecent(tenders, 2), r4 = stRecent(tenders, 4);
+      const lead = $('#st-lead'); lead.replaceChildren();
+      const rng = (r) => `₹${r.q1.toFixed(2)}–${r.q3.toFixed(2)} lakh`;
+      if (r2) lead.append(document.createTextNode('In the last 12 months, most 2-hour storage tenders were won at '), el('b', null, rng(r2)));
+      if (r4) lead.append(document.createTextNode(' and 4-hour at '), el('b', null, rng(r4)));
+      lead.append(document.createTextNode(' per MW per month.'));
+      const seg = $('#st-hours'); seg.replaceChildren();
+      [[0, 'All'], [2, '2-hour'], [4, '4-hour']].forEach(([h, t]) => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('aria-pressed', String(ST.hours === h)); b.addEventListener('click', () => { ST.hours = h; renderStorage(); }); seg.appendChild(b); });
+      const shown = tenders.filter((t) => !ST.hours || t.hours === ST.hours);
+      const HC = { 2: css('--blue'), 4: css('--orange') };
+      tenderChart(chart, shown);
       const lg = $('#st-legend'); lg.replaceChildren();
       [[css('--blue'), '2-hour'], [css('--orange'), '4-hour']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = c; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
       const tb = $('#st-table'); tb.replaceChildren();
@@ -1978,15 +1958,15 @@
     grid: 'M12 2.5 8 21.5M12 2.5l4 19M9.2 8h5.6M8.4 13h7.2M3 21.5h18M5 8h14',
   };
   const CHAIN = [
-    { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--l1', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'],
+    { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--l1', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'], words: /lithium|copper|alumin/i, chart: 'lithium',
       say: 'Where the chain starts: lithium ore and salts, plus the copper and aluminium inside every cell.' },
-    { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--l2', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'],
+    { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--l2', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'], words: /graphite|cathode|anode/i,
       say: 'Lithium becomes LFP cathode; graphite becomes the anode; electrolyte, separator and foils complete the cell.' },
-    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--l3', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'],
+    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--l3', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'], words: /cell/i, chart: 'cells',
       say: 'Storage and EV cells: what they sell for and what the makers are doing.' },
-    { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--l4', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [],
+    { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--l4', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [], words: /BESS|pack/i, chart: 'systems',
       say: 'Cells built into battery packs and containerised storage systems.' },
-    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--l5', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [],
+    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--l5', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [], kinds: ['India tender'], words: /^EV$|\bEV\b(?! (cells|packs))/, chart: 'tenders',
       say: 'Who is buying: Indian storage tenders and the EV market.' },
   ];
   const svgIcon = (k, size = 28) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('width', size); s.setAttribute('height', size); s.setAttribute('aria-hidden', 'true'); const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', ICON[k]); p.setAttribute('fill', 'none'); p.setAttribute('stroke', 'currentColor'); p.setAttribute('stroke-width', '1.6'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); s.appendChild(p); return s; };
@@ -2048,8 +2028,17 @@
     hero.append(orb, ht);
     if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); hero.appendChild(kv); }
     box.appendChild(hero);
-    // prices
     const section = (t, sub) => { const s = el('section', 'chp-sec'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
+    if (c.chart) {
+      const s = section(c.chart === 'tenders' ? 'India storage tenders over time' : 'Price history', c.chart === 'tenders' ? 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.' : 'Hover the chart for each reading and its source.');
+      const cb = el('div', 'chart'); s.appendChild(cb);
+      const pts = (rows, key) => rows.map((r) => ({ d: parse(r.date), v: +r[key], source: r.source || 'InfoLink' })).filter((p) => p.v > 0);
+      if (c.chart === 'lithium') timeChart(cb, [{ name: 'Futures', color: css('--l1'), points: futPts() }, { name: 'Spot', color: css('--l4'), points: spotPts() }], { fmt: fmtUsd0 });
+      else if (c.chart === 'cells') timeChart(cb, [{ name: '314 Ah storage', color: css('--l2'), points: pts(weekly(), 'cell314') }, { name: 'EV cell', color: css('--l5'), points: pts((D.evcells || {}).series || [], 'usd_kwh') }], { fmt: fmtUsd1 });
+      else if (c.chart === 'systems') timeChart(cb, [{ name: '2-hour AC', color: css('--l1'), points: pts(weekly(), 'ac_2h') }, { name: '4-hour AC', color: css('--l3'), points: pts(weekly(), 'ac_4h') }, { name: '2-hour DC block', color: css('--l5'), points: pts(weekly(), 'dc_2h') }], { fmt: fmtUsd1 });
+      else if (c.chart === 'tenders') { tenderChart(cb, stTenders()); const lg = el('div', 'tlegend'); [['--blue', '2-hour'], ['--orange', '4-hour']].forEach(([cc, t]) => { const x = el('span'); const i2 = el('i', 'dt'); i2.style.background = css(cc); x.append(i2, document.createTextNode(t)); lg.appendChild(x); }); s.appendChild(lg); }
+    }
+    // prices
     const steps = allPrices();
     const rows = c.flow.flatMap((f) => (steps[f] || {}).rows || []);
     if (rows.length) {
@@ -2066,6 +2055,8 @@
       });
       s.appendChild(g);
     }
+    if (c.id === 'cells') { const s = section('How much cell makers keep', 'Cost to make a 314 Ah cell from today\'s material prices, against its market price.'); const mb = el('div'); s.appendChild(mb); renderMargin(mb); const lk = el('button', 'btn link', 'Cost calculator →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s.appendChild(lk); }
+    if (c.id === 'systems') { const s = section('Landed in India', 'China price plus freight, insurance and Indian duty, at today\'s rupee rate.'); const lb = el('div'); s.appendChild(lb); renderLandedOverview(lb); const lk = el('button', 'btn link', 'Change the assumptions →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s.appendChild(lk); }
     if (c.id === 'enduse') {
       const s = section('India storage tenders', 'What state utilities pay the project owner each month for every MW of storage, for 12–15 years. Lowest winning bid of the latest tenders.');
       const g = el('div', 'chp-prices');
@@ -2092,6 +2083,9 @@
       });
       s.appendChild(g);
     }
+    // dates and rule changes for this step
+    const cu = comingUp(c.id, 5);
+    if (cu.length) { const s = section('Coming up', 'Dates and rule changes that concern this step.'); const ul = el('ul', 'dates'); s.appendChild(ul); datesList(ul, cu); }
     // news
     const ns = sortedNews().filter((n) => c.cats.includes(n.category)).slice(0, 6);
     if (ns.length) {
@@ -2116,7 +2110,7 @@
     if (tab === 'chain' && sub) S.chain = sub;
     S.tab = tab; hideTip();
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });
-    $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (tab === 'chain' || tab === 'storage' ? 'overview' : tab))));
+    $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (tab === 'chain' || tab === 'storage' || tab === 'materials' ? 'overview' : tab))));
     $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
     if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }

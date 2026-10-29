@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610290921">
+<link rel="stylesheet" href="assets/style.css?v=202610291044">
 </head>
 <body>
 <header class="top">
@@ -19,8 +19,7 @@
         <span class="names"><h1 class="wordmark"><span class="wm-a">LeyBatt</span><span class="wm-b">Pulse</span></h1></span>
       </a>
       <nav class="tabs" id="tabs" aria-label="Sections">
-        <button type="button" data-tab="overview" class="tab">Overview</button>
-        <button type="button" data-tab="materials" class="tab">Prices</button>
+        <button type="button" data-tab="overview" class="tab">Value chain</button>
         <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
         <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
         <button type="button" data-tab="calculator" class="tab">Calculator</button>
@@ -41,44 +40,20 @@
     <section class="chain-hero" id="chain-hero" aria-label="The battery value chain"></section>
     <section class="today-band" id="today-band" aria-label="Today in three numbers"></section>
     <div class="sincebar" id="since" hidden></div>
-    <div class="hero hero-row"><p class="take" id="takeaway">Loading latest prices…</p><button class="btn brief-btn" type="button" data-goto="brief">This week's brief →</button></div>
-    <div class="cards" id="cards"></div>
-    <div class="spot" id="spot" role="region" aria-label="Alert spotlight" hidden></div>
-    <div class="grid2">
-      <div class="stack">
+    <div class="ov-grid">
       <div class="panel">
-        <div class="panel-head"><h2>What changed in the latest week</h2></div>
+        <div class="panel-head"><h2>What moved this week</h2><button class="btn link" type="button" data-goto="brief">This week's brief →</button></div>
         <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
         <ul class="changes" id="changes"></ul>
       </div>
-      <div class="panel" style="--sec:var(--teal)">
-        <div class="panel-head"><h2>How much cell makers keep</h2><button class="btn link" type="button" data-goto="calculator">Cost calculator →</button></div>
-        <div id="ov-margin"></div>
-      </div>
-      <div class="panel" style="--sec:var(--orange)">
-        <div class="panel-head"><h2>Landed in India</h2><button class="btn link" type="button" data-goto="calculator">Change assumptions →</button></div>
-        <div id="ov-landed"></div>
-      </div>
-      <div class="panel" style="--sec:var(--rose)">
-        <div class="panel-head"><h2>Dates to watch</h2></div>
-        <ul class="dates" id="ov-dates"></ul>
-      </div>
-      </div>
-      <div class="stack" id="ov-right">
       <div class="panel">
-        <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
-        <ul class="newslist compact" id="news-preview"></ul>
+        <div class="panel-head"><h2>Coming up</h2><button class="btn link" type="button" data-goto="rules">Regulations →</button></div>
+        <ul class="dates" id="ov-coming"></ul>
       </div>
-      <div class="panel" style="--sec:var(--bad)">
-        <div class="panel-head"><h2>Risk watch</h2><button class="btn link" type="button" data-goto="risk">Risk navigator →</button></div>
-        <p class="sub">The three highest risk scores for the next 3 months (0–10, higher is riskier for a buyer).</p>
-        <ul class="rwatch" id="ov-risk"></ul>
-      </div>
-      <div class="panel" style="--sec:var(--plum)">
-        <div class="panel-head"><h2>Rules coming up</h2><button class="btn link" type="button" data-goto="rules">Regulations →</button></div>
-        <ul class="rules-next ov-rules" id="ov-rules"></ul>
-      </div>
-      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Latest news</h2><button class="btn link" type="button" data-goto="news">All news →</button></div>
+      <ul class="newslist ov-news" id="news-preview"></ul>
     </div>
   </section>
 
@@ -465,6 +440,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610290921"></script>
+<script src="assets/app.js?v=202610291044"></script>
 </body>
 </html>

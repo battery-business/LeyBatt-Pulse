@@ -7,6 +7,13 @@
   "url": "https://tradingeconomics.com/commodity/aluminum"
  },
  {
+  "m": "aluminium",
+  "date": "2026-10-29",
+  "v": 3070.0,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/aluminum"
+ },
+ {
   "m": "cathode",
   "date": "2026-10-16",
   "v": 6650,
@@ -49,6 +56,13 @@
   "url": "https://tradingeconomics.com/commodity/copper"
  },
  {
+  "m": "copper",
+  "date": "2026-10-29",
+  "v": 14510.0,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/copper"
+ },
+ {
   "m": "graphite",
   "date": "2026-02-01",
   "v": 3710.0,
@@ -75,5 +89,12 @@
   "v": 13930.0,
   "source": "SMM (GFEX close)",
   "url": "https://news.metal.com/newscontent/104183966-smm-lithium-carbonate-daily-review-on-october-28-spot-lithium-carbonate-prices-rose-by-700-yuanmt-while-futures-retreated-after-a-rapid-rise-falling-on-increased-volume-and-open-interest"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-10-29",
+  "v": 13190.0,
+  "source": "SMM (GFEX close)",
+  "url": "https://news.metal.com/newscontent/104186365-smm-analysis-lithium-carbonate-prices-fell-sharply-this-week-with-the-pace-of-inventory-destocking-slowing"
  }
 ]

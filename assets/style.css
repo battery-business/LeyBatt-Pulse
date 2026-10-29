@@ -555,6 +555,51 @@ td.num.muted { color: var(--muted); }
 .balert { margin-left: 8px; font-size: 11px; font-weight: 800; color: var(--ink); background: var(--volt); border-radius: 999px; padding: 0 7px; }
 .bsrc { font-size: 12px; } .bsrc a { color: var(--muted); }
 .brief-foot { border-top: 1px solid var(--line); padding-top: 8px; }
+/* ---------- making cells: China vs India ---------- */
+.csubnav { margin-bottom: 16px; }
+.kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 12px 0 6px; }
+@media (max-width: 900px) { .kpis.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 340px) { .kpis.four { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .kpis.four .kpi .v { font-size: 20px; } }
+.kpis.four .kpi .v { font-size: 24px; }
+.mk-types { margin-top: 10px; }
+#mk-chart { margin-top: 6px; }
+#mk-legend { margin: 4px 0 10px; }
+.gaprow { display: grid; grid-template-columns: minmax(8rem, 1.3fr) 2fr 4.2rem; gap: 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.gaprow .gl { color: var(--fg); }
+.gtrack { position: relative; height: 12px; background: linear-gradient(90deg, transparent calc(50% - 1px), var(--axis) calc(50% - 1px), var(--axis) 50%, transparent 50%); }
+.gbar { position: absolute; left: 50%; top: 0; height: 100%; border-radius: 0 4px 4px 0; }
+.gbar.neg { left: auto; right: 50%; border-radius: 4px 0 0 4px; }
+.gaprow .gv { text-align: right; font-variant-numeric: tabular-nums; }
+.gv.is-up { color: var(--bad); } .gv.is-down { color: var(--ok); }
+.mk-table td { vertical-align: top; }
+.mk-table .num-in { width: 6.5rem; }
+.mk-table td b { display: block; }
+.mk-table .role, .st-epc .role { display: block; font-size: 11.5px; color: var(--muted); }
+.mk-note { font-size: 12px; color: var(--muted); line-height: 1.45; max-width: 34rem; }
+.mk-note div + div { margin-top: 4px; }
+.mk-table .atag { display: inline-block; margin-top: 3px; }
+@media (max-width: 700px) {
+  .mk-table thead { display: none; }
+  .mk-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .mk-table td { border: 0; padding: 0; }
+  .mk-table td:first-child, .mk-table td.mk-note { grid-column: 1 / -1; }
+  .mk-table td:nth-child(2)::before { content: "China"; display: block; font-size: 11px; color: var(--muted); }
+  .mk-table td:nth-child(3)::before { content: "India"; display: block; font-size: 11px; color: var(--muted); }
+}
+/* ---------- India storage ---------- */
+#st-chart { margin-top: 8px; }
+.st-pt { cursor: pointer; }
+.st-pt:hover circle { stroke-width: 3; }
+#st-legend { margin-top: 4px; }
+.st-table td, .st-epc td { font-size: 12.5px; }
+.st-inr { margin: 0 0 10px; }
+.be-out { margin: 12px 0; }
+.be-out .kpis { margin-bottom: 8px; }
+.be-in { margin-top: 6px; }
+#be-hours { margin-top: 6px; align-self: flex-start; width: max-content; }
+.st-site-note, .pli-note { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
 /* ---------- alive: clocks, pulse line, new since last visit, spotlight, motion ---------- */
 .count.is-new { background: var(--volt); color: var(--ink); }
 .newtag { display: inline-block; font-family: var(--sans); font-size: 10.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--ink); background: var(--volt); border-radius: 4px; padding: 0 5px; line-height: 1.6; vertical-align: 1px; }

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610290448">
+<link rel="stylesheet" href="assets/style.css?v=202610290611">
 </head>
 <body>
 <header class="top">
@@ -29,6 +29,7 @@
       <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
       <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
       <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
+      <button type="button" data-tab="storage" class="tab">India storage</button>
       <button type="button" data-tab="risk" class="tab">Risk navigator</button>
     </nav>
   </div>
@@ -329,6 +330,11 @@
 
   <!-- CALCULATOR -->
   <section class="page" id="page-calculator" data-page="calculator" hidden>
+    <div class="subnav csubnav" role="tablist" aria-label="Cost calculator sections">
+      <button type="button" role="tab" data-csub="china"><span class="dot" style="--dc:var(--blue)"></span>China cell and storage system</button>
+      <button type="button" role="tab" data-csub="make"><span class="dot" style="--dc:var(--teal)"></span>Making cells: China vs India</button>
+    </div>
+    <div class="csubpage" data-csub="china">
     <div class="panel calc-head">
       <div class="panel-head">
         <h2>Battery cost calculator</h2>
@@ -422,6 +428,73 @@
       <div id="landed-bars"></div>
       <div class="landed-notes" id="landed-notes"></div>
     </div>
+    </div>
+
+    <!-- MAKING CELLS: CHINA VS INDIA -->
+    <div class="csubpage" data-csub="make" hidden style="--sec:var(--teal)">
+      <div class="panel">
+        <div class="panel-head"><h2>What it costs to make a cell in China and in India</h2></div>
+        <p class="sub">Cost to make one kWh of cells, built up from materials at today's prices plus the cost of running the factory in each country. Public data and stated assumptions, not quotes. Change any number below.</p>
+        <div class="chips mk-types" id="mk-types"></div>
+        <div class="kpis four" id="mk-kpis"></div>
+        <div class="chart" id="mk-chart"></div>
+        <div class="tlegend" id="mk-legend"></div>
+        <p class="insight" id="mk-insight"></p>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-head"><h2>Where India's extra cost comes from</h2></div>
+          <p class="sub">India minus China, per kWh of cells.</p>
+          <div id="mk-gap"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>PLI incentive</h2></div>
+          <div id="mk-pli"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Assumptions</h2><button class="btn ghost small" type="button" id="mk-reset">Back to defaults</button></div>
+        <div class="table-wrap"><table class="rtable mk-table" id="mk-table"></table></div>
+        <div class="landed-notes" id="mk-notes"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDIA STORAGE -->
+  <section class="page" id="page-storage" data-page="storage" hidden>
+    <div class="panel" style="--sec:var(--indigo)">
+      <div class="panel-head"><h2>India storage tenders: winning tariffs</h2>
+        <div class="controls"><div class="seg" id="st-hours" role="group" aria-label="Storage duration"></div><button class="btn ghost small" type="button" data-csv="indiatenders">Download CSV</button></div>
+      </div>
+      <p class="sub">Standalone battery storage tenders, ₹ lakh per MW per month. Each mark is one tender: the dot is the lowest winning tariff, the line runs to the highest. Bigger dots are bigger tenders; hollow dots had no viability gap funding mentioned. Dashed lines are the break-even tariffs from the calculator below. Click a dot to open its source.</p>
+      <div class="chart" id="st-chart"></div>
+      <div class="tlegend" id="st-legend"></div>
+      <details class="astable">
+        <summary>Show as a table</summary>
+        <div class="table-wrap"><table class="rtable st-table" id="st-table"></table></div>
+      </details>
+    </div>
+    <div class="grid2">
+      <div class="panel" style="--sec:var(--orange)">
+        <div class="panel-head"><h2>What a storage project costs in India</h2></div>
+        <p class="sub">A China AC storage system at this week's price, shipped and cleared in India, plus Indian site and contractor costs. US$ per kWh of storage.</p>
+        <div id="st-cost"></div>
+        <h3 class="grp">Turnkey EPC orders in India, for comparison</h3>
+        <div class="table-wrap"><table class="rtable st-epc" id="st-epc"></table></div>
+      </div>
+      <div class="panel" style="--sec:var(--green)">
+        <div class="panel-head"><h2>Break-even tariff</h2></div>
+        <p class="sub">The monthly tariff per MW a project needs to repay its investment with interest and cover running costs over the contract.</p>
+        <div class="seg" id="be-hours" role="group" aria-label="Duration for the break-even calculator"></div>
+        <div class="be-out" id="be-out"></div>
+        <div class="landed-in be-in" id="be-in"></div>
+        <div class="landed-notes" id="be-notes"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Market notes</h2></div>
+      <ul class="method" id="st-notes"></ul>
+    </div>
   </section>
 
   <footer class="foot">
@@ -433,6 +506,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610290448"></script>
+<script src="assets/app.js?v=202610290611"></script>
 </body>
 </html>

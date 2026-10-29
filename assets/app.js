@@ -354,7 +354,7 @@
     const cards = $('#cards'); cards.replaceChildren();
     (D.latest || []).forEach((r) => {
       const c = el('button', 'card layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
-      const un = el('span', 'unit', `${r.unit} · ${r.asof} `); const ab = ageBadge(r.asof, CADENCE_ID[r.id]); if (ab) un.appendChild(ab);
+      const un = el('span', 'unit', `${r.unit} · ${r.asof}`);
       const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
       const sp = el('div', 'sparkbox');
@@ -702,21 +702,9 @@
     else return 999;
     return Math.round((ref - d) / 864e5);
   }
-  // freshness: how old a price is, judged against how often that source normally publishes
+  // how often each source normally publishes (kept for the CSV and price map)
   const CADENCE_ID = { lithium: 'daily', cathode: 'weekly', cell314: 'weekly', cell587: 'irregular', evcell: 'weekly', pack: 'annual', system: 'monthly' };
   const CADENCE_RAW = { 'Lithium hydroxide': 'daily', Copper: 'daily', Aluminium: 'daily', 'Copper foil': 'irregular', 'Aluminium foil': 'irregular' };
-  const CAD_LIM = { daily: [7, 21], weekly: [14, 60], monthly: [45, 100], annual: [400, 800], irregular: [60, 180] };
-  function ageBadge(asof, cadence) {
-    const ist = new Date(Date.now() + 5.5 * 36e5); const today = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
-    const lag = D.meta ? Math.max(0, Math.round((today - +parse(D.meta.updated)) / 864e5)) : 0;
-    const a = ageDays(asof); if (a >= 999) return null;
-    const days = a + lag; const [w, r] = CAD_LIM[cadence] || CAD_LIM.weekly;
-    const lvl = days > r ? 'bad' : days > w ? 'warn' : 'ok';
-    const txt = days <= 0 ? 'today' : days === 1 ? '1 day old' : days < 60 ? `${days} days old` : `${Math.round(days / 30.4)} months old`;
-    const b = el('span', 'age age-' + lvl, txt);
-    b.title = lvl === 'ok' ? 'Up to date for this source' : lvl === 'warn' ? 'Older than this source usually is; check for a newer figure' : 'Stale: the latest public figure is old';
-    return b;
-  }
 
   function allPrices() {
     const latest = Object.fromEntries((D.latest || []).map((r) => [r.id, r]));
@@ -741,8 +729,8 @@
       st.rows.forEach((r) => {
         const c = el('div', 'pcard');
         const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
-        const meta = el('div', 'pm'); const ab = ageBadge(r.asof, r.cad || CADENCE_RAW[r.name] || 'weekly');
-        meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url)); if (ab) meta.appendChild(ab);
+        const meta = el('div', 'pm');
+        meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url));
         c.append(el('div', 'pn', r.name), el('div', 'pd', r.desc || ''), pr);
         if (r.move) c.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
         c.appendChild(meta);
@@ -758,7 +746,7 @@
       tr.insertCell().textContent = st.step;
       const it = tr.insertCell(); it.appendChild(el('span', 'item', r.name)); if (r.desc) it.appendChild(el('span', 'role', r.desc));
       const p = tr.insertCell(); p.className = 'num r'; p.textContent = r.price + (UNIT_SHORT[r.unit] || '');
-      const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof + ' '; const ab = ageBadge(r.asof, r.cad || CADENCE_RAW[r.name] || 'weekly'); if (ab) a.appendChild(ab);
+      const a = tr.insertCell(); a.className = 'nowrap'; a.textContent = r.asof;
       tr.insertCell().appendChild(el('span', 'chip' + dirClass(r.direction), r.move || ''));
       const sc = tr.insertCell(); sc.appendChild(link(r.source, r.url)); if (r.source2) { sc.appendChild(document.createTextNode(' · ')); sc.appendChild(link(r.source2, r.url2)); }
     }));

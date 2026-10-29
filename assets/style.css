@@ -883,3 +883,27 @@ main { padding-top: 0; gap: 24px; }
 .chp-pn button { border: 0; border-radius: 20px; }
 .chp-pn b { color: var(--accent); }
 .ch-switch { margin-top: 22px; }
+
+/* fit the hero and the five steps on one laptop screen (header + strip ≈ 96px) */
+.chain-hero { --orb: clamp(68px, 13vh, 112px); padding: clamp(20px, 4.5vh, 64px) max(20px, 5vw) clamp(20px, 4vh, 52px); min-height: calc(100vh - 96px); display: flex; flex-direction: column; justify-content: center; }
+.ch-head { margin-bottom: clamp(18px, 4.5vh, 56px); }
+.ch-eyebrow { font-size: clamp(14px, 2vh, 17px); margin-bottom: clamp(4px, 1vh, 12px); }
+.ch-title { font-size: clamp(34px, min(5.6vw, 8.4vh), 76px); }
+.ch-br { display: none; }
+.ch-sub { margin-top: clamp(8px, 1.8vh, 18px); font-size: clamp(15px, 2.2vh, 20px); }
+.ch-orb { width: var(--orb); height: var(--orb); }
+.ch-orb svg { width: calc(var(--orb) * .32); height: calc(var(--orb) * .32); }
+.ch-row::before { top: calc(var(--orb) / 2 + 6px); }
+.ch-node { gap: clamp(6px, 1.4vh, 14px); }
+.ch-txt { gap: 0; }
+.ch-name { font-size: clamp(16px, 2.4vh, 20px); }
+.ch-key b { font-size: clamp(20px, 3.4vh, 28px); }
+.ch-move { font-size: 13px; }
+.ch-more { margin-top: clamp(2px, .8vh, 6px); font-size: 14px; }
+@media (max-width: 860px) {
+  .chain-hero { min-height: 0; }
+  .ch-br { display: inline; }
+  .ch-title { font-size: clamp(34px, 9vw, 52px); }
+  .ch-orb { width: 64px; height: 64px; }
+  .ch-orb svg { width: 26px; height: 26px; }
+}

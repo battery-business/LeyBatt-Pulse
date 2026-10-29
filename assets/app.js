@@ -2001,7 +2001,7 @@
   function renderChainHero() {
     const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
     const head = el('div', 'ch-head');
-    const t1 = el('h2', 'ch-title'); t1.append(document.createTextNode('From the mine'), el('br'), document.createTextNode('to the grid.'));
+    const t1 = el('h2', 'ch-title'); t1.append(document.createTextNode('From the mine '), el('br', 'ch-br'), document.createTextNode('to the grid.'));
     head.append(el('p', 'ch-eyebrow', 'The battery value chain'), t1, el('p', 'ch-sub', 'Prices, news and risks for every step of the LFP battery chain. Updated every morning.'));
     box.appendChild(head);
     const row = el('ol', 'ch-row');

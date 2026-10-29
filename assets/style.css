@@ -907,3 +907,16 @@ main { padding-top: 0; gap: 24px; }
   .ch-orb { width: 64px; height: 64px; }
   .ch-orb svg { width: 26px; height: 26px; }
 }
+/* stretch: less empty space, wider row, bigger steps */
+.chain-hero { min-height: 0; --orb: clamp(80px, 15vh, 132px); padding: clamp(18px, 3.5vh, 44px) max(20px, 3vw) clamp(18px, 3.5vh, 40px); }
+.ch-head { max-width: none; margin-bottom: clamp(16px, 3.5vh, 40px); }
+.ch-title { font-size: clamp(38px, min(6.4vw, 9.5vh), 92px); }
+.ch-row { max-width: 1480px; gap: 0; }
+.ch-row::before { left: 9%; right: 9%; }
+.ch-name { font-size: clamp(17px, 2.8vh, 23px); }
+.ch-key b { font-size: clamp(22px, 4vh, 34px); }
+.ch-move { font-size: clamp(13px, 1.9vh, 15px); }
+.ch-more { font-size: clamp(14px, 1.9vh, 16px); }
+.today-band { padding-top: clamp(28px, 5vh, 64px); }
+@media (max-width: 860px) { .chain-hero { padding-top: 32px; } }
+.ch-row { width: 100%; }

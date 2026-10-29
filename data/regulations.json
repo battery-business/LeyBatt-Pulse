@@ -5,11 +5,11 @@
   "short": "ACC PLI round 3 (10 GWh, grid storage)",
   "region": "India",
   "area": "Incentives",
-  "status": "Bids under evaluation",
-  "date": "2026-10-14",
-  "date_label": "Bids closed 13 Oct 2026; technical bids opened 14 Oct (dates in the July RFP)",
+  "status": "Starts later",
+  "date": "2026-11-10",
+  "date_label": "Bids due 10 Nov 2026 (extended from 13 Oct)",
   "what": "India's ₹18,100-crore programme (approved May 2021) supports 50 GWh of domestic cell making; 40 GWh was awarded in earlier rounds. Round 3 offers 10 GWh for grid-scale storage: each bidder commits 1–4 GWh within five years, with at least 25% domestic value addition in two years and 40% in five.",
-  "impact": "The first Indian-made storage cells from this round would arrive years from now; until then storage cells stay imported. Under the earlier rounds only Ola runs cell capacity (2.5 of its 20 GWh) and no incentive has been paid yet. Check MHI for addenda that may change the dates.",
+  "impact": "The first Indian-made storage cells from this round would arrive years from now; until then storage cells stay imported. Under the earlier rounds only Ola runs cell capacity (2.5 of its 20 GWh) and no incentive has been paid yet. ESS News reports the bid deadline moved to 10 Nov; check MHI for further addenda.",
   "effects": [
    "Supply easier (long term)"
   ],
@@ -18,9 +18,10 @@
   ],
   "source": "ESS News, 17 Jul 2026",
   "url": "https://www.ess-news.com/2026/07/17/india-launches-tender-for-10-gwh-battery-cell-manufacturing-capacity-for-grid-storage/",
-  "source2": "Business Today, 22 Oct 2026",
-  "url2": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
-  "checked": "2026-10-28"
+  "source2": "ESS News (InfoLink), 23 Oct 2026",
+  "url2": "https://www.ess-news.com/2026/10/23/where-are-the-batteries-localization-concerns-amid-indias-energy-storage-boom/",
+  "checked": "2026-10-30",
+  "changed": "2026-10-30"
  },
  {
   "id": "in-materials-pli",

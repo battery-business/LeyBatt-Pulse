@@ -334,5 +334,21 @@
   "source": "InfoLink weekly",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
   "note": "InfoLink weekly average, down 4.9% in a week"
+ },
+ {
+  "date": "2026-10-29",
+  "series": "Futures",
+  "usd_t": 13190,
+  "source": "SMM weekly analysis (GFEX close)",
+  "url": "https://news.metal.com/newscontent/104186365-smm-analysis-lithium-carbonate-prices-fell-sharply-this-week-with-the-pace-of-inventory-destocking-slowing",
+  "note": "Most-traded contract closed down 8.4% on the day and 6.2% on the week"
+ },
+ {
+  "date": "2026-10-29",
+  "series": "Spot",
+  "usd_t": 14340,
+  "source": "SMM weekly analysis",
+  "url": "https://news.metal.com/newscontent/104186365-smm-analysis-lithium-carbonate-prices-fell-sharply-this-week-with-the-pace-of-inventory-destocking-slowing",
+  "note": "China battery-grade spot average, down 3.9% on the day after peaking on 28 Oct; down 0.9% on the week"
  }
 ]

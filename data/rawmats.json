@@ -41,41 +41,41 @@
  {
   "material": "LFP electrolyte",
   "role": "Electrolyte for LFP cells",
-  "price": "$4,910",
-  "asof": "19–22 Oct",
-  "move": "Stable this week",
-  "direction": "flat",
+  "price": "$4,870",
+  "asof": "26–29 Oct",
+  "move": "Down this week",
+  "direction": "down",
   "source": "SMM weekly review",
-  "url": "https://news.metal.com/newscontent/104173695-electrolyte-prices-remained-stable-this-week-20261019-1022-smm-lithium-battery-electrolyte-market-weekly-review",
+  "url": "https://news.metal.com/newscontent/104186319-electrolyte-prices-declined-this-week-oct-26-29-2026-smm-lithium-battery-electrolyte-market-weekly-review",
   "stage": "Other cell materials",
   "unit": "per tonne",
-  "usd": 4910.0
+  "usd": 4870.0
  },
  {
   "material": "Copper",
   "role": "Anode foil, busbars",
-  "price": "$14,200",
-  "asof": "23 Oct",
-  "move": "+1.2% on the day",
-  "direction": "up",
+  "price": "$14,510",
+  "asof": "29 Oct",
+  "move": "−1.0% on the day",
+  "direction": "down",
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/copper",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 14200.0
+  "usd": 14510.0
  },
  {
   "material": "Aluminium",
   "role": "Cathode foil, cell cans",
-  "price": "$3,009",
-  "asof": "22 Oct",
-  "move": "−1.0% on the day",
+  "price": "$3,070",
+  "asof": "29 Oct",
+  "move": "−0.3% on the day",
   "direction": "down",
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/aluminum",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 3009.0
+  "usd": 3070.0
  },
  {
   "material": "Graphite anode",

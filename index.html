@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610290847">
+<link rel="stylesheet" href="assets/style.css?v=202610290902">
 </head>
 <body>
 <header class="top">
@@ -16,21 +16,21 @@
     <div class="wrap top-row">
       <a class="brand" href="#overview" aria-label="LeyBatt Pulse, back to overview">
         <img class="logo" src="assets/logo.png" width="58" height="58" alt="">
-        <span class="names"><h1 class="wordmark"><span class="wm-a">LeyBatt</span><span class="wm-b">Pulse</span></h1><span class="tagline">Battery market intelligence</span></span>
+        <span class="names"><h1 class="wordmark"><span class="wm-a">LeyBatt</span><span class="wm-b">Pulse</span></h1></span>
       </a>
+      <nav class="tabs" id="tabs" aria-label="Sections">
+        <button type="button" data-tab="overview" class="tab">Overview</button>
+        <button type="button" data-tab="materials" class="tab">Prices</button>
+        <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
+        <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
+        <button type="button" data-tab="calculator" class="tab">Calculator</button>
+        <button type="button" data-tab="risk" class="tab">Risk</button>
+      </nav>
       <div class="top-actions">
-                <span class="updated" id="updated"></span>
+        <span class="updated" id="updated"></span>
         <button class="btn on-dark small" id="theme-btn" type="button" aria-label="Switch colour theme">Theme: Light</button>
       </div>
     </div>
-    <nav class="wrap tabs" id="tabs" aria-label="Sections">
-      <button type="button" data-tab="overview" class="tab">Overview</button>
-      <button type="button" data-tab="materials" class="tab">Raw materials</button>
-      <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
-      <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
-      <button type="button" data-tab="calculator" class="tab">Cost calculator</button>
-      <button type="button" data-tab="risk" class="tab">Risk navigator</button>
-    </nav>
   </div>
   <div class="ticker" role="region" aria-label="Market strip: prices, dates coming up and alerts"><div class="tk-view" id="ticker"></div></div>
 </header>
@@ -39,6 +39,7 @@
   <!-- OVERVIEW -->
   <section class="page" id="page-overview" data-page="overview">
     <section class="chain-hero" id="chain-hero" aria-label="The battery value chain"></section>
+    <section class="today-band" id="today-band" aria-label="Today in three numbers"></section>
     <div class="sincebar" id="since" hidden></div>
     <div class="hero hero-row"><p class="take" id="takeaway">Loading latest prices…</p><button class="btn brief-btn" type="button" data-goto="brief">This week's brief →</button></div>
     <div class="cards" id="cards"></div>
@@ -464,6 +465,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610290847"></script>
+<script src="assets/app.js?v=202610290902"></script>
 </body>
 </html>

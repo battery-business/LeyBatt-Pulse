@@ -1978,22 +1978,22 @@
     grid: 'M12 2.5 8 21.5M12 2.5l4 19M9.2 8h5.6M8.4 13h7.2M3 21.5h18M5 8h14',
   };
   const CHAIN = [
-    { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--amber', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'],
+    { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--l1', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'],
       say: 'Where the chain starts: lithium ore and salts, plus the copper and aluminium inside every cell.' },
-    { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--plum', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'],
+    { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--l2', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'],
       say: 'Lithium becomes LFP cathode; graphite becomes the anode; electrolyte, separator and foils complete the cell.' },
-    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--blue', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'],
+    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--l3', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'],
       say: 'Storage and EV cells: what they sell for and what the makers are doing.' },
-    { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--indigo', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [],
+    { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--l4', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [],
       say: 'Cells built into battery packs and containerised storage systems.' },
-    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--green', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [],
+    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--l5', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [],
       say: 'Who is buying: Indian storage tenders and the EV market.' },
   ];
   const svgIcon = (k, size = 28) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('width', size); s.setAttribute('height', size); s.setAttribute('aria-hidden', 'true'); const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', ICON[k]); p.setAttribute('fill', 'none'); p.setAttribute('stroke', 'currentColor'); p.setAttribute('stroke-width', '1.6'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); s.appendChild(p); return s; };
   function chainKey(c) {
     if (c.key[0] === 'tender') {
       const t = stTenders(); const l = t[t.length - 1]; if (!l) return null;
-      return { label: 'Latest India storage tender', value: `₹${l.low} lakh`, unit: '/MW/month', move: `${l.agency}, ${d3.utcFormat('%-d %b')(parse(l.date))}`, dir: 'flat' };
+      return { label: 'Latest India storage tender', value: `₹${l.low}`, unit: ' lakh/MW', move: `a month · ${l.agency}, ${d3.utcFormat('%-d %b')(parse(l.date))}`, dir: 'flat' };
     }
     const r = (D.latest || []).find((x) => x.id === c.key[1]); if (!r) return null;
     return { label: r.label, value: r.price, unit: UNIT_SHORT[r.unit] || '', move: r.move, dir: r.direction };
@@ -2001,7 +2001,8 @@
   function renderChainHero() {
     const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
     const head = el('div', 'ch-head');
-    head.append(el('p', 'ch-eyebrow', 'The battery value chain'), el('h2', 'ch-title', 'From the mine to the grid.'), el('p', 'ch-sub', 'Pick a step to see its prices, news and risks.'));
+    const t1 = el('h2', 'ch-title'); t1.append(document.createTextNode('From the mine'), el('br'), document.createTextNode('to the grid.'));
+    head.append(el('p', 'ch-eyebrow', 'The battery value chain'), t1, el('p', 'ch-sub', 'Prices, news and risks for every step of the LFP battery chain. Updated every morning.'));
     box.appendChild(head);
     const row = el('ol', 'ch-row');
     CHAIN.forEach((c) => {
@@ -2011,11 +2012,25 @@
       const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
       const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
       if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move)); }
+      txt.appendChild(el('span', 'ch-more', 'Explore ›'));
       b.append(orb, txt);
       b.addEventListener('click', () => go('chain/' + c.id));
       li.appendChild(b); row.appendChild(li);
     });
     box.appendChild(row);
+    renderToday();
+  }
+  function renderToday() { // three big numbers under the hero
+    const box = $('#today-band'); if (!box) return; box.replaceChildren();
+    const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r])); const T = stTenders(); const t = T[T.length - 1];
+    const tiles = [];
+    if (L.lithium) tiles.push(['Lithium carbonate', L.lithium.price, `per tonne · ${L.lithium.move}`, 'chain/mining']);
+    if (L.cell314) tiles.push(['314 Ah storage cell', L.cell314.price, `per kWh · ${L.cell314.move}`, 'chain/cells']);
+    if (t) tiles.push(['Latest India storage tender', `₹${t.low} lakh`, `per MW per month · ${t.agency}, ${d3.utcFormat('%-d %b')(parse(t.date))}`, 'chain/enduse']);
+    box.appendChild(el('h2', 'tb-title', 'Today, in three numbers.'));
+    const g = el('div', 'tb-tiles');
+    tiles.forEach(([k, v, d, to]) => { const b = el('button', 'tb-tile'); b.type = 'button'; b.append(el('span', 'k', k), el('span', 'big', v), el('span', 'd', d)); b.addEventListener('click', () => go(to)); g.appendChild(b); });
+    box.appendChild(g);
   }
   function renderChain() {
     const box = $('#chain-page'); if (!box) return;

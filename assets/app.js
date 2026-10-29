@@ -338,6 +338,7 @@
   function renderOverview() {
     renderChainHero();
     renderSince();
+    requestAnimationFrame(() => reveal($('#page-overview')));
     // changes
     const w = weekly(); const ul = $('#changes'); ul.replaceChildren();
     if (w.length >= 2) {
@@ -1822,8 +1823,8 @@
     if (reduced()) return;
     if (!MOTION.counted) {
       MOTION.counted = true;
-      $$('#cards .card .price').forEach((n) => countUp(n));
-      drawLines($$('#cards .spark path'), 1000, 150);
+      $$('#today-band .card .price').forEach((n) => countUp(n));
+      drawLines($$('#today-band .spark path'), 1000, 150);
     }
     if (!MOTION.glowed && D.meta) {
       MOTION.glowed = true;
@@ -1980,14 +1981,14 @@
   }
   function renderChainHero() {
     const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
-    const head = el('div', 'ch-head');
+    const head = el('div', 'ch-head rv');
     const t1 = el('h2', 'ch-title'); t1.append(document.createTextNode('From the mine '), el('br', 'ch-br'), document.createTextNode('to the grid.'));
     head.append(el('p', 'ch-eyebrow', 'The battery value chain'), t1, el('p', 'ch-sub', 'Prices, news and risks for every step of the LFP battery chain. Updated every morning.'));
     box.appendChild(head);
     const row = el('ol', 'ch-row');
     CHAIN.forEach((c) => {
       const k = chainKey(c);
-      const li = el('li', 'ch-step'); li.style.setProperty('--cc', css(c.color));
+      const li = el('li', 'ch-step rv'); li.style.setProperty('--cc', css(c.color));
       const b = el('button', 'ch-node'); b.type = 'button'; b.setAttribute('aria-label', `${c.name}: open prices, news and risks`);
       const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
       const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
@@ -2000,18 +2001,53 @@
     box.appendChild(row);
     renderToday();
   }
-  function renderToday() { // three big numbers under the hero
+  function renderToday() { // today's prices: the cards with small charts, under the hero
     const box = $('#today-band'); if (!box) return; box.replaceChildren();
-    const L = Object.fromEntries((D.latest || []).map((r) => [r.id, r])); const T = stTenders(); const t = T[T.length - 1];
-    const tiles = [];
-    if (L.lithium) tiles.push(['Lithium carbonate', L.lithium.price, `per tonne · ${L.lithium.move}`, 'chain/mining']);
-    if (L.cell314) tiles.push(['314 Ah storage cell', L.cell314.price, `per kWh · ${L.cell314.move}`, 'chain/cells']);
-    if (t) tiles.push(['Latest India storage tender', `₹${t.low} lakh`, `per MW per month · ${t.agency}, ${d3.utcFormat('%-d %b')(parse(t.date))}`, 'chain/enduse']);
-    box.appendChild(el('h2', 'tb-title', 'Today, in three numbers.'));
-    const g = el('div', 'tb-tiles');
-    tiles.forEach(([k, v, d, to]) => { const b = el('button', 'tb-tile'); b.type = 'button'; b.append(el('span', 'k', k), el('span', 'big', v), el('span', 'd', d)); b.addEventListener('click', () => go(to)); g.appendChild(b); });
-    box.appendChild(g);
+    box.append(el('h2', 'tb-title rv', "Today's prices."), el('p', 'tb-sub rv', 'From lithium to a finished storage system. Click a card for its full history.'));
+    const mon = d3.utcFormat('%b %Y');
+    const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
+    const sparks = {
+      evcell: [evs.map((r) => r.usd_kwh), evs[0] && mon(parse(evs[0].date))],
+      lithium: [fut.map((p) => p.v), fut[0] && mon(fut[0].d)],
+      cell314: [wk.map((w) => w.cell314), wk[0] && mon(parse(wk[0].date))],
+      system: [(D.systems || []).map((r) => +r.usd_kwh), (D.systems || [])[0] && (D.systems || [])[0].period],
+    };
+    const cards = el('div', 'cards tb-cards'); cards.id = 'cards'; box.appendChild(cards);
+    (D.latest || []).forEach((r) => {
+      const c = el('button', 'card rv layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
+      const un = el('span', 'unit', `${r.unit} · ${r.asof}`);
+      const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
+      c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
+      const sp = el('div', 'sparkbox');
+      if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
+      else sp.appendChild(el('span', 'none', 'No price history yet'));
+      c.appendChild(sp);
+      c.appendChild(el('span', 'src', 'Source: ' + r.source));
+      c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
+      cards.appendChild(c);
+    });
+    overviewMotion();
   }
+  // Apple-style reveal: sections rise and fade in as they scroll into view (off for reduced motion)
+  function reveal(root) {
+    if (reduced() || !('IntersectionObserver' in window)) return;
+    document.documentElement.classList.add('rv-on');
+    if (!reveal.io) reveal.io = new IntersectionObserver((ents) => ents.forEach((e) => {
+      if (!e.isIntersecting) return; const n = e.target; reveal.io.unobserve(n); n.classList.add('in');
+      setTimeout(() => n.classList.remove('rv', 'in'), 1300 + (parseFloat(n.style.getPropertyValue('--rd')) || 0));
+    }), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    $$('.rv', root).forEach((n) => { const k = Array.prototype.indexOf.call(n.parentNode.children, n) % 8; n.style.setProperty('--rd', (k * 70) + 'ms'); reveal.io.observe(n); });
+  }
+  // the hero gently fades and shrinks as the page scrolls past it
+  let heroRaf = 0;
+  window.addEventListener('scroll', () => {
+    if (heroRaf || S.tab !== 'overview' || reduced()) return;
+    heroRaf = requestAnimationFrame(() => {
+      heroRaf = 0; const h = $('#chain-hero .ch-head'); if (!h || h.classList.contains('rv')) return;
+      const y = window.scrollY, k = Math.min(1, y / 520);
+      h.style.opacity = String(1 - k * 0.85); h.style.transform = y > 0 ? `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 - k * 0.05).toFixed(3)})` : '';
+    });
+  }, { passive: true });
   function renderChain() {
     const box = $('#chain-page'); if (!box) return;
     const i = Math.max(0, CHAIN.findIndex((c) => c.id === S.chain)); const c = CHAIN[i];
@@ -2022,13 +2058,13 @@
     box.appendChild(nav);
     // hero
     const k = chainKey(c);
-    const hero = el('header', 'chp-hero');
+    const hero = el('header', 'chp-hero rv');
     const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(c.icon, 40));
     const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
     hero.append(orb, ht);
     if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); hero.appendChild(kv); }
     box.appendChild(hero);
-    const section = (t, sub) => { const s = el('section', 'chp-sec'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
+    const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
       const s = section(c.chart === 'tenders' ? 'India storage tenders over time' : 'Price history', c.chart === 'tenders' ? 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.' : 'Hover the chart for each reading and its source.');
       const cb = el('div', 'chart'); s.appendChild(cb);
@@ -2098,6 +2134,7 @@
     if (i > 0) { const b = el('button', 'chp-prev'); b.type = 'button'; b.append(el('small', null, '← Previous'), el('b', null, CHAIN[i - 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i - 1].id)); pn.appendChild(b); } else pn.appendChild(el('span'));
     if (i < CHAIN.length - 1) { const b = el('button', 'chp-next'); b.type = 'button'; b.append(el('small', null, 'Next →'), el('b', null, CHAIN[i + 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i + 1].id)); pn.appendChild(b); }
     box.appendChild(pn);
+    requestAnimationFrame(() => reveal(box));
   }
 
   // ---------- tabs ----------

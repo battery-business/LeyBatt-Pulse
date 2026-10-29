@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-29",
- "generated": "2026-10-29T06:12:34+00:00",
+ "generated": "2026-10-29T08:49:04+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -111,20 +111,20 @@
    },
    "h3": {
     "price": {
-     "score": 3.9,
-     "level": "Low",
+     "score": 4.2,
+     "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −21.0% · 3 months −31.4% (rising prices push the score up)",
+       "detail": "1 month −25.2% · 3 months −35.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 35
       },
       {
        "label": "How much the price swings",
-       "score": 8.5,
-       "detail": "About 52% a year, from 118 price moves in the last 6 months",
+       "score": 8.6,
+       "detail": "About 52% a year, from 119 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24
       },
@@ -138,8 +138,8 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 6.6,
-       "detail": "Average forecast +9.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 7.7,
+       "detail": "Average forecast +16.0% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 18
@@ -211,7 +211,7 @@
        "weight": 0
       }
      ],
-     "change": 0.2
+     "change": 0.5
     },
     "supply": {
      "score": 4.3,
@@ -260,24 +260,24 @@
      "change": 0.1
     },
     "confidence": "High",
-    "obs180": 119
+    "obs180": 120
    },
    "h12": {
     "price": {
-     "score": 5.8,
+     "score": 6.4,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −21.0% · 3 months −31.4% (rising prices push the score up)",
+       "detail": "1 month −25.2% · 3 months −35.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
-       "score": 8.5,
-       "detail": "About 52% a year, from 118 price moves in the last 6 months",
+       "score": 8.6,
+       "detail": "About 52% a year, from 119 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
@@ -291,8 +291,8 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 6.6,
-       "detail": "Average forecast +9.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
+       "score": 7.7,
+       "detail": "Average forecast +16.0% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average)",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 50
@@ -364,7 +364,7 @@
        "weight": 0
       }
      ],
-     "change": 0.7
+     "change": 1.3
     },
     "supply": {
      "score": 5.7,
@@ -413,7 +413,7 @@
      "change": 0.1
     },
     "confidence": "High",
-    "obs180": 119
+    "obs180": 120
    },
    "trend": [
     [
@@ -488,7 +488,7 @@
     ],
     [
      "2026-10-29",
-     3.9,
+     4.2,
      4.3
     ]
    ]
@@ -511,20 +511,20 @@
    },
    "h3": {
     "price": {
-     "score": 3.8,
+     "score": 3.7,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 1.3,
-       "detail": "1 month −12.0% · 3 months −19.0% (rising prices push the score up)",
+       "score": 0.7,
+       "detail": "1 month −14.4% · 3 months −21.2% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 118 price moves in the last 6 months",
+       "detail": "About 32% a year, from 119 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22
       },
@@ -552,8 +552,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.2,
+       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 11
       },
@@ -589,7 +589,7 @@
        "weight": 11
       }
      ],
-     "change": 0.4
+     "change": 0.3
     },
     "supply": {
      "score": 5.8,
@@ -636,7 +636,7 @@
      "change": 0.1
     },
     "confidence": "Medium",
-    "obs180": 119
+    "obs180": 120
    },
    "h12": {
     "price": {
@@ -645,15 +645,15 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 1.3,
-       "detail": "1 month −12.0% · 3 months −19.0% (rising prices push the score up)",
+       "score": 0.7,
+       "detail": "1 month −14.4% · 3 months −21.2% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 118 price moves in the last 6 months",
+       "detail": "About 32% a year, from 119 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
@@ -681,8 +681,8 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.8,
-       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "score": 6.4,
+       "detail": "Lithium price risk 6.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 17
       },
@@ -765,7 +765,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 119
+    "obs180": 120
    },
    "trend": [
     [
@@ -840,7 +840,7 @@
     ],
     [
      "2026-10-29",
-     3.8,
+     3.7,
      5.8
     ]
    ]
@@ -1227,15 +1227,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.4,
-       "detail": "Price $46.9/kWh vs modelled cost $41.8/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.1,
+       "detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.2,
+       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1407,15 +1407,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.4,
-       "detail": "Price $46.9/kWh vs modelled cost $41.8/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.1,
+       "detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.8,
-       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "score": 6.4,
+       "detail": "Lithium price risk 6.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12
       },
@@ -1683,15 +1683,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 2.4,
-       "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "score": 2.2,
+       "detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 14
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 3.9,
-       "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
+       "score": 4.2,
+       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10
       },
@@ -1844,15 +1844,15 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 2.4,
-       "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "score": 2.2,
+       "detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 29
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.8,
-       "detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "score": 6.4,
+       "detail": "Lithium price risk 6.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12
       },
@@ -2642,7 +2642,7 @@
    "material": "lithium",
    "name": "Lithium carbonate",
    "from": "2023-07-21",
-   "to": "2026-10-28",
+   "to": "2026-10-29",
    "samples": 65,
    "step_days": 14,
    "cut_low": 4.7,

@@ -1905,6 +1905,7 @@
   // ---------- making cells: China vs India ----------
   // Materials come from the main cost model at today's prices; the factory costs are in data/makecost.json.
   const MK = { type: 'ess314', v: null };
+  const MK_TYPES = ['ess314', 'ev'];
   const crf = (r, n) => (r <= 0 ? 1 / n : (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
   function mkInit() {
     if (MK.v) return; const F = (D.makecost || {}).fields || [];
@@ -1922,16 +1923,20 @@
     const cap = (p.capex * 1e6 * crf(p.rate / 100, p.life)) / out;
     const power = p.energy * p.power;
     const labour = (p.workers * p.wage) / out;
+    const detail = [
+      { label: 'Plant and equipment (repaid with interest)', color: '--indigo', v: cap },
+      { label: 'Rejected cells', color: '--rose', v: loss },
+      { label: 'Shipping and duty on materials', color: '--orange', v: ship },
+      { label: 'Electricity', color: '--teal', v: power },
+      { label: 'Factory workers', color: '--green', v: labour },
+    ];
     const parts = [
-      { k: 'mat', label: 'Cell materials', color: '--amber', v: mat },
-      { k: 'ship', label: 'Shipping and duty on materials', color: '--orange', v: ship },
-      { k: 'loss', label: 'Rejected cells (yield loss)', color: '--rose', v: loss },
-      { k: 'cap', label: 'Plant and equipment (repaid with interest)', color: '--indigo', v: cap },
-      { k: 'power', label: 'Electricity', color: '--teal', v: power },
-      { k: 'labour', label: 'Factory workers', color: '--green', v: labour },
+      { k: 'mat', label: 'Materials', color: '--amber', v: mat },
+      { k: 'fac', label: 'Factory costs (plant, power, workers)', color: '--indigo', v: cap + power + labour },
+      { k: 'waste', label: 'Waste and shipping', color: '--rose', v: loss + ship },
     ];
     const gross = d3.sum(parts, (x) => x.v);
-    return { parts, gross, pli: pliUsd || 0, total: gross - (pliUsd || 0), conv: cap + power + labour };
+    return { parts, detail, gross, pli: pliUsd || 0, total: gross - (pliUsd || 0), conv: cap + power + labour };
   }
   function mkMarket(t) {
     if (!t.market) return null;
@@ -1942,119 +1947,99 @@
     const box = $('#mk-chart'); if (!box || !D.makecost) return;
     try {
       mkInit(); landInit();
-      const M = D.makecost; const types = M.types || []; const t = types.find((x) => x.id === MK.type) || types[0];
-      const fx = LAND.fx; const mat = mkMaterials();
+      const M = D.makecost; const types = (M.types || []).filter((x) => MK_TYPES.includes(x.id)); const t = types.find((x) => x.id === MK.type) || types[0];
+      const fx = LAND.fx; const mat = mkMaterials(); const rs = (v) => '₹' + d3.format(',.0f')(v * fx);
       const pliUsd = (MK.v.pli * MK.v.dva / 100) / fx;
-      let cn = mkCost(MK.v.china, mat.total, 0), ind = mkCost(MK.v.india, mat.total, pliUsd);
-      if (t.recipe === 'sib') { // reference: apply the published sodium-ion premium on top of the LFP build-up
-        const prem = cn.gross * (t.ratio - 1);
-        [cn, ind].forEach((r) => { r.parts.push({ k: 'sib', label: 'Sodium-ion premium (reference)', color: '--plum', v: prem }); r.gross += prem; r.total += prem; });
-      }
-      // type chips
-      const ch = $('#mk-types'); ch.replaceChildren();
-      types.forEach((x) => { const b = el('button', null, x.label); b.type = 'button'; b.setAttribute('aria-pressed', String(x.id === t.id)); b.style.setProperty('--cc', css('--teal')); b.addEventListener('click', () => { MK.type = x.id; renderMake(); }); ch.appendChild(b); });
-      // KPIs
+      const cn = mkCost(MK.v.china, mat.total, 0), ind = mkCost(MK.v.india, mat.total, pliUsd);
       const mk = mkMarket(t); const imp = mk ? landCalc(mk.usd, 'C', false) : null;
+      const ch = $('#mk-types'); ch.replaceChildren();
+      types.forEach((x) => { const b = el('button', null, x.id === 'ev' ? 'EV cell (LFP)' : 'Storage cell (LFP 314 Ah)'); b.type = 'button'; b.setAttribute('aria-pressed', String(x.id === t.id)); b.style.setProperty('--cc', css('--teal')); b.addEventListener('click', () => { MK.type = x.id; renderMake(); }); ch.appendChild(b); });
+      // one-line answer
+      const lead = $('#mk-lead'); lead.replaceChildren();
+      const name = t.id === 'ev' ? 'An EV cell' : 'A 314 Ah storage cell';
+      lead.append(document.createTextNode(`${name} costs about `), el('b', null, fmtUsd1(cn.total) + '/kWh'), document.createTextNode(' to make in China and '), el('b', null, fmtUsd1(ind.total) + '/kWh'), document.createTextNode(' in India' + (ind.pli ? ' after PLI' : '') + '. '));
+      if (imp) {
+        const dd = imp.landed - ind.total, word = Math.abs(dd) < 3 ? 'slightly ' : `about ${fmtUsd1(Math.abs(dd))}/kWh `;
+        lead.append(document.createTextNode('Importing one costs '), el('b', null, fmtUsd1(imp.landed) + '/kWh'), document.createTextNode(dd >= 0 ? `, so making in India is ${word}cheaper.` : `, so importing is ${word}cheaper.`));
+      }
+      if (t.id === 'ev') lead.append(el('span', 'lead-note', ' EV cells use the storage-cell materials recipe here; real EV cells cost somewhat more to make.'));
+      // three numbers
       const kb = $('#mk-kpis'); kb.replaceChildren();
-      const rs = (v) => '₹' + d3.format(',.0f')(v * fx) + '/kWh';
-      kpi(kb, 'Cost to make in China', perK(cn.total), [rs(cn.total), null]);
-      kpi(kb, 'Cost to make in India', perK(ind.total), [rs(ind.total) + (ind.pli ? ' after PLI' : ''), null], 'main');
-      const gap = ind.total - cn.total;
-      kpi(kb, 'India vs China', (gap >= 0 ? '+' : '−') + fmtUsd1(Math.abs(gap)) + '/kWh', [`${gap >= 0 ? '+' : '−'}${Math.abs(gap / cn.total * 100).toFixed(0)}%`, gap]);
-      if (imp) kpi(kb, 'Importing a China cell instead', perK(imp.landed), [`${fmtUsd1(mk.usd)} in China (${mk.src}, ${mk.date}) + freight + ${LAND.bcdC}% duty`, null]);
-      else kpi(kb, 'Importing a China cell instead', '–', ['No public market price for this cell yet', null]);
-      // chart: two stacked bars
+      kpi(kb, 'Make in China', perK(cn.total), [rs(cn.total) + '/kWh', null]);
+      kpi(kb, 'Make in India', perK(ind.total), [rs(ind.total) + '/kWh' + (ind.pli ? ' after PLI' : ''), null], 'main');
+      if (imp) kpi(kb, 'Import from China', perK(imp.landed), [`${rs(imp.landed)}/kWh, with ${LAND.bcdC}% duty`, null]);
+      // chart: two bars, three colours
       box.replaceChildren();
-      const W = box.clientWidth || 640, rowH = 34, H = 2 * rowH + 64;
+      const W = box.clientWidth || 640, rowH = 34, H = 2 * rowH + 50;
       const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
-      const left = Math.min(110, W * 0.22), right = 70;
-      const maxV = d3.max([cn.gross, ind.gross, imp ? imp.landed : 0, mk ? mk.usd : 0]) * 1.06;
+      const left = 64, right = 64;
+      const maxV = d3.max([cn.gross, ind.gross, imp ? imp.landed : 0]) * 1.04;
       const x = d3.scaleLinear([0, maxV], [left, W - right]);
-      svg.append('g').attr('transform', `translate(0,${H - 26})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor((W - left - right) / 80))).tickFormat((v) => '$' + v).tickSize(-(H - 40))).call(axisStyle);
-      [['China', cn, 12], ['India', ind, 12 + rowH + 10]].forEach(([name, r, y]) => {
-        svg.append('text').attr('x', left - 10).attr('y', y + rowH / 2 + 5).attr('text-anchor', 'end').attr('font-size', 13.5).attr('font-weight', 700).attr('fill', css('--fg')).text(name);
+      svg.append('g').attr('transform', `translate(0,${H - 22})`).call(d3.axisBottom(x).ticks(Math.max(3, Math.floor((W - left - right) / 80))).tickFormat((v) => '$' + v).tickSize(-(H - 30))).call(axisStyle);
+      [['China', cn, 6], ['India', ind, 6 + rowH + 8]].forEach(([nm, r, y]) => {
+        svg.append('text').attr('x', left - 10).attr('y', y + rowH / 2 + 5).attr('text-anchor', 'end').attr('font-size', 13.5).attr('font-weight', 700).attr('fill', css('--fg')).text(nm);
         let acc = 0;
         r.parts.forEach((p) => {
           if (p.v <= 0) return;
           svg.append('rect').attr('x', x(acc)).attr('y', y).attr('width', Math.max(0, x(acc + p.v) - x(acc))).attr('height', rowH).attr('fill', css(p.color)).attr('stroke', css('--panel')).attr('stroke-width', 1)
-            .on('pointermove', (ev) => showTip(ev, (tt) => { tt.appendChild(el('div', 'k', name)); tipRow(tt, css(p.color), p.label, `${fmtUsd1(p.v)}/kWh · ${(p.v / r.gross * 100).toFixed(0)}%`); }))
+            .on('pointermove', (ev) => showTip(ev, (tt) => { tt.appendChild(el('div', 'k', nm)); tipRow(tt, css(p.color), p.label, `${fmtUsd1(p.v)}/kWh`); }))
             .on('pointerleave', hideTip);
           acc += p.v;
         });
-        if (r.pli > 0) {
-          svg.append('rect').attr('x', x(r.total)).attr('y', y + rowH - 6).attr('width', Math.max(0, x(r.gross) - x(r.total))).attr('height', 6).attr('fill', css('--fg')).attr('opacity', 0.55);
-        }
         svg.append('text').attr('x', x(r.gross) + 6).attr('y', y + rowH / 2 + 5).attr('font-size', 13).attr('font-weight', 700).attr('fill', css('--fg')).text(fmtUsd1(r.total));
       });
-      const mark = (v, y0, y1, label, color) => {
-        svg.append('line').attr('x1', x(v)).attr('x2', x(v)).attr('y1', y0).attr('y2', y1).attr('stroke', color).attr('stroke-width', 2).attr('stroke-dasharray', '4 3');
-        svg.append('text').attr('x', x(v)).attr('y', y0 - 3).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700).attr('fill', color).text(label);
-      };
-      if (mk) mark(mk.usd, 10, 12 + rowH + 2, `China price ${fmtUsd1(mk.usd)}`, css('--fg'));
-      if (imp) mark(imp.landed, 12 + rowH + 8, 12 + 2 * rowH + 12, `Imported ${fmtUsd1(imp.landed)}`, css('--bad'));
       const lg = $('#mk-legend'); lg.replaceChildren();
       cn.parts.forEach((p) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(p.color); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(p.label)); lg.appendChild(s); });
-      if (ind.pli) { const s = el('span'); const i = el('i', 'ln'); i.style.background = css('--fg'); s.append(i, document.createTextNode('PLI incentive (taken off India)')); lg.appendChild(s); }
-      // insight
-      const ins = $('#mk-insight');
-      const biggest = ind.parts.map((p, i) => ({ p, d: p.v - cn.parts[i].v })).sort((a, b) => b.d - a.d)[0];
-      let msg = `Making this cell in India costs about ${fmtUsd1(Math.abs(gap))}/kWh ${gap >= 0 ? 'more' : 'less'} than in China (${rs(Math.abs(gap)).replace('/kWh', '')} per kWh)` + (biggest && biggest.d > 0 ? `, mostly from ${biggest.p.label.toLowerCase()} (+${fmtUsd1(biggest.d)}).` : '.');
-      if (imp) msg += ` A China cell landed in India with ${LAND.bcdC}% duty costs ${fmtUsd1(imp.landed)}/kWh, so making it in India is ${ind.total <= imp.landed ? `${fmtUsd1(imp.landed - ind.total)}/kWh cheaper than importing` : `${fmtUsd1(ind.total - imp.landed)}/kWh dearer than importing`} on these assumptions (cost to make, before the maker's margin).`;
-      ins.textContent = msg;
-      // gap list
+      // ---- inside "Change the assumptions" ----
       const gb = $('#mk-gap'); gb.replaceChildren();
-      const rows = ind.parts.map((p, i) => ({ label: p.label, color: p.color, d: p.v - cn.parts[i].v })).filter((r) => Math.abs(r.d) >= 0.05);
+      const rows = ind.detail.map((p, i) => ({ label: p.label, color: p.color, d: p.v - cn.detail[i].v })).filter((r) => Math.abs(r.d) >= 0.05);
       if (ind.pli) rows.push({ label: 'PLI incentive', color: '--fg', d: -ind.pli });
       rows.sort((a, b) => b.d - a.d);
-      const mx = d3.max(rows, (r) => Math.abs(r.d)) || 1;
+      const mx = d3.max(rows, (r) => Math.abs(r.d)) || 1; const gap = ind.total - cn.total;
       rows.forEach((r) => {
         const row = el('div', 'gaprow'); row.appendChild(el('span', 'gl', r.label));
         const track = el('div', 'gtrack'); const bar = el('span', 'gbar' + (r.d < 0 ? ' neg' : '')); bar.style.width = (Math.abs(r.d) / mx * 50) + '%'; bar.style.background = css(r.color); track.appendChild(bar);
         row.append(track, el('b', 'gv' + (r.d < 0 ? ' is-down' : ' is-up'), (r.d >= 0 ? '+' : '−') + fmtUsd1(Math.abs(r.d))));
         gb.appendChild(row);
       });
-      gb.appendChild(el('p', 'sub', `Total: ${gap >= 0 ? '+' : '−'}${fmtUsd1(Math.abs(gap))}/kWh. China's factory costs here (plant, power, workers) come to ${fmtUsd1(cn.conv)}/kWh against ${fmtUsd1((M.smm_check || {}).usd_kwh || mat.smmMfg)}/kWh in SMM's China cost model, so the China side is, if anything, on the high side.`));
-      // PLI box
+      gb.appendChild(el('p', 'sub', `Total: India ${gap >= 0 ? '+' : '−'}${fmtUsd1(Math.abs(gap))}/kWh. China's factory costs here come to ${fmtUsd1(cn.conv)}/kWh against ${fmtUsd1((M.smm_check || {}).usd_kwh || mat.smmMfg)} in SMM's China cost model, so the China side is, if anything, on the high side.`));
       const pb = $('#mk-pli');
       if (!pb.childElementCount) {
         const f = (k, label, unit, step, hint) => {
           const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
-          const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = MK.v[k]; i.dataset.mk = k;
-          i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v)) { MK.v[k] = v; renderMake(); } });
+          const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = MK.v[k];
+          i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v)) { MK.v[k] = v; clearTimeout(MK.t); MK.t = setTimeout(renderMake, 120); } });
           const r = el('span', 'lrow'); r.append(i, el('span', 'lu', unit)); w.appendChild(r); if (hint) w.appendChild(el('span', 'lh', hint)); return w;
         };
-        const g = el('div', 'landed-in'); g.append(f('pli', 'Subsidy rate', '₹ per kWh', '50', 'Set by each bid; starts at zero'), f('dva', 'Value added in India', '%', '1', 'At least 25% to be paid; 60% within 5 years'));
+        const g = el('div', 'landed-in'); g.append(f('pli', 'PLI subsidy rate', '₹ per kWh', '50', 'Set by each bid; starts at zero'), f('dva', 'Value added in India', '%', '1', '25% needed to be paid; 60% within 5 years'));
         pb.append(g, el('p', 'sub pli-out'));
-        const P = M.pli || {}; const n = el('p', 'lnote pli-note'); n.appendChild(document.createTextNode((P.note || '') + ' ')); if (P.url) n.appendChild(link(P.source, P.url)); if (P.url2) { n.appendChild(document.createTextNode(' · ')); n.appendChild(link(P.source2, P.url2)); } pb.appendChild(n);
+        const P = M.pli || {}; const n = el('p', 'lnote pli-note'); n.appendChild(document.createTextNode((P.note || '') + ' ')); if (P.url) n.appendChild(link(P.source, P.url)); pb.appendChild(n);
       }
-      $('.pli-out', pb).textContent = ind.pli ? `Takes ${fmtUsd1(ind.pli)}/kWh (₹${d3.format(',.0f')(ind.pli * fx)}) off the Indian cost, for the five years it is paid.` : 'Enter a subsidy rate to see its effect.';
-      // assumptions table
+      $('.pli-out', pb).textContent = ind.pli ? `PLI takes ${fmtUsd1(ind.pli)}/kWh (${rs(ind.pli)}) off the Indian cost while it is paid.` : '';
       const tb = $('#mk-table'); if (!tb.dataset.ready) { tb.dataset.ready = '1'; tb.replaceChildren();
-      const hr = el('tr'); ['', 'China', 'India', 'Basis'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
-      const body = el('tbody');
-      const matRow = el('tr'); const mn = el('td'); mn.appendChild(el('b', null, 'Cell materials'));
-      const mb = el('td', null); mb.colSpan = 2; mb.appendChild(el('span', 'num', `${fmtUsd1(mat.total)}/kWh in both`));
-      const mnote = el('td', 'mk-note'); mnote.appendChild(document.createTextNode(`Today's prices from the China cell calculator (VAT removed), the same for both countries because India imports most materials. ${M.recipe_note || ''}`));
-      matRow.append(mn, mb, mnote); body.appendChild(matRow);
-      (M.fields || []).forEach((f) => {
-        const tr = el('tr'); const n = el('td'); n.appendChild(el('b', null, f.label)); n.appendChild(el('span', 'role', f.unit)); if (f.assumption) n.appendChild(el('span', 'atag', 'Assumption'));
-        tr.appendChild(n);
-        ['china', 'india'].forEach((c) => {
-          const td = el('td'); const i = el('input', 'num-in'); i.type = 'number'; i.step = f.step; i.min = 0; i.value = MK.v[c][f.k]; i.setAttribute('aria-label', `${f.label}, ${c === 'china' ? 'China' : 'India'}`);
-          i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v) && v >= 0) { MK.v[c][f.k] = v; clearTimeout(MK.t); MK.t = setTimeout(renderMake, 120); } });
-          td.appendChild(i); tr.appendChild(td);
+        const hr = el('tr'); ['', 'China', 'India', 'Basis'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
+        const body = el('tbody');
+        const matRow = el('tr'); const mn = el('td'); mn.appendChild(el('b', null, 'Cell materials'));
+        const mb = el('td', null); mb.colSpan = 2; mb.appendChild(el('span', 'num', `${fmtUsd1(mat.total)}/kWh in both`));
+        matRow.append(mn, mb, el('td', 'mk-note', `Today's prices from the China cell calculator (VAT removed); the same for both because India imports most materials. ${M.recipe_note || ''}`)); body.appendChild(matRow);
+        (M.fields || []).forEach((f) => {
+          const tr = el('tr'); const n = el('td'); n.appendChild(el('b', null, f.label)); n.appendChild(el('span', 'role', f.unit)); if (f.assumption) n.appendChild(el('span', 'atag', 'Assumption'));
+          tr.appendChild(n);
+          ['china', 'india'].forEach((c) => {
+            const td = el('td'); const i = el('input', 'num-in'); i.type = 'number'; i.step = f.step; i.min = 0; i.value = MK.v[c][f.k]; i.setAttribute('aria-label', `${f.label}, ${c === 'china' ? 'China' : 'India'}`);
+            i.addEventListener('input', () => { const v = parseFloat(i.value); if (!isNaN(v) && v >= 0) { MK.v[c][f.k] = v; clearTimeout(MK.t); MK.t = setTimeout(renderMake, 120); } });
+            td.appendChild(i); tr.appendChild(td);
+          });
+          const nt = el('td', 'mk-note');
+          const add = (txt, src, url, src2, url2) => { const p = el('div'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); if (url2) { p.appendChild(document.createTextNode(' · ')); p.appendChild(link(src2, url2)); } nt.appendChild(p); };
+          add('China: ' + (f.china_note || ''), f.china_source, f.china_url, f.china_source2, f.china_url2);
+          add('India: ' + (f.india_note || ''), f.india_source, f.india_url, f.india_source2, f.india_url2);
+          tr.appendChild(nt); body.appendChild(tr);
         });
-        const nt = el('td', 'mk-note');
-        const add = (txt, src, url, src2, url2) => { const p = el('div'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); if (url2) { p.appendChild(document.createTextNode(' · ')); p.appendChild(link(src2, url2)); } nt.appendChild(p); };
-        add('China: ' + (f.china_note || ''), f.china_source, f.china_url, f.china_source2, f.china_url2);
-        add('India: ' + (f.india_note || ''), f.india_source, f.india_url, f.india_source2, f.india_url2);
-        tr.appendChild(nt); body.appendChild(tr);
-      });
-      tb.appendChild(body); }
+        tb.appendChild(body); }
       const nb = $('#mk-notes'); nb.replaceChildren();
-      const note = (txt, src, url, src2, url2) => { const p = el('p', 'lnote'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); if (url2) { p.appendChild(document.createTextNode(' · ')); p.appendChild(link(src2, url2)); } nb.appendChild(p); };
-      if (t.recipe === 'sib') note(t.note, t.source, t.url, t.source2, t.url2);
-      note(`How it is worked out: plant and equipment = investment per GWh repaid over the payback years at the interest rate, spread over the cells actually made (capacity × how full the plant runs); workers = people per GWh × pay, spread the same way; electricity = kWh used per kWh of cells × power price; rejected cells add their materials back. Rupee figures at US$1 = ₹${fx.toFixed(2)} (ECB).`);
+      const note = (txt) => nb.appendChild(el('p', 'lnote', txt));
+      note(`How it is worked out: plant and equipment = investment per GWh repaid over the payback years at the interest rate, spread over the cells actually made; workers = people per GWh × pay, spread the same way; electricity = kWh used per kWh of cells × power price; rejected cells add their materials back. Rupees at US$1 = ₹${fx.toFixed(2)} (ECB).`);
       note(M.left_out || '');
     } catch (e) { console.error(e); fail(box, 'The China vs India model could not be drawn'); }
   }
@@ -2078,63 +2063,62 @@
     const wacc = (v.debt / 100) * (v.dr / 100) + (1 - v.debt / 100) * (v.er / 100);
     const capMW = capexUsd * 1000 * h * fx; const vgfMW = v.vgf * 1e5 * h;
     const annual = Math.max(0, capMW - vgfMW) * crf(wacc, v[h].tenure) + (v.om / 100) * capMW;
-    return { lakh: annual / 12 / 1e5, wacc, capMW, vgfMW, annual };
+    return { lakh: annual / 12 / 1e5, wacc };
   }
   function stCapex(h) { const s = stSystem(h); return ST.v.capex[h] != null ? ST.v.capex[h] : s ? s.installed : null; }
+  const crore = (usdKwh) => (usdKwh * 1000 * LAND.fx / 1e7);
+  function stRecent(tenders, h) {
+    const last = d3.max(tenders, (t) => t.date); const cut = new Date(+parse(last) - 365 * 864e5);
+    const lows = tenders.filter((t) => t.hours === h && parse(t.date) >= cut).map((t) => t.low).sort(d3.ascending);
+    return lows.length ? { n: lows.length, q1: d3.quantile(lows, 0.25), med: d3.median(lows), q3: d3.quantile(lows, 0.75), lows, last } : null;
+  }
   function renderStorage() {
     const X = D.indiastorage; const chart = $('#st-chart'); if (!chart) return;
     if (!X) { fail(chart, 'India storage data not available'); return; }
     try {
       stInit();
       const tenders = [...(X.tenders || [])].sort((a, b) => d3.ascending(a.date, b.date));
-      const be = { 2: null, 4: null }; [2, 4].forEach((h) => { const c = stCapex(h); if (c) be[h] = stBreakEven(h, c).lakh; });
-      // duration filter
+      const r2 = stRecent(tenders, 2), r4 = stRecent(tenders, 4), s2 = stSystem(2);
+      // one-line answer
+      const lead = $('#st-lead'); lead.replaceChildren();
+      const rng = (r) => `₹${r.q1.toFixed(2)}–${r.q3.toFixed(2)} lakh`;
+      if (r2) lead.append(document.createTextNode('In the last 12 months, 2-hour storage tenders were typically won at '), el('b', null, rng(r2)));
+      if (r4) lead.append(document.createTextNode(' and 4-hour at '), el('b', null, rng(r4)));
+      lead.append(document.createTextNode(' per MW per month.'));
+      if (s2) lead.append(document.createTextNode(' Building a 2-hour project costs about '), el('b', null, `₹${crore(s2.installed).toFixed(2)} crore per MWh`), document.createTextNode('.'));
+      // filter
       const seg = $('#st-hours'); seg.replaceChildren();
       [[0, 'All'], [2, '2-hour'], [4, '4-hour']].forEach(([h, t]) => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('aria-pressed', String(ST.hours === h)); b.addEventListener('click', () => { ST.hours = h; renderStorage(); }); seg.appendChild(b); });
       const shown = tenders.filter((t) => !ST.hours || t.hours === ST.hours);
       const HC = { 2: css('--blue'), 4: css('--orange') };
-      // chart
+      // chart: one dot per tender
       chart.replaceChildren();
-      const W = chart.clientWidth || 700, H = 330, mg = { t: 16, r: 150, b: 30, l: 44 };
-      if (W < 560) mg.r = 16;
+      const W = chart.clientWidth || 700, H = 300, mg = { t: 18, r: 16, b: 30, l: 44 };
       const svg = d3.select(chart).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
       const dates = shown.map((t) => parse(t.date));
-      const x0 = d3.min(dates) || new Date(), x1 = d3.max(dates) || new Date();
-      const xs = d3.scaleUtc([new Date(+x0 - 40 * 864e5), new Date(+x1 + 40 * 864e5)], [mg.l, W - mg.r]);
-      const lines = [];
-      [2, 4].forEach((h) => { if ((!ST.hours || ST.hours === h) && be[h]) lines.push({ v: be[h], label: `${h}-hour break-even ₹${be[h].toFixed(2)}`, color: HC[h] }); });
-      (X.benchmarks || []).forEach((b) => { if (!ST.hours || ST.hours === b.hours) lines.push({ v: b.value, label: `JMK 2-hour benchmark ₹${b.value}`, color: css('--muted'), thin: true, src: b }); });
-      const ymax = d3.max([...shown.map((t) => t.high || t.low), ...lines.map((l) => l.v)]) * 1.1;
-      const ys = d3.scaleLinear([0, ymax], [H - mg.b, mg.t]).nice();
-      svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).ticks(6).tickFormat((v) => '₹' + v).tickSize(-(W - mg.l - mg.r))).call(axisStyle);
+      const xs = d3.scaleUtc([new Date(+d3.min(dates) - 40 * 864e5), new Date(+d3.max(dates) + 40 * 864e5)], [mg.l, W - mg.r]);
+      const bms = (X.benchmarks || []).filter((b) => !ST.hours || ST.hours === b.hours);
+      const ys = d3.scaleLinear([0, d3.max([...shown.map((t) => t.low), ...bms.map((b) => b.value)]) * 1.15], [H - mg.b, mg.t]).nice();
+      svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).ticks(5).tickFormat((v) => '₹' + v).tickSize(-(W - mg.l - mg.r))).call(axisStyle);
       svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(xs).ticks(Math.max(3, Math.floor((W - mg.l - mg.r) / 90))).tickFormat(d3.utcFormat('%b %y')).tickSize(0).tickPadding(8)).call(axisStyle);
-      // break-even and benchmark lines, labels nudged apart
-      const placed = [];
-      lines.sort((a, b) => b.v - a.v).forEach((l) => {
-        svg.append('line').attr('x1', mg.l).attr('x2', W - mg.r).attr('y1', ys(l.v)).attr('y2', ys(l.v)).attr('stroke', l.color).attr('stroke-width', l.thin ? 1.2 : 1.8).attr('stroke-dasharray', l.thin ? '2 4' : '6 4').attr('opacity', 0.9);
-        if (mg.r > 40) { let y = ys(l.v) + 4; placed.forEach((p) => { if (Math.abs(p - y) < 13) y = p + 13; }); placed.push(y); svg.append('text').attr('x', W - mg.r + 6).attr('y', y).attr('font-size', 11).attr('font-weight', 600).attr('fill', l.color).text(l.label); }
+      bms.forEach((b) => {
+        svg.append('line').attr('x1', mg.l).attr('x2', W - mg.r).attr('y1', ys(b.value)).attr('y2', ys(b.value)).attr('stroke', css('--muted')).attr('stroke-width', 1.4).attr('stroke-dasharray', '3 4');
+        svg.append('text').attr('x', mg.l + 6).attr('y', ys(b.value) - 5).attr('text-anchor', 'start').attr('font-size', 11).attr('font-weight', 600).attr('fill', css('--muted')).text(`JMK 2-hour benchmark ₹${b.value}`);
       });
-      const rS = d3.scaleSqrt([0, d3.max(tenders, (t) => t.mwh) || 1], [3, 13]);
       const g = svg.append('g');
       shown.forEach((t) => {
-        const cx = xs(parse(t.date)), c = HC[t.hours] || css('--slate');
+        const c = HC[t.hours] || css('--slate');
         const a = g.append('a').attr('href', t.url).attr('target', '_blank').attr('rel', 'noopener').attr('class', 'st-pt');
-        if (t.high && t.high !== t.low) a.append('line').attr('x1', cx).attr('x2', cx).attr('y1', ys(t.low)).attr('y2', ys(t.high)).attr('stroke', c).attr('stroke-width', 3).attr('stroke-linecap', 'round').attr('opacity', 0.55);
-        const vgf = !/^Not stated|^None/i.test(t.vgf || '');
-        a.append('circle').attr('cx', cx).attr('cy', ys(t.low)).attr('r', rS(t.mwh)).attr('fill', vgf ? c : css('--panel')).attr('fill-opacity', vgf ? 0.85 : 1).attr('stroke', c).attr('stroke-width', 2);
+        a.append('circle').attr('cx', xs(parse(t.date))).attr('cy', ys(t.low)).attr('r', 7).attr('fill', c).attr('stroke', css('--panel')).attr('stroke-width', 2);
         a.on('pointermove', (ev) => showTip(ev, (tt) => {
           tt.appendChild(el('div', 'h', t.label)); tipRow(tt, c, `${t.hours}-hour · ${t.state}`, t.high && t.high !== t.low ? `₹${t.low}–${t.high} lakh` : `₹${t.low} lakh`);
-          tipRow(tt, null, 'Reported', d3.utcFormat('%-d %b %Y')(parse(t.date))); tipRow(tt, null, 'VGF', t.vgf); if (t.tenure) tipRow(tt, null, 'Contract', t.tenure + ' years');
-          tipNote(tt, 'Winners: ' + t.winners); if (t.note) tipNote(tt, t.note); tipNote(tt, 'Source: ' + t.source + ' (click to open)');
+          tipRow(tt, null, 'Reported', d3.utcFormat('%-d %b %Y')(parse(t.date))); tipNote(tt, 'Winners: ' + t.winners); tipNote(tt, 'Source: ' + t.source + ' (click to open)');
         })).on('pointerleave', hideTip);
       });
-      if (W > 560) { svg.append('text').attr('x', mg.l).attr('y', 11).attr('font-size', 11.5).attr('fill', css('--muted')).text('₹ lakh per MW per month'); }
+      svg.append('text').attr('x', mg.l).attr('y', 11).attr('font-size', 11.5).attr('fill', css('--muted')).text('₹ lakh per MW per month (lowest winning bid)');
       const lg = $('#st-legend'); lg.replaceChildren();
       [[css('--blue'), '2-hour'], [css('--orange'), '4-hour']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = c; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
-      { const s = el('span'); const i = el('i', 'dt'); i.style.border = '2px solid ' + css('--slate'); i.style.background = 'transparent'; s.append(i, document.createTextNode('No VGF mentioned')); lg.appendChild(s); }
-      { const s = el('span'); const i = el('i', 'ln'); i.style.background = css('--fg'); s.append(i, document.createTextNode(`Break-even, dashed, in the duration's colour${be[2] ? ` (2-hour ₹${be[2].toFixed(2)}` : ''}${be[4] ? `${be[2] ? ', ' : ' ('}4-hour ₹${be[4].toFixed(2)}` : ''}${be[2] || be[4] ? ')' : ''}`)); lg.appendChild(s); }
-      (X.benchmarks || []).forEach((bm) => { const s = el('span'); const i = el('i', 'ln'); i.style.background = css('--muted'); s.append(i, document.createTextNode(`Dotted: ${bm.label}, ₹${bm.value} `)); s.appendChild(link('JMK', bm.url)); lg.appendChild(s); });
-      // table
+      // table (inside "Show as a table")
       const tb = $('#st-table'); tb.replaceChildren();
       const hr = el('tr'); ['Reported', 'Tender', 'Hours', 'MWh', 'Tariff, ₹ lakh/MW/month', 'VGF', 'Contract', 'Winners', 'Source'].forEach((h) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); tb.appendChild(th);
       const body = el('tbody');
@@ -2156,23 +2140,24 @@
     const rows = [2, 4].map((h) => ({ h, s: stSystem(h) })).filter((r) => r.s);
     const mx = d3.max(rows, (r) => r.s.installed) || 1;
     rows.forEach(({ h, s }) => {
-      const parts = [{ label: `China ${h}-hour AC system (InfoLink, ${shortDay(parse(s.date))})`, color: '--blue', v: s.a.fob }, { label: 'Freight + insurance', color: '--teal', v: s.a.freight + s.a.ins }, { label: `Duty ${LAND.bcdB}% + surcharge`, color: '--orange', v: s.a.duty }, { label: 'India site and contractor costs', color: '--plum', v: s.site }];
-      const row = el('div', 'lbar'); row.appendChild(el('span', 'lbn', `${h}-hour system`));
-      const bar = el('div', 'stackbar'); bar.style.width = (s.installed / mx * 100) + '%'; stackBar(bar, parts, s.installed);
-      row.append(bar, el('b', 'lbv', fmtUsd1(s.installed))); box.appendChild(row);
-      box.appendChild(el('p', 'sub st-inr', `${h}-hour: about ₹${(s.installed * 1000 * LAND.fx / 1e7).toFixed(2)} crore per MWh installed (landed equipment ${fmtUsd1(s.a.landed)} + site ${fmtUsd1(s.site)}).`));
+      const head = el('div', 'st-costhead'); head.append(el('span', null, `${h}-hour project`), el('b', null, `₹${crore(s.installed).toFixed(2)} crore per MWh`));
+      box.appendChild(head);
+      const bar = el('div', 'stackbar'); bar.style.width = (s.installed / mx * 100) + '%';
+      stackBar(bar, [{ label: 'China storage system', color: '--blue', v: s.a.fob }, { label: 'Shipping and duty', color: '--orange', v: s.a.landed - s.a.fob }, { label: 'Indian site and contractor', color: '--plum', v: s.site }], s.installed);
+      box.appendChild(bar);
     });
-    const lg = el('div', 'tlegend'); [['--blue', 'China system price'], ['--teal', 'Freight + insurance'], ['--orange', 'Duty + surcharge'], ['--plum', 'India site and contractor costs']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(c); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
+    const lg = el('div', 'tlegend'); [['--blue', 'China storage system'], ['--orange', 'Shipping and duty'], ['--plum', 'Indian site and contractor']].forEach(([c, t]) => { const s = el('span'); const i = el('i', 'dt'); i.style.background = css(c); i.style.borderRadius = '3px'; s.append(i, document.createTextNode(t)); lg.appendChild(s); });
     box.appendChild(lg);
-    const d = X.defaults || {}; const p = el('p', 'lnote st-site-note'); p.appendChild(document.createTextNode((d.site_note || '') + ' Change it in the break-even calculator.')); box.appendChild(p);
-    // EPC references
+    // details
+    const dn = $('#st-cost-notes'); dn.replaceChildren();
+    const s2 = rows.find((r) => r.h === 2); if (s2) dn.appendChild(el('p', 'lnote', `2-hour in US$: China system ${fmtUsd1(s2.s.a.fob)}/kWh (InfoLink, ${shortDay(parse(s2.s.date))}) + shipping and ${LAND.bcdB}% duty ${fmtUsd1(s2.s.a.landed - s2.s.a.fob)} + Indian site ${fmtUsd1(s2.s.site)} = ${fmtUsd1(s2.s.installed)}/kWh.`));
+    const d = X.defaults || {}; dn.appendChild(el('p', 'lnote', d.site_note || ''));
     const t = $('#st-epc'); t.replaceChildren();
-    const hr = el('tr'); ['Order', 'MWh', 'Value', 'Per MWh', 'US$/kWh', 'Scope'].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    const hr = el('tr'); ['Order', 'MWh', 'Value', 'Per MWh', 'Scope'].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
     const b = el('tbody');
     (X.epc_orders || []).forEach((o) => {
-      const perMWh = o.inr_cr / o.mwh; const usd = perMWh * 1e7 / o.fx / 1000;
       const tr = el('tr'); const n = el('td'); n.appendChild(link(o.label, o.url)); n.appendChild(el('span', 'role', `${d3.utcFormat('%-d %b %Y')(parse(o.date))}${o.hours ? ` · ${o.hours}-hour` : ''}`));
-      tr.append(n, el('td', 'num', d3.format(',')(o.mwh)), el('td', 'num', `₹${d3.format(',.0f')(o.inr_cr)} cr`), el('td', 'num', `₹${perMWh.toFixed(2)} cr`), el('td', 'num strong', fmtUsd1(usd)), el('td', 'mk-note', o.scope));
+      tr.append(n, el('td', 'num', d3.format(',')(o.mwh)), el('td', 'num', `₹${d3.format(',.0f')(o.inr_cr)} cr`), el('td', 'num strong', `₹${(o.inr_cr / o.mwh).toFixed(2)} cr`), el('td', 'mk-note', o.scope));
       b.appendChild(tr);
     });
     t.appendChild(b);
@@ -2180,65 +2165,54 @@
   function renderBreakEven(X, tenders) {
     const v = ST.v; const d = X.defaults || {}; const h = ST.be;
     const seg = $('#be-hours'); seg.replaceChildren();
-    [2, 4].forEach((x) => { const b = el('button', null, `${x}-hour`); b.type = 'button'; b.setAttribute('aria-pressed', String(h === x)); b.addEventListener('click', () => { ST.be = x; $('#be-in').replaceChildren(); renderStorage(); }); seg.appendChild(b); });
+    [2, 4].forEach((x) => { const b = el('button', null, `${x}-hour`); b.type = 'button'; b.setAttribute('aria-pressed', String(h === x)); b.addEventListener('click', () => { ST.be = x; $('#be-in').replaceChildren(); $('#be-more').replaceChildren(); renderStorage(); }); seg.appendChild(b); });
     const capex = stCapex(h); if (capex == null) { fail($('#be-out'), 'No system price'); return; }
-    const r = stBreakEven(h, capex);
-    // compare with tenders of this duration reported in the last 12 months
-    const last = d3.max(tenders, (t) => t.date); const cut = new Date(+parse(last) - 365 * 864e5);
-    const rec = tenders.filter((t) => t.hours === h && parse(t.date) >= cut);
-    const below = rec.filter((t) => t.low < r.lakh); const mwhAll = d3.sum(rec, (t) => t.mwh), mwhBelow = d3.sum(below, (t) => t.mwh);
+    const r = stBreakEven(h, capex); const rec = stRecent(tenders, h);
     const out = $('#be-out'); out.replaceChildren();
-    const k = el('div', 'kpis three');
-    kpi(k, `Break-even, ${h}-hour`, `₹${r.lakh.toFixed(2)} lakh`, ['per MW per month', null], 'main');
-    kpi(k, 'Installed cost used', fmtUsd1(capex) + '/kWh', [`₹${(capex * 1000 * LAND.fx / 1e7).toFixed(2)} crore per MWh`, null]);
-    kpi(k, 'Cost of capital', (r.wacc * 100).toFixed(1) + '%', [`${v.debt}% debt at ${v.dr}%, rest equity at ${v.er}%`, null]);
+    const k = el('div', 'kpis');
+    kpi(k, `A ${h}-hour project needs`, `₹${r.lakh.toFixed(2)} lakh`, ['per MW per month to break even', null], 'main');
+    if (rec) kpi(k, 'Typical winning bid', `₹${rec.med.toFixed(2)} lakh`, [`middle of ${rec.n} tenders in the last 12 months`, null]);
     out.appendChild(k);
-    let msg = rec.length ? `${below.length} of the ${rec.length} ${h}-hour tenders reported in the 12 months to ${d3.utcFormat('%b %Y')(parse(last))} cleared below this break-even (lowest winning bid), covering ${mwhAll ? Math.round(mwhBelow / mwhAll * 100) : 0}% of their MWh.` : `No ${h}-hour tenders in the last 12 months to compare with.`;
-    const med = rec.length ? d3.median(rec, (t) => t.low) : null;
-    if (med) { // installed cost at which the median winning tariff just breaks even
-      const c = crf(r.wacc, v[h].tenure); const target = med * 1e5 * 12; const vgfMW = v.vgf * 1e5 * h;
-      const capMW = (target + vgfMW * c) / (c + v.om / 100); const need = capMW / (1000 * h * LAND.fx);
-      msg += ` At the median winning tariff (₹${med.toFixed(2)} lakh), a project would need to be installed for about ${fmtUsd1(need)}/kWh (₹${(need * 1000 * LAND.fx / 1e7).toFixed(2)} crore per MWh) with these financing and running-cost assumptions, against ${fmtUsd1(capex)} here.`;
-    }
-    const bm = (X.benchmarks || []).find((b) => b.hours === h);
-    if (bm) msg += ` JMK's benchmark for 2-hour projects is ₹${bm.value} lakh; the defaults here are more cautious (US running costs from NREL, installed cost from EPC contractors' prices), so treat the break-even as an upper estimate and change the inputs to match your own costs.`;
-    else msg += ' The defaults are cautious (US running costs from NREL, installed cost from EPC contractors\' prices), so treat the break-even as an upper estimate.';
-    out.appendChild(el('p', 'insight', msg));
-    // inputs
+    if (rec) out.appendChild(el('p', 'sub be-say', r.lakh > rec.med ? `Winning bids are below this: winners must expect lower costs, cheaper money or extra income. These defaults are cautious, so treat the break-even as an upper estimate.` : 'Winning bids are at or above this break-even on these assumptions.'));
+    const f = (get, set, label, unit, step, hint, key) => {
+      const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
+      const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = get(); if (key) i.dataset.k = key;
+      i.addEventListener('input', () => { const x = parseFloat(i.value); if (!isNaN(x) && x >= 0) { set(x); clearTimeout(ST.t); ST.t = setTimeout(renderStorageLight, 120); } });
+      const row = el('span', 'lrow'); row.append(i, el('span', 'lu', unit)); w.appendChild(row); if (hint) w.appendChild(el('span', 'lh', hint)); return w;
+    };
     const box = $('#be-in');
     if (!box.childElementCount) {
-      const f = (get, set, label, unit, step, hint, key) => {
-        const w = el('label', 'lfield'); w.appendChild(el('span', 'lk', label));
-        const i = el('input', 'num-in'); i.type = 'number'; i.step = step; i.min = 0; i.value = get(); if (key) i.dataset.k = key;
-        i.addEventListener('input', () => { const x = parseFloat(i.value); if (!isNaN(x) && x >= 0) { set(x); clearTimeout(ST.t); ST.t = setTimeout(() => { renderStorageLight(); }, 120); } });
-        const row = el('span', 'lrow'); row.append(i, el('span', 'lu', unit)); w.appendChild(row); if (hint) w.appendChild(el('span', 'lh', hint)); return w;
-      };
       box.append(
-        f(() => +stCapex(h).toFixed(1), (x) => { v.capex[h] = x; }, 'Installed cost', '$/kWh', '0.5', 'From the cost build-up; type your own', 'capex'),
-        f(() => v[h].site, (x) => { v[h].site = x; v.capex[h] = null; }, 'India site and contractor costs', '$/kWh', '0.5', h === 2 ? 'Derived from NTPC EPC orders' : 'Assumption, scaled from 2-hour'),
-        f(() => v.vgf, (x) => { v.vgf = x; }, 'Viability gap funding', '₹ lakh per MWh', '1', '18 under the 2025 scheme; 0 if none'),
-        f(() => v[h].tenure, (x) => { v[h].tenure = Math.max(1, Math.round(x)); }, 'Contract length', 'years', '1', h === 2 ? '12 for most 2-hour tenders' : '15 for recent 4-hour tenders'),
-        f(() => v.om, (x) => { v.om = x; }, 'Running costs', '% of investment a year', '0.1', 'Incl. battery top-ups (NREL)'),
+        f(() => +crore(stCapex(h)).toFixed(2), (x) => { v.capex[h] = x * 1e7 / 1000 / LAND.fx; }, 'Cost to build', '₹ crore per MWh', '0.01', 'From the cost on the left; type your own', 'capex'),
+        f(() => v.vgf, (x) => { v.vgf = x; }, 'Government support (VGF)', '₹ lakh per MWh', '1', '18 under the 2025 scheme; 0 if none'),
+        f(() => v[h].tenure, (x) => { v[h].tenure = Math.max(1, Math.round(x)); }, 'Contract length', 'years', '1', h === 2 ? 'Usually 12 for 2-hour' : 'Usually 15 for 4-hour'),
+      );
+    }
+    const more = $('#be-more');
+    if (!more.childElementCount) {
+      const g = el('div', 'landed-in');
+      g.append(
+        f(() => v[h].site, (x) => { v[h].site = x; v.capex[h] = null; }, 'Indian site and contractor costs', 'US$ per kWh', '0.5', h === 2 ? 'From NTPC EPC orders' : 'Assumption, scaled from 2-hour'),
+        f(() => v.om, (x) => { v.om = x; }, 'Running costs', '% of cost a year', '0.1', 'Incl. battery top-ups (NREL, US)'),
         f(() => v.debt, (x) => { v.debt = Math.min(100, x); }, 'Debt share', '%', '1', 'Assumption'),
         f(() => v.dr, (x) => { v.dr = x; }, 'Interest on debt', '% a year', '0.1', 'SBI one-year MCLR'),
         f(() => v.er, (x) => { v.er = x; }, 'Return on equity', '% a year', '0.5', 'Low end of 15–20% (JMK)'),
       );
-      const rs = el('button', 'btn ghost small', 'Back to defaults'); rs.type = 'button'; rs.addEventListener('click', () => { ST.v = null; box.replaceChildren(); renderStorage(); }); box.appendChild(rs);
+      const rs = el('button', 'btn ghost small', 'Back to defaults'); rs.type = 'button'; rs.addEventListener('click', () => { ST.v = null; box.replaceChildren(); more.replaceChildren(); renderStorage(); });
+      more.append(g, rs, el('div', 'landed-notes', null));
     }
-    const nb = $('#be-notes'); nb.replaceChildren();
+    const nb = $('.landed-notes', more); nb.replaceChildren();
     const note = (txt, src, url) => { const p = el('p', 'lnote'); p.appendChild(document.createTextNode(txt + ' ')); if (url) p.appendChild(link(src, url)); nb.appendChild(p); };
-    note(`How it works: investment per MW = installed cost × ${h} MWh × ₹${LAND.fx.toFixed(2)} per US$, less VGF; repaid in equal yearly amounts over the contract at the cost of capital, plus running costs; divided by 12 months.`);
+    note(`Cost of capital ${(r.wacc * 100).toFixed(1)}% a year. How it works: cost to build per MW, less VGF, is repaid in equal yearly amounts over the contract at the cost of capital, plus running costs, divided by 12 months.`);
     note(d.charging_note || '');
     note(d.om_note || '', d.om_source, d.om_url);
-    note(d.vgf_note || '', d.vgf_source, d.vgf_url);
-    note(d.tenure_note || '', d.tenure_source, d.tenure_url);
     note(d.finance_note || '', d.finance_source, d.finance_url);
+    note(d.tenure_note || '', d.tenure_source, d.tenure_url);
   }
-  function renderStorageLight() { // keep the inputs, redraw the rest
-    const keep = document.activeElement; const box = $('#be-in'); const vals = $$('input', box).map((i) => i.value);
+  function renderStorageLight() { // keep the inputs the reader is typing in, redraw the rest
+    const keep = document.activeElement;
     renderStorage();
-    $$('input', box).forEach((i, k) => { if (i !== keep) i.value = vals[k]; });
-    const ci = $('input[data-k="capex"]', box); if (ci && ci !== keep) ci.value = (+stCapex(ST.be)).toFixed(1);
+    const ci = $('#be-in input[data-k="capex"]'); if (ci && ci !== keep) ci.value = crore(stCapex(ST.be)).toFixed(2);
   }
 
   // ---------- tabs ----------
@@ -2248,7 +2222,7 @@
     let [tab, sub] = (LEGACY[path] || path).split('/');
     if (!TABS.includes(tab)) tab = 'overview';
     if (tab === 'materials' && SUBS.includes(sub)) S.sub = sub;
-    if (tab === 'calculator') S.csub = sub === 'make' ? 'make' : 'china';
+    if (tab === 'calculator' && sub) S.csub = sub === 'make' ? 'make' : 'china'; // no sub (e.g. a redraw on resize) keeps the current one
     S.tab = tab; hideTip();
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
@@ -2268,6 +2242,7 @@
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
 
   // ---------- inputs ----------
+  { const r = $('#mk-reset'); if (r) r.addEventListener('click', () => { MK.v = null; const t = $('#mk-table'); delete t.dataset.ready; $('#mk-pli').replaceChildren(); renderMake(); }); }
   $('#news-search').addEventListener('input', (e) => { S.news.q = e.target.value; renderNews(); });
   $('#news-effect').addEventListener('change', (e) => { S.news.effect = e.target.value; renderNews(); });
 

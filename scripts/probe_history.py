@@ -56,6 +56,7 @@ def _(name):
 @probe("100ppi spot/futures page: lithium carbonate")
 def _(name):
     s, h, b = get("https://www.100ppi.com/sf/792.html")
+    print("   100ppi sf page:", s, len(b), "bytes | start:", re.sub(r"\s+", " ", b[:400]))
     links = dict((re.sub(r"<[^>]+>", "", t).strip(), u) for u, t in re.findall(r'<li[^>]*>\s*<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', b, flags=re.S))
     hit = {k: v for k, v in links.items() if "锂" in k}
     print("   100ppi items with 锂:", hit, "| total items:", len(links))
@@ -81,7 +82,12 @@ def _(name):
     tok = h2.get("_pcc") or h2.get("_Pcc") or ""
     q = urllib.parse.urlencode({"productId": li[0]["productId"], "pageNo": 1, "pageSize": 50000, "startDate": "", "endDate": "2050-01-01", "appCategory": "web"})
     s, h3, b3 = get("https://centerapi.fx168api.com/app/qh/api/spot/trend?" + q, {"_pcc": tok, "Origin": "https://www.99qh.com", "Referer": "https://www.99qh.com"})
-    rows = json.loads(b3)["data"]["list"]
+    js = json.loads(b3)
+    print("   99qh token present:", bool(tok), "| header keys:", [k for k in h2.keys()][:15], "| answer start:", b3[:300])
+    data = js.get("data")
+    if isinstance(data, str):
+        data = json.loads(data)
+    rows = data["list"]
     rows = sorted(rows, key=lambda r: r["date"])
     sp = [r for r in rows if r.get("sp") not in (None, "", 0, "0")]
     report(name, len(sp) > 100, len(sp), sp[0]["date"] if sp else "", sp[-1]["date"] if sp else "", f"sample first {sp[0] if sp else None}")
@@ -147,8 +153,14 @@ def _(name):
     best = None
     for sym in sorted(syms):
         try:
-            s, h, b = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=10y&interval=1d")
-            res = json.loads(b)["chart"]["result"][0]
+            res = None
+            for rng, iv in (("max", "1d"), ("max", "1wk"), ("10y", "1mo")):
+                s, h, b = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range={rng}&interval={iv}")
+                r0 = json.loads(b)["chart"]["result"][0]
+                nn = len([c for c in (r0["indicators"]["quote"][0].get("close") or []) if c])
+                print(f"   yahoo {sym} range={rng} interval={iv}: {nn} points")
+                if res is None or nn > len([c for c in (res["indicators"]["quote"][0].get("close") or []) if c]):
+                    res = r0
             ts = [t for t, c in zip(res.get("timestamp") or [], res["indicators"]["quote"][0].get("close") or []) if c]
             fd = lambda t: time.strftime("%Y-%m-%d", time.gmtime(t))  # noqa: E731
             print(f"   yahoo {sym}: {len(ts)} days {fd(ts[0]) if ts else ''} -> {fd(ts[-1]) if ts else ''}")

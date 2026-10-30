@@ -1875,7 +1875,7 @@
     ahead.forEach((r) => {
       const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
       const li = el('li'); li.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
-      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d')(d)), el('span', null, d3.utcFormat('%b %Y')(d)));
+      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
       const body = el('div', 'rn-body');
       const meta = el('div', 'rn-meta'); meta.append(document.createTextNode(r.region + ' '), el('span', 'rule-status', r.status));
       body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), meta);

@@ -207,6 +207,56 @@ def _(name):
     report(name, bool(deepest and deepest[0] > 30), *(deepest or (0, "", "", f"{len(hits)} items found")))
 
 
+# 9. Australian government Resources and Energy Quarterly: data tables with spodumene / lithium prices
+@probe("REQ Australia: spodumene and lithium price tables")
+def _(name):
+    import io
+    pages = ["https://www.industry.gov.au/publications/resources-and-energy-quarterly-september-2026",
+             "https://www.industry.gov.au/publications/resources-and-energy-quarterly-june-2026"]
+    files = []
+    for pg in pages:
+        try:
+            s, h, b = get(pg)
+            links = re.findall(r'href="([^"]+\.(?:xlsx|xls|csv))"', b, flags=re.I)
+            print(f"   req page {pg[-30:]}: status {s}, {len(b)} bytes, data files: {links[:12]}")
+            files += [l if l.startswith("http") else "https://www.industry.gov.au" + l for l in links]
+        except Exception as e:  # noqa: BLE001
+            print("   req page", pg[-30:], type(e).__name__, str(e)[:100])
+    try:
+        import openpyxl
+    except ImportError:
+        import subprocess
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "openpyxl"], check=False)
+        import openpyxl
+    best = None
+    for f in list(dict.fromkeys(files))[:6]:
+        try:
+            req = urllib.request.Request(f, headers={"User-Agent": UA})
+            blob = urllib.request.urlopen(req, timeout=60).read()
+            wb = openpyxl.load_workbook(io.BytesIO(blob), read_only=True, data_only=True)
+            for ws in wb.worksheets:
+                for row in ws.iter_rows(values_only=True):
+                    lab = " ".join(str(c) for c in row[:3] if c)
+                    if re.search(r"spodumene|lithium", lab, flags=re.I):
+                        nums = [c for c in row if isinstance(c, (int, float))]
+                        print(f"   req {f.rsplit('/', 1)[-1][:40]} / {ws.title}: '{lab[:70]}' -> {len(nums)} numbers, e.g. {nums[:6]}")
+                        if best is None or len(nums) > best[0]:
+                            best = (len(nums), ws.title, lab[:60], f.rsplit('/', 1)[-1])
+        except Exception as e:  # noqa: BLE001
+            print("   req file", f[-40:], type(e).__name__, str(e)[:100])
+    report(name, bool(best and best[0] >= 8), *((best[0], "", "", f"{best[3]} / {best[1]} / {best[2]}") if best else (0, "", "", f"{len(files)} data files found")))
+
+
+# 10. IMF primary commodity prices: is lithium, cobalt or graphite in the list?
+@probe("IMF commodity price list")
+def _(name):
+    s, h, b = get("https://dataservices.imf.org/REST/SDMX_JSON.svc/CodeList/CL_INDICATOR_PCPS")
+    codes = json.loads(b)["Structure"]["CodeLists"]["CodeList"]["Code"]
+    hits = [(c["@value"], c["Description"]["#text"]) for c in codes if re.search(r"lith|cobalt|graphit|nickel|spodum", c["Description"]["#text"], flags=re.I)]
+    print("   imf battery codes:", hits)
+    report(name, bool(hits), len(hits), note=str(hits)[:200])
+
+
 def esc(t):
     return str(t).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
 

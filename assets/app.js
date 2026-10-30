@@ -478,7 +478,7 @@
       const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
       const body = el('div');
       body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), el('div', 'rn-meta', `${r.region} · ${r.status}`));
-      if (VISIT.rules.has(r.id)) body.firstChild.appendChild(newTag('New or changed since your last visit'));
+      if (isNewRule(r.id)) body.firstChild.appendChild(newTag('New or changed since your last visit'));
       const b = el('button', 'rn'); b.type = 'button'; b.append(db, body);
       b.addEventListener('click', () => { go('rules'); const card = document.getElementById('rule-' + r.id); if (card) { card.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1600); } });
       li.appendChild(b); ul.appendChild(li);
@@ -1128,7 +1128,7 @@
     const li = el('li', feed ? 'story' : null); if (feed) li.id = 'story-' + n.id;
     li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
-    if (VISIT.news.has(n.id)) meta.appendChild(newTag('Added since your last visit'));
+    if (isNewNews(n.id)) meta.appendChild(newTag('Added since your last visit'));
     if (feed) meta.append(el('span', 'cat', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
@@ -1895,7 +1895,7 @@
     const c = el('article', 'rule'); c.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
     const top = el('div', 'rule-top');
     top.append(el('span', 'rule-region', r.region), el('span', 'rule-area', r.area));
-    if (VISIT.rules.has(r.id)) top.appendChild(newTag(r.changed ? `Changed: ${r.changed}` : 'New or changed since your last visit'));
+    if (isNewRule(r.id)) top.appendChild(newTag(r.changed ? `Changed: ${r.changed}` : 'New or changed since your last visit'));
     const st = el('span', 'rule-status', r.status); top.appendChild(st);
     c.appendChild(top);
     c.appendChild(el('h3', 'rule-title', r.title));
@@ -1964,7 +1964,9 @@
 
   // ---------- alive: new since your last visit ----------
   // Kept in this browser only (localStorage); nothing is sent anywhere. A visit ends after 30 minutes away.
-  const VISIT = { prev: null, first: false, news: new Set(), rules: new Set(), prices: new Map() };
+  const VISIT = { prev: null, first: false, news: new Set(), rules: new Set(), prices: new Map(), keepNews: new Set(), keepRules: new Set() };
+  const isNewNews = (id) => VISIT.news.has(id) || VISIT.keepNews.has(id);
+  const isNewRule = (id) => VISIT.rules.has(id) || VISIT.keepRules.has(id);
   const ruleSig = (r) => [r.status, r.date, r.changed || ''].join('|');
   const readJSON = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return undefined; } };
   const writeJSON = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } };
@@ -1997,6 +1999,16 @@
       const a = numOf(o[0]), b = numOf(r.price);
       VISIT.prices.set(r.id, { from: o[0], to: r.price, pct: a && b ? (b / a - 1) * 100 : null });
     });
+  }
+  // opening the News or Regulations tab counts as seeing them: the tab badge goes and stays gone,
+  // while the 'New' labels on the items themselves stay for the rest of this visit
+  function visitSeenTab(kind) {
+    if (!VISIT.prev || !VISIT.prev.snap) return;
+    const set = kind === 'news' ? VISIT.news : VISIT.rules; if (!set.size) return;
+    const keep = kind === 'news' ? VISIT.keepNews : VISIT.keepRules; set.forEach((id) => keep.add(id));
+    const snap = visitSnap();
+    if (kind === 'news') VISIT.prev.snap.n = snap.n; else VISIT.prev.snap.r = snap.r;
+    writeJSON('lbp-prev', VISIT.prev); visitDiff(); renderCounts();
   }
   function visitSeen() {
     VISIT.prev = { t: Date.now(), snap: visitSnap() }; VISIT.first = false;
@@ -2139,7 +2151,7 @@
     SPOT.i = i; const n = SPOT.items[i];
     const a = el('a', 'spot-item'); a.href = n.url; a.target = '_blank'; a.rel = 'noopener';
     const meta = el('span', 'spot-meta'); meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
-    if (VISIT.news.has(n.id)) meta.appendChild(newTag());
+    if (isNewNews(n.id)) meta.appendChild(newTag());
     a.append(meta, el('span', 'spot-h', n.headline), el('span', 'spot-src', n.source + ' ↗'));
     if (!instant && !reduced()) a.classList.add('in');
     st.replaceChildren(a);
@@ -2668,6 +2680,7 @@
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
     if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }
     try { pageHero(tab); RENDER[tab](); pageHero(tab); if (tab === 'rules') renderRules(); } catch (e) { console.error(e); }
+    if (tab === 'news' || tab === 'rules') visitSeenTab(tab);
     if (tab !== 'overview' && tab !== 'chain') { // every other page: panels rise in like the overview (off for reduced motion)
       const pg = $(`#page-${tab}`);
       if (pg) { $$(':scope > .panel, :scope > .pg-card, :scope > .subpage > .panel, :scope > .calc-simple > .panel, :scope > .risk-grid > .panel', pg).forEach((n) => n.classList.add('rv')); const rp = !S.resizing; requestAnimationFrame(() => reveal(pg, rp)); }

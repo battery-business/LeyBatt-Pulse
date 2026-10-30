@@ -1233,13 +1233,15 @@
     { id: 'inr', name: 'Rupees per US$', unit: '', fmt: fmtInr2 },
   ];
   const OL_COL = { base: '--l2', tight: '--orange', glut: '--l5', curbs: '--plum' };
-  function loadOutlook() {
-    if (D.scen) { renderOutlook(); return; }
-    if (OL.loading) return; OL.loading = true;
+  const scenWait = [];
+  function ensureScen(cb) { // load data/scenarios.json once; run cb when it is in
+    if (D.scen !== undefined) { cb(); return; }
+    scenWait.push(cb); if (OL.loading) return; OL.loading = true;
     fetch('data/scenarios.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((j) => {
-      OL.loading = false; D.scen = j; if (S.tab === 'risk') renderOutlook();
+      OL.loading = false; D.scen = j; scenWait.splice(0).forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     });
   }
+  function loadOutlook() { ensureScen(() => { if (S.tab === 'risk') renderOutlook(); }); }
   function renderOutlook() {
     const X = D.scen; const box = $('#outlook'); if (!box) return;
     if (!X || !X.results) { fail($('#ol-chart'), 'The outlook is not available yet'); return; }
@@ -1310,8 +1312,8 @@
     item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Middle of the range', c); item('lg-band2', 'Half of outcomes (P25–P75)', c); item('lg-band', '8 in 10 outcomes (P10–P90)', c); item('lg-dash', 'Other scenarios (middle)', css('--muted'));
     if (mat.note) lg.appendChild(el('span', 'note', mat.unit + ' ' + mat.note));
   }
-  function olYears(tbl, X, mat) {
-    tbl.replaceChildren(); const R = X.results[OL.scen][mat.id]; const now = X.now[mat.id];
+  function olYears(tbl, X, mat, scen = OL.scen, oddsEl = $('#ol-odds')) {
+    tbl.replaceChildren(); const R = X.results[scen][mat.id]; const now = X.now[mat.id];
     const th = el('thead'); const hr = el('tr'); ['Period', 'Middle (P50)', '8 in 10 range (P10–P90)', 'Middle vs today'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
     const tb = el('tbody'); const pctf = (v) => (v >= 0 ? '+' : '−') + Math.abs(v * 100).toFixed(0) + '%';
     const nowRow = el('tr', 'now'); nowRow.append(el('td', null, `Today (${d3.utcFormat('%-d %b')(parse(X.asof))})`), el('td', 'num', mat.fmt(now) + mat.unit), el('td'), el('td')); tb.appendChild(nowRow);
@@ -1320,7 +1322,7 @@
       const md = el('td', 'num b', mat.fmt(v.p50)); md.appendChild(el('span', 'rng', `${mat.fmt(v.p10)} – ${mat.fmt(v.p90)}`)); const tr = el('tr'); tr.append(el('td', null, v.months >= 12 ? `${yr} average` : `${yr} average (${v.months} months)`), md, el('td', 'num', `${mat.fmt(v.p10)} – ${mat.fmt(v.p90)}`), el('td', 'num ' + (v.p50 > now * 1.005 ? 'is-up' : v.p50 < now * 0.995 ? 'is-down' : ''), pctf(v.p50 / now - 1))); tb.appendChild(tr);
     });
     tbl.appendChild(tb);
-    const ul = $('#ol-odds'); ul.replaceChildren();
+    const ul = oddsEl; ul.replaceChildren();
     [['m24', '2 years'], ['m36', '3 years']].forEach(([k, lab]) => { const r = R[k]; if (!r) return; const li = el('li'); li.append(el('b', null, `In ${lab} (${d3.utcFormat('%b %Y')(parse(r.month))}): `), document.createTextNode(`${Math.round(r.up25 * 100)}% chance of being at least 25% above today, ${Math.round(r.down25 * 100)}% chance of being at least 25% below.`)); ul.appendChild(li); });
   }
   function olRisk(tbl, X) {
@@ -2260,6 +2262,162 @@
       h.style.opacity = String(1 - k * 0.85); h.style.transform = y > 0 ? `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 - k * 0.05).toFixed(3)})` : '';
     });
   }, { passive: true });
+  // ---------- full chart with an optional forecast (opened from the value-chain step charts) ----------
+  const FC = { keys: [], key: null, range: 1827, fc: false, scen: 'base', opener: null };
+  const histPts = (rows, key) => [...(rows || [])].sort((a, b) => d3.ascending(a.date, b.date)).map((r) => ({ d: parse(r.date), v: +r[key], source: r.source })).filter((p) => p.v > 0);
+  const FC_SERIES = {
+    lithium: { name: 'Lithium carbonate', sub: 'Guangzhou futures, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'lithium', hist: () => futHist() },
+    copper: { name: 'Copper', sub: 'LME cash settlement, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'copper', hist: () => (D.hist || {}).copper || [] },
+    aluminium: { name: 'Aluminium', sub: 'LME cash settlement, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'aluminium', hist: () => (D.hist || {}).aluminium || [] },
+    cathode: { name: 'LFP cathode', sub: 'China price, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'cathode', hist: () => [], note: 'The site has no LFP cathode price history yet, so this view starts from today’s price.' },
+    cell_ess: { name: 'Storage cell (314 Ah)', sub: 'InfoLink average, US$ per kWh', fmt: fmtUsd1, unit: '/kWh', mat: 'cell_ess', hist: () => histPts(D.cell314, 'usd_kwh') },
+    cell_ev: { name: 'EV cell', sub: 'TrendForce average, US$ per kWh', fmt: fmtUsd1, unit: '/kWh', mat: 'cell_ev', hist: () => histPts((D.evcells || {}).series, 'usd_kwh') },
+    sys4: { name: '4-hour AC system', sub: 'China, InfoLink, US$ per kWh', fmt: fmtUsd1, unit: '/kWh', mat: null, hist: () => histPts(weekly(), 'ac_4h') },
+    sys2: { name: '2-hour AC system', sub: 'China, InfoLink, US$ per kWh', fmt: fmtUsd1, unit: '/kWh', mat: null, hist: () => histPts(weekly(), 'ac_2h') },
+    dc2: { name: '2-hour DC block', sub: 'China, InfoLink, US$ per kWh', fmt: fmtUsd1, unit: '/kWh', mat: null, hist: () => histPts(weekly(), 'dc_2h') },
+  };
+  function fcChart(box, { hist, fmt, rangeDays = 0, fc = null, height = 360, color = css('--l2'), legend = null, compact = false }) {
+    box.replaceChildren();
+    const today = fc ? parse(fc.asof) : (hist.length ? hist[hist.length - 1].d : new Date());
+    const cutoff = rangeDays ? new Date(+today - rangeDays * 864e5) : new Date(-8.64e15);
+    const hv = hist.filter((p) => p.d >= cutoff);
+    if (!hv.length && !fc) { box.appendChild(el('div', 'empty', 'No readings in this period.')); return; }
+    const months = fc ? fc.months : [];
+    const W = box.clientWidth || 700, H = height;
+    const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]]), ...fc.others.flatMap((o) => o.mids)] : [])].filter((v) => v > 0);
+    const y = d3.scaleLinear([Math.min(...vals) * 0.92, Math.max(...vals) * 1.04], [H - 30, 14]).nice();
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
+    const ticks = y.ticks(5); const left = measure(svg, ticks.map(fmt)) + 12; const narrow = W < 560;
+    const right = fc ? (narrow || compact ? Math.min(90, W * 0.26) : Math.min(150, W * 0.2)) : measure(svg, [fmt(hv[hv.length - 1].v)]) + 18;
+    let x0 = hv.length ? hv[0].d : today, x1 = fc ? months[months.length - 1] : hv[hv.length - 1].d;
+    if (+x0 === +x1) { x0 = new Date(+x0 - 15 * 864e5); x1 = new Date(+x1 + 15 * 864e5); }
+    const x = d3.scaleUtc([x0, x1], [left, W - right]); const span = (x1 - x0) / 864e5;
+    svg.append('g').attr('transform', `translate(${left},0)`).call(d3.axisLeft(y).tickValues(ticks).tickFormat(fmt).tickSize(-(W - left - right))).call(axisStyle);
+    svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(x).ticks(span > 1100 ? d3.utcYear.every(narrow && span > 2000 ? 2 : 1) : Math.max(2, Math.floor((W - left - right) / 90))).tickFormat(d3.utcFormat(span > 1100 ? (narrow ? "'%y" : '%Y') : span < 120 ? '%-d %b' : '%b %y')).tickSize(0).tickPadding(10)).call(axisStyle);
+    const labels = [];
+    if (fc) {
+      const fut = [{ d: today, b: [fc.now, fc.now, fc.now, fc.now, fc.now] }, ...months.map((m, i) => ({ d: m, b: fc.bands[i] }))];
+      svg.append('path').datum(fut).attr('fill', color).attr('fill-opacity', 0.13).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
+      svg.append('path').datum(fut).attr('fill', color).attr('fill-opacity', 0.22).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[1])).y1((p) => y(p.b[3])).curve(d3.curveMonotoneX));
+      fc.others.forEach((o) => {
+        const pts = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: o.mids[i] }))];
+        svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', o.color).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
+        if (!narrow && !compact) labels.push({ y: y(pts[pts.length - 1].v), t: o.name, c: o.color, w: 500 });
+      });
+      const mid = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: fc.bands[i][2] }))];
+      svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
+      labels.push({ y: y(mid[mid.length - 1].v), t: narrow || compact ? fmt(mid[mid.length - 1].v) : `${fc.name} ${fmt(mid[mid.length - 1].v)}`, c: color, w: 700 });
+      svg.append('line').attr('x1', x(today)).attr('x2', x(today)).attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3');
+      svg.append('text').attr('x', x(today) + 5).attr('y', 24).attr('font-size', 11.5).attr('fill', css('--muted')).text('Today');
+    }
+    if (hv.length) {
+      const g = hv.flatMap((p, i) => (i && (p.d - hv[i - 1].d) / 864e5 > 75 ? [null, p] : [p]));
+      if (fc) g.push({ d: today, v: fc.now });
+      svg.append('path').datum(g).attr('class', 'drawline').attr('fill', 'none').attr('stroke', css('--fg')).attr('stroke-width', 1.8).attr('stroke-linejoin', 'round').attr('d', d3.line().defined((p) => p != null).x((p) => x(p.d)).y((p) => y(p.v)));
+      if (hv.length <= 150) svg.append('g').selectAll('circle').data(hv).join('circle').attr('cx', (p) => x(p.d)).attr('cy', (p) => y(p.v)).attr('r', 2.6).attr('fill', css('--fg'));
+      if (!fc) labels.push({ y: y(hv[hv.length - 1].v), t: fmt(hv[hv.length - 1].v), c: css('--fg'), w: 700 });
+    }
+    if (fc) svg.append('circle').attr('cx', x(today)).attr('cy', y(fc.now)).attr('r', 4).attr('fill', css('--fg'));
+    labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
+    labels.forEach((l) => svg.append('text').attr('x', W - right + 8).attr('y', l.y + 4).attr('font-size', 11.5).attr('font-weight', l.w).attr('fill', l.c).text(l.t));
+    const rule = svg.append('line').attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('opacity', 0);
+    const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i] })) : [])];
+    const bis = d3.bisector((p) => p.d).center;
+    svg.append('rect').attr('x', left).attr('y', 0).attr('width', Math.max(0, W - left - right)).attr('height', H - 30).attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        if (!seq.length) return; const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
+        showTip(ev, (t) => {
+          if (p.h != null) { t.appendChild(el('div', 'k', dayFmt(p.d))); tipRow(t, css('--fg'), 'Actual', fmt(p.h)); if (p.src) tipNote(t, 'Source: ' + p.src); }
+          else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Middle', fmt(p.b[2])); tipRow(t, color, 'Half of outcomes', `${fmt(p.b[1])} – ${fmt(p.b[3])}`); tipRow(t, color, '8 in 10 outcomes', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); }
+        });
+      }).on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+    if (legend) {
+      legend.replaceChildren();
+      const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); legend.appendChild(s2); };
+      if (hv.length) item('lg-line', 'Actual', css('--fg'));
+      if (fc) { item('lg-mid', 'Forecast, middle', color); item('lg-band2', 'Half of outcomes', color); item('lg-band', '8 in 10 outcomes', color); if (fc.others.length) item('lg-dash', 'Other scenarios', css('--muted')); }
+    }
+    drawIn(box);
+  }
+  function fcData(X, mat, scen, includeOthers = true) {
+    if (!X || !X.results || !X.results[scen] || !X.results[scen][mat]) return null;
+    const sc = X.scenarios.find((s) => s.id === scen);
+    return { asof: X.asof, months: X.months.map(parse), now: X.now[mat], bands: X.results[scen][mat].bands, name: sc.name,
+      others: includeOthers ? X.scenarios.filter((s) => s.id !== scen).map((s) => ({ name: s.name, color: css(OL_COL[s.id]), mids: X.results[s.id][mat].bands.map((b) => b[2]) })) : [] };
+  }
+  function fullUi() {
+    let ov = $('#fx-overlay'); if (ov) return ov;
+    ov = el('div', 'fx-overlay'); ov.id = 'fx-overlay'; ov.hidden = true; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'fx-title');
+    ov.innerHTML = `<div class="fx-sheet" tabindex="-1">
+      <div class="fx-top"><div><p class="ch-eyebrow" id="fx-eyebrow"></p><h2 id="fx-title"></h2><p class="sub" id="fx-sub"></p></div><button type="button" class="fx-close" aria-label="Close">✕</button></div>
+      <div class="ol-mats" id="fx-chips" role="group" aria-label="Series"></div>
+      <div class="fx-controls"><div class="seg" id="fx-range" role="group" aria-label="Time range"></div>
+        <label class="fx-switch"><input type="checkbox" id="fx-fc"><span class="tr" aria-hidden="true"></span><span>Show forecast</span></label></div>
+      <div class="fx-scenwrap" id="fx-scenwrap" hidden><div class="seg ol-scen" id="fx-scen" role="group" aria-label="Scenario"></div><p class="ol-say" id="fx-say"></p></div>
+      <div class="chart fx-chart" id="fx-chart"></div>
+      <div class="ol-legend" id="fx-legend"></div>
+      <p class="sub fx-note" id="fx-note"></p>
+      <div id="fx-tablewrap" hidden><div class="table-wrap"><table class="rtable otable yrs" id="fx-years"></table></div><ul class="ol-odds" id="fx-odds"></ul>
+        <p class="sub">Ranges, not predictions: a model of the price history around published forecasts, rerun every night. <a href="#risk" id="fx-how">How the forecast works →</a></p></div>
+    </div>`;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', (e) => { if (e.target === ov) closeFull(); });
+    $('.fx-close', ov).addEventListener('click', closeFull);
+    $('#fx-fc', ov).addEventListener('change', (e) => { FC.fc = e.target.checked; drawFull(); });
+    $('#fx-how', ov).addEventListener('click', (e) => { e.preventDefault(); closeFull(); go('risk'); setTimeout(() => { const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); }, 120); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) closeFull(); });
+    return ov;
+  }
+  function openFull(keys, key, eyebrow, opener) {
+    const ov = fullUi(); FC.keys = keys; FC.key = key || keys[0]; FC.opener = opener || document.activeElement;
+    $('#fx-eyebrow').textContent = eyebrow || '';
+    ov.hidden = false; document.documentElement.classList.add('fx-open');
+    requestAnimationFrame(() => ov.classList.add('on'));
+    ensureScen(drawFull); drawFull();
+    $('.fx-close', ov).focus();
+  }
+  function closeFull() {
+    const ov = $('#fx-overlay'); if (!ov || ov.hidden) return;
+    ov.classList.remove('on'); hideTip();
+    const done = () => { ov.hidden = true; document.documentElement.classList.remove('fx-open'); if (FC.opener && FC.opener.focus) FC.opener.focus(); };
+    if (reduced()) done(); else setTimeout(done, 220);
+  }
+  function drawFull() {
+    const ov = $('#fx-overlay'); if (!ov || ov.hidden) return;
+    const sr = FC_SERIES[FC.key]; const X = D.scen;
+    $('#fx-title').textContent = sr.name; $('#fx-sub').textContent = sr.sub;
+    const chips = $('#fx-chips'); chips.replaceChildren(); chips.hidden = FC.keys.length < 2;
+    FC.keys.forEach((k) => { const b = el('button', 'ol-chip', FC_SERIES[k].name); b.type = 'button'; b.setAttribute('aria-pressed', String(k === FC.key)); b.addEventListener('click', () => { FC.key = k; drawFull(); }); chips.appendChild(b); });
+    const rg = $('#fx-range'); rg.replaceChildren();
+    [['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]].forEach(([l, dd]) => { const b = el('button', null, l); b.type = 'button'; b.setAttribute('aria-pressed', String(FC.range === dd)); b.addEventListener('click', () => { FC.range = dd; drawFull(); }); rg.appendChild(b); });
+    const can = !!(sr.mat && X && X.results && X.results.base[sr.mat]);
+    const sw = $('#fx-fc'); sw.disabled = !can; sw.checked = can && FC.fc; sw.closest('.fx-switch').classList.toggle('off', !can);
+    const show = can && FC.fc;
+    $('#fx-scenwrap').hidden = !show; $('#fx-tablewrap').hidden = !show;
+    if (show) {
+      const sg = $('#fx-scen'); sg.replaceChildren();
+      X.scenarios.forEach((s) => { const b = el('button', null, s.name); b.type = 'button'; b.setAttribute('aria-pressed', String(FC.scen === s.id)); b.addEventListener('click', () => { FC.scen = s.id; drawFull(); }); sg.appendChild(b); });
+      const sc = X.scenarios.find((s) => s.id === FC.scen); const say = $('#fx-say'); say.replaceChildren(); const dot = el('i', 'ol-dot'); dot.style.background = css(OL_COL[sc.id]); say.append(dot, el('b', null, sc.short + '. '), document.createTextNode(sc.say));
+      olYears($('#fx-years'), X, { id: sr.mat, fmt: sr.fmt, unit: sr.unit }, FC.scen, $('#fx-odds'));
+    }
+    const hist = sr.hist();
+    fcChart($('#fx-chart'), { hist, fmt: sr.fmt, rangeDays: FC.range, fc: show ? fcData(X, sr.mat, FC.scen) : null, color: css(OL_COL[FC.scen]), legend: $('#fx-legend'), height: Math.max(300, Math.min(440, window.innerHeight * 0.46)) });
+    const notes = [];
+    if (sr.note) notes.push(sr.note);
+    if (!sr.mat) notes.push('No forecast for packs and storage systems yet: the outlook model covers lithium, copper, aluminium, LFP cathode and cells.');
+    else if (!X && D.scen === null) notes.push('The forecast could not be loaded right now.');
+    else if (!X) notes.push('Loading the forecast…');
+    if (show && FC.key === 'lithium') notes.push('History is the Guangzhou futures price, the same basis as the forecast.');
+    if (!show && hist.length && FC.range && +hist[0].d > +new Date(Date.now() - FC.range * 864e5) + 45 * 864e5) notes.push(`Readings start ${d3.utcFormat('%b %Y')(hist[0].d)}${FC.key === 'lithium' ? ' (the Guangzhou contract began trading then)' : ''}.`);
+    $('#fx-note').textContent = notes.join(' ');
+  }
+  window.addEventListener('resize', () => { const ov = $('#fx-overlay'); if (ov && !ov.hidden) { clearTimeout(drawFull.t); drawFull.t = setTimeout(drawFull, 150); } });
+  function expandBtn(sec, keys, key, eyebrow, label = 'Full chart & forecast') {
+    const b = el('button', 'chp-expand'); b.type = 'button'; b.append(document.createTextNode(label + ' '), el('span', null, '⤢'));
+    b.addEventListener('click', () => openFull(keys, key, eyebrow, b));
+    const h = $('.chp-h', sec); if (h) { const row = el('div', 'chp-hrow'); h.replaceWith(row); row.append(h, b); } else sec.appendChild(b);
+    return b;
+  }
   function renderChain() {
     const box = $('#chain-page'); if (!box) return;
     const i = Math.max(0, CHAIN.findIndex((c) => c.id === S.chain)); const c = CHAIN[i];
@@ -2289,15 +2447,33 @@
       };
       if (c.chart !== 'tenders') { const sg = el('div', 'seg chp-range'); sg.dataset.rangeFor = 'chain'; sg.setAttribute('role', 'group'); sg.setAttribute('aria-label', 'Time range'); s.appendChild(sg); rangeSeg('chain', draw); }
       s.appendChild(cb); draw();
+      const FK = { lithium: ['lithium', 'copper', 'aluminium'], cells: ['cell_ess', 'cell_ev'], systems: ['sys4', 'sys2', 'dc2'] }[c.chart];
+      if (FK) {
+        const eb = `Step ${c.n} · ${c.name}`;
+        expandBtn(s, FK, FK[0], eb, c.chart === 'systems' ? 'Full chart' : 'Full chart & forecast');
+        cb.classList.add('zoomable'); cb.title = 'Click for the full chart' + (c.chart === 'systems' ? '' : ' and forecast');
+        cb.addEventListener('click', () => openFull(FK, FK[0], eb, cb));
+      }
       if (c.id === 'mining' && ((D.hist || {}).copper || []).length) {
         const ms = section('Copper and aluminium', 'LME cash settlement, US$ per tonne. Copper goes into anode foil and cables, aluminium into cathode foil, casings and racks.');
         const sg = el('div', 'seg chp-range'); sg.dataset.rangeFor = 'metals'; sg.setAttribute('role', 'group'); sg.setAttribute('aria-label', 'Time range'); ms.appendChild(sg);
         const mb = el('div', 'chart'); ms.appendChild(mb);
         const drawM = () => timeChart(mb, [{ name: 'Copper', color: css('--l1'), points: D.hist.copper }, { name: 'Aluminium', color: css('--l4'), points: D.hist.aluminium }], { fmt: fmtUsd0, rangeDays: S.range.metals, height: 280 });
         rangeSeg('metals', drawM); drawM();
+        expandBtn(ms, ['copper', 'aluminium', 'lithium'], 'copper', `Step ${c.n} · ${c.name}`);
+        mb.classList.add('zoomable'); mb.title = 'Click for the full chart and forecast'; mb.addEventListener('click', () => openFull(['copper', 'aluminium', 'lithium'], 'copper', `Step ${c.n} · ${c.name}`, mb));
         const src = el('p', 'sub'); const a = el('a', null, 'Westmetall (LME cash settlement)'); a.href = 'https://www.westmetall.com/en/markdaten.php'; a.target = '_blank'; a.rel = 'noopener'; src.append(document.createTextNode('Source: '), a, document.createTextNode('. Refreshed every night.')); ms.appendChild(src);
       }
       else if (c.chart === 'tenders') { tenderChart(cb, stTenders()); const lg = el('div', 'tlegend'); [['--blue', '2-hour'], ['--orange', '4-hour']].forEach(([cc, t]) => { const x = el('span'); const i2 = el('i', 'dt'); i2.style.background = css(cc); x.append(i2, document.createTextNode(t)); lg.appendChild(x); }); s.appendChild(lg); }
+    }
+    if (c.id === 'materials') {
+      const s = section('LFP cathode: where the price could go', 'Base scenario to late 2029, worked out from lithium and the site\u2019s cost model. Click for scenarios and the yearly ranges.');
+      const cb = el('div', 'chart zoomable'); s.appendChild(cb); cb.title = 'Click for the full forecast';
+      const eb = `Step ${c.n} · ${c.name}`;
+      expandBtn(s, ['cathode', 'lithium'], 'cathode', eb, 'Full forecast');
+      cb.addEventListener('click', () => { FC.fc = true; openFull(['cathode', 'lithium'], 'cathode', eb, cb); });
+      const lg = el('div', 'ol-legend'); s.appendChild(lg);
+      ensureScen(() => { if (!cb.isConnected) return; const f = fcData(D.scen, 'cathode', 'base', false); if (f) fcChart(cb, { hist: [], fmt: fmtUsd0, fc: f, color: css('--l2'), legend: lg, height: 240, compact: true }); else cb.appendChild(el('div', 'empty', 'The outlook is not available yet.')); });
     }
     // prices
     const steps = allPrices();

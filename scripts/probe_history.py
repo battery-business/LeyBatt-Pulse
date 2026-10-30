@@ -8,6 +8,14 @@ from io import StringIO
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 OUT = []
+DETAIL = []
+_print = print
+
+
+def print(*a, **k):  # noqa: A001  keep detail lines so they can go into the notice
+    DETAIL.append(" ".join(str(x) for x in a))
+    _print(*a, **k)
+
 
 
 def get(url, headers=None, timeout=40):
@@ -187,6 +195,14 @@ def _(name):
     report(name, bool(deepest and deepest[0] > 30), *(deepest or (0, "", "", f"{len(hits)} items found")))
 
 
+def esc(t):
+    return str(t).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+
+
+for name, ok, n, first, last, note in OUT:
+    det = [l.strip() for l in DETAIL if l.startswith("   ") and any(w in l for w in name.lower().split()[:1])]
+    _print(f"::notice title={esc(('OK ' if ok else 'NO ') + name)}::{esc(f'n={n} {first} -> {last} | {note}' + chr(10) + chr(10).join(det)[:3000])}")
+_print("::warning title=all detail lines::" + esc("\n".join(l.strip() for l in DETAIL if l.startswith("   "))[:6000]))
 print("\n==== SUMMARY ====")
 for name, ok, n, first, last, note in OUT:
     print(f"{'OK ' if ok else 'NO '} | {name} | {n} | {first} -> {last} | {note}")

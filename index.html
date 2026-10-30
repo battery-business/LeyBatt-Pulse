@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610301614">
+<link rel="stylesheet" href="assets/style.css?v=202610302010">
 </head>
 <body>
 <header class="top">
@@ -273,7 +273,7 @@
       <div class="rh-top">
         <div>
           <h2 class="rh-title">Risk Navigator</h2>
-          <p class="sub" id="risk-sub">Price and supply risk for what we buy, scored 0–10 from a buyer's point of view. Rescored every morning.</p>
+          <p class="sub" id="risk-sub">Price and supply risk for what we buy, scored 0–10 from a buyer's point of view. Rescored every morning. <a href="#risk" class="ol-jump" id="ol-jump">See the next three years ↓</a></p>
         </div>
         <div class="seg" id="risk-h" role="group" aria-label="Time horizon"></div>
       </div>
@@ -296,6 +296,21 @@
       </div>
     </div>
     <div class="panel risk-detail" id="risk-detail"></div>
+    <section class="panel outlook" id="outlook" aria-labelledby="ol-title">
+      <div class="panel-head"><h2 id="ol-title">The next three years</h2><span class="sub" id="ol-asof"></span></div>
+      <p class="sub ol-lead">Possible prices to late 2029 under four scenarios, from a model run every night on real price history and published forecasts. These are ranges, not predictions: the method, its track record and every source are at the bottom.</p>
+      <div class="seg ol-scen" id="ol-scen" role="group" aria-label="Scenario"></div>
+      <p class="ol-say" id="ol-say"></p>
+      <div class="ol-mats" id="ol-mats" role="group" aria-label="Material"></div>
+      <div class="chart ol-chart" id="ol-chart"></div>
+      <div class="ol-legend" id="ol-legend"></div>
+      <div class="table-wrap"><table class="rtable otable" id="ol-years"></table></div>
+      <ul class="ol-odds" id="ol-odds"></ul>
+      <h3 class="ol-h">Two and three years out, every material</h3>
+      <p class="sub" id="ol-risk-sub"></p>
+      <div class="table-wrap"><table class="rtable otable" id="ol-risk"></table></div>
+      <details class="ol-method"><summary>How the outlook works, its track record and sources</summary><div id="ol-method"></div></details>
+    </section>
     <div class="panel risk-india" style="--sec:var(--orange)">
       <div class="panel-head"><h2>India factors</h2><span class="sub">What changes the cost and supply for an Indian buyer</span></div>
       <div class="india-grid" id="risk-india"></div>
@@ -442,6 +457,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610301614"></script>
+<script src="assets/app.js?v=202610302010"></script>
 </body>
 </html>

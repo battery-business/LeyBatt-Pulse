@@ -949,3 +949,56 @@ html { scroll-behavior: smooth; }
 /* long history: range switch on step charts, note when a line starts later than the chosen period */
 .chp-range { margin: 4px 0 12px; flex-wrap: wrap; }
 .chart-note { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+
+/* 2-3 year outlook on the Risk tab */
+.outlook { gap: 12px; }
+.outlook .panel-head h2 { font-size: clamp(22px, 2.2vw, 28px); font-weight: 800; letter-spacing: -0.025em; }
+.ol-lead { max-width: 70ch; }
+.ol-scen { flex-wrap: wrap; align-self: flex-start; }
+.ol-scen button { font-size: 13px; padding: 6px 14px; }
+.ol-say { margin: 0; font-size: 14.5px; line-height: 1.5; max-width: 80ch; }
+.ol-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+.ol-mats { display: flex; flex-wrap: wrap; gap: 6px; }
+.ol-chip { appearance: none; border: 1px solid var(--line); background: var(--soft); color: var(--fg); font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.ol-chip[aria-pressed="true"] { background: var(--fg); color: var(--panel); border-color: var(--fg); }
+.ol-chart { min-height: 340px; }
+.ol-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); }
+.ol-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.ol-legend i { display: inline-block; width: 18px; height: 10px; }
+.ol-legend .lg-line { height: 2px; background: var(--c); }
+.ol-legend .lg-mid { height: 3px; background: var(--c); }
+.ol-legend .lg-band { background: color-mix(in srgb, var(--c) 18%, transparent); }
+.ol-legend .lg-band2 { background: color-mix(in srgb, var(--c) 38%, transparent); }
+.ol-legend .lg-dash { height: 0; border-top: 2px dashed var(--c); }
+.otable td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.otable td.b { font-weight: 700; }
+.otable th:not(:first-child) { text-align: right; }
+.otable#ol-risk th:nth-child(n+4) { text-align: left; }
+.otable tr.now td { color: var(--muted); }
+.otable tr.odds td { font-size: 13px; color: var(--fg); background: var(--soft); }
+.otable td.is-up { color: var(--bad); } .otable td.is-down { color: var(--ok); }
+.otable tr.sel td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.otable tbody tr[tabindex] { cursor: pointer; }
+.ol-h { margin: 14px 0 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.ol-method summary { cursor: pointer; font-weight: 700; font-size: 14.5px; padding: 6px 0; }
+.ol-method h4 { margin: 16px 0 6px; font-size: 14px; }
+.ol-method p, .ol-method li { font-size: 13.5px; line-height: 1.55; }
+.ol-method .ol-src { margin: 6px 0 10px; }
+.ol-method .ol-src p { margin: 2px 0; }
+.ol-steps { padding-left: 20px; }
+.ol-jump { font-weight: 600; white-space: nowrap; }
+@media (max-width: 640px) { .ol-chart { min-height: 300px; } .otable { font-size: 12.5px; } }
+.ol-odds { list-style: none; margin: 0; padding: 12px 14px; background: var(--soft); border-radius: 14px; display: grid; gap: 6px; font-size: 13.5px; }
+.otable#ol-years th:nth-child(3), .otable#ol-years td:nth-child(3) { color: var(--muted); }
+.otable .rng { display: none; }
+@media (max-width: 640px) {
+  .otable#ol-years th:nth-child(3), .otable#ol-years td:nth-child(3) { display: none; }
+  .otable .rng { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .otable#ol-risk th:nth-child(2), .otable#ol-risk td:nth-child(2), .otable#ol-risk th:nth-child(3), .otable#ol-risk td:nth-child(3) { display: none; }
+  .otable#ol-risk .rdelta { display: block; margin-top: 3px; }
+}
+@media (max-width: 640px) {
+  .otable#ol-risk th { white-space: normal; }
+  .otable#ol-risk .rchip > span { display: none; }
+  .otable#ol-risk td, .otable#ol-risk th { padding-left: 4px; padding-right: 4px; }
+}

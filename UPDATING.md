@@ -89,6 +89,11 @@ The one thing a daily update adds is **risk tags** on news items and dates that 
 - `supply`: export controls and bans, mine or plant stoppages, new capacity starting (negative), sanctions, shipping disruption. `price`: tax, rebate or duty changes, price hikes or cuts announced by big makers, strong demand or glut signals, forecasts.
 - Do not tag plain price reports (the prices already feed the score). Tag the date in `events.json` too when the change has a start date. Leave items with no clear effect untagged.
 
+## 2-3 year outlook (`scenario_config.json`)
+The Risk tab's "The next three years" section comes from `data/scenarios.json`, which `scripts/scenarios.py` rewrites every night in the risk workflow (never edit `scenarios.json` by hand). It simulates lithium, copper, aluminium, LFP cathode, cells and the rupee under four scenarios, using the price history in `data/history/` (including the nightly Guangzhou futures curve, `lithium_curve.csv`) and the anchors in `data/scenario_config.json`.
+- Update an anchor only when a new public forecast appears, from a page you opened: lithium `tight` (bullish bank or Fastmarkets/Benchmark forecasts), `glut` (bearish forecasts), `base.long_run` (a published long-term price); `copper.all` and `aluminium.all` (World Bank Commodity Markets Outlook, each April and October). Give the yearly average at `YYYY-07-01`, in US$/t on the site basis (yuan forecasts: divide by 6.70; do not remove VAT for lithium), and update that anchor's `note` and `sources` (text with publisher and date, URL).
+- Never change `horizon_months`, `sims`, `seed`, the calibration settings, `curbs.premium` or the scenario list in a routine update. Run `python3 scripts/scenarios.py` after editing to check it still runs.
+
 ## Morning email
 
 The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) at about 5:15 am IST, built from the data files — the daily run does not send email itself. To make it useful:

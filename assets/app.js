@@ -1215,7 +1215,176 @@
     renderRiskDetail(det, mats.find((m) => m.id === RISK.sel), R);
     renderRiskIndia($('#risk-india'), R.india || {});
     renderRiskMethod($('#risk-method'), R);
+    loadOutlook();
   }
+
+  // ---------- 2-3 year outlook (data/scenarios.json, written nightly by scripts/scenarios.py) ----------
+  const OL = { scen: 'base', mat: 'lithium', loading: false };
+  const fmtInr0 = (v) => '₹' + d3.format(',.0f')(v);
+  const fmtInr2 = (v) => '₹' + d3.format(',.2f')(v);
+  const OL_MATS = [
+    { id: 'lithium', name: 'Lithium carbonate', unit: '/t', fmt: fmtUsd0 },
+    { id: 'cathode', name: 'LFP cathode', unit: '/t', fmt: fmtUsd0 },
+    { id: 'cell_ess', name: 'Storage cell (314 Ah)', unit: '/kWh', fmt: fmtUsd1 },
+    { id: 'cell_ev', name: 'EV cell', unit: '/kWh', fmt: fmtUsd1 },
+    { id: 'cell_inr', name: 'Storage cell in rupees', unit: '/kWh', fmt: fmtInr0, note: 'before customs duty and GST' },
+    { id: 'copper', name: 'Copper', unit: '/t', fmt: fmtUsd0 },
+    { id: 'aluminium', name: 'Aluminium', unit: '/t', fmt: fmtUsd0 },
+    { id: 'inr', name: 'Rupees per US$', unit: '', fmt: fmtInr2 },
+  ];
+  const OL_COL = { base: '--l2', tight: '--orange', glut: '--l5', curbs: '--plum' };
+  function loadOutlook() {
+    if (D.scen) { renderOutlook(); return; }
+    if (OL.loading) return; OL.loading = true;
+    fetch('data/scenarios.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((j) => {
+      OL.loading = false; D.scen = j; if (S.tab === 'risk') renderOutlook();
+    });
+  }
+  function renderOutlook() {
+    const X = D.scen; const box = $('#outlook'); if (!box) return;
+    if (!X || !X.results) { fail($('#ol-chart'), 'The outlook is not available yet'); return; }
+    const mat = OL_MATS.find((m) => m.id === OL.mat) || OL_MATS[0];
+    $('#ol-asof').textContent = `Run ${d3.utcFormat('%-d %b %Y')(parse(X.asof))} · ${d3.format(',')(X.sims)} simulated paths per scenario`;
+    // scenario switch
+    const seg = $('#ol-scen'); seg.replaceChildren();
+    X.scenarios.forEach((sc) => { const b = el('button', null, sc.name); b.type = 'button'; b.setAttribute('aria-pressed', String(OL.scen === sc.id)); b.addEventListener('click', () => { OL.scen = sc.id; renderOutlook(); }); seg.appendChild(b); });
+    const sc = X.scenarios.find((x) => x.id === OL.scen);
+    const say = $('#ol-say'); say.replaceChildren(); const sw = el('i', 'ol-dot'); sw.style.background = css(OL_COL[sc.id]); say.append(sw, el('b', null, sc.short + '. '), document.createTextNode(sc.say));
+    // material chips
+    const mb = $('#ol-mats'); mb.replaceChildren();
+    OL_MATS.filter((m) => X.results.base[m.id]).forEach((m) => { const b = el('button', 'ol-chip', m.name); b.type = 'button'; b.setAttribute('aria-pressed', String(OL.mat === m.id)); b.addEventListener('click', () => { OL.mat = m.id; renderOutlook(); }); mb.appendChild(b); });
+    olChart($('#ol-chart'), X, mat);
+    olYears($('#ol-years'), X, mat);
+    olRisk($('#ol-risk'), X);
+    olMethod($('#ol-method'), X);
+  }
+  function olChart(box, X, mat) {
+    box.replaceChildren();
+    const months = X.months.map(parse); const R = X.results[OL.scen][mat.id]; const now = X.now[mat.id];
+    const hist = ((X.history || {})[mat.id] || []).map(([dd, v]) => ({ d: parse(dd), v: +v })).filter((p) => +p.d >= +months[0] - 3 * 366 * 864e5);
+    const today = parse(X.asof);
+    const W = box.clientWidth || 700, H = 340;
+    const allV = [...hist.map((p) => p.v), now, ...R.bands.flatMap((b) => [b[0], b[4]]), ...X.scenarios.map((s) => X.results[s.id][mat.id].bands.map((b) => b[2])).flat()].filter((v) => v > 0);
+    const y = d3.scaleLinear([Math.min(...allV) * 0.92, Math.max(...allV) * 1.04], [H - 30, 14]).nice();
+    const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img').attr('aria-label', `${mat.name}: history and ${OL.scen} scenario range to ${d3.utcFormat('%b %Y')(months[months.length - 1])}`);
+    const ticks = y.ticks(5); const left = measure(svg, ticks.map(mat.fmt)) + 12; const narrow = W < 560; const right = narrow ? Math.min(96, W * 0.27) : Math.min(150, W * 0.2);
+    const x0 = hist.length ? hist[0].d : today;
+    const x = d3.scaleUtc([x0, months[months.length - 1]], [left, W - right]);
+    svg.append('g').attr('transform', `translate(${left},0)`).call(d3.axisLeft(y).tickValues(ticks).tickFormat(mat.fmt).tickSize(-(W - left - right))).call(axisStyle);
+    svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(x).ticks(d3.utcYear.every(1)).tickFormat(d3.utcFormat(narrow ? "'%y" : '%Y')).tickSize(0).tickPadding(10)).call(axisStyle);
+    const c = css(OL_COL[OL.scen]);
+    const fut = [{ d: today, b: [now, now, now, now, now] }, ...months.map((m, i) => ({ d: m, b: R.bands[i] }))];
+    svg.append('path').datum(fut).attr('fill', c).attr('fill-opacity', 0.13).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
+    svg.append('path').datum(fut).attr('fill', c).attr('fill-opacity', 0.22).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[1])).y1((p) => y(p.b[3])).curve(d3.curveMonotoneX));
+    // other scenarios' middles, thin and muted
+    const labels = [];
+    X.scenarios.filter((s) => s.id !== OL.scen).forEach((s) => {
+      const b = X.results[s.id][mat.id].bands; const pts = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: b[i][2] }))];
+      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css(OL_COL[s.id])).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
+      if (!narrow) labels.push({ y: y(pts[pts.length - 1].v), t: s.name, c: css(OL_COL[s.id]), w: 500 });
+    });
+    const mid = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: R.bands[i][2] }))];
+    svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
+    labels.push({ y: y(mid[mid.length - 1].v), t: narrow ? mat.fmt(mid[mid.length - 1].v) : `${X.scenarios.find((s) => s.id === OL.scen).name} ${mat.fmt(mid[mid.length - 1].v)}`, c, w: 700 });
+    if (hist.length > 1) svg.append('path').datum([...hist, { d: today, v: now }]).attr('fill', 'none').attr('stroke', css('--fg')).attr('stroke-width', 1.8).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
+    svg.append('line').attr('x1', x(today)).attr('x2', x(today)).attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3');
+    svg.append('text').attr('x', x(today) + 5).attr('y', 24).attr('font-size', 11.5).attr('fill', css('--muted')).text('Today');
+    svg.append('circle').attr('cx', x(today)).attr('cy', y(now)).attr('r', 4).attr('fill', css('--fg'));
+    labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
+    labels.forEach((l) => svg.append('text').attr('x', W - right + 8).attr('y', l.y + 4).attr('font-size', 11.5).attr('font-weight', l.w).attr('fill', l.c).text(l.t));
+    // hover
+    const rule = svg.append('line').attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('opacity', 0);
+    const seq = [...hist.map((p) => ({ d: p.d, h: p.v })), { d: today, h: now }, ...months.map((m, i) => ({ d: m, b: R.bands[i] }))];
+    const bis = d3.bisector((p) => p.d).center;
+    svg.append('rect').attr('x', left).attr('y', 0).attr('width', W - left - right).attr('height', H - 30).attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
+        showTip(ev, (t) => {
+          t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d)));
+          if (p.h != null) tipRow(t, css('--fg'), +p.d === +today ? 'Today' : 'Actual (month end)', mat.fmt(p.h));
+          else { tipRow(t, c, 'Middle (P50)', mat.fmt(p.b[2])); tipRow(t, c, 'Likely range (P25–P75)', `${mat.fmt(p.b[1])} – ${mat.fmt(p.b[3])}`); tipRow(t, c, 'Wide range (P10–P90)', `${mat.fmt(p.b[0])} – ${mat.fmt(p.b[4])}`); }
+        });
+      }).on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+    const lg = $('#ol-legend'); lg.replaceChildren();
+    const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); lg.appendChild(s2); };
+    item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Middle of the range', c); item('lg-band2', 'Half of outcomes (P25–P75)', c); item('lg-band', '8 in 10 outcomes (P10–P90)', c); item('lg-dash', 'Other scenarios (middle)', css('--muted'));
+    if (mat.note) lg.appendChild(el('span', 'note', mat.unit + ' ' + mat.note));
+  }
+  function olYears(tbl, X, mat) {
+    tbl.replaceChildren(); const R = X.results[OL.scen][mat.id]; const now = X.now[mat.id];
+    const th = el('thead'); const hr = el('tr'); ['Period', 'Middle (P50)', '8 in 10 range (P10–P90)', 'Middle vs today'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el('tbody'); const pctf = (v) => (v >= 0 ? '+' : '−') + Math.abs(v * 100).toFixed(0) + '%';
+    const nowRow = el('tr', 'now'); nowRow.append(el('td', null, `Today (${d3.utcFormat('%-d %b')(parse(X.asof))})`), el('td', 'num', mat.fmt(now) + mat.unit), el('td'), el('td')); tb.appendChild(nowRow);
+    Object.entries(R.years).forEach(([yr, v]) => {
+      if (+yr === parse(X.asof).getUTCFullYear()) return;
+      const md = el('td', 'num b', mat.fmt(v.p50)); md.appendChild(el('span', 'rng', `${mat.fmt(v.p10)} – ${mat.fmt(v.p90)}`)); const tr = el('tr'); tr.append(el('td', null, v.months >= 12 ? `${yr} average` : `${yr} average (${v.months} months)`), md, el('td', 'num', `${mat.fmt(v.p10)} – ${mat.fmt(v.p90)}`), el('td', 'num ' + (v.p50 > now * 1.005 ? 'is-up' : v.p50 < now * 0.995 ? 'is-down' : ''), pctf(v.p50 / now - 1))); tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    const ul = $('#ol-odds'); ul.replaceChildren();
+    [['m24', '2 years'], ['m36', '3 years']].forEach(([k, lab]) => { const r = R[k]; if (!r) return; const li = el('li'); li.append(el('b', null, `In ${lab} (${d3.utcFormat('%b %Y')(parse(r.month))}): `), document.createTextNode(`${Math.round(r.up25 * 100)}% chance of being at least 25% above today, ${Math.round(r.down25 * 100)}% chance of being at least 25% below.`)); ul.appendChild(li); });
+  }
+  function olRisk(tbl, X) {
+    tbl.replaceChildren(); const sc = X.scenarios.find((s) => s.id === OL.scen);
+    $('#ol-risk-sub').textContent = `${sc.name} scenario. Price risk = the chance (out of 10) that the price is at least 25% above today's at that point: 3.0 means a 30% chance. Supply risk is structural: how much the world depends on one country for it.`;
+    const th = el('thead'); const hr = el('tr'); ['Material', 'Today', 'Middle in 2 years', 'Price risk, 2 years', 'Price risk, 3 years', 'Supply risk'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el('tbody'); const RM = new Map(((D.risk || {}).materials || []).map((m) => [m.id, m]));
+    OL_MATS.filter((m) => m.id !== 'inr' && m.id !== 'cell_inr' && X.results[OL.scen][m.id]).forEach((m) => {
+      const r = X.results[OL.scen][m.id]; const tr = el('tr', m.id === OL.mat ? 'sel' : null); tr.tabIndex = 0;
+      const n = el('td', 'rname'); n.append(el('b', null, m.name));
+      const conc = RM.get(m.id) && ((RM.get(m.id).h12 || {}).supply || {}).drivers ? RM.get(m.id).h12.supply.drivers.find((x) => x.key === 'concentration') : null;
+      const sup = conc && conc.score != null ? { score: conc.score, level: conc.score < 4 ? 'Low' : conc.score < 6.5 ? 'Elevated' : 'High' } : null;
+      tr.append(n, el('td', 'num', m.fmt(X.now[m.id]) + m.unit), el('td', 'num', m.fmt(r.m24.p50) + m.unit));
+      [r.m24, r.m36].forEach((h) => { const td = el('td'); td.append(riskChip(h), el('span', 'rdelta', `${Math.round(h.up25 * 100)}% chance`)); tr.appendChild(td); });
+      const ts = el('td'); ts.appendChild(sup ? riskChip(sup) : el('span', 'sub', '–')); tr.appendChild(ts);
+      const pick = () => { OL.mat = m.id; renderOutlook(); $('#ol-chart').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); };
+      tr.addEventListener('click', pick); tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+  }
+  function olMethod(box, X) {
+    box.replaceChildren();
+    const p = (t) => box.appendChild(el('p', null, t));
+    const h = (t) => box.appendChild(el('h4', null, t));
+    const link = (parent, text, url) => { const a = el('a', null, text); a.href = url; a.target = '_blank'; a.rel = 'noopener'; parent.appendChild(a); return a; };
+    h('How it works');
+    const ol = el('ol', 'ol-steps'); box.appendChild(ol);
+    [`Each scenario sets an expected price path from today's price through published forecasts (sources below).`,
+     `Around that path, ${d3.format(',')(X.sims)} possible futures are simulated month by month. The size of the monthly swings is taken from each material's real price history, and a swing fades over time instead of building up for ever. Every scenario uses the same random draws, so the differences between scenarios come only from their assumptions.`,
+     `Lithium, copper and aluminium are passed through the site's own cost model to work out LFP cathode, the cost to make a 314 Ah storage cell, and the cell price (cost plus the makers' margin, which also swings). The rupee path converts it to rupees.`,
+     `The ranges show where 8 in 10 (P10–P90) and half (P25–P75) of the simulated futures land. Price risk for 2 and 3 years is 10 × the chance of being at least 25% above today's price.`].forEach((t) => ol.appendChild(el('li', null, t)));
+    h('What the model learned from the history');
+    const C = X.calibration; const ul = el('ul'); box.appendChild(ul);
+    [['lithium', 'Lithium'], ['copper', 'Copper'], ['aluminium', 'Aluminium']].forEach(([k, n]) => { const c = C[k]; if (c) ul.appendChild(el('li', null, `${n}: swings about ${c.monthly_swing_pct}% in a typical month; a swing halves in about ${Math.round(c.half_life_months)} months (${c.how}). ${c.months_of_history} months of history from ${c.from}.`)); });
+    if (C.inr) ul.appendChild(el('li', null, `Rupee: weakened about ${C.inr.drift_pct_a_year}% a year on average since 2015, swinging about ${C.inr.monthly_swing_pct}% a month.`));
+    if (C.margin) ul.appendChild(el('li', null, `Cell makers' margin over the modelled cost: ${C.margin.now_pct}% today, ${C.margin.average_pct}% on average across ${C.margin.readings} monthly readings since Oct 2025; assumed to drift back to that average with a 6-month half-life.`));
+    if (X.calibration_note) p(X.calibration_note);
+    h('Track record (back-test)');
+    p('The same model was re-run from past months using only the data available then, with no forecasts (the price expected to stay where it was), to check whether the real price later landed inside the 8-in-10 range. If the ranges are honest, that should happen about 80% of the time.');
+    const bt = el('ul'); box.appendChild(bt);
+    (X.backtest || []).forEach((b) => {
+      const parts = ['m6', 'm12', 'm24'].filter((k) => b[k]).map((k) => `${k.slice(1)} months ahead: ${b[k].inside}% inside (${b[k].tests} tests; ${b[k].above}% above, ${b[k].below}% below)`);
+      const name = { copper: 'Copper', aluminium: 'Aluminium', lithium: 'Lithium' }[b.material] || b.material;
+      bt.appendChild(el('li', null, `${name}: ${parts.join('; ')}.`));
+    });
+    p('Copper and aluminium are close to the 80% target. Lithium is not: its only test period is the 2025–26 rally, when the price nearly quadrupled in a year, which a model with no outside information cannot foresee. That is why lithium leans on the scenarios, and why its ranges are wide.');
+    h('Scenario assumptions and sources');
+    const A = X.anchors;
+    X.scenarios.forEach((s) => {
+      const d2 = el('div', 'ol-src'); box.appendChild(d2); const t = el('p'); d2.appendChild(t);
+      const dot = el('i', 'ol-dot'); dot.style.background = css(OL_COL[s.id]); t.append(dot, el('b', null, s.name + ': '), document.createTextNode(s.say));
+      const li = A.lithium[s.id] && A.lithium[s.id].same_as ? null : A.lithium[s.id];
+      if (li) { const q = el('p', 'sub'); q.append(document.createTextNode('Lithium: ' + li.note + ' Sources: ')); (li.sources || []).forEach((sr, i) => { if (i) q.append(document.createTextNode('; ')); link(q, sr.text, sr.url); }); d2.appendChild(q); }
+      if (s.id === 'base' && X.curve && X.curve.length) d2.appendChild(el('p', 'sub', `Futures prices used tonight: ${X.curve.map((c) => `${d3.utcFormat('%b %y')(parse(c.month + '-01'))} ${fmtUsd0(c.usd)}`).join(' · ')} (US$/t; thinly traded months left out).`));
+      if (s.id === 'glut') d2.appendChild(el('p', 'sub', 'Note: the futures market is currently pricing 2027 lower than Goldman Sachs, so this scenario only falls below Base from 2028.'));
+      if (s.id === 'curbs') { const q = el('p', 'sub'); q.append(document.createTextNode(X.curbs.note + ' Source for the licence pause: ')); (X.curbs.sources || []).forEach((sr) => link(q, sr.text, sr.url)); d2.appendChild(q); }
+    });
+    ['copper', 'aluminium'].forEach((k) => { const a = A[k].all; const q = el('p', 'sub'); q.append(document.createTextNode(`${k === 'copper' ? 'Copper' : 'Aluminium'}: ${a.note} Sources: `)); a.sources.forEach((sr, i) => { if (i) q.append(document.createTextNode('; ')); link(q, sr.text, sr.url); }); box.appendChild(q); });
+    p(X.held_flat.note);
+    const sp = el('p', 'sub'); sp.append(document.createTextNode(X.supply.note + ' Source: ')); X.supply.sources.forEach((sr) => link(sp, sr.text, sr.url)); box.appendChild(sp);
+    p('Prices are in US$ on the same basis as the rest of the site. This is a planning aid built from public data, not investment or procurement advice.');
+  }
+  document.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('#ol-jump'); if (!a) return; e.preventDefault(); const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); });
   function drawRiskMap(box, mats) {
     box.replaceChildren();
     const pts = mats.map((m) => ({ m, x: m[RISK.h].price.score, y: m[RISK.h].supply.score })).filter((p) => p.x != null && p.y != null);

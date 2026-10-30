@@ -161,7 +161,7 @@
    "cell": 0.1
   },
   "assumed": true,
-  "note": "Assumed extra cost for buyers outside China if export licences return: graphite anode +15%, LFP cathode +10%, cells +10%. No public estimate of this premium was found; treat it as a what-if and change it here.",
+  "note": "Assumed extra cost for buyers outside China if export licences return: graphite anode +15%, LFP cathode +10%, cells +10%. No public estimate of this premium was found, so treat it as a what-if; the figures can be changed in the model settings.",
   "sources": [
    {
     "text": "China suspends export controls on lithium batteries and artificial graphite anode materials for one year (HSF Kramer)",

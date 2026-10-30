@@ -193,6 +193,11 @@ def curve_points(D, today):
             continue
         if (today - when).days > 10 or close <= 0 or month <= today:
             continue
+        try:
+            if float(r.get("volume") or 0) < 100:  # thinly traded months: a stale close is not a market view
+                continue
+        except ValueError:
+            pass
         rate = D.rate(today, 2)
         pts.append({"date": month.isoformat(), "usd": close / rate, "contract": r.get("contract", "")})
     return sorted(pts, key=lambda p: p["date"])

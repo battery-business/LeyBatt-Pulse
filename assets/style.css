@@ -945,3 +945,7 @@ html { scroll-behavior: smooth; }
 .rv-on .rv.go { transition: opacity .9s cubic-bezier(.2,.7,.2,1) var(--rd, 0ms), transform 1.1s cubic-bezier(.2,.7,.2,1) var(--rd, 0ms); }
 .ch-head { will-change: opacity, transform; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv-on .rv.pre { opacity: 1; transform: none; } .rv-on .rv.go { transition: none; } }
+
+/* long history: range switch on step charts, note when a line starts later than the chosen period */
+.chp-range { margin: 4px 0 12px; flex-wrap: wrap; }
+.chart-note { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }

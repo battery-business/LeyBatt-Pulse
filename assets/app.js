@@ -2,7 +2,7 @@
   'use strict';
   const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
-  const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['All', 0]];
+  const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'storage', 'risk', 'brief', 'chain'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
@@ -14,7 +14,7 @@
   const D = {};
   const S = {
     tab: 'overview',
-    range: { lithium: 0, cell: 0, sysweekly: 0 },
+    range: { lithium: 1827, cell: 0, sysweekly: 0, chain: 1827, metals: 1827 },
     hidden: { lithium: new Set(), sys: new Set() },
     news: { q: '', cat: '', effect: '' },
     sub: 'all',
@@ -88,17 +88,19 @@
     const xS = d3.scaleUtc([x0, x1], [left, W - right]);
     const span = (x1 - x0) / 864e5;
     svg.append('g').attr('transform', `translate(${left},0)`).call(d3.axisLeft(yS).tickValues(ticks).tickFormat(fmt).tickSize(-(W - left - right))).call(axisStyle);
-    svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(xS).ticks(Math.max(2, Math.floor((W - left - right) / 90))).tickFormat(d3.utcFormat(span < 120 ? '%-d %b' : '%b %y')).tickSize(0).tickPadding(10)).call(axisStyle);
+    svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(xS).ticks(span > 1100 ? d3.utcYear.every(Math.max(1, Math.ceil(span / 365 / Math.max(2, Math.floor((W - left - right) / 70))))) : Math.max(2, Math.floor((W - left - right) / 90))).tickFormat(d3.utcFormat(span < 120 ? '%-d %b' : span > 1100 ? '%Y' : '%b %y')).tickSize(0).tickPadding(10)).call(axisStyle);
     svg.append('line').attr('x1', left).attr('x2', W - right).attr('y1', H - 30).attr('y2', H - 30).attr('stroke', css('--axis'));
     const r = pts.length > 60 ? 2.5 : 3.5;
+    const dense = (s) => s.points.length > 150; // long daily histories: a clean line, no dots
     const labels = [];
     vis.forEach((s) => {
       if (band) {
         const bp = s.points.filter((p) => p.lo != null && p.hi != null);
         if (bp.length > 1) svg.append('path').datum(bp).attr('fill', s.color).attr('fill-opacity', 0.12).attr('d', d3.area().x((p) => xS(p.d)).y0((p) => yS(p.lo)).y1((p) => yS(p.hi)));
       }
-      svg.append('path').datum(s.points).attr('class', 'drawline').attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => xS(p.d)).y((p) => yS(p.v)));
-      svg.append('g').selectAll('circle').data(s.points).join('circle').attr('class', 'dot').attr('cx', (p) => xS(p.d)).attr('cy', (p) => yS(p.v)).attr('r', r).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 1.2);
+      const withGaps = s.points.flatMap((p, i) => (i && (p.d - s.points[i - 1].d) / 864e5 > 75 ? [null, p] : [p])); // no line across months with no readings
+      svg.append('path').datum(withGaps).attr('class', 'drawline').attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', d3.line().defined((p) => p != null).x((p) => xS(p.d)).y((p) => yS(p.v)));
+      if (!dense(s)) svg.append('g').selectAll('circle').data(s.points).join('circle').attr('class', 'dot').attr('cx', (p) => xS(p.d)).attr('cy', (p) => yS(p.v)).attr('r', r).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 1.2);
       const last = s.points[s.points.length - 1];
       labels.push({ x: xS(last.d) + 8, y: yS(last.v) + 4, text: s.name + ' ' + fmt(last.v), color: s.color });
     });
@@ -126,6 +128,10 @@
         });
       })
       .on('pointerleave', () => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); });
+    if (rangeDays) { // say so when a line has less history than the period chosen
+      const late = vis.filter((s) => +s.points[0].d > +cutoff + 45 * 864e5);
+      if (late.length) box.appendChild(el('p', 'chart-note', late.map((s) => `${s.name}: readings start ${d3.utcFormat('%b %Y')(s.points[0].d)}${s.since ? ` (${s.since})` : ''}`).join(' · ') + '.'));
+    }
     drawIn(box);
   }
 
@@ -182,6 +188,13 @@
   // ---------- derived data ----------
   const futPts = () => (D.lithium || []).filter((r) => r.series === 'Futures').map((r) => ({ d: parse(r.date), v: +r.usd_t, source: r.source, note: r.note })).sort((a, b) => a.d - b.d);
   const spotPts = () => (D.lithium || []).filter((r) => r.series === 'Spot').map((r) => ({ d: parse(r.date), v: +r.usd_t, source: r.source, note: r.note, url: r.url })).sort((a, b) => a.d - b.d);
+  // daily lithium futures since the Guangzhou contract began (Jul 2023), from the nightly history file; the site's own
+  // readings win on the same day. Converted at each day's ECB rate on the same basis as the site's futures figures.
+  const futHist = () => {
+    const own = futPts(); const have = new Set(own.map((p) => +p.d));
+    return [...((D.hist || {}).lithium || []).filter((p) => !have.has(+p.d)), ...own].sort((a, b) => a.d - b.d);
+  };
+  const FUT_SINCE = () => (((D.hist || {}).lithium || []).length ? 'the Guangzhou contract began trading then' : '');
   const liKg = () => { const cm = D.costmodel || {}; return (cm.lc_per_t_lfp || 0.24) * (cm.cathode_kg || 2.2); };
   const weekly = () => [...(D.weekly || [])].sort((a, b) => d3.ascending(a.date, b.date));
   const ilSpotMap = () => new Map((D.lithium || []).filter((r) => r.series === 'Spot' && /^InfoLink/.test(r.source)).map((r) => [r.date, +r.usd_t]));
@@ -495,7 +508,7 @@
       const names = ['Futures', 'Spot'], colors = [css('--amber'), css('--blue')];
       toggles($('#lithium-toggles'), names, colors, S.hidden.lithium, renderLithium);
       rangeSeg('lithium', renderLithium);
-      const series = [{ name: 'Futures', color: colors[0], points: futPts() }, { name: 'Spot', color: colors[1], points: spotPts() }].filter((s) => !S.hidden.lithium.has(s.name));
+      const series = [{ name: 'Futures', color: colors[0], points: futHist(), since: FUT_SINCE() }, { name: 'Spot', color: colors[1], points: spotPts() }].filter((s) => !S.hidden.lithium.has(s.name));
       timeChart(box, series, { fmt: fmtUsd0, rangeDays: S.range.lithium, height: 320 });
       srcLinks($('#lithium-srcs'), D.lithium);
     } catch (e) { console.error(e); fail(box); }
@@ -2097,11 +2110,24 @@
     const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
       const s = section(c.chart === 'tenders' ? 'India storage tenders over time' : 'Price history', c.chart === 'tenders' ? 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.' : 'Hover the chart for each reading and its source.');
-      const cb = el('div', 'chart'); s.appendChild(cb);
+      const cb = el('div', 'chart');
       const pts = (rows, key) => rows.map((r) => ({ d: parse(r.date), v: +r[key], source: r.source || 'InfoLink' })).filter((p) => p.v > 0);
-      if (c.chart === 'lithium') timeChart(cb, [{ name: 'Futures', color: css('--l1'), points: futPts() }, { name: 'Spot', color: css('--l4'), points: spotPts() }], { fmt: fmtUsd0 });
-      else if (c.chart === 'cells') timeChart(cb, [{ name: '314 Ah storage', color: css('--l2'), points: pts(weekly(), 'cell314') }, { name: 'EV cell', color: css('--l5'), points: pts((D.evcells || {}).series || [], 'usd_kwh') }], { fmt: fmtUsd1 });
-      else if (c.chart === 'systems') timeChart(cb, [{ name: '2-hour AC', color: css('--l1'), points: pts(weekly(), 'ac_2h') }, { name: '4-hour AC', color: css('--l3'), points: pts(weekly(), 'ac_4h') }, { name: '2-hour DC block', color: css('--l5'), points: pts(weekly(), 'dc_2h') }], { fmt: fmtUsd1 });
+      const draw = () => {
+        const o = { rangeDays: S.range.chain };
+        if (c.chart === 'lithium') timeChart(cb, [{ name: 'Futures', color: css('--l1'), points: futHist(), since: FUT_SINCE() }, { name: 'Spot', color: css('--l4'), points: spotPts() }], { fmt: fmtUsd0, ...o });
+        else if (c.chart === 'cells') timeChart(cb, [{ name: '314 Ah storage', color: css('--l2'), points: pts([...(D.cell314 || [])].sort((x, y) => d3.ascending(x.date, y.date)), 'usd_kwh') }, { name: 'EV cell', color: css('--l5'), points: pts((D.evcells || {}).series || [], 'usd_kwh') }], { fmt: fmtUsd1, ...o });
+        else if (c.chart === 'systems') timeChart(cb, [{ name: '2-hour AC', color: css('--l1'), points: pts(weekly(), 'ac_2h') }, { name: '4-hour AC', color: css('--l3'), points: pts(weekly(), 'ac_4h') }, { name: '2-hour DC block', color: css('--l5'), points: pts(weekly(), 'dc_2h') }], { fmt: fmtUsd1, ...o });
+      };
+      if (c.chart !== 'tenders') { const sg = el('div', 'seg chp-range'); sg.dataset.rangeFor = 'chain'; sg.setAttribute('role', 'group'); sg.setAttribute('aria-label', 'Time range'); s.appendChild(sg); rangeSeg('chain', draw); }
+      s.appendChild(cb); draw();
+      if (c.id === 'mining' && ((D.hist || {}).copper || []).length) {
+        const ms = section('Copper and aluminium', 'LME cash settlement, US$ per tonne. Copper goes into anode foil and cables, aluminium into cathode foil, casings and racks.');
+        const sg = el('div', 'seg chp-range'); sg.dataset.rangeFor = 'metals'; sg.setAttribute('role', 'group'); sg.setAttribute('aria-label', 'Time range'); ms.appendChild(sg);
+        const mb = el('div', 'chart'); ms.appendChild(mb);
+        const drawM = () => timeChart(mb, [{ name: 'Copper', color: css('--l1'), points: D.hist.copper }, { name: 'Aluminium', color: css('--l4'), points: D.hist.aluminium }], { fmt: fmtUsd0, rangeDays: S.range.metals, height: 280 });
+        rangeSeg('metals', drawM); drawM();
+        const src = el('p', 'sub'); const a = el('a', null, 'Westmetall (LME cash settlement)'); a.href = 'https://www.westmetall.com/en/markdaten.php'; a.target = '_blank'; a.rel = 'noopener'; src.append(document.createTextNode('Source: '), a, document.createTextNode('. Refreshed every night.')); ms.appendChild(src);
+      }
       else if (c.chart === 'tenders') { tenderChart(cb, stTenders()); const lg = el('div', 'tlegend'); [['--blue', '2-hour'], ['--orange', '4-hour']].forEach(([cc, t]) => { const x = el('span'); const i2 = el('i', 'dt'); i2.style.background = css(cc); x.append(i2, document.createTextNode(t)); lg.appendChild(x); }); s.appendChild(lg); }
     }
     // prices
@@ -2227,5 +2253,20 @@
       renderHeader();
       go(location.hash.slice(1) || 'overview', false);
       startFresh();
+      loadHistory();
     });
+  // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
+  function loadHistory() {
+    const get = (n) => fetch(`data/history/${n}.csv`, { cache: 'no-store' }).then((r) => (r.ok ? r.text() : '')).catch(() => '');
+    Promise.all(['lithium_futures', 'copper', 'aluminium', 'fx'].map(get)).then(([li, cu, al, fx]) => {
+      const rows = (t) => (t || '').trim().split('\n').slice(1).map((l) => l.split(',')).filter((r) => r.length > 1 && /^\d{4}-/.test(r[0]));
+      const rates = rows(fx).map((r) => [r[0], +r[2]]).filter((r) => r[1] > 1).sort((a, b) => d3.ascending(a[0], b[0]));
+      let i = 0; const rateOn = (day) => { while (i + 1 < rates.length && rates[i + 1][0] <= day) i++; return rates[i] && rates[i][0] <= day ? rates[i][1] : null; };
+      const lith = [];
+      rows(li).sort((a, b) => d3.ascending(a[0], b[0])).forEach((r) => { const k = rateOn(r[0]); if (k && +r[1] > 0) lith.push({ d: parse(r[0]), v: Math.round(+r[1] / k), source: 'Guangzhou Futures Exchange daily close (via Sina Finance), converted at the ECB rate' }); });
+      const lme = (t) => rows(t).map((r) => ({ d: parse(r[0]), v: +r[1], source: r[2] || 'LME cash settlement' })).filter((p) => p.v > 0).sort((a, b) => a.d - b.d);
+      D.hist = { lithium: lith, copper: lme(cu), aluminium: lme(al) };
+      if (S.tab === 'chain' || S.tab === 'materials') { S.resizing = true; try { RENDER[S.tab](); } finally { S.resizing = false; } }
+    });
+  }
 })();

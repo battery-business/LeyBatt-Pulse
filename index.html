@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610302049">
+<link rel="stylesheet" href="assets/style.css?v=202610302057">
 </head>
 <body>
 <header class="top">
@@ -198,6 +198,8 @@
   <!-- NEWS -->
   <section class="page" id="page-news" data-page="news" hidden>
     <div class="panel news-panel">
+     <div class="news-layout">
+     <div class="news-main">
       <div class="toolbar">
         <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
         <select class="select" id="news-effect" aria-label="Filter by effect">
@@ -212,6 +214,9 @@
       <ul class="newslist feed" id="news-list"></ul>
       <button class="btn more-btn" type="button" id="news-more" hidden></button>
       <p class="sub foot-note">Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
+     </div>
+     <aside class="news-side" id="news-side" aria-label="This week in the news"></aside>
+     </div>
     </div>
   </section>
 
@@ -444,6 +449,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610302049"></script>
+<script src="assets/app.js?v=202610302057"></script>
 </body>
 </html>

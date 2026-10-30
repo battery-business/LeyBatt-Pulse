@@ -1124,7 +1124,7 @@
 
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
   function newsItem(n, feed = false) {
-    const li = el('li', feed ? 'story' : null);
+    const li = el('li', feed ? 'story' : null); if (feed) li.id = 'story-' + n.id;
     li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
     if (VISIT.news.has(n.id)) meta.appendChild(newTag('Added since your last visit'));
@@ -1167,6 +1167,61 @@
     const more = $('#news-more'); const left = list.length - S.news.shown;
     more.hidden = left <= 0; more.textContent = `Show ${Math.min(40, left)} more (${left} left)`;
     if (!more.dataset.ready) { more.dataset.ready = '1'; more.addEventListener('click', () => { S.news.shown += 40; renderNews(); }); }
+    newsSide(all, list);
+  }
+  // sidebar: this week at a glance, alerts, topics, dates ahead (all from the stories and dates already on the site)
+  function newsSide(all) {
+    const box = $('#news-side'); if (!box) return; box.replaceChildren();
+    const ist = new Date(Date.now() + 5.5 * 36e5); const wk = new Date(+ist - 7 * 864e5).toISOString().slice(0, 10);
+    const week = all.filter((n) => n.date >= wk);
+    const card = (title, sub) => { const c = el('section', 'ns-card'); c.appendChild(el('h3', null, title)); if (sub) c.appendChild(el('p', 'sub', sub)); box.appendChild(c); return c; };
+    // 1. this week
+    const c1 = card('This week', `${week.length} stories in the last 7 days`);
+    const cnt = (d) => week.filter((n) => n.direction === d).length;
+    const g = el('div', 'ns-split');
+    [['down', 'Push prices or demand down', '--ok'], ['up', 'Push prices or demand up', '--warn'], ['flat', 'Neutral or mixed', '--slate']].forEach(([d, lab, col]) => {
+      const b = el('button', 'ns-stat'); b.type = 'button'; b.style.setProperty('--c', css(col)); b.setAttribute('aria-pressed', String(S.news.effect === d));
+      b.append(el('b', null, String(cnt(d))), el('span', null, lab));
+      b.addEventListener('click', () => { S.news.effect = S.news.effect === d ? '' : d; $('#news-effect').value = S.news.effect; renderNews(); });
+      g.appendChild(b);
+    });
+    c1.appendChild(g);
+    // 2. alerts
+    const al = all.filter((n) => n.alert && n.date >= new Date(+ist - 14 * 864e5).toISOString().slice(0, 10)).slice(0, 5);
+    if (al.length) {
+      const c2 = card('Alerts', 'Stories flagged as important in the last two weeks');
+      const ul = el('ul', 'ns-list'); c2.appendChild(ul);
+      al.forEach((n) => {
+        const li = el('li'); const b = el('button', 'ns-alert'); b.type = 'button';
+        b.append(el('span', 'd', n.day || d3.utcFormat('%-d %b')(parse(n.date))), el('span', 't', n.short || n.headline));
+        b.addEventListener('click', () => {
+          S.news.cat = ''; S.news.effect = ''; S.news.q = ''; $('#news-search').value = ''; $('#news-effect').value = '';
+          const idx = sortedNews().findIndex((x) => x.id === n.id); S.news.key = '||'; S.news.shown = Math.max(40, idx + 5); renderNews();
+          const t = document.getElementById('story-' + n.id); if (t) { t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); t.classList.add('flash'); setTimeout(() => t.classList.remove('flash'), 1600); }
+        });
+        li.appendChild(b); ul.appendChild(li);
+      });
+    }
+    // 3. topics this week
+    const cats = d3.rollups(week, (v) => v.length, (n) => n.category || 'News').sort((a, b) => b[1] - a[1]);
+    if (cats.length) {
+      const c3 = card('Topics this week', 'Click a topic to show only its stories');
+      const mx = d3.max(cats, (x) => x[1]);
+      cats.forEach(([cat, n]) => {
+        const b = el('button', 'ns-bar'); b.type = 'button'; b.style.setProperty('--cc', catColor(cat)); b.setAttribute('aria-pressed', String(S.news.cat === cat));
+        const tr = el('span', 'tr'); const f = el('i'); f.style.width = (100 * n / mx) + '%'; tr.appendChild(f);
+        b.append(el('span', 'l', cat), tr, el('b', null, String(n)));
+        b.addEventListener('click', () => { S.news.cat = S.news.cat === cat ? '' : cat; renderNews(); });
+        c3.appendChild(b);
+      });
+    }
+    // 4. coming up
+    const up = comingUp(null, 4);
+    if (up.length) {
+      const c4 = card('Coming up', 'Dates to watch');
+      const ul = el('ul', 'dates ns-dates'); c4.appendChild(ul); datesList(ul, up);
+      const a = el('button', 'btn link', 'All regulations →'); a.type = 'button'; a.addEventListener('click', () => go('rules')); c4.appendChild(a);
+    }
   }
 
   // ---------- risk navigator ----------

@@ -1123,12 +1123,13 @@
   }
 
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
-  function newsItem(n) {
-    const li = el('li');
+  function newsItem(n, feed = false) {
+    const li = el('li', feed ? 'story' : null);
     li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
     if (VISIT.news.has(n.id)) meta.appendChild(newTag('Added since your last visit'));
-    meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
+    if (feed) meta.append(el('span', 'cat', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
+    else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
     li.append(meta, el('div', 'h', n.headline), src);
     return li;
@@ -1146,10 +1147,26 @@
     });
     const q = S.news.q.toLowerCase();
     const list = all.filter((n) => (!S.news.cat || (n.category || 'News') === S.news.cat) && (!S.news.effect || n.direction === S.news.effect) && (!q || [n.headline, n.sources, n.category, n.effect].join(' ').toLowerCase().includes(q)));
-    $('#news-status').textContent = `Showing ${list.length} of ${all.length} stories, newest first.`;
+    const key = [S.news.cat, S.news.effect, q].join('|'); if (S.news.key !== key) { S.news.key = key; S.news.shown = 40; }
+    const ist = new Date(Date.now() + 5.5 * 36e5); const todayISO = ist.toISOString().slice(0, 10);
+    const yISO = new Date(+ist - 864e5).toISOString().slice(0, 10);
+    const recent = all.filter((n) => n.date >= yISO).length;
+    $('#news-lead').textContent = `${all.length} stories from the last few weeks${recent ? `, ${recent} of them from today and yesterday` : ''}. From lithium mines to India's storage tenders, summarised in our own words with a link to every source.`;
+    $('#news-status').textContent = list.length === all.length ? `${all.length} stories, newest first.` : `${list.length} of ${all.length} stories match.`;
     const ul = $('#news-list'); ul.replaceChildren();
-    if (!list.length) ul.appendChild(el('li', 'empty', 'No stories match. Clear the search or pick another category.'));
-    list.forEach((n) => ul.appendChild(newsItem(n)));
+    if (!list.length) ul.appendChild(el('li', 'empty', 'No stories match. Clear the search or pick another topic.'));
+    let lastDay = null;
+    list.slice(0, S.news.shown).forEach((n) => {
+      if (n.date !== lastDay) {
+        lastDay = n.date;
+        const lab = n.date === todayISO ? 'Today' : n.date === yISO ? 'Yesterday' : d3.utcFormat('%A %-d %B')(parse(n.date));
+        ul.appendChild(el('li', 'day-head', lab));
+      }
+      ul.appendChild(newsItem(n, true));
+    });
+    const more = $('#news-more'); const left = list.length - S.news.shown;
+    more.hidden = left <= 0; more.textContent = `Show ${Math.min(40, left)} more (${left} left)`;
+    if (!more.dataset.ready) { more.dataset.ready = '1'; more.addEventListener('click', () => { S.news.shown += 40; renderNews(); }); }
   }
 
   // ---------- risk navigator ----------
@@ -1850,7 +1867,7 @@
     // stats
     const stats = $('#rules-stats'); stats.replaceChildren();
     const counts = d3.rollup(all, (v) => v.length, (r) => r.status);
-    ['In force', 'Starts later', 'Paused', 'Bids under evaluation', 'Proposed'].forEach((s) => { if (!counts.get(s)) return; const b = el('span', 'rstat'); b.style.setProperty('--sc', css(STATUS_COL[s])); b.append(el('b', null, String(counts.get(s))), document.createTextNode(' ' + s.toLowerCase())); stats.appendChild(b); });
+    ['In force', 'Starts later', 'Paused', 'Bids under evaluation', 'Proposed'].forEach((s) => { if (!counts.get(s)) return; const b = el('span', 'rstat'); b.style.setProperty('--sc', css(STATUS_COL[s])); b.append(el('b', null, String(counts.get(s))), el('span', null, s)); stats.appendChild(b); });
     // coming up
     next.replaceChildren();
     const ahead = all.filter((r) => +parse(r.date) >= today).sort((a, b) => d3.ascending(a.date, b.date));
@@ -1858,9 +1875,10 @@
     ahead.forEach((r) => {
       const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
       const li = el('li'); li.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
-      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
-      const body = el('div');
-      body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), el('div', 'rn-meta', `${r.region} · ${r.status}`));
+      const db = el('div', 'dbox'); db.append(el('b', null, d3.utcFormat('%-d')(d)), el('span', null, d3.utcFormat('%b %Y')(d)));
+      const body = el('div', 'rn-body');
+      const meta = el('div', 'rn-meta'); meta.append(document.createTextNode(r.region + ' '), el('span', 'rule-status', r.status));
+      body.append(el('div', 'rn-when' + (days <= 30 ? ' soon' : ''), days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 60 ? `In ${days} days` : `In about ${Math.round(days / 30)} months`), el('div', 'rn-title', r.short || r.title), meta);
       const b = el('button', 'rn'); b.type = 'button'; b.append(db, body);
       b.addEventListener('click', () => { const card = document.getElementById('rule-' + r.id); if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1600); } });
       li.appendChild(b); next.appendChild(li);
@@ -2553,6 +2571,10 @@
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
     if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }
     try { RENDER[tab](); } catch (e) { console.error(e); }
+    if (tab !== 'overview' && tab !== 'chain') { // every other page: panels rise in like the overview (off for reduced motion)
+      const pg = $(`#page-${tab}`);
+      if (pg) { $$(':scope > .panel, :scope > .pg-hero, :scope > .risk-grid > .panel', pg).forEach((n) => n.classList.add('rv')); const rp = !S.resizing; requestAnimationFrame(() => reveal(pg, rp)); }
+    }
     if (push) window.scrollTo({ top: 0 });
   }
   $$('.tab').forEach((b) => b.addEventListener('click', () => go(b.dataset.tab)));

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610302018">
+<link rel="stylesheet" href="assets/style.css?v=202610302031">
 </head>
 <body>
 <header class="top">
@@ -197,23 +197,26 @@
 
   <!-- NEWS -->
   <section class="page" id="page-news" data-page="news" hidden>
-    <div class="panel">
-      <div class="panel-head">
-        <h2>Battery market news</h2>
-        <div class="controls">
-          <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
-          <select class="select" id="news-effect" aria-label="Filter by effect">
-            <option value="">All effects</option>
-            <option value="down">Pushes prices or demand down</option>
-            <option value="up">Pushes prices or demand up</option>
-            <option value="flat">Neutral or mixed</option>
-          </select>
-        </div>
+    <header class="pg-hero">
+      <p class="ch-eyebrow">News</p>
+      <h1 class="pg-title">What moved the battery market.</h1>
+      <p class="pg-sub" id="news-lead">From lithium mines to India's storage tenders, summarised in our own words with a link to every source.</p>
+    </header>
+    <div class="panel news-panel">
+      <div class="toolbar">
+        <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
+        <select class="select" id="news-effect" aria-label="Filter by effect">
+          <option value="">All effects</option>
+          <option value="down">Pushes prices or demand down</option>
+          <option value="up">Pushes prices or demand up</option>
+          <option value="flat">Neutral or mixed</option>
+        </select>
       </div>
-      <div class="chips" id="news-cats"></div>
+      <div class="chips chips-scroll" id="news-cats" role="group" aria-label="Topic"></div>
       <p class="sub" id="news-status"></p>
-      <ul class="newslist" id="news-list"></ul>
-      <p class="sub">Summarised in our own words. Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
+      <ul class="newslist feed" id="news-list"></ul>
+      <button class="btn more-btn" type="button" id="news-more" hidden></button>
+      <p class="sub foot-note">Bloomberg articles need a subscription. Items marked "not verified" are headlines only.</p>
     </div>
   </section>
 
@@ -238,29 +241,24 @@
 
   <!-- REGULATIONS: rules that change cost, supply or demand -->
   <section class="page" id="page-rules" data-page="rules" hidden>
-    <div class="panel rules-head">
-      <div class="rh-top">
-        <div>
-          <h2 class="rh-title">Regulations</h2>
-          <p class="sub">Rules in India, China and elsewhere that change the cost, supply or demand for batteries, each checked against its source.</p>
-        </div>
-        <div class="rules-stats" id="rules-stats"></div>
-      </div>
-    </div>
-    <div class="panel" style="--sec:var(--rose)">
-      <div class="panel-head"><h2>Coming up</h2><span class="sub">Rules with a date ahead</span></div>
-      <ol class="rules-next" id="rules-next"></ol>
+    <header class="pg-hero">
+      <p class="ch-eyebrow">Regulations</p>
+      <h1 class="pg-title">The rules that move battery costs.</h1>
+      <p class="pg-sub">Rules in India, China and elsewhere that change the cost, supply or demand for batteries, each checked against its source.</p>
+      <div class="rules-stats" id="rules-stats"></div>
+    </header>
+    <div class="panel">
+      <div class="panel-head"><h2>Coming up</h2><span class="sub">Rules with a date ahead. Click one to read it.</span></div>
+      <ol class="rules-next timeline" id="rules-next"></ol>
     </div>
     <div class="panel">
-      <div class="panel-head">
-        <h2>All rules</h2>
-        <div class="controls">
-          <input class="search" id="rules-search" type="search" placeholder="Search rules" aria-label="Search rules">
-          <select class="select" id="rules-area" aria-label="Filter by area"></select>
-          <select class="select" id="rules-status" aria-label="Filter by status"></select>
-        </div>
+      <div class="panel-head"><h2>All rules</h2></div>
+      <div class="toolbar">
+        <input class="search" id="rules-search" type="search" placeholder="Search rules" aria-label="Search rules">
+        <select class="select" id="rules-area" aria-label="Filter by area"></select>
+        <select class="select" id="rules-status" aria-label="Filter by status"></select>
       </div>
-      <div class="chips" id="rules-region"></div>
+      <div class="chips chips-scroll" id="rules-region" role="group" aria-label="Region"></div>
       <p class="sub" id="rules-count"></p>
       <div class="rules-grid" id="rules-list"></div>
       <p class="sub">Summarised in our own words from the linked sources. Check the official notification before acting on a rule.</p>
@@ -457,6 +455,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610302018"></script>
+<script src="assets/app.js?v=202610302031"></script>
 </body>
 </html>

@@ -66,13 +66,14 @@
 
   // ---------- charts ----------
   // series: [{name, color, points:[{d, v, lo?, hi?, source, note?}]}]
+  const thin = (pts, max = 400) => { if (pts.length <= max) return pts; const k = Math.ceil(pts.length / max); return pts.filter((p, i) => i % k === 0 || i === pts.length - 1); };
   function timeChart(box, series, { fmt, rangeDays = 0, height = 300, band = false }) {
     box.replaceChildren();
     const all = series.flatMap((s) => s.points);
     if (!all.length) { box.appendChild(el('div', 'empty', 'Nothing to show. Turn a series back on.')); return; }
     const maxD = d3.max(all, (p) => p.d);
     const cutoff = rangeDays ? new Date(+maxD - rangeDays * 864e5) : new Date(-8.64e15);
-    const vis = series.map((s) => ({ ...s, points: s.points.filter((p) => p.d >= cutoff).sort((a, b) => a.d - b.d) })).filter((s) => s.points.length);
+    const vis = series.map((s) => ({ ...s, points: thin(s.points.filter((p) => p.d >= cutoff).sort((a, b) => a.d - b.d)) })).filter((s) => s.points.length);
     const pts = vis.flatMap((s) => s.points.map((p) => ({ ...p, s })));
     if (!pts.length) { box.appendChild(el('div', 'empty', 'No readings in this period. Choose a longer range.')); return; }
     const W = box.clientWidth || 640, H = height;
@@ -1309,7 +1310,7 @@
   function ensureScen(cb) { // load data/scenarios.json once; run cb when it is in
     if (D.scen !== undefined) { cb(); return; }
     scenWait.push(cb); if (OL.loading) return; OL.loading = true;
-    fetch('data/scenarios.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((j) => {
+    fetch('data/scenarios.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((j) => {
       OL.loading = false; D.scen = j; scenWait.splice(0).forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     });
   }
@@ -2048,7 +2049,7 @@
   let freshT = 0, lastFresh = 0;
   function checkFresh() {
     if (!D.meta || Date.now() - lastFresh < 5 * 60e3) return; lastFresh = Date.now();
-    fetch('data/meta.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((m) => {
+    fetch('data/meta.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((m) => {
       if (!m || m.updated === D.meta.updated) return;
       const t = $('#toast'); t.replaceChildren(el('span', null, `Fresh data is in (${m.updated_label}).`));
       const b = el('button', 'btn small', 'Reload'); b.type = 'button'; b.addEventListener('click', () => location.reload());
@@ -2393,7 +2394,7 @@
     box.replaceChildren();
     const today = fc ? parse(fc.asof) : (hist.length ? hist[hist.length - 1].d : new Date());
     const cutoff = rangeDays ? new Date(+today - rangeDays * 864e5) : new Date(-8.64e15);
-    const hv = hist.filter((p) => p.d >= cutoff);
+    const hv = thin(hist.filter((p) => p.d >= cutoff));
     if (!hv.length && !fc) { box.appendChild(el('div', 'empty', 'No readings in this period.')); return; }
     const months = fc ? fc.months : [];
     const W = box.clientWidth || 700, H = height;
@@ -2482,7 +2483,7 @@
     return ov;
   }
   function openFull(keys, key, eyebrow, opener) {
-    const ov = fullUi(); FC.keys = keys; FC.key = key || keys[0]; FC.opener = opener || document.activeElement;
+    loadHistory(); const ov = fullUi(); FC.keys = keys; FC.key = key || keys[0]; FC.opener = opener || document.activeElement;
     $('#fx-eyebrow').textContent = eyebrow || '';
     ov.hidden = false; document.documentElement.classList.add('fx-open');
     requestAnimationFrame(() => ov.classList.add('on'));
@@ -2660,6 +2661,7 @@
     if (tab === 'materials' && SUBS.includes(sub)) S.sub = sub;
     if (tab === 'chain' && sub) S.chain = sub;
     S.tab = tab; hideTip();
+    if (tab === 'chain' || tab === 'materials') loadHistory(); // long histories only where a chart uses them
     $$('.page').forEach((p) => { p.hidden = p.dataset.page !== tab; });
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (tab === 'chain' || tab === 'storage' || tab === 'materials' ? 'overview' : tab))));
     $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
@@ -2708,18 +2710,18 @@
   });
 
   // ---------- load ----------
-  Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
+  Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
     .then((res) => {
       FILES.forEach((f, i) => { D[f] = res[i]; });
       visitInit();
       renderHeader();
       go(location.hash.slice(1) || 'overview', false);
       startFresh();
-      loadHistory();
     });
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
   function loadHistory() {
-    const get = (n) => fetch(`data/history/${n}.csv`, { cache: 'no-store' }).then((r) => (r.ok ? r.text() : '')).catch(() => '');
+    if (loadHistory.started) return; loadHistory.started = true;
+    const get = (n) => fetch(`data/history/${n}.csv`, { cache: 'no-cache' }).then((r) => (r.ok ? r.text() : '')).catch(() => '');
     Promise.all(['lithium_futures', 'copper', 'aluminium', 'fx'].map(get)).then(([li, cu, al, fx]) => {
       const rows = (t) => (t || '').trim().split('\n').slice(1).map((l) => l.split(',')).filter((r) => r.length > 1 && /^\d{4}-/.test(r[0]));
       const rates = rows(fx).map((r) => [r[0], +r[2]]).filter((r) => r[1] > 1).sort((a, b) => d3.ascending(a[0], b[0]));
@@ -2729,6 +2731,7 @@
       const lme = (t) => rows(t).map((r) => ({ d: parse(r[0]), v: +r[1], source: r[2] || 'LME cash settlement' })).filter((p) => p.v > 0).sort((a, b) => a.d - b.d);
       D.hist = { lithium: lith, copper: lme(cu), aluminium: lme(al) };
       if (S.tab === 'chain' || S.tab === 'materials') { S.resizing = true; try { RENDER[S.tab](); } finally { S.resizing = false; } }
+      if (typeof drawFull === 'function') drawFull();
     });
   }
 })();

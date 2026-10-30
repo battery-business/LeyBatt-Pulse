@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610302043">
+<link rel="stylesheet" href="assets/style.css?v=202610302049">
 </head>
 <body>
 <header class="top">
@@ -197,11 +197,6 @@
 
   <!-- NEWS -->
   <section class="page" id="page-news" data-page="news" hidden>
-    <header class="pg-hero">
-      <p class="ch-eyebrow">News</p>
-      <h1 class="pg-title">What moved the battery market.</h1>
-      <p class="pg-sub" id="news-lead">From lithium mines to India's storage tenders, summarised in our own words with a link to every source.</p>
-    </header>
     <div class="panel news-panel">
       <div class="toolbar">
         <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
@@ -241,12 +236,6 @@
 
   <!-- REGULATIONS: rules that change cost, supply or demand -->
   <section class="page" id="page-rules" data-page="rules" hidden>
-    <header class="pg-hero">
-      <p class="ch-eyebrow">Regulations</p>
-      <h1 class="pg-title">The rules that move battery costs.</h1>
-      <p class="pg-sub">Rules in India, China and elsewhere that change the cost, supply or demand for batteries, each checked against its source.</p>
-      <div class="rules-stats" id="rules-stats"></div>
-    </header>
     <div class="panel">
       <div class="panel-head"><h2>Coming up</h2><span class="sub">Rules with a date ahead. Click one to read it.</span></div>
       <ol class="rules-next timeline" id="rules-next"></ol>
@@ -271,7 +260,7 @@
       <div class="rh-top">
         <div>
           <h2 class="rh-title">Risk Navigator</h2>
-          <p class="sub" id="risk-sub">Price and supply risk for what we buy, scored 0–10 from a buyer's point of view. Rescored every morning. <a href="#risk" class="ol-jump" id="ol-jump">See the next three years ↓</a></p>
+          <p class="sub" id="risk-sub">Price and supply risk for what we buy, scored 0–10 from a buyer's point of view. Rescored every morning.</p>
         </div>
         <div class="seg" id="risk-h" role="group" aria-label="Time horizon"></div>
       </div>
@@ -330,7 +319,7 @@
         </div>
       </div>
       <p class="sub">What would a storage cell and a 4-hour storage system cost if raw-material prices moved? Everything starts at today's prices. Estimates from public data, not quotes.</p>
-      <div class="chips scen" id="calc-scen"></div>
+      <div class="chips scen chips-scroll" id="calc-scen"></div>
       <div class="controls">
         <button class="btn small" type="button" id="calc-share">Copy link to this scenario</button>
         <button class="btn ghost small" type="button" id="calc-reset">Back to today's prices</button>
@@ -422,7 +411,7 @@
   <!-- INDIA STORAGE -->
   <section class="page" id="page-storage" data-page="storage" hidden>
     <div class="panel" style="--sec:var(--indigo)">
-      <div class="panel-head"><h2>India battery storage tenders</h2>
+      <div class="panel-head"><h2>Winning tariffs over time</h2>
         <div class="controls"><div class="seg" id="st-hours" role="group" aria-label="Storage duration"></div></div>
       </div>
       <p class="lead-line" id="st-lead"></p>
@@ -455,6 +444,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610302043"></script>
+<script src="assets/app.js?v=202610302049"></script>
 </body>
 </html>

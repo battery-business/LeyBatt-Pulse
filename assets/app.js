@@ -1151,7 +1151,7 @@
     const ist = new Date(Date.now() + 5.5 * 36e5); const todayISO = ist.toISOString().slice(0, 10);
     const yISO = new Date(+ist - 864e5).toISOString().slice(0, 10);
     const recent = all.filter((n) => n.date >= yISO).length;
-    $('#news-lead').textContent = `${all.length} stories from the last few weeks${recent ? `, ${recent} of them from today and yesterday` : ''}. From lithium mines to India's storage tenders, summarised in our own words with a link to every source.`;
+    S.news.recent = recent;
     $('#news-status').textContent = list.length === all.length ? `${all.length} stories, newest first.` : `${list.length} of ${all.length} stories match.`;
     const ul = $('#news-list'); ul.replaceChildren();
     if (!list.length) ul.appendChild(el('li', 'empty', 'No stories match. Clear the search or pick another topic.'));
@@ -2171,7 +2171,47 @@
     cell: 'M9.5 2.5h5M8 4.5h8a1.5 1.5 0 0 1 1.5 1.5v14A1.5 1.5 0 0 1 16 21.5H8A1.5 1.5 0 0 1 6.5 20V6A1.5 1.5 0 0 1 8 4.5zM12.8 8.5 10.5 13h3l-2.3 4.5',
     pack: 'M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9zM3 7.5 12 12l9-4.5M12 12v9',
     grid: 'M12 2.5 8 21.5M12 2.5l4 19M9.2 8h5.6M8.4 13h7.2M3 21.5h18M5 8h14',
+    news: 'M4 5.5h13v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2v-13zM17 9h3v9.5a2 2 0 0 1-4 0M7.5 9h6M7.5 12.5h6M7.5 16h4',
+    rules: 'M12 3v18M7.5 21h9M5 7h14M5 7l-2.5 6a2.6 2.6 0 0 0 5 0L5 7M19 7l-2.5 6a2.6 2.6 0 0 0 5 0L19 7',
+    calc: 'M6.5 2.5h11A1.5 1.5 0 0 1 19 4v16a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V4a1.5 1.5 0 0 1 1.5-1.5zM8 6h8v3.5H8zM8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01',
+    shield: 'M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6L12 2.5zM9 12l2.2 2.2L15.5 10',
+    map: 'M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20V6.5zM9 4v13.5M15 6.5V20',
   };
+  // ---------- page headers: the value-chain step header, reused on every inner page ----------
+  const HERO = {
+    news: { icon: 'news', color: '--l2', eyebrow: 'News', title: 'What moved the battery market',
+      say: () => 'From lithium mines to India\u2019s storage tenders, summarised in our own words with a link to every source.',
+      key: () => { const all = D.news || []; const r = S.news.recent || 0; return { label: 'Added today and yesterday', value: String(r), unit: r === 1 ? ' story' : ' stories', move: `${all.length} in the last few weeks` }; } },
+    rules: { icon: 'rules', color: '--l3', eyebrow: 'Regulations', title: 'The rules that move battery costs',
+      say: () => 'Rules in India, China and elsewhere that change the cost, supply or demand for batteries, each checked against its source.',
+      extra: () => { const d = el('div', 'rules-stats'); d.id = 'rules-stats'; return d; },
+      key: () => { const ist = new Date(Date.now() + 5.5 * 36e5); const t0 = Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate()); const nx = (D.regulations || []).filter((r) => +parse(r.date) >= t0).sort((a, b) => d3.ascending(a.date, b.date))[0]; if (!nx) return null; const dd = Math.round((+parse(nx.date) - t0) / 864e5); return { label: 'Next rule change', value: dd === 0 ? 'Today' : String(dd), unit: dd === 0 ? '' : dd === 1 ? ' day' : ' days', move: nx.short || nx.title }; } },
+    calculator: { icon: 'calc', color: '--l4', eyebrow: 'Calculator', title: 'What would a battery cost?',
+      say: () => 'Move raw-material prices and see what a storage cell and a 4-hour storage system would cost. Starts at today\u2019s prices; estimates from public data, not quotes.',
+      key: () => { try { const c = cellCost(calcBase()); return { label: 'Storage cell, cost to make today', value: fmtUsd1(c.total), unit: '/kWh', move: 'From today\u2019s material prices' }; } catch (e) { return null; } } },
+    risk: { icon: 'shield', color: '--l1', eyebrow: 'Risk', title: 'Where the risk sits',
+      say: () => 'Price and supply risk for what we buy, scored 0\u201310 from a buyer\u2019s point of view every morning, plus a three-year outlook.',
+      extra: () => { const a = el('a', 'ol-jump', 'See the next three years \u2193'); a.href = '#risk'; a.id = 'ol-jump'; return a; },
+      key: () => { const ms = (D.risk || {}).materials || []; let best = null; ms.forEach((m) => ['price', 'supply'].forEach((ax) => { const r = (m.h3 || {})[ax]; if (r && r.score != null && (!best || r.score > best.s)) best = { s: r.score, m, ax, lvl: r.level }; })); if (!best) return null; return { label: 'Highest risk, next 3 months', value: best.s.toFixed(1), unit: '/10', move: `${best.m.short} ${best.ax} risk \u00b7 ${best.lvl}`, dir: 'up' }; } },
+    storage: { icon: 'grid', color: '--l5', eyebrow: 'India storage', title: 'India\u2019s battery storage tenders',
+      say: () => 'What state utilities pay for grid batteries, tender by tender, and what Indian storage projects cost to build.',
+      key: () => { const t = stTenders(); const l = t[t.length - 1]; if (!l) return null; return { label: 'Latest tender, lowest bid', value: `\u20b9${l.low}`, unit: ' lakh/MW-month', move: `${l.agency}, ${d3.utcFormat('%-d %b %Y')(parse(l.date))}` }; } },
+    materials: { icon: 'map', color: '--l2', eyebrow: 'Prices', title: 'Every price, from lithium to a storage system',
+      say: () => 'Each step is made from the one above it. All prices in US$, each linked to its source.',
+      key: () => { const r = (D.latest || []).find((x) => x.id === 'lithium'); if (!r) return null; return { label: r.label, value: r.price, unit: UNIT_SHORT[r.unit] || '', move: r.move, dir: r.direction }; } },
+  };
+  function pageHero(tab) {
+    const cfg = HERO[tab]; const pg = $(`#page-${tab}`); if (!cfg || !pg) return;
+    let h = $(':scope > .pg-card', pg);
+    if (!h) { h = el('section', 'chp-hero pg-card'); pg.insertBefore(h, pg.firstChild); }
+    h.replaceChildren(); h.style.setProperty('--cc', css(cfg.color));
+    const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(cfg.icon, 34));
+    const tx = el('div'); tx.append(el('p', 'ch-eyebrow', cfg.eyebrow), el('h1', 'chp-title', cfg.title), el('p', 'chp-say', cfg.say()));
+    if (cfg.extra) tx.appendChild(cfg.extra());
+    h.append(orb, tx);
+    let k = null; try { k = cfg.key(); } catch (e) { k = null; }
+    if (k) { const kv = el('div', 'chp-key'); const b = el('b', null, k.value); if (k.unit) b.appendChild(el('span', 'u', k.unit)); kv.append(el('span', 'l', k.label), b, el('span', 'm' + (k.dir ? dirClass(k.dir) : ''), k.move)); h.appendChild(kv); }
+  }
   const CHAIN = [
     { id: 'mining', n: '01', name: 'Mining', title: 'Lithium and metals', icon: 'mine', color: '--l1', flow: [0], key: ['latest', 'lithium'], cats: ['Lithium & materials'], risk: ['lithium', 'copper', 'aluminium'], words: /lithium|copper|alumin/i, chart: 'lithium',
       say: 'Where the chain starts: lithium ore and salts, plus the copper and aluminium inside every cell.' },
@@ -2570,10 +2610,10 @@
     $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
     if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }
-    try { RENDER[tab](); } catch (e) { console.error(e); }
+    try { pageHero(tab); RENDER[tab](); pageHero(tab); if (tab === 'rules') renderRules(); } catch (e) { console.error(e); }
     if (tab !== 'overview' && tab !== 'chain') { // every other page: panels rise in like the overview (off for reduced motion)
       const pg = $(`#page-${tab}`);
-      if (pg) { $$(':scope > .panel, :scope > .pg-hero, :scope > .risk-grid > .panel', pg).forEach((n) => n.classList.add('rv')); const rp = !S.resizing; requestAnimationFrame(() => reveal(pg, rp)); }
+      if (pg) { $$(':scope > .panel, :scope > .pg-card, :scope > .subpage > .panel, :scope > .calc-simple > .panel, :scope > .risk-grid > .panel', pg).forEach((n) => n.classList.add('rv')); const rp = !S.resizing; requestAnimationFrame(() => reveal(pg, rp)); }
     }
     if (push) window.scrollTo({ top: 0 });
   }

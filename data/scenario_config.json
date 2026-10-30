@@ -1,0 +1,184 @@
+{
+ "about": "Settings for the 2-3 year outlook (scripts/scenarios.py). Prices in US$ on the same basis as the rest of the site (lithium: China price converted at the ECB rate, including 13% VAT; copper and aluminium: LME cash). Each scenario gives the level prices are pulled towards; the spread around it comes from each material's own price history. Change anchors here, never in the page.",
+ "horizon_months": 36,
+ "sims": 4000,
+ "seed": 20261030,
+ "half_life_bounds_months": [
+  12,
+  60
+ ],
+ "half_life_default_months": 24,
+ "up_down_threshold": 0.25,
+ "scenarios": [
+  {
+   "id": "base",
+   "name": "Base",
+   "short": "What the market is pricing",
+   "say": "Lithium follows the Guangzhou futures prices for the next 12 months, then drifts to the long-run level analysts expect. Copper and aluminium follow the World Bank's forecasts."
+  },
+  {
+   "id": "tight",
+   "name": "Tight market",
+   "short": "Demand outruns new mines",
+   "say": "Energy-storage demand keeps growing faster than new lithium supply, as UBS (Apr 2026) and Fastmarkets (Jun 2026) expected. Both forecasts were made before the October sell-off."
+  },
+  {
+   "id": "glut",
+   "name": "Oversupply",
+   "short": "Restarted mines flood the market",
+   "say": "Restarted and expanded mines outside China (and the Jianxiawo mine in China) push lithium into surplus, as Goldman Sachs expected in October 2026."
+  },
+  {
+   "id": "curbs",
+   "name": "China export curbs",
+   "short": "What-if: export licences return",
+   "say": "A what-if, not a forecast: China lets its one-year pause on export licences for lithium batteries, graphite anode and LFP cathode lapse on 10 Nov 2026, and buyers outside China pay extra. Lithium, copper and aluminium follow the Base case."
+  }
+ ],
+ "anchors": {
+  "lithium": {
+   "base": {
+    "method": "futures_curve",
+    "long_run": {
+     "usd": 18000,
+     "by": "2029-07-01"
+    },
+    "note": "Next 12 months: each Guangzhou futures contract's latest close. After the last contract the pull eases to US$18,000/t by mid-2029, UBS's long-term price.",
+    "sources": [
+     {
+      "text": "Guangzhou Futures Exchange contract prices (via Sina Finance), refreshed nightly",
+      "url": "https://finance.sina.com.cn/futuremarket/"
+     },
+     {
+      "text": "UBS long-term lithium carbonate price US$18,000/t (BigGo Finance, 29 Apr 2026)",
+      "url": "https://finance.biggo.com/news/rHWu2J0B-PfaobXfxygD"
+     }
+    ]
+   },
+   "tight": {
+    "points": [
+     {
+      "date": "2027-07-01",
+      "usd": 36638
+     },
+     {
+      "date": "2028-07-01",
+      "usd": 34000
+     },
+     {
+      "date": "2029-07-01",
+      "usd": 27000
+     }
+    ],
+    "note": "2027: average of UBS (US$41,875) and Fastmarkets (US$31,400). 2028 and 2029: UBS (US$34,000, US$27,000). Both quote US$ prices; their basis may differ slightly from the China price used here.",
+    "sources": [
+     {
+      "text": "UBS lithium forecasts (BigGo Finance, 29 Apr 2026)",
+      "url": "https://finance.biggo.com/news/rHWu2J0B-PfaobXfxygD"
+     },
+     {
+      "text": "Fastmarkets lithium carbonate forecast (Panorama Minero, 22 Jun 2026)",
+      "url": "https://www.panorama-minero.com/en/news/fastmarkets-says-lithium-is-entering-a-new-phase-as-demand-outpaces-supply"
+     }
+    ]
+   },
+   "glut": {
+    "points": [
+     {
+      "date": "2027-07-01",
+      "usd": 14930
+     },
+     {
+      "date": "2028-07-01",
+      "usd": 12540
+     }
+    ],
+    "note": "Goldman Sachs: about US$14,930/t in 2027 and US$12,540/t in 2028 (a 444,000 t surplus by 2028). Held flat after 2028 (no later forecast). For reference, the 2025 low was about US$8,100/t, when high-cost Chinese mines shut.",
+    "sources": [
+     {
+      "text": "Goldman Sachs and CITIC forecasts (BigGo Finance, 12 Oct 2026)",
+      "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65"
+     }
+    ]
+   },
+   "curbs": {
+    "same_as": "base"
+   }
+  },
+  "copper": {
+   "all": {
+    "points": [
+     {
+      "date": "2027-07-01",
+      "usd": 13000
+     }
+    ],
+    "note": "World Bank (Oct 2026): copper averages about US$13,200/t in 2026 and US$13,000/t in 2027. Held flat after 2027 (no later forecast). The same in every scenario.",
+    "sources": [
+     {
+      "text": "World Bank Commodity Markets Outlook, Oct 2026 (MINING.COM, 28 Oct 2026)",
+      "url": "https://www.mining.com/world-bank-lifts-copper-price-outlook-by-18/"
+     }
+    ]
+   }
+  },
+  "aluminium": {
+   "all": {
+    "points": [
+     {
+      "date": "2027-07-01",
+      "usd": 3000
+     }
+    ],
+    "note": "World Bank (Apr 2026): aluminium averages US$3,200/t in 2026 and US$3,000/t in 2027; the October update expects a record 2026 but gives no figure. Held flat after 2027. The same in every scenario.",
+    "sources": [
+     {
+      "text": "World Bank Commodity Markets Outlook forecasts, Apr 2026",
+      "url": "https://thedocs.worldbank.org/en/doc/f3138644a1e8e2bb631399ae11d6c408-0050012026/related/CMO-April-2026-Forecasts.pdf"
+     },
+     {
+      "text": "World Bank press release, 28 Oct 2026",
+      "url": "https://www.worldbank.org/en/news/press-release/2026/10/28/commodity-markets-outlook-october-2026"
+     }
+    ]
+   }
+  }
+ },
+ "held_flat": {
+  "note": "Iron phosphate, graphite anode, electrolyte, separator and foil fees have no long public price history, so they are held at today's prices in every scenario (no range is modelled for them).",
+  "items": [
+   "Iron phosphate",
+   "Graphite anode",
+   "LFP electrolyte",
+   "Separator"
+  ]
+ },
+ "curbs": {
+  "from": "2026-11-10",
+  "premium": {
+   "graphite": 0.15,
+   "cathode": 0.1,
+   "cell": 0.1
+  },
+  "assumed": true,
+  "note": "Assumed extra cost for buyers outside China if export licences return: graphite anode +15%, LFP cathode +10%, cells +10%. No public estimate of this premium was found; treat it as a what-if and change it here.",
+  "sources": [
+   {
+    "text": "China suspends export controls on lithium batteries and artificial graphite anode materials for one year (HSF Kramer)",
+    "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials"
+   }
+  ]
+ },
+ "supply": {
+  "note": "Structural supply risk over 2-3 years: dependence on one country (IEA), the same figure the 12-month score uses. The IEA expects lithium's supply gap to narrow as projects come online, a slight gap for graphite, and copper's gap to fall from about 30% to 25% by 2035.",
+  "sources": [
+   {
+    "text": "IEA Global Critical Minerals Outlook 2026: outlook",
+    "url": "https://www.iea.org/reports/global-critical-minerals-outlook-2026/outlook"
+   }
+  ]
+ },
+ "min_fit_months": 96,
+ "shock_scale": 1.15,
+ "calibration_note": "The pull-back speed is only fitted when a price has at least 8 years of monthly history; shorter histories (lithium) use a 24-month half-life, because short samples make prices look more mean-reverting than they are. All monthly shocks are scaled up by 15%: the back-test on copper and aluminium showed ranges about 15% too narrow without it, and this brings the 10-90% range to about 80% coverage."
+}

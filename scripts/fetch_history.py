@@ -152,6 +152,31 @@ def sina_futures(symbol):
     return [], None
 
 
+def sina_curve(prefix="LC", n=13):
+    """Latest close of each Guangzhou lithium carbonate contract over the next 12 months (the futures curve), yuan/t.
+    Used by scripts/scenarios.py as the market's own expected path for the Base scenario."""
+    bj = datetime.now(timezone.utc) + timedelta(hours=8)
+    rows = []
+    for i in range(n):
+        yy, mm = divmod(bj.month - 1 + i, 12)
+        yy += bj.year; mm += 1
+        sym = f"{prefix}{yy % 100:02d}{mm:02d}"
+        url = (f"https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20_{sym}=/InnerFuturesNewService.getDailyKLine?symbol={sym}")
+        try:
+            req = urllib.request.Request(url, headers={**UA, "Referer": "https://finance.sina.com.cn/"})
+            with urllib.request.urlopen(req, timeout=40) as r:
+                body = r.read().decode("utf-8", "replace")
+            data = json.loads(body[body.find("([") + 1: body.rfind("])") + 1])
+            last = data[-1]
+            close = float(last["c"])
+            when = datetime.strptime(last["d"][:10], "%Y-%m-%d").date()
+            if close > 0 and (bj.date() - when).days <= 10:
+                rows.append((sym, f"{yy}-{mm:02d}", when.isoformat(), close, float(last.get("v") or 0)))
+        except Exception as e:  # noqa: BLE001
+            print(f"::warning::Sina {sym}: {type(e).__name__} {str(e)[:120]}")
+    return rows
+
+
 def ecb_fx():
     """Daily ECB reference rates -> US$ to rupee and US$ to yuan (cross rates through the euro)."""
     import zipfile
@@ -204,6 +229,15 @@ def main():
         print(f"lithium: {len(rows)} rows, {rows[0][0]} to {rows[-1][0]}")
     else:
         print("::warning::Could not refresh the lithium futures history; keeping the saved copy.")
+    curve = sina_curve()
+    if len(curve) >= 4:
+        with open(OUT / "lithium_curve.csv", "w", newline="") as f:
+            w = csv.writer(f); w.writerow(["contract", "month", "date", "cny_t", "volume", "source"])
+            for row in curve:
+                w.writerow([*row, "Guangzhou Futures Exchange contract close (via Sina Finance)"])
+        print(f"lithium curve: {len(curve)} contracts, {curve[0][1]} to {curve[-1][1]}")
+    else:
+        print(f"::warning::Lithium futures curve: only {len(curve)} contracts answered; keeping the saved copy.")
     for name, tries in plan.items():
         for t in tries:
             rows, src = t()

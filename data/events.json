@@ -129,6 +129,14 @@
   "short": "Andhra Pradesh 5 GWh storage bids due"
  },
  {
+  "date": "2026-11-23",
+  "what": "SECI 4 GW / 16 GWh standalone storage tender (Rajasthan, Gujarat): bids due (TaiyangNews; Powerpeak Digest gives 14 Dec for online bids)",
+  "kind": "India tender",
+  "source": "TaiyangNews",
+  "url": "https://taiyangnews.info/tenders/seci-4-gw-16-gwh-standalone-bess-tender",
+  "short": "SECI 16 GWh storage bids due"
+ },
+ {
   "date": "2026-12-01",
   "precision": "month",
   "what": "Himadri Speciality Chemical's first 2,000 t LFP cathode plant in Kolkata due to start",
@@ -213,6 +221,14 @@
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/mecpower-solutions-navitas-solar-plan-5-gwh-storage-facility-in-gujarat",
   "short": "Mecpower–Navitas 5 GWh BESS plant due to start"
+ },
+ {
+  "date": "2027-04-01",
+  "what": "Tamil Nadu BESS Policy: solar and hybrid plants commissioned from this date must carry four-hour storage equal to 10% of capacity",
+  "kind": "Rule change",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/tamil-nadu-bess-policy-2026-storage-target/",
+  "short": "Tamil Nadu storage mandate for new solar starts"
  },
  {
   "date": "2027-04-30",

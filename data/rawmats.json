@@ -54,15 +54,15 @@
  {
   "material": "Copper",
   "role": "Anode foil, busbars",
-  "price": "$14,510",
-  "asof": "29 Oct",
-  "move": "−1.0% on the day",
+  "price": "$14,240",
+  "asof": "30 Oct",
+  "move": "−1.9% on the day",
   "direction": "down",
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/copper",
   "stage": "Metals",
   "unit": "per tonne",
-  "usd": 14510.0
+  "usd": 14240.0
  },
  {
   "material": "Aluminium",
@@ -98,11 +98,11 @@
   "price": "$0.19",
   "usd": 0.186,
   "unit": "per m²",
-  "asof": "22 Oct",
+  "asof": "29 Oct",
   "move": "Flat week on week",
   "direction": "flat",
   "source": "SMM morning meeting summary",
-  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure",
+  "url": "https://news.metal.com/newscontent/104187061-smm-cobalt-lithium-morning-meeting-summary-raw-material-prices-pull-back-significantly-supply-demand-looseness-intensifies-and-the-industry-chain-is-under-pressure",
   "stage": "Other cell materials"
  },
  {

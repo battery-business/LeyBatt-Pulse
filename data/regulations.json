@@ -267,9 +267,9 @@
   ],
   "source": "CIRS Group",
   "url": "https://www.cirs-group.com/en/chemicals/china-temporarily-suspends-export-controls-on-key-raw-materials-including-rare-earths-lithium-batteries-and-diamond",
-  "source2": "Global Linx, 7 Oct 2026",
-  "url2": "https://global-linx.com/2026/10/07/china-export-controls-supplier-checklist/",
-  "checked": "2026-10-28"
+  "source2": "LJY Energy guide (re-checked 29 Oct 2026)",
+  "url2": "https://ljyenergy.com/china-battery-export-control-suspension-november-2026-guide/",
+  "checked": "2026-11-01"
  },
  {
   "id": "cn-graphite",
@@ -427,5 +427,30 @@
   "source": "Bloomberg, 9 Oct 2026 (headline)",
   "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
   "checked": "2026-10-28"
+ },
+ {
+  "id": "in-tn-bess",
+  "title": "Tamil Nadu Battery Energy Storage Systems Policy 2026",
+  "short": "Tamil Nadu storage mandate for new solar",
+  "region": "India",
+  "area": "Grid & storage rules",
+  "status": "Starts later",
+  "date": "2027-04-01",
+  "date_label": "Applies to projects commissioned from 1 Apr 2027 (or applied for after notification)",
+  "what": "Targets at least 2.5 GW / 10 GWh of storage over three years. New solar and solar-hybrid plants of 1 MW and up must add storage of at least 10% of capacity with four hours of discharge; new pooling substations need standalone storage of 10%. The state discom (TNPDCL) will buy 2.5 GW / 10 GWh in a first phase. Eligible storage can get a ten-year transmission and wheeling charge waiver, subject to TNERC approval.",
+  "impact": "A large new source of four-hour storage demand in a southern state: more BESS tenders and steady demand for storage cells and containers.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "Powerpeak Digest, 30 Oct 2026",
+  "url": "https://powerpeakdigest.com/tamil-nadu-bess-policy-2026-storage-target/",
+  "source2": "SolarQuarter, 31 Oct 2026",
+  "url2": "https://solarquarter.com/2026/10/31/tamil-nadu-targets-2-5-gw-bess-deployment-with-100-transmission-and-wheeling-charge-waiver/",
+  "checked": "2026-11-01",
+  "changed": "2026-11-01"
  }
 ]

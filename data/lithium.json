@@ -350,5 +350,21 @@
   "source": "SMM weekly analysis",
   "url": "https://news.metal.com/newscontent/104186365-smm-analysis-lithium-carbonate-prices-fell-sharply-this-week-with-the-pace-of-inventory-destocking-slowing",
   "note": "China battery-grade spot average, down 3.9% on the day after peaking on 28 Oct; down 0.9% on the week"
+ },
+ {
+  "date": "2026-10-30",
+  "series": "Futures",
+  "usd_t": 13210,
+  "source": "SMM GFEX prices (main contract)",
+  "url": "https://www.metal.com/gfex",
+  "note": "Main contract closed at about $13,210, up 0.2% on the day after the 29 Oct slump"
+ },
+ {
+  "date": "2026-10-30",
+  "series": "Spot",
+  "usd_t": 13970,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/lithium",
+  "note": "China battery-grade benchmark, down 2.6% on the day"
  }
 ]

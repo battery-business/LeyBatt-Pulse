@@ -20,7 +20,7 @@
   "url": "https://www.ess-news.com/2026/07/17/india-launches-tender-for-10-gwh-battery-cell-manufacturing-capacity-for-grid-storage/",
   "source2": "ESS News (InfoLink), 23 Oct 2026",
   "url2": "https://www.ess-news.com/2026/10/23/where-are-the-batteries-localization-concerns-amid-indias-energy-storage-boom/",
-  "checked": "2026-10-30",
+  "checked": "2026-11-02",
   "changed": "2026-10-30"
  },
  {
@@ -267,9 +267,9 @@
   ],
   "source": "CIRS Group",
   "url": "https://www.cirs-group.com/en/chemicals/china-temporarily-suspends-export-controls-on-key-raw-materials-including-rare-earths-lithium-batteries-and-diamond",
-  "source2": "LJY Energy guide (re-checked 29 Oct 2026)",
-  "url2": "https://ljyenergy.com/china-battery-export-control-suspension-november-2026-guide/",
-  "checked": "2026-11-01"
+  "source2": "CMGM sourcing calendar, 30 Oct 2026 (no official extension notice found)",
+  "url2": "https://www.cmgm.net/china-sourcing-calendar-november-2026-march-2027-key-dates/",
+  "checked": "2026-11-02"
  },
  {
   "id": "cn-graphite",
@@ -336,7 +336,9 @@
   ],
   "source": "CnEVPost, 21 Oct 2026",
   "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
-  "checked": "2026-10-28"
+  "checked": "2026-11-02",
+  "source2": "Lookuptax (MoF/STA Announcement No. 2 of 2026)",
+  "url2": "https://lookuptax.com/tax-changes/china/battery-export-vat-refund-abolished-2027"
  },
  {
   "id": "cn-tax",

@@ -366,5 +366,21 @@
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/lithium",
   "note": "China battery-grade benchmark, down 2.6% on the day"
+ },
+ {
+  "date": "2026-11-02",
+  "series": "Futures",
+  "usd_t": 13540,
+  "source": "SMM daily lithium carbonate review (GFEX LC2701)",
+  "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month",
+  "note": "Most-traded contract closed at about $13,540, up 2.5% from 30 Oct on lower volume"
+ },
+ {
+  "date": "2026-11-02",
+  "series": "Spot",
+  "usd_t": 13960,
+  "source": "SMM daily lithium carbonate review",
+  "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month",
+  "note": "China battery-grade spot average, range $13,630–$14,280; down 0.1% on the day, buyers waiting"
  }
 ]

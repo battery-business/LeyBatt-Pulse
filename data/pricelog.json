@@ -110,5 +110,12 @@
   "v": 13210.0,
   "source": "SMM (GFEX main contract)",
   "url": "https://www.metal.com/gfex"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-02",
+  "v": 13540.0,
+  "source": "SMM (GFEX most-traded contract)",
+  "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month"
  }
 ]

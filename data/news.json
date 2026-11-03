@@ -1,5 +1,126 @@
 [
  {
+  "id": "n151",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Citi cuts its three-month lithium carbonate target to $12,000 a tonne (from $20,000), hydroxide to $12,000 and spodumene to $1,200, and lowers estimates through 2028 on weaker 2027 battery demand and new supply such as a possible restart of CATL's Jianxiawo mine",
+  "category": "Lithium & materials",
+  "effect": "Bearish forecast",
+  "direction": "down",
+  "source": "Mining.com.au",
+  "url": "https://mining.com.au/citi-cuts-lithium-price-forecasts-as-battery-demand-concerns-grow",
+  "sources": "Mining.com.au · Yahoo Finance · Bloomberg (headline)",
+  "source2": "Bloomberg (headline only)",
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-02/citi-cuts-lithium-forecasts-on-worsening-battery-demand-outlook",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n152",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Rio Tinto adds 25,000 t a year of lithium carbonate capacity in Argentina for about $1.4 billion: the Fénix 1B expansion (+10,000 t, taking the site to about 40,000 t) and the new 15,000 t Sal de Vida operation, both producing since the second quarter",
+  "category": "Lithium & materials",
+  "effect": "More lithium supply",
+  "direction": "down",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/03/rio-tinto-expands-lithium-production-in-argentina/",
+  "sources": "electrive",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "supply",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n153",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "LG Energy Solution guides fourth-quarter revenue about 10% higher with storage shipments up some 40%, says most of its North American storage output through 2028 is sold, plans more than 50 GWh of storage capacity there by end-2026 and 70 GWh by end-2027, and will cut capex by over 40%",
+  "category": "Cell makers & competitors",
+  "effect": "Storage demand strong",
+  "direction": "up",
+  "source": "LG Energy Solution",
+  "url": "https://inside.lgensol.com/en/2026/11/lg-energy-solution-releases-2026-third-quarter-financial-results/",
+  "sources": "LG Energy Solution · SBS · Bloomberg (headline)",
+  "source2": "Bloomberg (headline only)",
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-03/lg-energy-to-expand-north-america-battery-output-on-ai-demand"
+ },
+ {
+  "id": "n154",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Chinese storage and battery Q3 results split: Gotion's revenue rose about 75% but it swung to a net loss, Sungrow's profit fell about 68% on revenue down 22%, while BYD (+28%), Deye (+89%) and HyperStrong (+71%) grew profits",
+  "category": "Cell makers & competitors",
+  "effect": "Margin squeeze",
+  "direction": "down",
+  "source": "EnergyTrend",
+  "url": "https://www.energytrend.com/news/20261103-52440.html",
+  "sources": "EnergyTrend"
+ },
+ {
+  "id": "n155",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Noida Power Company tenders an 80 MW / 320 MWh four-hour standalone battery in Greater Noida on a 12-year build-own-operate-transfer basis (bids of 20–80 MW, 95% monthly availability, e-reverse auction); bids are due 9 Dec",
+  "category": "India BESS",
+  "effect": "New India tender",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/03/noida-power-company-invites-bids-for-320-mwh-standalone-bess-project-in-greater-noida-under-12-year-boot-model/",
+  "sources": "SolarQuarter · Mercom",
+  "source2": "Mercom",
+  "url2": "https://www.mercomindia.com/noida-power-company-invites-bids-for-battery-storage-projects-in-uttar-pradesh"
+ },
+ {
+  "id": "n156",
+  "date": "2026-11-02",
+  "day": "2 Nov",
+  "headline": "Amara Raja's Q2 profit falls about 45% on revenue up 18.5%; its cell unit gets ₹2,320 crore of new capex over 30 months to lift pack capacity from 4 to 9 GWh and build an LFP cell plant in Telangana",
+  "category": "India EV & battery makers",
+  "effect": "Indian cell capacity",
+  "direction": "flat",
+  "source": "Whalesbook",
+  "url": "https://www.whalesbook.com/corporate-news/English/auto/Amara-Raja-Q2-Profit-Falls-45percent-Announces-Rs-2320-Crore-Expansion/6ae88918c6c6dccbb90f5197",
+  "sources": "Whalesbook · BW AutoWorld",
+  "source2": "BW AutoWorld",
+  "url2": "https://bwautoworld.com/article/amara-raja-energy-mobility-q2-revenue-rises-13-profit-before-tax-declines-631819"
+ },
+ {
+  "id": "n157",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Energy In Motion and Sorigin Green Mobility agree to deploy 500 electric heavy trucks (EIM's 55-tonne Ashwa tractors) over two years on freight corridors, starting with 18 at JNPA port with battery swapping and pay-per-freight pricing",
+  "category": "India EV & battery makers",
+  "effect": "E-truck competition",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/eim-sorigin-plan-two-year-deployment-of-500-electric-trucks-135677",
+  "sources": "Autocar Professional",
+  "alert": true,
+  "alert_reason": "500 e-truck deal",
+  "short": "EIM and Sorigin plan 500 electric heavy trucks over two years"
+ },
+ {
+  "id": "n158",
+  "date": "2026-11-02",
+  "day": "2 Nov",
+  "headline": "Webasto is in advanced talks with two strategic buyers to sell its battery-systems business, which makes high-voltage packs (anchor customer Hyundai-Kia) in Germany and Korea and had about €300 million of 2025 revenue, as it cuts group debt",
+  "category": "Packs & BMS",
+  "effect": "Pack maker exit",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/02/webasto-poised-to-sell-its-battery-systems-business/",
+  "sources": "electrive"
+ },
+ {
   "id": "n150",
   "date": "2026-10-26",
   "day": "26 Oct",

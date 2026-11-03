@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$13,540",
+  "price": "$13,330",
   "unit": "per tonne",
-  "asof": "2 Nov",
-  "move": "+2.5% on the day",
-  "direction": "up",
+  "asof": "3 Nov",
+  "move": "−1.5% on the day",
+  "direction": "down",
   "source": "SMM (GFEX most-traded contract)",
-  "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month"
+  "url": "https://news.metal.com/newscontent/104202551-smm-lithium-carbonate-daily-review-on-november-3-spot-lithium-carbonate-edged-up-and-held-steady-while-futures-retreated-after-a-rapid-rise-closing-lower-on-reduced-positions"
  },
  {
   "id": "cathode",

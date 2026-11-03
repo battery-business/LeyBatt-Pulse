@@ -382,5 +382,21 @@
   "source": "SMM daily lithium carbonate review",
   "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month",
   "note": "China battery-grade spot average, range $13,630–$14,280; down 0.1% on the day, buyers waiting"
+ },
+ {
+  "date": "2026-11-03",
+  "series": "Futures",
+  "usd_t": 13330,
+  "source": "SMM daily lithium carbonate review (GFEX LC2701)",
+  "url": "https://news.metal.com/newscontent/104202551-smm-lithium-carbonate-daily-review-on-november-3-spot-lithium-carbonate-edged-up-and-held-steady-while-futures-retreated-after-a-rapid-rise-closing-lower-on-reduced-positions",
+  "note": "Most-traded contract closed at about $13,330, down 1.5% on the day as positions were cut after a quick rise"
+ },
+ {
+  "date": "2026-11-03",
+  "series": "Spot",
+  "usd_t": 14000,
+  "source": "SMM daily lithium carbonate review",
+  "url": "https://news.metal.com/newscontent/104202551-smm-lithium-carbonate-daily-review-on-november-3-spot-lithium-carbonate-edged-up-and-held-steady-while-futures-retreated-after-a-rapid-rise-closing-lower-on-reduced-positions",
+  "note": "China battery-grade spot average, range $13,660–$14,340; up 0.3% on the day"
  }
 ]

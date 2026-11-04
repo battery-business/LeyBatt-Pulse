@@ -365,13 +365,15 @@
     return out;
   }
   // jump to the part of a page that carries an item, and flash it
+  const secId = (t) => 'sec-' + String(t).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const priceId = (key) => 'pc-' + String(key).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const blockFor = (e) => (e.getBoundingClientRect().height > window.innerHeight * 0.6 ? 'start' : 'center');
   function focusOn(sel, tries = 12) {
     if (tries === 12) { S.focusSel = sel; S.focusUntil = Date.now() + 2500; } // a page that redraws itself (late data) finds it again
     const e = $(sel);
     if (!e) { if (tries > 0) setTimeout(() => focusOn(sel, tries - 1), 120); return; }
     e.classList.remove('pre'); const sec = e.closest('.rv'); if (sec) { sec.classList.remove('pre'); }
-    e.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+    e.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: blockFor(e) }); // tall panels: show their top
     e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800);
   }
   function tapeSeg(items, live) {
@@ -3154,7 +3156,7 @@
     hero.append(orb, ht);
     if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) kv.appendChild(el('span', 'k-age', k.row.asof)); const om = OUT_MAT[c.key[1]]; const o = om && outlookEl(om, 'k-out'); if (o) { const b = el('button', 'k-outb'); b.type = 'button'; b.append(o, el('span', 'go', ' See the forecast ›')); b.addEventListener('click', () => openForecast(om, `Step ${c.n} · ${c.name}`)); kv.appendChild(b); } hero.appendChild(kv); }
     box.appendChild(hero);
-    const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
+    const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.id = secId(t); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
       const CT = { lithium: ['Lithium carbonate price, US$ per tonne', 'China battery-grade lithium carbonate: Guangzhou futures (most-traded contract) and spot, including 13% VAT. Hover for each reading and its source.'],
         cells: ['Battery cell prices, US$ per kWh', '314 Ah LFP storage cell (InfoLink China average) and prismatic LFP EV cell (TrendForce average), excluding VAT. Hover for each reading and its source.'],
@@ -3271,7 +3273,7 @@
     { const rp = !S.resizing; requestAnimationFrame(() => reveal(box, rp)); }
     refocus();
   }
-  function refocus() { if (S.focusSel && Date.now() < S.focusUntil) requestAnimationFrame(() => { const e = $(S.focusSel); if (!e) return; const sec = e.closest('.rv'); if (sec) sec.classList.remove('pre'); e.scrollIntoView({ block: 'center' }); e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800); }); }
+  function refocus() { if (S.focusSel && Date.now() < S.focusUntil) requestAnimationFrame(() => { const e = $(S.focusSel); if (!e) return; const sec = e.closest('.rv'); if (sec) sec.classList.remove('pre'); e.scrollIntoView({ block: blockFor(e) }); e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800); }); }
 
   // ---------- tabs ----------
   const RENDER = { bid: renderBid, overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules, brief: renderBrief };
@@ -3410,7 +3412,7 @@
   if (!themes.includes(theme)) theme = 'light'; // older 'auto' choice falls back to light
   const applyTheme = () => {
     document.documentElement.setAttribute('data-theme', theme);
-    $('#theme-btn').textContent = 'Theme: ' + theme[0].toUpperCase() + theme.slice(1);
+    { const tb = $('#theme-btn'); tb.replaceChildren(el('span', 'th-l', 'Theme: '), document.createTextNode(theme[0].toUpperCase() + theme.slice(1))); }
   };
   $('#theme-btn').addEventListener('click', () => { theme = themes[(themes.indexOf(theme) + 1) % 2]; store.set('bmi-theme', theme); applyTheme(); go(S.tab, false); });
   applyTheme();
@@ -3433,6 +3435,8 @@
       // the outlook loads next; pages that show outlook lines redraw quietly when it arrives
       pollLive();
     });
+  // the header search (assets/search.js) reads the site's data and navigates through these
+  window.LBP = { D, S, CHAIN, FC_SERIES, OL_MATS, RISK, GLOSS, UNIT_SHORT, go, focusOn, priceId, secId, allPrices, renderRisk, jumpOutlook, reduced, el, css };
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
   function loadHistory() {
     if (loadHistory.started) return; loadHistory.started = true;

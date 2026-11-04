@@ -168,3 +168,10 @@ Each daily run should aim for a spread: at most 3 lithium items, and at least on
 5. Update `data/meta.json`: `updated` (YYYY-MM-DD), `updated_label` (e.g. "21 Oct 2026"), `note` (one line on which prices moved).
 6. Validate: every file parses as JSON (`python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('data/*.json')]"`), and no displayed field (anything other than `url`/`url2`) contains "CNY", "RMB" or "yuan".
 7. Commit to `main` with a message like `Daily update 21 Oct 2026` and push. GitHub Pages republishes within a few minutes.
+
+## Header search (`assets/search.js`)
+
+The search box in the header (also Ctrl K / ⌘K, or `/`) runs entirely in the visitor's browser: no AI model, no API, nothing sent anywhere. It indexes what the site has already loaded each time it opens: prices, risk scores, the 3-year outlook, news, regulations, upcoming dates, the five cell and pack trackers, the glossary and the main pages and sections. New stories, rules, tracker rows and prices are picked up automatically; nothing to update by hand.
+- A result jumps to the exact card or section (price cards `#pc-<key>`, chain sections `#sec-<title>`, `#news?story=`, `#rules?rule=`).
+- Industry synonyms and intent words live at the top of `search.js` (`SYN`, `INTENT`). Add a synonym there when people use a word the site does not (e.g. a new abbreviation).
+- The last row always offers "Search the web", which opens an ordinary Google search in a new tab.

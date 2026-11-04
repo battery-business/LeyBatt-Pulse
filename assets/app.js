@@ -3143,6 +3143,7 @@
     requestAnimationFrame(() => { try { glossify($(`#page-${tab}`)); } catch (e) { console.error(e); } });
   }
   const TAB_ICON = { overview: 'chain', news: 'news', rules: 'rules', bid: 'calc', calculator: 'calc', risk: 'shield' };
+  { const br = $('.brand'); if (br) br.addEventListener('click', (e) => { e.preventDefault(); if (S.tab === 'overview') window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }); else go('overview'); }); }
   $$('.tab').forEach((b) => { const ic = el('span', 'tab-ic'); ic.appendChild(svgIcon(TAB_ICON[b.dataset.tab] || 'map', 22)); b.prepend(ic); b.addEventListener('click', () => go(b.dataset.tab)); });
   { const sk = $('#skip'); if (sk) sk.addEventListener('click', () => { const m = $('main'); m.setAttribute('tabindex', '-1'); m.focus(); window.scrollTo({ top: $('main').offsetTop - 10 }); }); }
   $$('#page-materials .subnav button').forEach((b) => b.addEventListener('click', () => go('materials/' + b.dataset.sub)));
@@ -3218,9 +3219,9 @@
   });
 
   // ---------- load ----------
-  Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
+  Promise.all([...FILES, 'scenarios'].map((f) => fetch(`data/${f}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
     .then((res) => {
-      FILES.forEach((f, i) => { D[f] = res[i]; });
+      FILES.forEach((f, i) => { D[f] = res[i]; }); D.scen = res[FILES.length]; // the 2-3 year outlook comes in the same round, so pages draw once
       try { normalizeData(); } catch (e) { console.error(e); }
       visitInit();
       renderHeader();
@@ -3228,7 +3229,6 @@
       go(NAV.cur, false, true);
       startFresh();
       // the outlook loads next; pages that show outlook lines redraw quietly when it arrives
-      ensureScen(() => { if (['overview', 'chain', 'materials', 'bid', 'brief'].includes(S.tab)) { S.resizing = true; try { RENDER[S.tab](); } finally { S.resizing = false; } } });
       pollLive();
     });
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates

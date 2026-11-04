@@ -254,7 +254,19 @@ def summarise(paths, months, now):
         dn = sum(1 for v in vals if v <= now * 0.75) / len(vals)
         return {"month": months[h - 1].isoformat(), "p10": q[0], "p50": q[2], "p90": q[4], "up25": up, "down25": dn,
                 "score": round(10 * up, 1)}
-    return {"bands": [[round(v, 2) for v in b] for b in bands], "years": years, "m12": at(12), "m24": at(24), "m36": at(36)}
+    # one possible path, to show month-to-month swings that the bands smooth out. It is a typical one, not an extreme:
+    # among the paths that end in the middle fifth (40th-60th percentile), the one whose monthly volatility is the median
+    ex = []
+    if len(paths) >= 50 and all(v and v > 0 for v in paths[0]):
+        order = sorted(range(len(paths)), key=lambda i: paths[i][-1])
+        mid = order[int(0.4 * len(order)):int(0.6 * len(order))]
+        def vol(p):
+            r = [math.log(p[t] / p[t - 1]) for t in range(1, len(p)) if p[t] and p[t - 1]]
+            m = sum(r) / len(r); return (sum((x - m) ** 2 for x in r) / len(r)) ** 0.5
+        mid.sort(key=lambda i: vol(paths[i]))
+        pick = paths[mid[len(mid) // 2]]
+        ex = [round(v, 2) if abs(v) < 1000 else round(v) for v in pick]
+    return {"bands": [[round(v, 2) for v in b] for b in bands], "years": years, "m12": at(12), "m24": at(24), "m36": at(36), "path": ex}
 
 
 def level(bands, score):

@@ -1448,3 +1448,4 @@ svg rect.hit { cursor: crosshair; }
   .brand .logo { width: 40px; height: 40px; }
   .brand h1.wordmark { font-size: 24px; }
 }
+.ol-legend .lg-path { height: 0; border-top: 1.5px solid color-mix(in srgb, var(--c) 65%, transparent); }

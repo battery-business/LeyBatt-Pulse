@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['markets', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'storage', 'risk', 'brief', 'chain'];
@@ -218,12 +218,18 @@
     return { last, prev, pct, move: (flat ? 'Flat' : pctS(pct)) + ' vs ' + shortDay(prev.d), direction: flat ? 'flat' : pct < 0 ? 'down' : 'up' };
   }
   const ptsOf = (rows, key, keep = () => true) => [...(rows || [])].filter(keep).map((r) => ({ d: parse(r.date), v: +r[key], source: r.source, url: r.url })).filter((p) => p.v > 0).sort((a, b) => a.d - b.d);
+  // lithium futures: the site's own daily readings, or the nightly exchange close when that is newer (the chart's basis)
+  const liFut = () => {
+    const own = futPts(); const lm = (D.markets || {}).lithium;
+    if (lm && (lm.recent || []).length && (!own.length || lm.recent[lm.recent.length - 1][0] > isoDay(own[own.length - 1].d))) return lm.recent.map(([d, v]) => ({ d: parse(d), v: +v, source: 'Guangzhou futures close, at the ECB rate', url: lm.url }));
+    return own;
+  };
   const smmSpot = () => ptsOf(D.lithium, 'usd_t', (r) => r.series === 'Spot' && /^SMM/.test(r.source || ''));
   function normalizeData() {
     const L = D.latest || (D.latest = []); const byId = Object.fromEntries(L.map((r) => [r.id, r]));
     const apply = (r, m, price, keepSource) => { if (!r || !m) return; r.move = m.move; r.direction = m.direction; r.date = isoDay(m.last.d); r.asof = shortDay(m.last.d); if (price) r.price = price(m.last.v); if (m.last.source && !keepSource) r.source = m.last.source; if (m.last.url) r.url = m.last.url; };
     // lithium: Guangzhou futures (most-traded contract), the same basis as the forecast
-    if (byId.lithium) { apply(byId.lithium, moveVs(futPts()), fmtUsd0, true); byId.lithium.source = 'Guangzhou futures, via SMM'; }
+    if (byId.lithium) { const lp = liFut(); apply(byId.lithium, moveVs(lp), fmtUsd0, true); byId.lithium.source = lp.length && /^Guangzhou futures close/.test(lp[lp.length - 1].source || '') ? 'Guangzhou futures close, at the ECB rate' : 'Guangzhou futures, via SMM'; }
     // 314 Ah storage cell: InfoLink weekly average
     if (byId.cell314) apply(byId.cell314, moveVs(ptsOf(D.cell314, 'usd_kwh')), fmtUsd1);
     // EV cells: one TrendForce average for all prismatic LFP EV cells (not a price per cell size)
@@ -419,7 +425,86 @@
 
   let fitT = 0;
   window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(() => { if (S.tab === 'overview') fitNews(); }, 200); });
+  // ---------- where prices are heading: the base scenario of the 2-3 year outlook (data/scenarios.json) ----------
+  const OUT_MAT = { lithium: 'lithium', cathode: 'cathode', cell314: 'cell_ess', evcell: 'cell_ev', Copper: 'copper', Aluminium: 'aluminium' };
+  const OUT_YEAR = '2028';
+  const fmtK = (v) => (v >= 10000 ? '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : v >= 1000 ? '$' + d3.format(',.0f')(v) : fmtUsd1(v));
+  function outlookOf(mat, year = OUT_YEAR, scen = 'base') {
+    const X = D.scen; const R = X && X.results && X.results[scen] && X.results[scen][mat]; const y = R && R.years && R.years[year];
+    if (!y) return null; const now = X.now[mat]; const pct = (y.p50 / now - 1) * 100;
+    return { year, mid: y.p50, lo: y.p10, hi: y.p90, now, pct, dir: Math.abs(pct) < 3 ? 'flat' : pct > 0 ? 'up' : 'down' };
+  }
+  function outlookText(mat, long = false) {
+    const o = outlookOf(mat); if (!o) return '';
+    const f = mat.startsWith('cell') ? fmtUsd1 : o.hi >= 10000 ? (v) => '$' + (v / 1000).toFixed(1) + 'k' : fmtUsd0; // one format within a line
+    return long ? `${o.year} average: about ${f(o.mid)} (${o.pct >= 0 ? '+' : '−'}${Math.abs(o.pct).toFixed(0)}% on today); 8 in 10 outcomes ${f(o.lo)}–${f(o.hi)}` : `${o.year}: about ${f(o.mid)} · range ${f(o.lo)}–${f(o.hi)}`;
+  }
+  function outlookEl(mat, cls = 'olk', long = false) {
+    const t = outlookText(mat, long); if (!t) return null;
+    const o = outlookOf(mat); const e = el('span', cls + ' ol-' + o.dir); e.append(el('i', null, 'Outlook '), document.createTextNode(t));
+    e.title = `Base scenario of the 2–3 year outlook: the middle of the simulated ${o.year} average and the range 8 in 10 outcomes fall in. A range, not a prediction.`;
+    return e;
+  }
+  function openForecast(mat, eyebrow) { const k = { lithium: 'lithium', cathode: 'cathode', cell_ess: 'cell_ess', cell_ev: 'cell_ev', copper: 'copper', aluminium: 'aluminium' }[mat]; if (!k) return; FC.fc = true; openFull(FC_GROUP[k], k, eyebrow || eyebrowNow()); }
+
+  // ---------- what matters for us today: the overview's first screen ----------
+  function decisiveDates(days = 14) {
+    const today = istToday();
+    return comingUp(null, 30).filter((e) => (+parse(e.date) - today) / 864e5 <= days && (e.weight >= 2 || e.kind === 'Rule change'))
+      .map((e) => { const ev = (D.events || []).find((x) => x.date === e.date && (x.short === e.short || x.what === e.what)) || {}; const rule = (D.regulations || []).find((r) => r.date === e.date && (r.short || r.title) === e.what) || {}; return { ...e, us: e.us || ev.us || rule.us || rule.impact, weight: e.weight || ev.weight || (rule.id ? 2 : 1) }; })
+      .sort((a, b) => d3.ascending(a.date, b.date) || (b.weight || 0) - (a.weight || 0));
+  }
+  function inDays(d) { const n = Math.round((+parse(d) - istToday()) / 864e5); return n <= 0 ? 'today' : n === 1 ? 'tomorrow' : `in ${n} days`; }
+  function topForUs(n = 4) {
+    const cut = new Date(istToday() - 3 * 864e5).toISOString().slice(0, 10);
+    let pool = sortedNews().filter((x) => x.us && x.date >= cut && (x.weight || 0) >= 2);
+    if (pool.length < n) pool = sortedNews().filter((x) => x.us && (x.weight || 0) >= 2).slice(0, 12);
+    return pool.sort((a, b) => (b.weight || 0) - (a.weight || 0) || d3.descending(a.date, b.date)).slice(0, n);
+  }
+  function bottomLine() { // one sentence from the data: where cell costs are going, and the most pressing date
+    const parts = [];
+    const lm = moveVs(liFut());
+    if (lm) parts.push(Math.abs(lm.pct) < 2 ? 'Lithium is steady, so cell costs hold' : lm.pct < 0 ? `Lithium is down ${Math.abs(lm.pct).toFixed(0)}% on the week, so cell costs keep easing` : `Lithium is up ${lm.pct.toFixed(0)}% on the week, a risk for cell costs`);
+    const d = decisiveDates(14).find((e) => e.weight >= 3);
+    if (d) parts.push(`${d.short || clip(d.what, 60)} ${inDays(d.date)}`);
+    return parts.join('. ') + (parts.length ? '.' : '');
+  }
+  function renderOvToday() {
+    const box = $('#ov-today'); if (!box) return; box.replaceChildren();
+    const card = el('div', 'ot-card rv'); box.appendChild(card);
+    const head = el('div', 'ot-head');
+    head.append(el('p', 'ch-eyebrow', 'What matters for us · ' + d3.utcFormat('%A %-d %B')(new Date(istToday()))), el('h2', 'ot-title', bottomLine() || 'What matters for us today'));
+    card.appendChild(head);
+    const grid = el('div', 'ot-grid'); card.appendChild(grid);
+    // stories
+    const c1 = el('section', 'ot-col'); c1.appendChild(el('h3', null, 'Top stories for us'));
+    const ul = el('ul', 'ot-list'); c1.appendChild(ul);
+    topForUs(4).forEach((n) => {
+      const li = el('li'); const b = el('button', 'ot-item ' + goodBad(n)); b.type = 'button'; b.title = n.headline;
+      const top = el('span', 'ot-meta'); top.append(impactChips(n, 2), el('span', 'ot-day', n.day || shortDay(parse(n.date))));
+      b.append(top, el('span', 'ot-us', n.us), el('span', 'ot-h', n.short || clip(n.headline, 90)));
+      b.addEventListener('click', () => { location.hash = 'news?story=' + n.id; });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    const more = el('button', 'btn link', 'All high-impact stories →'); more.type = 'button'; more.addEventListener('click', () => { S.news.effect = 'high'; const ne = $('#news-effect'); if (ne) ne.value = 'high'; go('news'); }); c1.appendChild(more);
+    grid.appendChild(c1);
+    // countdown
+    const c2 = el('section', 'ot-col'); c2.appendChild(el('h3', null, 'Next 14 days'));
+    const dl = el('ul', 'ot-dates'); c2.appendChild(dl);
+    const ds = decisiveDates(14).slice(0, 5);
+    if (!ds.length) dl.appendChild(el('li', 'empty', 'No decisive dates in the next two weeks.'));
+    ds.forEach((e) => {
+      const n = Math.round((+parse(e.date) - istToday()) / 864e5);
+      const li = el('li', 'ot-date' + (e.weight >= 3 ? ' key' : ''));
+      const cd = el('div', 'cd'); cd.append(el('b', null, n <= 0 ? 'Today' : String(n)), el('span', null, n <= 0 ? '' : n === 1 ? 'day' : 'days')); if (n <= 0) cd.classList.add('now');
+      const body = el('div'); body.append(el('div', 'ot-dw', e.short || clip(e.what, 70)), el('div', 'ot-dm', `${d3.utcFormat('%-d %b')(parse(e.date))} · ${e.kind || ''}`));
+      if (e.us && e.weight >= 3) body.appendChild(el('p', 'ot-dus', e.us));
+      li.append(cd, body); dl.appendChild(li);
+    });
+    grid.appendChild(c2);
+  }
   function renderOverview() {
+    renderOvToday();
     renderChainHero();
     renderSince();
     { const rp = !S.resizing; requestAnimationFrame(() => reveal($('#page-overview'), rp)); }
@@ -428,7 +513,7 @@
     const mk = D.markets || {}; const mpts = (m) => ((m || {}).recent || []).map(([d, v]) => ({ d: parse(d), v: +v }));
     const wk = weekly();
     const items = [
-      ['Lithium carbonate futures', 'Guangzhou', futPts(), fmtUsd0, '/t'],
+      ['Lithium carbonate futures', 'Guangzhou', liFut(), fmtUsd0, '/t'],
       ['Lithium carbonate, China spot', 'SMM', smmSpot(), fmtUsd0, '/t'],
       ['314 Ah storage cell', 'InfoLink', ptsOf(D.cell314, 'usd_kwh'), fmtUsd1, '/kWh'],
       ['4-hour AC system, China', 'InfoLink', ptsOf(wk, 'ac_4h'), fmtUsd1, '/kWh'],
@@ -792,9 +877,9 @@
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
-      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmtUsd0(e.perCell)} a cell (${e.kwh.toFixed(2)} kWh), at TrendForce's EV-cell average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
+      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmtUsd0(e.perCell)} a cell (${e.kwh.toFixed(2)} kWh), at TrendForce's EV-cell average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', mat: 'cell_ev', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
-      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
+      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, mat: OUT_MAT[key], asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
     // anything new in rawmats.json that the map does not know yet goes under "Other cell materials"
     (D.rawmats || []).filter((r) => !used.has(r.material)).forEach((r) => steps[2].rows.push({ name: r.material, desc: r.role, price: r.price, usd: r.usd, unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, chart: null, step: steps[2].step }));
@@ -814,6 +899,7 @@
         meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url), document.createTextNode(' '), ageTag(r));
         c.append(el('div', 'pn', r.name), el('div', 'pd', r.desc || ''), pr);
         if (r.move) c.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
+        { const o = r.mat && outlookEl(r.mat, 'olk'); if (o) c.appendChild(o); }
         c.appendChild(meta);
         if (r.chart) { const b = el('button', 'btn link small', 'See chart →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); c.appendChild(b); }
         grid.appendChild(c);
@@ -1197,15 +1283,36 @@
   }
 
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
+  // ---------- what it means for us ----------
+  // news, dates and rules carry "us" (one plain line), "impact" [{k: cost|demand|competition|supply|policy, s: 1 good / -1 bad / 0 watch}]
+  // and "weight" (3 = high, 2 = relevant, 1 = background), written each morning from data/profile.json (public facts only)
+  const IMPACT_LAB = {
+    cost: { 1: 'Lower costs for us', '-1': 'Higher costs for us', 0: 'Costs: watch' },
+    demand: { 1: 'More demand for what we sell', '-1': 'Less demand for what we sell', 0: 'Demand: watch' },
+    competition: { 1: 'Less competition', '-1': 'More competition', 0: 'Competition: watch' },
+    supply: { 1: 'Easier supply', '-1': 'Supply risk', 0: 'Supply: watch' },
+    policy: { 1: 'Policy helps us', '-1': 'Policy hurts us', 0: 'Policy: watch' },
+  };
+  const netOf = (n) => { const t = (n.impact || []).reduce((a, x) => a + (+x.s || 0), 0); return t > 0 ? 1 : t < 0 ? -1 : 0; };
+  const goodBad = (n) => (!(n.impact || []).length ? '' : ({ 1: 'good', '-1': 'bad', 0: 'watch' })[netOf(n)]);
+  function impactChips(n, max = 3) {
+    const box = el('span', 'ichips');
+    (n.impact || []).slice(0, max).forEach((x) => { const lab = (IMPACT_LAB[x.k] || {})[x.s]; if (!lab) return; const c = el('span', 'ich ' + (x.s > 0 ? 'good' : x.s < 0 ? 'bad' : 'watch'), lab); c.title = ((D.profile || {}).keys || {})[x.k] || ''; box.appendChild(c); });
+    return box;
+  }
+  function usLine(n, cls = 'us') { const p = el('p', cls); p.append(el('b', null, 'For us: '), document.createTextNode(n.us)); return p; }
   function newsItem(n, feed = false) {
     const li = el('li', feed ? 'story' : null); if (feed) li.id = 'story-' + n.id;
     li.style.setProperty('--cc', catColor(n.category));
     const meta = el('div', 'meta');
     if (isNewNews(n.id)) meta.appendChild(newTag('Added since your last visit'));
-    if (feed) meta.append(el('span', 'cat', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
-    else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
+    if (n.weight >= 3) meta.appendChild(el('span', 'hi-tag', 'High impact'));
+    if (feed) meta.append(el('span', 'cat', n.category || 'News'));
+    else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
+    if ((n.impact || []).length) meta.appendChild(impactChips(n, feed ? 3 : 1)); else meta.appendChild(el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
-    li.append(meta, el('div', 'h', n.headline), src);
+    li.append(meta, el('div', 'h', n.headline)); if (n.us) li.appendChild(usLine(n)); li.appendChild(src);
+    if (n.weight) li.classList.add('w' + n.weight);
     if (feed) src.appendChild(shareBtn('news?story=' + n.id, 'Link', 'Story link'));
     return li;
   }
@@ -1221,13 +1328,14 @@
       chips.appendChild(b);
     });
     const q = S.news.q.toLowerCase();
-    const list = all.filter((n) => (!S.news.cat || (n.category || 'News') === S.news.cat) && (!S.news.effect || n.direction === S.news.effect) && (!q || [n.headline, n.sources, n.category, n.effect].join(' ').toLowerCase().includes(q)));
+    const list0 = all.filter((n) => (!S.news.cat || (n.category || 'News') === S.news.cat) && (!S.news.effect || (S.news.effect === 'high' ? n.weight >= 3 : ['up', 'down', 'flat'].includes(S.news.effect) ? n.direction === S.news.effect : goodBad(n) === S.news.effect)) && (!q || [n.headline, n.sources, n.category, n.effect].join(' ').toLowerCase().includes(q)));
+    const list = list0.sort((a, b) => d3.descending(a.date, b.date) || (b.weight || 0) - (a.weight || 0) || d3.descending(a.id, b.id)); // newest day first; within a day, what matters most to us first
     const key = [S.news.cat, S.news.effect, q].join('|'); if (S.news.key !== key) { S.news.key = key; S.news.shown = 40; }
     const ist = new Date(Date.now() + 5.5 * 36e5); const todayISO = ist.toISOString().slice(0, 10);
     const yISO = new Date(+ist - 864e5).toISOString().slice(0, 10);
     const recent = all.filter((n) => n.date >= yISO).length;
     S.news.recent = recent;
-    $('#news-status').textContent = list.length === all.length ? `${all.length} stories, newest first.` : `${list.length} of ${all.length} stories match.`;
+    $('#news-status').textContent = (list.length === all.length ? `${all.length} stories, newest first; within each day, what matters most to us first.` : `${list.length} of ${all.length} stories match.`);
     const ul = $('#news-list'); ul.replaceChildren();
     if (!list.length) ul.appendChild(el('li', 'empty', 'No stories match. Clear the search or pick another topic.'));
     let lastDay = null;
@@ -1251,16 +1359,19 @@
     const week = all.filter((n) => n.date >= wk);
     const card = (title, sub) => { const c = el('section', 'ns-card'); c.appendChild(el('h3', null, title)); if (sub) c.appendChild(el('p', 'sub', sub)); box.appendChild(c); return c; };
     // 1. this week
-    const c1 = card('This week', `${week.length} stories in the last 7 days`);
-    const cnt = (d) => week.filter((n) => n.direction === d).length;
+    const c1 = card('This week for us', `${week.length} stories in the last 7 days, ${week.filter((n) => n.weight >= 3).length} of them high impact`);
+    const cnt = (d) => week.filter((n) => goodBad(n) === d).length;
     const g = el('div', 'ns-split');
-    [['down', 'Push prices or demand down', '--ok'], ['up', 'Push prices or demand up', '--warn'], ['flat', 'Neutral or mixed', '--slate']].forEach(([d, lab, col]) => {
+    [['good', 'Good for us', '--ok'], ['bad', 'Bad for us', '--bad'], ['watch', 'Mixed or to watch', '--slate']].forEach(([d, lab, col]) => {
       const b = el('button', 'ns-stat'); b.type = 'button'; b.style.setProperty('--c', css(col)); b.setAttribute('aria-pressed', String(S.news.effect === d));
       b.append(el('b', null, String(cnt(d))), el('span', null, lab));
       b.addEventListener('click', () => { S.news.effect = S.news.effect === d ? '' : d; $('#news-effect').value = S.news.effect; renderNews(); });
       g.appendChild(b);
     });
     c1.appendChild(g);
+    const hi = el('button', 'btn link small', S.news.effect === 'high' ? 'Show all stories' : 'High impact only →'); hi.type = 'button';
+    hi.addEventListener('click', () => { S.news.effect = S.news.effect === 'high' ? '' : 'high'; $('#news-effect').value = S.news.effect; renderNews(); }); c1.appendChild(hi);
+    if ((D.profile || {}).about) { const ab = el('details', 'ns-about'); ab.append(el('summary', null, 'How "For us" is worked out')); ab.appendChild(el('p', null, D.profile.about)); const ul = el('ul'); Object.values(D.profile.keys || {}).forEach((t) => ul.appendChild(el('li', null, t))); ab.appendChild(ul); c1.appendChild(ab); }
     // 2. alerts
     const al = all.filter((n) => n.alert && n.date >= new Date(+ist - 14 * 864e5).toISOString().slice(0, 10)).slice(0, 5);
     if (al.length) {
@@ -1323,6 +1434,14 @@
     R.materials.forEach((m) => ['price', 'supply'].forEach((ax) => { const a = m.h3 && m.h3[ax]; if (a && a.score != null) rows.push({ m, ax, a }); }));
     return rows.sort((x, y) => y.a.score - x.a.score).slice(0, 3);
   }
+  function riskWhy(m, r) { // one plain sentence: the higher of the two risks, its main reason, and the next dated change that bears on it
+    const ax = (r.supply.score || 0) >= (r.price.score || 0) ? 'supply' : 'price'; const a = r[ax];
+    const top = [...(a.drivers || [])].sort((x, y) => (y.score * y.weight) - (x.score * x.weight))[0];
+    let why = top ? (top.key === 'concentration' || /one country/i.test(top.label) ? String(top.detail || top.label).split(' (')[0].split(';')[0] : top.label.replace(/^./, (c) => c.toLowerCase())) : '';
+    const today = istToday();
+    const ev = (D.events || []).filter((e) => (e.risk || []).some((x) => x.m === m.id) && +parse(e.date) >= today && (+parse(e.date) - today) / 864e5 <= 60).sort((x, y) => d3.ascending(x.date, y.date))[0];
+    return `${a.level} ${ax} risk${why ? ': ' + why : ''}${ev ? `. Next: ${ev.short || clip(ev.what, 60)} ${inDays(ev.date)}` : ''}.`;
+  }
   function renderRisk() {
     const R = D.risk;
     const det = $('#risk-detail'), tbl = $('#risk-table'), map = $('#risk-map');
@@ -1342,14 +1461,14 @@
     // table
     tbl.replaceChildren();
     const th = el('thead'); const hr = el('tr');
-    ['Material', 'Price risk', 'Supply risk'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    ['Material', 'Price risk', 'Supply risk', 'Why, in one line'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
     const tb = el('tbody');
     mats.forEach((m) => {
       const r = m[RISK.h]; const tr = el('tr', m.id === RISK.sel ? 'sel' : null); tr.tabIndex = 0;
       const n = el('td', 'rname'); n.append(el('b', null, m.short), el('span', null, m.group));
       const p = el('td'); p.append(riskChip(r.price), riskDelta(r.price));
       const s = el('td'); s.append(riskChip(r.supply), riskDelta(r.supply));
-      tr.append(n, p, s);
+      tr.append(n, p, s, el('td', 'rwhy', riskWhy(m, r)));
       const pick = () => { RISK.sel = m.id; renderRisk(); $('#risk-detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
       tr.addEventListener('click', pick); tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
       tb.appendChild(tr);
@@ -1474,8 +1593,8 @@
   }
   function olRisk(tbl, X) {
     tbl.replaceChildren(); const sc = X.scenarios.find((s) => s.id === OL.scen);
-    $('#ol-risk-sub').textContent = `${sc.name} scenario. Price risk = the chance (out of 10) that the price is at least 25% above today's at that point: 3.0 means a 30% chance. Supply risk is structural: how much the world depends on one country for it.`;
-    const th = el('thead'); const hr = el('tr'); ['Material', 'Today', 'Middle in 2 years', 'Price risk, 2 years', 'Price risk, 3 years', 'Supply risk'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
+    $('#ol-risk-sub').textContent = `${sc.name} scenario. The chance that the price is at least 25% above today's at that point. Dependence on one country is scored 0–10: it is one part of the supply score in the table above.`;
+    const th = el('thead'); const hr = el('tr'); ['Material', 'Today', 'Middle in 2 years', 'Chance of +25% in 2 years', 'Chance of +25% in 3 years', 'Dependence on one country'].forEach((t) => hr.appendChild(el('th', null, t))); th.appendChild(hr); tbl.appendChild(th);
     const tb = el('tbody'); const RM = new Map(((D.risk || {}).materials || []).map((m) => [m.id, m]));
     OL_MATS.filter((m) => m.id !== 'inr' && m.id !== 'cell_inr' && X.results[OL.scen][m.id]).forEach((m) => {
       const r = X.results[OL.scen][m.id]; const tr = el('tr', m.id === OL.mat ? 'sel' : null); tr.tabIndex = 0;
@@ -1483,7 +1602,7 @@
       const conc = RM.get(m.id) && ((RM.get(m.id).h12 || {}).supply || {}).drivers ? RM.get(m.id).h12.supply.drivers.find((x) => x.key === 'concentration') : null;
       const sup = conc && conc.score != null ? { score: conc.score, level: conc.score < 4 ? 'Low' : conc.score < 6.5 ? 'Elevated' : 'High' } : null;
       tr.append(n, el('td', 'num', m.fmt(X.now[m.id]) + m.unit), el('td', 'num', m.fmt(r.m24.p50) + m.unit));
-      [r.m24, r.m36].forEach((h) => { const td = el('td'); td.append(riskChip(h), el('span', 'rdelta', `${Math.round(h.up25 * 100)}% chance`)); tr.appendChild(td); });
+      [r.m24, r.m36].forEach((h) => { const td = el('td'); const pc = Math.round(h.up25 * 100); const c = el('span', 'pchance ' + (pc >= 45 ? 'hi' : pc >= 25 ? 'mid' : 'lo'), pc + '%'); c.title = `${pc}% chance of being at least 25% above today`; td.appendChild(c); tr.appendChild(td); });
       const ts = el('td'); ts.appendChild(sup ? riskChip(sup) : el('span', 'sub', '–')); tr.appendChild(ts);
       const pick = () => { OL.mat = m.id; renderOutlook(); $('#ol-chart').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); };
       tr.addEventListener('click', pick); tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
@@ -1501,7 +1620,7 @@
     [`Each scenario sets an expected price path from today's price through published forecasts (sources below).`,
      `Around that path, ${d3.format(',')(X.sims)} possible futures are simulated month by month. The size of the monthly swings is taken from each material's real price history, and a swing fades over time instead of building up for ever. Every scenario uses the same random draws, so the differences between scenarios come only from their assumptions.`,
      `Lithium, copper and aluminium are passed through the site's own cost model to work out LFP cathode, the cost to make a 314 Ah storage cell, and the cell price (cost plus the makers' margin, which also swings). The rupee path converts it to rupees.`,
-     `The ranges show where 8 in 10 (P10–P90) and half (P25–P75) of the simulated futures land. Price risk for 2 and 3 years is 10 × the chance of being at least 25% above today's price.`].forEach((t) => ol.appendChild(el('li', null, t)));
+     `The ranges show where 8 in 10 (P10–P90) and half (P25–P75) of the simulated futures land. For 2 and 3 years the page shows the chance of being at least 25% above today's price, as a percentage, so it is not confused with the 0–10 scores for the next 3 and 12 months.`].forEach((t) => ol.appendChild(el('li', null, t)));
     h('What the model learned from the history');
     const C = X.calibration; const ul = el('ul'); box.appendChild(ul);
     [['lithium', 'Lithium'], ['copper', 'Copper'], ['aluminium', 'Aluminium']].forEach(([k, n]) => { const c = C[k]; if (c) ul.appendChild(el('li', null, `${n}: swings about ${c.monthly_swing_pct}% in a typical month; a swing halves in about ${Math.round(c.half_life_months)} months (${c.how}). ${c.months_of_history} months of history from ${c.from}.`)); });
@@ -1978,7 +2097,7 @@
     if (days > 0 && days <= 120) when.appendChild(el('b', 'rule-soon', days === 1 ? ' · tomorrow' : ` · in ${days} days`));
     c.appendChild(when);
     c.appendChild(el('p', 'rule-what', r.what));
-    const imp = el('div', 'rule-impact'); imp.append(el('b', null, 'What it means for an Indian buyer'), el('p', null, r.impact)); c.appendChild(imp);
+    const imp = el('div', 'rule-impact'); imp.append(el('b', null, 'What it means for us'), el('p', null, r.us || r.impact)); c.appendChild(imp);
     const tags = el('div', 'rule-tags');
     (r.effects || []).forEach((e) => tags.appendChild(el('span', 'rtag ' + effectClass(e), e)));
     (r.affects || []).forEach((a) => tags.appendChild(el('span', 'rtag ef-affects', a)));
@@ -2437,7 +2556,7 @@
     const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
     const sparks = {
       evcell: [evs.map((r) => r.usd_kwh), evs[0] && mon(parse(evs[0].date))],
-      lithium: [fut.map((p) => p.v), fut[0] && mon(fut[0].d)],
+      lithium: [[...fut, ...liFut().filter((p) => !fut.length || p.d > fut[fut.length - 1].d)].map((p) => p.v), fut[0] && mon(fut[0].d)],
       cell314: [wk.map((w) => w.cell314), wk[0] && mon(parse(wk[0].date))],
       system: [wk.map((w) => +w.ac_4h).filter((v) => v > 0), wk[0] && mon(parse(wk[0].date))],
     };
@@ -2451,6 +2570,7 @@
       const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
       if (r.id === 'lithium') { const sp = smmSpot(); const l = sp[sp.length - 1]; if (l) c.appendChild(el('span', 'alt', `Spot ${fmtUsd0(l.v)} (${shortDay(l.d)})`)); }
+      { const o = OUT_MAT[r.id] && outlookEl(OUT_MAT[r.id], 'olk'); if (o) c.appendChild(o); }
       const sp = el('div', 'sparkbox');
       if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
       else sp.appendChild(el('span', 'none', 'No price history yet'));
@@ -2513,9 +2633,9 @@
     });
   }, { passive: true });
   // ---------- full chart with an optional forecast (opened from the value-chain step charts) ----------
-  const FC = { keys: [], key: null, range: 1827, fc: false, scen: 'base', opener: null, pushed: false };
+  const FC = { keys: [], key: null, range: 1827, fc: true, scen: 'base', opener: null, pushed: false };
   const FC_GROUP = { lithium: ['lithium', 'copper', 'aluminium'], copper: ['copper', 'aluminium', 'lithium'], aluminium: ['aluminium', 'copper', 'lithium'], cathode: ['cathode', 'lithium'], cell_ess: ['cell_ess', 'cell_ev'], cell_ev: ['cell_ev', 'cell_ess'], sys4: ['sys4', 'sys2', 'dc2'], sys2: ['sys2', 'sys4', 'dc2'], dc2: ['dc2', 'sys4', 'sys2'] };
-  const fcHash = () => `${(location.hash.slice(1) || 'overview').split('?')[0]}?chart=${FC.key}${FC.fc ? '&fc=1' : ''}${FC.fc && FC.scen !== 'base' ? '&scen=' + FC.scen : ''}`;
+  const fcHash = () => `${(location.hash.slice(1) || 'overview').split('?')[0]}?chart=${FC.key}${FC.fc ? '' : '&fc=0'}${FC.fc && FC.scen !== 'base' ? '&scen=' + FC.scen : ''}`;
   const histPts = (rows, key) => [...(rows || [])].sort((a, b) => d3.ascending(a.date, b.date)).map((r) => ({ d: parse(r.date), v: +r[key], source: r.source })).filter((p) => p.v > 0);
   const FC_SERIES = {
     lithium: { name: 'Lithium carbonate', sub: 'Guangzhou futures, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'lithium', hist: () => futHist() },
@@ -2674,7 +2794,7 @@
   window.addEventListener('resize', () => { const ov = $('#fx-overlay'); if (ov && !ov.hidden) { clearTimeout(drawFull.t); drawFull.t = setTimeout(drawFull, 150); } });
   function expandBtn(sec, keys, key, eyebrow, label = 'Full chart & forecast') {
     const b = el('button', 'chp-expand'); b.type = 'button'; b.append(document.createTextNode(label + ' '), el('span', null, '⤢'));
-    b.addEventListener('click', () => openFull(keys, key, eyebrow, b));
+    b.addEventListener('click', () => { FC.fc = true; openFull(keys, key, eyebrow, b); });
     const h = $('.chp-h', sec); if (h) { const row = el('div', 'chp-hrow'); h.replaceWith(row); row.append(h, b); } else sec.appendChild(b);
     return b;
   }
@@ -2692,7 +2812,7 @@
     const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(c.icon, 40));
     const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
     hero.append(orb, ht);
-    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) kv.appendChild(el('span', 'k-age', k.row.asof)); hero.appendChild(kv); }
+    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) kv.appendChild(el('span', 'k-age', k.row.asof)); const om = OUT_MAT[c.key[1]]; const o = om && outlookEl(om, 'k-out'); if (o) { const b = el('button', 'k-outb'); b.type = 'button'; b.append(o, el('span', 'go', ' See the forecast ›')); b.addEventListener('click', () => openForecast(om, `Step ${c.n} · ${c.name}`)); kv.appendChild(b); } hero.appendChild(kv); }
     box.appendChild(hero);
     const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
@@ -2712,7 +2832,7 @@
         const eb = `Step ${c.n} · ${c.name}`;
         expandBtn(s, FK, FK[0], eb, c.chart === 'systems' ? 'Full chart' : 'Full chart & forecast');
         cb.classList.add('zoomable'); cb.title = 'Click for the full chart' + (c.chart === 'systems' ? '' : ' and forecast');
-        cb.addEventListener('click', () => openFull(FK, FK[0], eb, cb));
+        cb.addEventListener('click', () => { FC.fc = true; openFull(FK, FK[0], eb, cb); });
       }
       if (c.id === 'mining' && ((D.hist || {}).copper || []).length) {
         const ms = section('Copper and aluminium', 'LME cash settlement, US$ per tonne. Copper goes into anode foil and cables, aluminium into cathode foil, casings and racks.');
@@ -2726,14 +2846,18 @@
       }
       else if (c.chart === 'tenders') { tenderChart(cb, stTenders()); const lg = el('div', 'tlegend'); [['--blue', '2-hour'], ['--orange', '4-hour']].forEach(([cc, t]) => { const x = el('span'); const i2 = el('i', 'dt'); i2.style.background = css(cc); x.append(i2, document.createTextNode(t)); lg.appendChild(x); }); s.appendChild(lg); }
     }
-    if (c.id === 'materials') {
-      const s = section('LFP cathode: where the price could go', 'Base scenario to late 2029, worked out from lithium and the site\u2019s cost model. Click for scenarios and the yearly ranges.');
+    const OUTSEC = { mining: ['lithium', 'Lithium carbonate: where the price could go', ['lithium', 'copper', 'aluminium']], materials: ['cathode', 'LFP cathode: where the price could go', ['cathode', 'lithium']], cells: ['cell_ess', '314 Ah storage cell: where the price could go', ['cell_ess', 'cell_ev']] }[c.id];
+    if (OUTSEC) {
+      const [mat, title, keys] = OUTSEC;
+      const s = section(title, 'Base scenario to late 2029, from the 2–3 year outlook. The band holds 8 in 10 simulated outcomes. Click for the other scenarios and the yearly ranges.');
+      const ot = outlookEl(mat, 'olk big', true); if (ot) s.appendChild(ot);
       const cb = el('div', 'chart zoomable'); s.appendChild(cb); cb.title = 'Click for the full forecast';
       const eb = `Step ${c.n} · ${c.name}`;
-      expandBtn(s, ['cathode', 'lithium'], 'cathode', eb, 'Full forecast');
-      cb.addEventListener('click', () => { FC.fc = true; openFull(['cathode', 'lithium'], 'cathode', eb, cb); });
+      expandBtn(s, keys, mat, eb, 'Full forecast');
+      cb.addEventListener('click', () => openForecast(mat, eb));
       const lg = el('div', 'ol-legend'); s.appendChild(lg);
-      ensureScen(() => { if (!cb.isConnected) return; const f = fcData(D.scen, 'cathode', 'base', false); if (f) fcChart(cb, { hist: [], fmt: fmtUsd0, fc: f, color: css('--l2'), legend: lg, height: 240, compact: true }); else cb.appendChild(el('div', 'empty', 'The outlook is not available yet.')); });
+      const hist = (FC_SERIES[mat] || {}).hist ? FC_SERIES[mat].hist() : [];
+      ensureScen(() => { if (!cb.isConnected) return; const f = fcData(D.scen, mat, 'base', false); if (f) fcChart(cb, { hist: hist.filter((p) => +p.d >= +parse(D.scen.asof) - 548 * 864e5), fmt: FC_SERIES[mat].fmt, fc: f, color: css('--l2'), legend: lg, height: 260, compact: true }); else cb.appendChild(el('div', 'empty', 'The outlook is not available yet.')); });
     }
     // prices
     const steps = allPrices();
@@ -2747,6 +2871,7 @@
         card.append(el('div', 'pn', r.name), pr);
         if (r.move) card.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
         if (r.desc && (c.id === 'cells' || c.id === 'systems')) card.appendChild(el('div', 'pd', r.desc));
+      { const o = r.mat && outlookEl(r.mat, 'olk'); if (o) card.appendChild(o); }
         const meta = el('div', 'pm'); meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url), document.createTextNode(' '), ageTag(r)); card.appendChild(meta);
         if (r.chart) { const b = el('button', 'btn link small', 'Price history →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); card.appendChild(b); }
         g.appendChild(card);
@@ -2849,7 +2974,7 @@
   function applyParams(h) {
     const q = new URLSearchParams(String(h || '').split('?')[1] || '');
     const ch = q.get('chart');
-    if (ch && FC_SERIES[ch]) { FC.fc = q.get('fc') === '1'; if (q.get('scen')) FC.scen = q.get('scen'); openFull(FC_GROUP[ch] || [ch], ch, eyebrowNow(), null, false); }
+    if (ch && FC_SERIES[ch]) { FC.fc = q.get('fc') !== '0'; if (q.get('scen')) FC.scen = q.get('scen'); openFull(FC_GROUP[ch] || [ch], ch, eyebrowNow(), null, false); }
     else closeFull(true);
     const flash = (id) => setTimeout(() => { const t = document.getElementById(id); if (!t) return; t.scrollIntoView({ behavior: 'auto', block: 'center' }); t.classList.add('flash'); setTimeout(() => t.classList.remove('flash'), 1800); }, 60);
     const sid = q.get('story');
@@ -2914,6 +3039,8 @@
       NAV.cur = location.hash.slice(1) || 'overview';
       go(NAV.cur, false, true);
       startFresh();
+      // the outlook loads next; pages that show outlook lines redraw quietly when it arrives
+      ensureScen(() => { if (['overview', 'chain', 'materials'].includes(S.tab)) { S.resizing = true; try { RENDER[S.tab](); } finally { S.resizing = false; } } });
     });
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
   function loadHistory() {

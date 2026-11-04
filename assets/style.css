@@ -1287,3 +1287,59 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 }
 @media (min-width: 1100px) { .tb-cards { grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); } }
 .tb-ref { max-width: 1400px; margin: 18px auto 0; }
+
+/* ---------- Phase 2: what it means for us ---------- */
+.ichips { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.ich { font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.ich.good { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.ich.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 11%, transparent); }
+.ich.watch { color: var(--muted); background: color-mix(in srgb, var(--muted) 13%, transparent); }
+.hi-tag { font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--panel); background: var(--fg); padding: 1px 7px; border-radius: 4px; }
+.newslist .us, .feed .us { margin: 4px 0 2px; font-size: 14px; line-height: 1.45; color: var(--fg); background: var(--soft); border-radius: 10px; padding: 7px 10px; }
+.newslist .us b { font-weight: 700; }
+.newslist.compact .us, .ov-news .us { font-size: 13px; padding: 5px 8px; }
+.feed .story.w1 .h { color: var(--muted); }
+.ns-about { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.ns-about summary { cursor: pointer; font-weight: 600; }
+.ns-about ul { margin: 6px 0 0; padding-left: 18px; }
+.rwhy { font-size: 13px; color: var(--muted); line-height: 1.4; min-width: 220px; }
+.pchance { display: inline-block; font-weight: 700; font-variant-numeric: tabular-nums; padding: 2px 9px; border-radius: 999px; font-size: 13px; }
+.pchance.lo { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.pchance.mid { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.pchance.hi { color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+/* overview: what matters for us */
+.ov-today { margin: clamp(16px, 3vw, 28px) auto 0; max-width: 1400px; }
+.ot-card { background: var(--panel); border-radius: 24px; padding: clamp(18px, 2.6vw, 30px); display: flex; flex-direction: column; gap: 18px; }
+.ot-title { font-family: var(--display); font-size: clamp(22px, 2.4vw, 30px); line-height: 1.2; letter-spacing: -0.02em; margin: 4px 0 0; max-width: 60ch; text-wrap: balance; }
+.ot-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(16px, 2.4vw, 32px); }
+@media (max-width: 900px) { .ot-grid { grid-template-columns: 1fr; } }
+.ot-col h3 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin: 0 0 8px; }
+.ot-list, .ot-dates { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ot-item { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 12px 14px; border-radius: 14px; background: var(--soft); border-left: 3px solid var(--line); }
+.ot-item.good { border-left-color: var(--ok); } .ot-item.bad { border-left-color: var(--bad); }
+.ot-item:hover { background: color-mix(in srgb, var(--soft) 70%, var(--line)); }
+.ot-item:focus-visible { outline: 2px solid var(--l2); outline-offset: 2px; }
+.ot-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ot-day { font-size: 12px; color: var(--muted); margin-left: auto; }
+.ot-us { font-size: 15px; font-weight: 600; line-height: 1.4; }
+.ot-h { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.ot-date { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: start; padding: 10px 12px; border-radius: 14px; background: var(--soft); }
+.ot-date.key { background: color-mix(in srgb, var(--warn) 10%, var(--soft)); }
+.ot-date .cd { display: flex; flex-direction: column; align-items: center; line-height: 1; padding-top: 2px; }
+.ot-date .cd b { font-family: var(--display); font-size: 26px; font-variant-numeric: tabular-nums; }
+.ot-date .cd span { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.ot-date.key .cd b { color: var(--warn); }
+.ot-dw { font-weight: 600; font-size: 14px; line-height: 1.35; }
+.ot-dm { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.ot-dus { font-size: 13px; line-height: 1.4; margin: 6px 0 0; }
+/* ---------- Phase 3: outlook lines ---------- */
+.olk { display: block; font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.35; }
+.olk i { font-style: normal; font-weight: 700; color: var(--l2); margin-right: 4px; }
+.olk.big { font-size: 15px; color: var(--fg); margin: 0 0 6px; }
+.k-outb { all: unset; cursor: pointer; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; margin-top: 6px; font-size: 13px; color: var(--muted); max-width: 22rem; text-align: right; }
+.k-outb .k-out i { font-style: normal; font-weight: 700; color: var(--l2); margin-right: 4px; }
+.k-outb .go { color: var(--l2); font-weight: 600; }
+.k-outb:hover .go { text-decoration: underline; }
+.k-outb:focus-visible { outline: 2px solid var(--l2); outline-offset: 3px; border-radius: 6px; }
+@media (max-width: 760px) { .k-outb { align-items: flex-start; text-align: left; } }
+.ot-date .cd.now b { font-size: 15px; padding-top: 6px; }

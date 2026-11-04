@@ -46,7 +46,9 @@
   "kind": "India tender",
   "source": "Saur Energy",
   "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135",
-  "short": "MAHAGENCO 1.6 GWh storage bids due"
+  "short": "MAHAGENCO 1.6 GWh storage bids due",
+  "weight": 2,
+  "us": "A 1.6 GWh storage tender in Maharashtra: demand for storage systems."
  },
  {
   "date": "2026-11-10",
@@ -86,7 +88,9 @@
     "k": "price",
     "s": 1
    }
-  ]
+  ],
+  "weight": 3,
+  "us": "If China does not extend the pause, every cell, pack and graphite shipment to India needs a Chinese export licence again: expect delays and higher prices on imports. Check suppliers' licence status now."
  },
  {
   "date": "2026-11-10",
@@ -94,7 +98,9 @@
   "kind": "India tender",
   "source": "ESS News (InfoLink), 23 Oct 2026",
   "url": "https://www.ess-news.com/2026/10/23/where-are-the-batteries-localization-concerns-amid-indias-energy-storage-boom/",
-  "short": "ACC PLI 10 GWh storage-cell bids due"
+  "short": "ACC PLI 10 GWh storage-cell bids due",
+  "weight": 3,
+  "us": "India's tender for 10 GWh of grid-storage cell factories: the winners shape how many Indian-made storage cells exist from about 2028."
  },
  {
   "date": "2026-11-12",
@@ -102,7 +108,9 @@
   "kind": "Event",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/23/rwanda-tenders-800-mwh-bess-project/",
-  "short": "Rwanda 800 MWh battery pre-qualification due"
+  "short": "Rwanda 800 MWh battery pre-qualification due",
+  "weight": 1,
+  "us": "A storage tender in Rwanda: outside our markets."
  },
  {
   "date": "2026-11-17",
@@ -110,7 +118,9 @@
   "kind": "India tender",
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/west-bengal-utility-floats-tender-solar-project-with-battery-storage",
-  "short": "West Bengal solar-plus-storage EPC bids due"
+  "short": "West Bengal solar-plus-storage EPC bids due",
+  "weight": 2,
+  "us": "A solar-plus-storage build in West Bengal: demand for storage systems."
  },
  {
   "date": "2026-11-17",
@@ -118,7 +128,9 @@
   "kind": "India tender",
   "source": "Power Peak Digest via now.solar",
   "url": "https://now.solar/2026/10/28/haryana-tenders-500-mw-solar-projects-with-250-mw-1000-mwh-bess-power-peak-digest/",
-  "short": "Haryana 1 GWh solar-storage bids due"
+  "short": "Haryana 1 GWh solar-storage bids due",
+  "weight": 2,
+  "us": "1 GWh of four-hour storage with solar in Haryana: demand for storage systems."
  },
  {
   "date": "2026-11-23",
@@ -126,7 +138,9 @@
   "kind": "India tender",
   "source": "Renewable Watch",
   "url": "https://renewablewatch.in/2026/10/13/andhra-pradesh-tenders-5-gwh-bess/",
-  "short": "Andhra Pradesh 5 GWh storage bids due"
+  "short": "Andhra Pradesh 5 GWh storage bids due",
+  "weight": 3,
+  "us": "5 GWh of standalone storage in Andhra Pradesh: a large market for storage systems."
  },
  {
   "date": "2026-11-23",
@@ -134,7 +148,9 @@
   "kind": "India tender",
   "source": "TaiyangNews",
   "url": "https://taiyangnews.info/tenders/seci-4-gw-16-gwh-standalone-bess-tender",
-  "short": "SECI 16 GWh storage bids due"
+  "short": "SECI 16 GWh storage bids due",
+  "weight": 3,
+  "us": "16 GWh of four-hour storage with central support: one of India's largest storage tenders."
  },
  {
   "date": "2026-12-01",
@@ -150,7 +166,9 @@
     "k": "supply",
     "s": -1
    }
-  ]
+  ],
+  "weight": 2,
+  "us": "India's first LFP cathode plant: a first step to local cell materials."
  },
  {
   "date": "2026-12-09",
@@ -158,7 +176,9 @@
   "kind": "India tender",
   "source": "SolarQuarter",
   "url": "https://solarquarter.com/2026/11/03/noida-power-company-invites-bids-for-320-mwh-standalone-bess-project-in-greater-noida-under-12-year-boot-model/",
-  "short": "Noida Power 320 MWh storage bids due"
+  "short": "Noida Power 320 MWh storage bids due",
+  "weight": 1,
+  "us": "A small storage tender in Uttar Pradesh: demand for storage systems."
  },
  {
   "date": "2027-01-01",
@@ -178,7 +198,9 @@
     "k": "price",
     "s": 2
    }
-  ]
+  ],
+  "weight": 3,
+  "us": "Chinese cells and batteries lose a 6% export rebate: expect landed costs of imported cells and packs in India to rise from January."
  },
  {
   "date": "2027-01-01",
@@ -194,7 +216,9 @@
     "k": "supply",
     "s": 2
    }
-  ]
+  ],
+  "weight": 2,
+  "us": "Less lithium ore from Zimbabwe for Chinese refiners: supports lithium prices next year."
  },
  {
   "date": "2027-02-18",
@@ -202,7 +226,9 @@
   "kind": "Rule change",
   "source": "Arianee (EU Batteries Regulation timeline)",
   "url": "https://www.arianee.com/en/blog/battery-passport-timeline-2027-2036",
-  "short": "EU battery passports become mandatory"
+  "short": "EU battery passports become mandatory",
+  "weight": 1,
+  "us": "Matters only for batteries or vehicles we would sell into Europe."
  },
  {
   "date": "2027-04-01",
@@ -210,7 +236,9 @@
   "kind": "Rule change",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
-  "short": "China cuts EV export VAT rebate to 9%"
+  "short": "China cuts EV export VAT rebate to 9%",
+  "weight": 3,
+  "us": "Chinese e-buses and e-truck tractors get dearer abroad: eases price pressure on our electric vehicles in export markets."
  },
  {
   "date": "2027-04-01",
@@ -219,7 +247,9 @@
   "kind": "India competitor",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/",
-  "short": "Vikram Solar 7.5 GWh storage plant due to start"
+  "short": "Vikram Solar 7.5 GWh storage plant due to start",
+  "weight": 2,
+  "us": "A 7.5 GWh storage-system plant near Chennai starts: a nearby competitor in storage systems."
  },
  {
   "date": "2027-04-01",
@@ -228,7 +258,9 @@
   "kind": "India competitor",
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/mecpower-solutions-navitas-solar-plan-5-gwh-storage-facility-in-gujarat",
-  "short": "Mecpower–Navitas 5 GWh BESS plant due to start"
+  "short": "Mecpower–Navitas 5 GWh BESS plant due to start",
+  "weight": 1,
+  "us": "A 5 GWh storage-system plant in Gujarat starts: another local competitor."
  },
  {
   "date": "2027-04-01",
@@ -236,7 +268,9 @@
   "kind": "Rule change",
   "source": "Powerpeak Digest",
   "url": "https://powerpeakdigest.com/tamil-nadu-bess-policy-2026-storage-target/",
-  "short": "Tamil Nadu storage mandate for new solar starts"
+  "short": "Tamil Nadu storage mandate for new solar starts",
+  "weight": 3,
+  "us": "New solar plants in our home state must add four-hour storage: steady demand for storage systems from April 2027."
  },
  {
   "date": "2027-04-30",
@@ -244,6 +278,8 @@
   "kind": "India tender",
   "source": "SolarQuarter",
   "url": "https://solarquarter.com/2026/10/05/seci-issues-800-mw-3200-mwh-standalone-bess-tender-under-tariff-based-competitive-bidding/",
-  "short": "SECI 3.2 GWh storage commissioning deadline"
+  "short": "SECI 3.2 GWh storage commissioning deadline",
+  "weight": 1,
+  "us": "Deadline for SECI's 3.2 GWh storage projects: shows whether awarded projects actually get built."
  }
 ]

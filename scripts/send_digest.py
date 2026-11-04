@@ -51,6 +51,37 @@ def signed(p):
     return ("+" if p > 0 else "−" if p < 0 else "±") + f"{abs(p):.1f}%"
 
 
+IMPACT_LAB = {
+    "cost": {1: "Lower costs for us", -1: "Higher costs for us", 0: "Costs: watch"},
+    "demand": {1: "More demand for what we sell", -1: "Less demand for what we sell", 0: "Demand: watch"},
+    "competition": {1: "Less competition", -1: "More competition", 0: "Competition: watch"},
+    "supply": {1: "Easier supply", -1: "Supply risk", 0: "Supply: watch"},
+    "policy": {1: "Policy helps us", -1: "Policy hurts us", 0: "Policy: watch"},
+}
+
+
+def week_move(pts):
+    """Latest reading vs the one about a week earlier (or the previous reading if readings are rarer), as on the website.
+    pts: sorted [(date, value, ...)]. Returns (last, prev, pct) or None."""
+    if len(pts) < 2:
+        return None
+    last, prev = pts[-1], None
+    for p in reversed(pts[:-1]):
+        prev = p
+        if (d(last[0]) - d(p[0])).days >= 6:
+            break
+    return last, prev, pct(last[1], prev[1])
+
+
+def outlook(mat, year="2028"):
+    """Base-scenario yearly average (middle and 8-in-10 range) from data/scenarios.json, or None."""
+    X = load("scenarios", {}) or {}
+    y = (((X.get("results") or {}).get("base") or {}).get(mat) or {}).get("years", {}).get(year)
+    if not y:
+        return None
+    return year, y["p50"], y["p10"], y["p90"], (X.get("now") or {}).get(mat)
+
+
 def series_points():
     """Return {key: (label, unit, [(date, value, source, url), ...])} sorted by date."""
     out = {}
@@ -59,6 +90,13 @@ def series_points():
         pts = [(r["date"], float(r["usd_t"]), r.get("source", ""), r.get("url", "")) for r in lith if r.get("series") == ser]
         pts.sort(key=lambda p: p[0])
         out[key] = (label, "/t", pts)
+    lm = (load("markets", {}) or {}).get("lithium") or {}
+    rec = lm.get("recent") or []
+    if rec and (not out["fut"][2] or rec[-1][0] > out["fut"][2][-1][0]):
+        out["fut"] = ("Lithium carbonate futures", "/t", [(dd, float(v), "Guangzhou futures close, at the ECB rate", lm.get("url", "")) for dd, v in rec])
+    spot = [p for p in out["spot"][2] if p[2].startswith("SMM")]  # one source for spot, as on the website
+    if spot:
+        out["spot"] = (out["spot"][0], "/t", spot)
     wk = sorted(load("weekly", []), key=lambda r: r["date"])
     out["cell"] = ("314 Ah storage cell", "/kWh", [(r["date"], float(r["cell314"]), r.get("source", ""), r.get("url", "")) for r in wk])
     ev = load("evcells", {}) or {}
@@ -116,7 +154,10 @@ def build(today):
             vs = f"vs {day(prev[0])}"  # always say what the change is measured against, as the website does
         new = last[0] >= fresh_from
         fmt = (lambda v: f"${v:,.0f}") if unit == "/t" else (lambda v: f"${v:,.1f}")
+        wm = week_move(pts)
         rows.append({"key": key, "label": label, "value": fmt(last[1]), "unit": unit, "num": last[1], "chg": chg, "vs": vs,
+                     "wvalue": fmt(wm[0][1]) if wm else fmt(last[1]), "wnum": wm[0][1] if wm else last[1], "wchg": wm[2] if wm else None,
+                     "wvs": f"vs {day(wm[1][0])}" if wm else "", "wdate": day(wm[0][0]) if wm else day(last[0]), "wurl": wm[0][3] if wm else last[3],
                      "date": day(last[0]), "new": new, "source": last[2], "url": last[3]})
         # alert rules: only on a reading this email is reporting for the first time
         if new and chg is not None and gap <= 21:
@@ -130,11 +171,14 @@ def build(today):
                     alerts.append(f"{'Lithium futures' if key == 'fut' else 'Lithium spot'} {signed(pct(last[1], wk[1]))} in a week")
 
     recent = [n for n in news if n.get("date", "") >= (today - dt.timedelta(days=2)).isoformat()]
-    recent = sorted(recent, key=lambda n: (0 if n.get("alert") else 1, "".join(chr(255 - ord(c)) for c in n.get("date", ""))))
-    top = recent[:5]
-    for n in news:
-        if n.get("alert") and n.get("date", "") >= (today - dt.timedelta(days=1)).isoformat():
-            alerts.append(n.get("alert_reason") or n.get("category", "News"))
+    cut3 = (today - dt.timedelta(days=3)).isoformat()
+    forus = sorted([n for n in news if n.get("us") and n.get("date", "") >= cut3 and (n.get("weight") or 0) >= 2],
+                   key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))[:4]
+    if len(forus) < 3:
+        forus = sorted([n for n in news if n.get("us") and (n.get("weight") or 0) >= 2], key=lambda n: n.get("date", ""), reverse=True)[:4]
+    shown_ids = {n["id"] for n in forus}
+    recent = sorted([n for n in recent if n["id"] not in shown_ids], key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))
+    top = recent[:4]
 
     up = []
     for e in sorted(events, key=lambda e: e["date"]):
@@ -144,6 +188,14 @@ def build(today):
             end = nxt - dt.timedelta(days=nxt.day)
         if end >= today:
             up.append(e)
+    nextd = [e for e in up if (d(e["date"]) - today).days <= 14 and ((e.get("weight") or 0) >= 2 or e.get("kind") == "Rule change")]
+    have = {(e["date"], "rule") for e in nextd if e.get("kind") == "Rule change"}
+    for r in load("regulations", []) or []:
+        rd = d(r["date"])
+        if today <= rd and (rd - today).days <= 14 and (r["date"], "rule") not in have:
+            nextd.append({"date": r["date"], "what": r.get("short") or r["title"], "short": r.get("short") or r["title"], "kind": "Rule change",
+                         "us": r.get("us") or r.get("impact", ""), "weight": 2, "source": r.get("source", ""), "url": r.get("url", "")})
+    nextd = sorted(nextd, key=lambda e: (e["date"], -(e.get("weight") or 0)))[:5]
     up = up[:3]
 
     date_label = f"{today.strftime('%a')} {today.day} {today.strftime('%b %Y')}"
@@ -177,7 +229,7 @@ def build(today):
         extra = f' <span style="color:{MUTED};font-size:11px">{E(vs)}</span>' if vs else ""
         return f'<span style="display:inline-block;background:{bg};color:{fg};font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap">{txt}</span>{extra}'
 
-    def tile(label, value, unit, chg, when, url, vs="", sub="", color=ACCENT):
+    def tile(label, value, unit, chg, when, url, vs="", sub="", color=ACCENT, ol=""):
         return (f'<td class="tile" width="50%" valign="top" style="padding:6px">'
                 f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-radius:18px">'
                 f'<tr><td style="padding:16px 16px 14px">'
@@ -185,12 +237,13 @@ def build(today):
                 f'<div style="font-size:26px;font-weight:700;color:{INK};letter-spacing:-0.6px;line-height:1.2;margin-top:6px">{E(value)}<span style="font-size:13px;font-weight:500;color:{MUTED};letter-spacing:0">{E(unit)}</span></div>'
                 + (f'<div style="font-size:12px;color:{MUTED};margin-top:2px">{E(sub)}</div>' if sub else "")
                 + f'<div style="margin-top:10px">{pill(chg, vs)}</div>'
-                f'<div style="font-size:11.5px;color:{MUTED};margin-top:8px"><a href="{E(url)}" style="color:{MUTED};text-decoration:underline">{E(when)}</a></div>'
+                + (f'<div style="font-size:12px;color:{INK};margin-top:9px;line-height:1.4"><b style="color:{ACCENT}">Outlook</b> {E(ol)}</div>' if ol else "")
+                + f'<div style="font-size:11.5px;color:{MUTED};margin-top:8px"><a href="{E(url)}" style="color:{MUTED};text-decoration:underline">{E(when)}</a></div>'
                 f'</td></tr></table></td>')
 
     R = {r["key"]: r for r in rows}
     tiles = []
-    names = {"fut": "Lithium carbonate futures", "spot": "Lithium carbonate spot", "cell": "314 Ah storage cell", "ev": "EV prismatic LFP cell", "sys": "4-hour storage system (China)"}
+    names = {"fut": "Lithium carbonate futures", "spot": "Lithium carbonate spot", "cell": "314 Ah storage cell", "ev": "EV prismatic LFP cell", "sys": "4-hour AC storage system, China spot"}
     tcol = {"fut": L[0], "spot": L[0], "cell": L[2], "ev": L[2], "sys": L[3]}
     for k in ("fut", "spot", "cell", "ev", "sys"):
         if k in R:
@@ -308,6 +361,8 @@ def build(today):
                           f'<tr><td style="padding:13px 16px">'
                           f'<div style="font-size:11.5px;font-weight:700;color:{c}">{E(n.get("category", ""))}{flag}<span style="color:{MUTED};font-weight:400"> · {E(n.get("day", ""))}</span></div>'
                           f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px">{E(n["headline"])}</div>'
+                          + (f'<div style="font-size:13.5px;line-height:1.45;color:{INK};margin-top:6px"><b>For us:</b> {E(n["us"])}</div>' if n.get("us") else "")
+                          + f''
                           f'<div style="font-size:12.5px;margin-top:7px"><a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">Read on {E(n["source"])} ›</a></div>'
                           f'</td></tr></table></td></tr>')
     else:
@@ -357,12 +412,82 @@ def build(today):
                        f'<div style="font-size:12px;color:{MUTED};margin-top:3px">{E(r["region"])} · <a href="{E(r["url"])}" style="color:{MUTED}">{E(r["source"])}</a></div>'
                        f'</td></tr></table></td></tr>')
     if rules_html:
-        rules_html += f'<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#rules" style="color:{ACCENT};font-weight:600;text-decoration:none">All regulations and what they mean for an Indian buyer ›</a></td></tr>'
+        rules_html += f'<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#rules" style="color:{ACCENT};font-weight:600;text-decoration:none">All regulations and what they mean for us ›</a></td></tr>'
 
     alert_html = ""
     if uniq:
         alert_html = (f'<tr><td style="padding:20px 24px 0" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed;border-radius:16px">'
                       f'<tr><td style="padding:13px 16px;font-size:14px;color:{INK};line-height:1.5"><b style="color:{AMBER}">⚠ Alert</b>&nbsp; {E(" · ".join(uniq))}</td></tr></table></td></tr>')
+
+    def chips(n, mx=2):
+        out = ""
+        for x in (n.get("impact") or [])[:mx]:
+            lab = IMPACT_LAB.get(x.get("k"), {}).get(x.get("s"))
+            if not lab:
+                continue
+            bg, fg = (("#e3f4ea", GREEN) if x["s"] > 0 else ("#fde4e1", RED) if x["s"] < 0 else ("#ececf0", MUTED))
+            out += f'<span style="display:inline-block;background:{bg};color:{fg};font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap">{E(lab)}</span>'
+        return out
+
+    # one bottom line from the data: where cell costs are going, and the most pressing date
+    bl = []
+    if "fut" in R and R["fut"]["wchg"] is not None:
+        c = R["fut"]["wchg"]
+        bl.append("Lithium is steady, so cell costs hold" if abs(c) < 2 else (f"Lithium is down {abs(c):.0f}% on the week, so cell costs keep easing" if c < 0 else f"Lithium is up {c:.0f}% on the week, a risk for cell costs"))
+    key_date = next((e for e in nextd if (e.get("weight") or 0) >= 3), None)
+    if key_date:
+        nd = (d(key_date["date"]) - today).days
+        bl.append(f'{key_date.get("short") or key_date["what"]} {"today" if nd <= 0 else "tomorrow" if nd == 1 else f"in {nd} days"}')
+    bottom = ". ".join(bl) + ("." if bl else "")
+
+    forus_html = ""
+    for n in forus:
+        good = sum((x.get("s") or 0) for x in (n.get("impact") or []))
+        bc = GREEN if good > 0 else RED if good < 0 else LINE
+        forus_html += (f'<tr><td style="padding:5px 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-left:3px solid {bc};border-radius:14px">'
+                       f'<tr><td style="padding:12px 16px">'
+                       f'<div>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'
+                       f'<div style="font-size:15px;font-weight:700;line-height:1.45;color:{INK};margin-top:2px">{E(n["us"])}</div>'
+                       f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px">{E(n.get("short") or n["headline"])} · <a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
+                       f'</td></tr></table></td></tr>')
+
+    soon_html = ""
+    for i, e in enumerate(nextd):
+        nd = (d(e["date"]) - today).days
+        big = "Today" if nd <= 0 else str(nd)
+        unit_ = "" if nd <= 0 else ("day" if nd == 1 else "days")
+        hot = (e.get("weight") or 0) >= 3
+        bt = "" if i == 0 else f"border-top:1px solid {LINE};"
+        us_line = (f'<div style="font-size:13px;color:{INK};line-height:1.45;margin-top:4px">{E(e.get("us", ""))}</div>' if hot and e.get("us") else "")
+        soon_html += (f'<tr><td style="padding:0 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
+                      f'<td width="58" valign="top" align="center" style="padding:12px 0;{bt}"><div style="font-size:{22 if nd > 0 else 14}px;font-weight:800;color:{AMBER if hot else INK};line-height:1">{big}</div>'
+                      f'<div style="font-size:11px;color:{MUTED};margin-top:2px">{unit_}</div></td>'
+                      f'<td valign="top" style="padding:12px 0 12px 12px;{bt}"><div style="font-size:14.5px;font-weight:700;color:{INK};line-height:1.4">{E(e.get("short") or e["what"])}</div>'
+                      f'<div style="font-size:12px;color:{MUTED};margin-top:2px">{d(e["date"]).day} {d(e["date"]).strftime("%b")} · {E(e.get("kind", ""))} · <a href="{E(e.get("url", ""))}" style="color:{MUTED}">{E(e.get("source", ""))}</a></div>{us_line}'
+                      f'</td></tr></table></td></tr>')
+
+    # key prices: one comparison (about a week back), and where each is heading
+    OLM = {"fut": "lithium", "cell": "cell_ess", "ev": "cell_ev"}
+    ktiles = []
+    for k in ("fut", "cell", "ev", "sys"):
+        if k not in R:
+            continue
+        r = R[k]
+        sub = ""
+        if k == "fut" and "spot" in R:
+            sub = f'China spot {R["spot"]["wvalue"]} ({R["spot"]["wdate"]})'
+        if k == "ev":
+            sub = f"230 Ah ≈ ${r['wnum'] * 0.736:,.0f} · 324 Ah ≈ ${r['wnum'] * 1.043:,.0f} a cell"
+        ol = outlook(OLM.get(k, ""))
+        oltxt = ""
+        if ol:
+            yr, mid, lo, hi, _now = ol
+            f_ = (lambda v: f"${v / 1000:.1f}k") if hi >= 10000 else (lambda v: f"${v:,.0f}") if hi >= 1000 else (lambda v: f"${v:,.1f}")
+            oltxt = f"{yr}: about {f_(mid)} · range {f_(lo)}–{f_(hi)}"
+        ktiles.append(tile(names[k], r["wvalue"], r["unit"], r["wchg"], r["wdate"], r["wurl"], r["wvs"], sub, tcol[k], oltxt))
+    if len(ktiles) % 2:
+        ktiles.append('<td class="tile" width="50%"></td>')
+    ktile_rows = "".join(f"<tr>{ktiles[i]}{ktiles[i + 1]}</tr>" for i in range(0, len(ktiles), 2))
 
     strip = "".join(f'<td width="20%" style="height:4px;background:{c};font-size:0;line-height:0">&nbsp;</td>' for c in L)
 
@@ -387,19 +512,20 @@ def build(today):
  </tr></table></td></tr>
 <tr><td style="padding:0;font-size:0;line-height:0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>{strip}</tr></table></td></tr>
 {alert_html}
-<tr><td style="padding:30px 24px 6px" class="px" align="center">
- <div style="font-size:12px;font-weight:700;color:{ACCENT};letter-spacing:1.6px;text-transform:uppercase">The battery value chain</div>
- <div class="hero" style="font-size:32px;font-weight:800;color:{INK};letter-spacing:-1px;line-height:1.1;margin-top:8px">From the mine to the grid.</div>
- <div style="font-size:15px;line-height:1.6;color:{MUTED};margin-top:12px;text-align:center">{E(note) if note else "Here are today's battery market prices and news."}</div></td></tr>
-{chain_html}
-{section("Today's prices.", "Latest readings and the change on the previous one.")}
-<tr><td style="padding:0 18px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{tile_rows}</table></td></tr>
+<tr><td style="padding:26px 24px 4px" class="px">
+ <div style="font-size:12px;font-weight:700;color:{ACCENT};letter-spacing:1.4px;text-transform:uppercase">What matters for us</div>
+ <div class="hero" style="font-size:24px;font-weight:800;color:{INK};letter-spacing:-0.6px;line-height:1.25;margin-top:8px">{E(bottom) if bottom else "Today's battery market, for us."}</div></td></tr>
+{forus_html}
+<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#news" style="color:{ACCENT};font-weight:600;text-decoration:none">All stories, most important for us first ›</a></td></tr>
+{section("Next 14 days") if soon_html else ""}
+{soon_html}
+{section("Key prices", "Latest reading, change on about a week earlier, and the base-scenario outlook.")}
+<tr><td style="padding:0 18px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{ktile_rows}</table></td></tr>
+<tr><td style="padding:8px 24px 0;font-size:12px;color:{MUTED};line-height:1.5" class="px">Lithium is a China price including 13% VAT; cells and systems exclude it. Outlook: middle of the simulated yearly average and the range 8 in 10 outcomes fall in, not a prediction. <a href="{SITE}#risk" style="color:{ACCENT};font-weight:600;text-decoration:none">How the outlook works ›</a></td></tr>
 {section("Risk navigator") if risk_html else ""}
 {risk_html}
-{section("Top news")}
-{news_html}
-{section("Coming up") if up_html else ""}
-{up_html}
+{section("More news") if top else ""}
+{news_html if top else ""}
 {section("Rules coming up") if rules_html else ""}
 {rules_html}
 {brief_html}
@@ -412,17 +538,27 @@ def build(today):
     t = [f"LeyBatt Pulse | Daily | {date_label}", ""]
     if uniq:
         t += ["ALERT: " + "; ".join(uniq), ""]
+    if bottom:
+        t += ["WHAT MATTERS FOR US: " + bottom, ""]
+    for n in forus:
+        t.append(f"- {n['us']} ({n.get('short') or n['headline']}; {n['source']}: {n['url']})")
+    if nextd:
+        t += ["", "Next 14 days:"] + [f"- {e['date']}: {e.get('short') or e['what']}" for e in nextd]
+    t += ["", "Key prices (change on about a week earlier):"]
+    for k in ("fut", "cell", "ev", "sys"):
+        if k in R:
+            r = R[k]
+            t.append(f"- {names[k]}: {r['wvalue']}{r['unit']} ({'–' if r['wchg'] is None else signed(r['wchg']) + ' ' + r['wvs']}) {r['wdate']}")
     if note:
-        t += [note, ""]
-    for r in rows:
+        t += ["", note]
+    for r in []:
         ch = "–" if r["chg"] is None else signed(r["chg"]) + (" " + r["vs"] if r["vs"] else "")
         t.append(f"- {r['label']}: {r['value']}{r['unit']} ({ch}) {r['date']}{'' if r['new'] else ', no new reading'}")
     if rmats:
         fmt = lambda ax: "not scored" if ax.get("score") is None else f"{ax['score']:.1f} {ax['level']}"  # noqa: E731
         t += ["", "Risk navigator (next 3 months, 0-10):"] + [f"- {m['short']}: price {fmt(m['h3']['price'])}, supply {fmt(m['h3']['supply'])}" for m in rmats] + [f"  Details: {SITE}#risk"]
-    t += ["", "Top news:"] + ([f"- {n['headline']} ({n['source']}: {n['url']})" for n in top] or ["- No new stories in the last two days."])
-    if up:
-        t += ["", "Coming up:"] + [f"- {e['date']}: {e['what']}" for e in up]
+    if top:
+        t += ["", "More news:"] + [f"- {n['headline']}" + (f" For us: {n['us']}" if n.get("us") else "") + f" ({n['source']}: {n['url']})" for n in top]
     if rules_up:
         t += ["", "Rules coming up:"] + [f"- {r['date']}: {r.get('short') or r['title']} ({r['region']}, {r['status']})" for r in rules_up] + [f"  Details: {SITE}#rules"]
     if today.weekday() == 0:

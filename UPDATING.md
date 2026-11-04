@@ -35,6 +35,20 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 | Analyst lithium price forecasts | Reputable news reports of bank or broker forecasts | When published | `forecasts.json` (`who`, `period`, `low`, `high` in US$/t, `source`, `url`) |
 | News | Bloomberg headlines on lithium/batteries/energy storage/EVs; ESS News; Energy-Storage.News; SMM; Mining Weekly; CnEVPost (China EV and battery data); company press releases (CATL, BYD, LG Energy Solution, Tesla, CALB, EVE, Panasonic, Samsung SDI, SK On); Indian sources (Saur Energy, pv magazine India, Mercom, ETAuto, Autocar Pro, FADA/Vahan EV sales, Indian cell makers such as Tata Agratas, Amara Raja, Exide, Ola, Reliance); regulation (MHI/PLI, MNRE/CEA, BIS, customs, EU Battery Regulation, US tariffs and FEOC rules) | Daily | `news.json`. Aim for a mix across categories, not only lithium. |
 
+## What it means for us (every story, date and rule)
+
+The site, the News page and the morning email lead with what each item means for Ashok Leyland. Read `data/profile.json` first: it lists, from public facts only, what the company sells (trucks and buses, diesel and electric, including Switch Mobility; battery packs; battery storage systems), what it buys (LFP cells, mostly from China) and who it competes with. Never use or hint at internal plans, bids, customers, targets or supplier talks; a line must make sense to anyone who knows only those public facts.
+
+On **every news item you add**, write:
+- `us`: one plain sentence, at most about 25 words, starting with what happened in a few words and then what it means for us, e.g. "A rival's 500 battery-swap heavy e-trucks on corridors where we sell diesel tractors. Watch whether fleets prefer swapping to plug-in charging." Say "us"/"our", never the company name. No advice beyond a short "watch …" or "prefer …".
+- `impact`: one to three tags, most important first, each `{"k": <key>, "s": <1, -1 or 0>}`. Keys: `cost` (our input costs: cells and the lithium and materials in them; lower = 1), `demand` (demand for what we sell: e-buses, e-trucks, packs, storage systems; higher = 1), `competition` (more competition = -1), `supply` (easier, safer supply of cells and materials = 1; risk = -1), `policy` (helps us = 1, hurts us = -1). `0` means "watch": unclear direction.
+- `weight`: 3 = high impact (Indian e-bus or e-truck orders, launches or results of direct competitors; Indian storage tenders of 1 GWh or more and storage policy; Chinese export controls, rebates or taxes on batteries; a big shift in the lithium or cell price outlook), 2 = relevant (storage and cell markets, Indian pack and cell makers, smaller Indian tenders), 1 = background (car models in China, research far from market, events outside our markets).
+- Plain daily price recaps get weight 1.
+
+On **every date you add to `events.json`**, also write `weight` (same scale) and, for weight 2–3, `us` (one sentence). The overview's "Next 14 days" and the email's countdown show dates of weight 2–3 and every rule change.
+
+On **regulations**, `us` (optional) replaces `impact` in the "What it means for us" box: write it when the rule matters to us as a seller (demand for e-buses, e-trucks, packs or storage), not only as a buyer of cells.
+
 ## Raw-materials table and cost calculator
 
 - Every row in `rawmats.json` needs `material`, `role`, `price` (display string), `usd` (the same number, plain), `unit` ("per tonne" or "per m²"), `asof`, `move`, `direction`, `stage`, `source`, `url` (optional `source2`/`url2`). Keep `usd` and `price` in step: the cost calculator reads `usd`.
@@ -101,7 +115,7 @@ The Risk tab's "The next three years" section comes from `data/scenarios.json`, 
 ## Morning email
 
 The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) at about 5:15 am IST, built from the data files — the daily run does not send email itself. To make it useful:
-- Write `meta.json` `note` as two short plain sentences (under 45 words in all): first the price picture, then the single most important story. It is the email's opening, read on phones.
+- Write `meta.json` `note` as two short plain sentences (under 45 words in all): first the price picture, then the single most important story. It is the preview line people see in their inbox (the email itself opens with "What matters for us", built from the `us` lines).
 - On a news item that meets an alert rule, add `"alert": true` and `"alert_reason"` (2–4 words, e.g. "1.6 GWh India tender"). Also add `"short"`: the story in at most 70 characters, own words, plain (e.g. "Andhra Pradesh tenders 5 GWh of standalone battery storage"). It runs in the moving strip under the site header, so it must make sense on its own. Alert rules: an Indian battery-storage tender or award of 1 GWh or more; a change to Indian customs duty, PLI, BIS or battery rules; a Chinese export rebate, export control or tariff change on batteries, cells or lithium; a new product, price cut or large order from a competitor in Indian electric buses, trucks or batteries. Price alerts are worked out by the script.
 
 ## Dates to watch (`events.json`)
@@ -129,7 +143,7 @@ Each daily run should aim for a spread: at most 3 lithium items, and at least on
 1. Check each source above. Record only new, verified figures.
 2. Append new rows to the series files (`lithium.json`, `cell314.json`, `systems.json`) with `date` (YYYY-MM-DD), value, `source`, `url`, `note`.
 3. Update the matching card in `latest.json`: `price` (formatted, e.g. "$15,010"), `asof` (e.g. "21 Oct"), `move` (signed %, e.g. "−2.1% in a week", using a real minus sign "−"), `direction` (`down`/`up`/`flat`), `source`, `url`.
-4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `category` = one of the categories listed below, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Keep about 60–80 items: never delete stories from the last 30 days; beyond that drop the oldest first, but keep at least 3 items in every category.
+4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `us`, `impact`, `weight` (see "What it means for us"), `category` = one of the categories listed below, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Keep about 60–80 items: never delete stories from the last 30 days; beyond that drop the oldest first, but keep at least 3 items in every category.
 5. Update `data/meta.json`: `updated` (YYYY-MM-DD), `updated_label` (e.g. "21 Oct 2026"), `note` (one line on which prices moved).
 6. Validate: every file parses as JSON (`python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('data/*.json')]"`), and no displayed field (anything other than `url`/`url2`) contains "CNY", "RMB" or "yuan".
 7. Commit to `main` with a message like `Daily update 21 Oct 2026` and push. GitHub Pages republishes within a few minutes.

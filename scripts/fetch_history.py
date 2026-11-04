@@ -268,6 +268,22 @@ def write_markets():
         if rows:
             out[name] = {"recent": [[r["date"], round(float(r["usd_t"]), 1)] for r in rows], "source": rows[-1]["source"],
                          "url": "https://www.westmetall.com/en/markdaten.php"}
+    try:  # lithium futures closes (yuan) with each day's ECB yuan rate, so the site can show the newest close on the chart's basis
+        with open(OUT / "lithium_futures.csv") as f:
+            li = [r for r in csv.DictReader(f) if r.get("cny_t")][-12:]
+        with open(OUT / "fx.csv") as f:
+            rates = [(r["date"], float(r["usd_cny"])) for r in csv.DictReader(f) if r.get("usd_cny")]
+        def rate_on(day):
+            best = None
+            for d, v in rates:
+                if d <= day:
+                    best = v
+            return best
+        pts = [[r["date"], round(float(r["cny_t"]) / rate_on(r["date"]))] for r in li if rate_on(r["date"])]
+        if pts:
+            out["lithium"] = {"recent": pts, "source": "Guangzhou futures close (via Sina Finance), at the ECB rate", "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml"}
+    except (FileNotFoundError, ValueError):
+        pass
     try:
         with open(OUT / "fx.csv") as f:
             fx = list(csv.DictReader(f))

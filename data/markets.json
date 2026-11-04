@@ -107,6 +107,60 @@
   "source": "LME cash settlement via Westmetall",
   "url": "https://www.westmetall.com/en/markdaten.php"
  },
+ "lithium": {
+  "recent": [
+   [
+    "2026-10-20",
+    15052
+   ],
+   [
+    "2026-10-21",
+    14236
+   ],
+   [
+    "2026-10-22",
+    14111
+   ],
+   [
+    "2026-10-23",
+    14584
+   ],
+   [
+    "2026-10-26",
+    14289
+   ],
+   [
+    "2026-10-27",
+    14773
+   ],
+   [
+    "2026-10-28",
+    13996
+   ],
+   [
+    "2026-10-29",
+    13264
+   ],
+   [
+    "2026-10-30",
+    13302
+   ],
+   [
+    "2026-11-02",
+    13643
+   ],
+   [
+    "2026-11-03",
+    13384
+   ],
+   [
+    "2026-11-04",
+    12958
+   ]
+  ],
+  "source": "Guangzhou futures close (via Sina Finance), at the ECB rate",
+  "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml"
+ },
  "fx": {
   "date": "2026-11-04",
   "usd_inr": 94.6408,

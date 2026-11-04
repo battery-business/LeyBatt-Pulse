@@ -1,0 +1,13 @@
+{
+ "about": "The \"For us\" lines read each story from Ashok Leyland's side, using only public facts about its businesses. They are a quick first read, written each morning with the news, not company analysis.",
+ "sells": ["Trucks and buses, diesel and electric (including Switch Mobility's electric buses and light trucks)", "Battery packs", "Battery storage systems"],
+ "buys": ["LFP battery cells, mostly imported from China", "Lithium and other cell materials, through the price of cells"],
+ "competitors": ["Tata Motors", "Olectra", "JBM", "PMI Electro Mobility", "EKA Mobility", "VE Commercial Vehicles (Eicher)", "Energy In Motion", "Blue Energy Motors", "Indian storage-system makers and integrators"],
+ "keys": {
+  "cost": "Our input costs: cells, and the lithium and materials inside them. Lower is good for us.",
+  "demand": "Demand for what we sell: electric buses and trucks, packs and storage systems. Higher is good for us.",
+  "competition": "Competition for our buses, trucks, packs and storage systems. More is bad for us.",
+  "supply": "How safely we can get cells and materials. Easier is good for us.",
+  "policy": "Rules and incentives that help or hurt us."
+ }
+}

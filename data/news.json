@@ -18,6 +18,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "A big bank now expects lithium to stay cheap into 2028: supports lower cell prices in our 2027 quotes. Prefer index-linked cell contracts over locking today's price.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
   ]
  },
  {
@@ -37,6 +45,18 @@
     "k": "supply",
     "s": -1
    }
+  ],
+  "us": "More lithium supply outside China from 2026–27: keeps raw-material costs down and widens where our cell suppliers can buy.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
   ]
  },
  {
@@ -51,7 +71,15 @@
   "url": "https://inside.lgensol.com/en/2026/11/lg-energy-solution-releases-2026-third-quarter-financial-results/",
   "sources": "LG Energy Solution · SBS · Bloomberg (headline)",
   "source2": "Bloomberg (headline only)",
-  "url2": "https://www.bloomberg.com/news/articles/2026-11-03/lg-energy-to-expand-north-america-battery-output-on-ai-demand"
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-03/lg-energy-to-expand-north-america-battery-output-on-ai-demand",
+  "us": "Korean makers' storage lines in the US are sold out to 2028: little spare non-Chinese storage-cell supply for India in the near term.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n154",
@@ -63,7 +91,15 @@
   "direction": "down",
   "source": "EnergyTrend",
   "url": "https://www.energytrend.com/news/20261103-52440.html",
-  "sources": "EnergyTrend"
+  "sources": "EnergyTrend",
+  "us": "Chinese storage makers are fighting on price and some are losing money: buyers like us keep bargaining power on cells and systems for now.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n155",
@@ -77,7 +113,15 @@
   "url": "https://solarquarter.com/2026/11/03/noida-power-company-invites-bids-for-320-mwh-standalone-bess-project-in-greater-noida-under-12-year-boot-model/",
   "sources": "SolarQuarter · Mercom",
   "source2": "Mercom",
-  "url2": "https://www.mercomindia.com/noida-power-company-invites-bids-for-battery-storage-projects-in-uttar-pradesh"
+  "url2": "https://www.mercomindia.com/noida-power-company-invites-bids-for-battery-storage-projects-in-uttar-pradesh",
+  "us": "Another four-hour storage tender in Uttar Pradesh: small (320 MWh), but more Indian demand for storage systems; bids due 9 Dec.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n156",
@@ -91,7 +135,19 @@
   "url": "https://www.whalesbook.com/corporate-news/English/auto/Amara-Raja-Q2-Profit-Falls-45percent-Announces-Rs-2320-Crore-Expansion/6ae88918c6c6dccbb90f5197",
   "sources": "Whalesbook · BW AutoWorld",
   "source2": "BW AutoWorld",
-  "url2": "https://bwautoworld.com/article/amara-raja-energy-mobility-q2-revenue-rises-13-profit-before-tax-declines-631819"
+  "url2": "https://bwautoworld.com/article/amara-raja-energy-mobility-q2-revenue-rises-13-profit-before-tax-declines-631819",
+  "us": "Amara Raja is building an LFP cell plant and more pack capacity: another possible Indian cell source, and a stronger pack competitor.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n157",
@@ -106,7 +162,19 @@
   "sources": "Autocar Professional",
   "alert": true,
   "alert_reason": "500 e-truck deal",
-  "short": "EIM and Sorigin plan 500 electric heavy trucks over two years"
+  "short": "EIM and Sorigin plan 500 electric heavy trucks over two years",
+  "us": "A rival's 500 battery-swap heavy e-trucks on freight corridors where we sell diesel tractors. Watch whether fleets prefer swapping to plug-in charging.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n158",
@@ -118,7 +186,15 @@
   "direction": "flat",
   "source": "electrive",
   "url": "https://www.electrive.com/2026/11/02/webasto-poised-to-sell-its-battery-systems-business/",
-  "sources": "electrive"
+  "sources": "electrive",
+  "us": "A European pack maker is up for sale: consolidation among pack makers abroad; little direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n150",
@@ -130,7 +206,15 @@
   "direction": "down",
   "source": "Drive Tesla Canada",
   "url": "https://driveteslacanada.ca/news/tesla-cybercab-battery-designed-future-lfp-cells",
-  "sources": "Drive Tesla Canada"
+  "sources": "Drive Tesla Canada",
+  "us": "Even Tesla designs packs to switch to cheaper LFP cells: confirms LFP as the low-cost default for vehicles.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n149",
@@ -142,7 +226,15 @@
   "direction": "up",
   "source": "Autocar Professional",
   "url": "https://www.autocarpro.in/news/weekly-news-wrap-tata-takes-control-of-iveco-ev-makers-step-up-capacity-oct-sales-highlights-135633",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Two-wheeler makers are adding big EV volumes: more competition for Indian-made cells, which may tighten local cell supply.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n148",
@@ -154,7 +246,15 @@
   "direction": "flat",
   "source": "SolarQuarter",
   "url": "https://solarquarter.com/2026/11/02/gerc-approves-tariffs-for-450-mw-900-mwh-battery-storage-projects-in-gujarat/",
-  "sources": "SolarQuarter"
+  "sources": "SolarQuarter",
+  "us": "Gujarat confirms storage tariffs near ₹2.32 lakh/MW/month: a benchmark for what Indian storage projects earn, and so for what buyers will pay for systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n147",
@@ -166,7 +266,15 @@
   "direction": "up",
   "source": "Business Standard",
   "url": "https://www.business-standard.com/amp/industry/auto/ev-registrations-soar-75-in-october-even-as-pv-market-shrinks-14-6-126110300007_1.html",
-  "sources": "Business Standard"
+  "sources": "Business Standard",
+  "us": "Electric cars are gaining share in India: more local battery demand helps Indian cell plants reach scale, which lowers local cell costs over time.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n146",
@@ -178,7 +286,15 @@
   "direction": "up",
   "source": "CarNewsChina",
   "url": "https://carnewschina.com/2026/11/02/china-ev-sales-in-october-byd-483125-geely-214996-leapmotor-106127-xpeng-50237",
-  "sources": "CarNewsChina"
+  "sources": "CarNewsChina",
+  "us": "Strong China EV sales keep LFP cell demand high there: supports cell prices, but no direct effect on Indian buses and trucks.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n145",
@@ -190,7 +306,15 @@
   "direction": "flat",
   "source": "CarNewsChina",
   "url": "https://carnewschina.com/2026/11/02/solid-state-battery-race-sunwoda-tests-polymer-cells-with-automakers-as-catl-targets-2027",
-  "sources": "CarNewsChina"
+  "sources": "CarNewsChina",
+  "us": "Solid-state cells are still at pilot stage: no change to what we buy for buses, trucks or storage in the next three years.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n144",
@@ -202,7 +326,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/11/02/global-ev-battery-market-share-in-jan-sept-2026/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "CATL and BYD hold over half of the world's EV cells: our cell supply stays concentrated in two Chinese makers.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n143",
@@ -214,7 +346,15 @@
   "direction": "flat",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104193146-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-edged-down-by-100-yuanmt-on-nov-2-with-strong-wait-and-see-sentiment-on-the-first-day-of-the-month",
-  "sources": "SMM"
+  "sources": "SMM",
+  "us": "Lithium bounced but sellers expect prices to drift: no change to the near-term cell cost picture.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n136",
@@ -226,7 +366,15 @@
   "direction": "up",
   "source": "PSU Watch",
   "url": "https://psuwatch.com/newsupdates/ntpcs-1st-250-mw-battery-energy-storage-project-declared-commercial-power-scheduling-begins",
-  "sources": "PSU Watch"
+  "sources": "PSU Watch",
+  "us": "NTPC's first standalone storage project is running: proves the model and supports more central tenders for storage systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n137",
@@ -238,7 +386,15 @@
   "direction": "up",
   "source": "Autocar India",
   "url": "https://www.autocarindia.com/industry/indian-e-two-wheeler-sales-crosses-a-record-223-lakh-units-in-october-441190",
-  "sources": "Autocar India"
+  "sources": "Autocar India",
+  "us": "Record e-scooter sales in India: more local cell demand, which helps Indian cell plants scale; no direct effect on our vehicles.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n138",
@@ -250,7 +406,15 @@
   "direction": "flat",
   "source": "Powerpeak Digest",
   "url": "https://powerpeakdigest.com/power-sector-news-roundup-for-october-30-2026/",
-  "sources": "Powerpeak Digest"
+  "sources": "Powerpeak Digest",
+  "us": "India's first sodium-ion storage pilot: a small trial, but worth watching as an alternative chemistry for storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n139",
@@ -262,7 +426,15 @@
   "direction": "flat",
   "source": "CarNewsChina",
   "url": "https://carnewschina.com/2026/11/01/china-exempts-sodium-ion-batteries-from-tax-as-hina-targets-10-gwh-commercial-ev-push",
-  "sources": "CarNewsChina"
+  "sources": "CarNewsChina",
+  "us": "Sodium-ion is being built at scale for heavy vehicles in China: a possible cheaper chemistry for buses and storage later this decade.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n140",
@@ -276,7 +448,15 @@
   "url": "https://news.lgensol.com/company-news/press-releases/5499/",
   "sources": "LG Energy Solution · Battery-Tech Network",
   "source2": "Battery-Tech Network",
-  "url2": "https://battery-tech.net/battery-markets-news/lg-energy-solution-energix-bess/"
+  "url2": "https://battery-tech.net/battery-markets-news/lg-energy-solution-energix-bess/",
+  "us": "Korean storage cells sold into Europe: little spare non-Chinese supply for India.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n141",
@@ -288,7 +468,15 @@
   "direction": "down",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104189818-smm-analysis-lithium-battery-q3-2026-profit-divergence",
-  "sources": "SMM"
+  "sources": "SMM",
+  "us": "Lithium processors are losing money at today's prices: prices are near the floor, so the next big lithium move is more likely up than down.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n142",
@@ -300,7 +488,15 @@
   "direction": "flat",
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-10-29/hungary-s-post-orban-shakeout-hits-ev-battery-industry",
-  "sources": "Bloomberg"
+  "sources": "Bloomberg",
+  "us": "Political change in Hungary may slow Europe's battery plants: little effect on Indian supply (headline only).",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n127",
@@ -312,7 +508,15 @@
   "direction": "up",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/29/bw-ess-enters-french-market-finances-europes-biggest-bess/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "Storage demand keeps growing in Europe: competes with India for the same Chinese storage cells.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n126",
@@ -324,7 +528,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/28/solid-state-batteries-xpeng-iron-small-batch-production/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Solid-state cells for robots: early technology, no effect on our products.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n125",
@@ -339,7 +551,15 @@
   "alert": true,
   "alert_reason": "220 e-bus order",
   "short": "Jakson Green wins 220 electric buses for three Gujarat cities",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "A rival wins 220 e-buses in Gujarat under PM e-Bus Sewa: these tenders are where our electric buses compete.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n124",
@@ -351,7 +571,15 @@
   "direction": "flat",
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/mecpower-solutions-navitas-solar-plan-5-gwh-storage-facility-in-gujarat",
-  "sources": "Mercom India"
+  "sources": "Mercom India",
+  "us": "A new 5 GWh storage-system assembly plant in Gujarat from 2027: more Indian competitors for storage systems, all buying cells from abroad at first.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n123",
@@ -365,7 +593,15 @@
   "url": "https://en.sedaily.com/finance/2026/10/29/samsung-sdi-books-60-gwh-of-ess-orders-wins-first-european",
   "source2": "Bloomberg",
   "url2": "https://www.bloomberg.com/news/articles/2026-10-29/samsung-sdi-eyes-energy-storage-battery-growth-after-profit-beat",
-  "sources": "Seoul Economic Daily · Bloomberg"
+  "sources": "Seoul Economic Daily · Bloomberg",
+  "us": "Korean storage lines are booked to 2028: few non-Chinese storage cells will be free for Indian buyers soon.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n122",
@@ -377,7 +613,15 @@
   "direction": "down",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104186365-smm-analysis-lithium-carbonate-prices-fell-sharply-this-week-with-the-pace-of-inventory-destocking-slowing",
-  "sources": "SMM"
+  "sources": "SMM",
+  "us": "Lithium fell 8% in a day: if it lasts, cell prices drift lower over the next few months.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n111",
@@ -389,7 +633,19 @@
   "direction": "up",
   "source": "Powerpeak Digest",
   "url": "https://powerpeakdigest.com/pace-digitek-coal-india-bess-project-telangana/",
-  "sources": "Powerpeak Digest"
+  "sources": "Powerpeak Digest",
+  "us": "₹3.14 lakh/MW/month in a Coal India storage tender: a higher-than-usual tariff and a benchmark for storage-system bids in India.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n112",
@@ -401,7 +657,15 @@
   "direction": "up",
   "source": "Autocar Professional",
   "url": "https://www.autocarpro.in/news/electric-trucks-next-big-ev-growth-opportunity-financing-key-to-adoption-olectra-md-135495",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Olectra is moving into electric heavy trucks (tippers and tractor-trailers): direct competition for our trucks.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n113",
@@ -413,7 +677,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/26/nio-presses-ahead-cylindrical-cells-limited-output-year-end/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Carmakers are still buying CATL cells while their own designs mature: CATL's hold on supply stays strong.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n114",
@@ -425,7 +697,15 @@
   "direction": "up",
   "source": "ESS News",
   "url": "https://ess-news.com/2026/10/27/pge-hosts-groundbreaking-for-400-mw-project-in-poland-fluence-supplying-smartstack-bess",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "Large storage builds in Europe compete for the same Chinese storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n103",
@@ -440,7 +720,15 @@
   "sources": "SolarQuarter",
   "alert": true,
   "alert_reason": "1.8 GWh India storage PPA",
-  "short": "Tamil Nadu clears 600 MW solar with 1.8 GWh storage at ₹3.12/kWh"
+  "short": "Tamil Nadu clears 600 MW solar with 1.8 GWh storage at ₹3.12/kWh",
+  "us": "Tamil Nadu buys solar plus six-hour storage: more storage demand in our home state.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n104",
@@ -455,7 +743,15 @@
   "sources": "Power Peak Digest",
   "alert": true,
   "alert_reason": "New Indian battery maker",
-  "short": "KENT RO enters lithium storage packs with a 3.5 GWh Noida plant"
+  "short": "KENT RO enters lithium storage packs with a 3.5 GWh Noida plant",
+  "us": "A consumer-goods company enters home storage packs: new entrants in small storage, not our main market.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n105",
@@ -467,7 +763,15 @@
   "direction": "down",
   "source": "Power Peak Digest",
   "url": "https://powerpeakdigest.com/china-sigenegy-india-battery-inverter-plant/",
-  "sources": "Power Peak Digest"
+  "sources": "Power Peak Digest",
+  "us": "A Chinese storage maker plans an Indian factory: more competition for storage systems in India.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n106",
@@ -479,7 +783,19 @@
   "direction": "up",
   "source": "Autocar Professional",
   "url": "https://www.autocarpro.in/news/blue-energy-motors-and-hpcl-open-heavy-duty-truck-battery-swapping-station-in-bhiwandi-135479",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Battery swapping for heavy e-trucks opens on the Mumbai–Pune corridor: helps a rival's e-trucks, and grows the e-truck market.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n107",
@@ -491,7 +807,15 @@
   "direction": "flat",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/26/samsung-sdi-signs-1-gwh-supply-agreement-for-us-made-nca-battery-storage/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "Korean storage deals in the US: little effect on India.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n108",
@@ -503,7 +827,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/26/svolt-begins-mass-production-100-kwh-semi-solid-packs/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Semi-solid packs in mass production in China: shows where pack technology is going, no near-term effect.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n109",
@@ -515,7 +847,15 @@
   "direction": "down",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104179387-sodium-ion-ronbay-invests-rmb-36bn-in-xiangyang-cathode-project-total-planned-capacity-500kt",
-  "sources": "SMM"
+  "sources": "SMM",
+  "us": "Big sodium-ion cathode capacity in China: sodium-ion could become a cheap option for storage and buses later.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n110",
@@ -527,7 +867,15 @@
   "direction": "up",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/26/giga-storage-secures-financing-grid-connection-for-1-4-gwh-catl-bess-project-in-germany/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "European storage projects use CATL containers: global demand for the same systems stays strong.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n102",
@@ -539,7 +887,19 @@
   "direction": "up",
   "source": "Autocar Professional",
   "url": "https://autocarpro.in/news/paradeep-parivahan-secures-10-year-ev-heavy-haulage-contract-from-jsw-group-135444",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "100 electric heavy trucks on a 10-year industrial haul deal: the e-truck market is growing, and rivals are winning these fleet contracts.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n101",
@@ -568,6 +928,14 @@
     "k": "supply",
     "s": 1
    }
+  ],
+  "us": "EVE's cell capacity is fully booked: cell supply is tight at big makers, which limits discounts in near-term quotes.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   }
   ]
  },
  {
@@ -580,7 +948,15 @@
   "direction": "up",
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/haryana-power-purchase-centre-invites-bids-for-solar-plus-storage-projects",
-  "sources": "Mercom India"
+  "sources": "Mercom India",
+  "us": "Haryana tenders solar with storage: more Indian demand for storage systems; bids due 17 Nov.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n99",
@@ -592,7 +968,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/24/catl-qilin-battery-nio-firefly-60-kwh/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Swappable packs with mixed chemistries in China: technology note only.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n93",
@@ -607,7 +991,19 @@
   "sources": "Business Today",
   "alert": true,
   "alert_reason": "Component PLI planned",
-  "short": "India plans a ₹12,000-crore PLI for cell materials"
+  "short": "India plans a ₹12,000-crore PLI for cell materials",
+  "us": "A proposed incentive for cell materials in India: would make local cell-making cheaper and less dependent on China.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "policy",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n94",
@@ -621,7 +1017,15 @@
   "url": "https://powerpeakdigest.com/bondada-engineering-gipcl-120mwh-vrfb-bess/",
   "sources": "Power Peak Digest · Construction World",
   "source2": "Construction World",
-  "url2": "https://www.constructionworld.in/policy-updates-and-economic-news/gipcl-issues-loi-to-bondada-engineering-for-20-mw120-mwh-bess/99197"
+  "url2": "https://www.constructionworld.in/policy-updates-and-economic-news/gipcl-issues-loi-to-bondada-engineering-for-20-mw120-mwh-bess/99197",
+  "us": "A flow-battery pilot in Gujarat: an alternative storage technology, small for now.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n95",
@@ -633,7 +1037,15 @@
   "direction": "down",
   "source": "Power Peak Digest",
   "url": "https://powerpeakdigest.com/chemvolt-ratlam-lithium-ion-battery-cell-plant/",
-  "sources": "Power Peak Digest"
+  "sources": "Power Peak Digest",
+  "us": "Another proposed Indian cell plant: more possible local cell suppliers, if it gets built.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n96",
@@ -652,6 +1064,14 @@
     "k": "price",
     "s": 1
    }
+  ],
+  "us": "Australia expects spodumene prices to rise sharply in 2027: a risk that lithium and cell costs climb again next year.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   }
   ]
  },
  {
@@ -664,7 +1084,15 @@
   "direction": "flat",
   "source": "electrive",
   "url": "https://www.electrive.com/2026/10/22/catls-akin-li-whichever-battery-type-the-market-demands-well-have-it/",
-  "sources": "electrive"
+  "sources": "electrive",
+  "us": "CATL's standard swappable packs for heavy trucks: a model that could reach India's freight corridors.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n98",
@@ -676,7 +1104,15 @@
   "direction": "up",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/24/vw-anhui-launches-id-unyx-09/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Fast-charging LFP packs in Chinese cars: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n85",
@@ -688,7 +1124,15 @@
   "direction": "up",
   "source": "Power Peak Digest",
   "url": "https://powerpeakdigest.com/adani-green-h1-fy27-results-capacity-bess/",
-  "sources": "Power Peak Digest"
+  "sources": "Power Peak Digest",
+  "us": "Adani is building storage at huge scale for its own solar: some of India's storage demand is served in-house, not tendered.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n86",
@@ -700,7 +1144,15 @@
   "direction": "up",
   "source": "Power Peak Digest (Ember analysis)",
   "url": "https://powerpeakdigest.com/battery-subsidy-rooftop-solar-storage-ember/",
-  "sources": "Power Peak Digest (Ember analysis)"
+  "sources": "Power Peak Digest (Ember analysis)",
+  "us": "A possible home-battery subsidy: could open a large new storage market in India.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n87",
@@ -717,6 +1169,14 @@
    {
     "m": "cell_ess",
     "k": "price",
+    "s": 1
+   }
+  ],
+  "us": "BloombergNEF raises its storage forecast, with India adding over 6 GW this year: a bigger market for storage systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
     "s": 1
    }
   ]
@@ -738,6 +1198,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "Lithium demand from storage expected to slow: supports lower lithium and cell prices later this decade.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
   ]
  },
  {
@@ -750,7 +1218,15 @@
   "direction": "flat",
   "source": "Energy-Storage.News",
   "url": "https://www.energy-storage.news/sonnen-files-for-insolvency-in-germany-two-months-after-shell-offloading/",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "us": "A European home-battery maker goes bust: price pressure in storage is hurting weaker players.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n90",
@@ -762,7 +1238,15 @@
   "direction": "down",
   "source": "Energy-Storage.News",
   "url": "https://www.energy-storage.news/sodium-ion-bess-hithium-enters-canadian-market-peak-energy-closes-series-b-with-gm-led-funding/",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "us": "Very large storage cells (1,175 Ah) in new containers: shows where storage-cell sizes are heading.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n91",
@@ -774,7 +1258,15 @@
   "direction": "flat",
   "source": "EVreporter",
   "url": "https://evreporter.com/ultraviolette-launches-x-47-venom-e-motorcycle-at-%e2%82%b92-65-lakh-introduces-new-vx-100-platform/",
-  "sources": "EVreporter"
+  "sources": "EVreporter",
+  "us": "An Indian e-motorcycle launch: no effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n92",
@@ -786,7 +1278,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/22/byd-denza-pre-sales-refreshed-n8-oct-26/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Fast-charging packs in Chinese cars: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n67",
@@ -800,7 +1300,15 @@
   "url": "https://finance.jrj.com.cn/2026/10/23152858838383.shtml",
   "source2": "SMM",
   "url2": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure",
-  "sources": "JRJ Finance · SMM"
+  "sources": "JRJ Finance · SMM",
+  "us": "Lithium bounced after a slide: no change to the cell cost picture yet.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n68",
@@ -815,7 +1323,15 @@
   "alert": true,
   "alert_reason": "1.2 GWh India storage award",
   "sources": "Energy-Storage.News",
-  "short": "ACME wins SECI deal: 300 MW solar with 1.2 GWh of batteries"
+  "short": "ACME wins SECI deal: 300 MW solar with 1.2 GWh of batteries",
+  "us": "A large solar-plus-storage power deal in India: more demand for storage systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n69",
@@ -827,7 +1343,19 @@
   "direction": "down",
   "source": "SMEStreet",
   "url": "https://smestreet.in/sectors/nash-energy-to-present-ev-batteries-and-bess-at-the-battery-show-india-2026-12736263",
-  "sources": "SMEStreet"
+  "sources": "SMEStreet",
+  "us": "An Indian maker shows local LFP cells and storage units: a possible local supplier and a competitor in storage.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n70",
@@ -839,7 +1367,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/23/nio-firefly-launches-60-kwh-battery-pack/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Swappable car packs in China: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n71",
@@ -851,7 +1387,15 @@
   "direction": "down",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/23/sodium-ion-storage-maker-peak-energy-raises-108-million-in-gm-led-round/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "Sodium-ion storage funding in the US: a chemistry to watch for storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n72",
@@ -863,7 +1407,15 @@
   "direction": "down",
   "source": "Caixin Global",
   "url": "https://caixinglobal.com/2026-10-23/chinas-battery-makers-expand-sodium-ion-push-for-light-electric-vehicles-102496218.html",
-  "sources": "Caixin Global"
+  "sources": "Caixin Global",
+  "us": "Sodium-ion in two- and three-wheelers in China: shows sodium-ion moving into low-cost vehicles.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n73",
@@ -875,7 +1427,15 @@
   "direction": "down",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/23/cpca-forecasts-weak-china-nev-retail-oct-2026/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "China's EV sales slowing: less demand for cells there, which keeps cell prices soft.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n74",
@@ -887,7 +1447,15 @@
   "direction": "up",
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/10/23/rwanda-tenders-800-mwh-bess-project/",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "A storage tender in Rwanda: outside our markets.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n53",
@@ -901,7 +1469,15 @@
   "url": "https://finance.jrj.com.cn/2026/10/22152858821247.shtml",
   "source2": "Trading Economics",
   "url2": "https://tradingeconomics.com/commodity/lithium",
-  "sources": "JRJ Finance · Trading Economics"
+  "sources": "JRJ Finance · Trading Economics",
+  "us": "Lithium fell below $15,000: cell costs drifting lower.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n57",
@@ -922,6 +1498,14 @@
     "k": "supply",
     "s": 1
    }
+  ],
+  "us": "India has lots of pack and container assembly but little cell-making: we stay dependent on imported cells for now.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "supply",
+    "s": -1
+   }
   ]
  },
  {
@@ -936,7 +1520,15 @@
   "url": "https://news.metal.com/newscontent/104173796-gm-plans-lmr-prismatic-batteries-from-lg-energy-solution-joint-venture-for-fourth-generation-ev-platform",
   "source2": "Bloomberg",
   "url2": "https://www.bloomberg.com/news/articles/2026-10-21/gm-pushes-ahead-with-next-generation-ev-even-as-sales-have-slid",
-  "sources": "SMM · Bloomberg"
+  "sources": "SMM · Bloomberg",
+  "us": "A new cell chemistry (LMR) in US cars: not relevant to LFP buses, trucks or storage yet.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n61",
@@ -950,7 +1542,19 @@
   "url": "https://www.mercomindia.com/gujarat-regulator-notifies-battery-energy-storage-regulations",
   "source2": "",
   "url2": "",
-  "category": "Regulation & trade"
+  "category": "Regulation & trade",
+  "us": "Gujarat sets rules for grid batteries: clearer rules make storage projects easier to finance and tender.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "policy",
+    "s": 1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n62",
@@ -964,7 +1568,15 @@
   "url": "https://www.mercomindia.com/ctuil-sets-four-hour-battery-storage-requirement-for-grid-connectivity",
   "source2": "",
   "url2": "",
-  "category": "India BESS"
+  "category": "India BESS",
+  "us": "Four-hour minimum storage for grid connections: more battery energy per project, so more demand for storage systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n63",
@@ -978,7 +1590,15 @@
   "url": "https://cnevpost.com/2026/10/22/catl-battery-swap-baic-adoption/",
   "source2": "",
   "url2": "",
-  "category": "Packs & BMS"
+  "category": "Packs & BMS",
+  "us": "Car battery swapping keeps spreading in China: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n64",
@@ -992,7 +1612,15 @@
   "url": "https://www.electrive.com/2026/10/22/india-switch-mobility-starts-fulfilling-50-unit-intercity-electric-bus-order/",
   "source2": "",
   "url2": "",
-  "category": "India EV & battery makers"
+  "category": "India EV & battery makers",
+  "us": "Switch Mobility delivers its first electric intercity coaches to Purple Bus: a public order in our own group.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n66",
@@ -1006,7 +1634,15 @@
   "url": "https://www.energyglobal.com/energy-storage/22102026/bw-ess-secures-international-financing-for-400-mw1424-mwh-hams-hall-bess/",
   "source2": "",
   "url2": "",
-  "category": "Energy storage"
+  "category": "Energy storage",
+  "us": "Storage financing in the UK: little effect on India.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n54",
@@ -1020,7 +1656,15 @@
   "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261021",
   "source2": "",
   "url2": "",
-  "sources": "InfoLink"
+  "sources": "InfoLink",
+  "us": "Lithium and storage cells down on the week, systems flat: cell costs drifting lower.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n55",
@@ -1034,7 +1678,15 @@
   "url": "https://electrek.co/2026/10/21/tesla-tsla-q3-2026-financial-results/",
   "source2": "",
   "url2": "",
-  "sources": "Electrek"
+  "sources": "Electrek",
+  "us": "Tesla's storage growth slows: global storage competition stays intense.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n56",
@@ -1048,7 +1700,15 @@
   "url": "https://www.ess-news.com/2026/10/21/hoymiles-releases-a-2-mwh-ci-energy-storage-solution/",
   "source2": "",
   "url2": "",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "314 Ah cells are now standard in commercial storage cabinets: confirms the cell size the storage market uses.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n45",
@@ -1074,6 +1734,14 @@
     "k": "price",
     "s": 1
    }
+  ],
+  "us": "China's new battery tax and the end of export rebates on 1 Jan 2027 raise the cost of Chinese cells for Indian buyers by several percent.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   }
   ]
  },
  {
@@ -1095,6 +1763,14 @@
     "k": "price",
     "s": 1
    }
+  ],
+  "us": "Long cathode supply deals in China: cathode makers locking in demand.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
   ]
  },
  {
@@ -1109,7 +1785,15 @@
   "url": "https://www.energytrend.com/news/20261021-52347.html",
   "source2": "",
   "url2": "",
-  "sources": "EnergyTrend"
+  "sources": "EnergyTrend",
+  "us": "New cells for niche uses: no effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n48",
@@ -1123,7 +1807,15 @@
   "url": "https://bloomberg.com/news/articles/2026-10-21/gm-leads-108-million-funding-round-for-sodium-ion-battery-startup",
   "source2": "",
   "url2": "",
-  "sources": "Bloomberg"
+  "sources": "Bloomberg",
+  "us": "Sodium-ion start-up funding (headline only): a chemistry to watch.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n50",
@@ -1137,7 +1829,15 @@
   "url": "https://cnevpost.com/2026/10/21/aistaland-planning-battery-swap-models-catl-tie-up/",
   "source2": "CnEVPost",
   "url2": "https://cnevpost.com/2026/10/19/huawei-newcool-joins-catl-choco-swap-ecosystem/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Battery swapping alliances in China: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n51",
@@ -1151,7 +1851,19 @@
   "url": "https://www.energy-storage.news/indias-energy-storage-market-bridging-the-gap-between-tenders-and-execution/",
   "source2": "",
   "url2": "",
-  "sources": "Energy-Storage.News"
+  "sources": "Energy-Storage.News",
+  "us": "Indian storage tariffs have fallen over 80% since 2022 and many awarded projects may not be built: the market is growing, but on very thin prices.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n65",
@@ -1165,7 +1877,15 @@
   "url": "https://globenewswire.com/news-release/2026/10/21/3385920/0/en/quantumscape-announces-plans-for-100-mwh-solid-state-battery-production-line-for-ai-data-centers-aerospace-and-defense.html",
   "source2": "",
   "url2": "",
-  "category": "R&D & new products"
+  "category": "R&D & new products",
+  "us": "Solid-state cells for data centres from 2028: no effect on our products.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n49",
@@ -1179,7 +1899,15 @@
   "url": "https://cnevpost.com/2026/10/20/li-auto-launches-lianshan-in-house-ev-tech-system/",
   "source2": "",
   "url2": "",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Long battery-health guarantees in Chinese cars: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n29",
@@ -1193,7 +1921,15 @@
   "url": "https://cnevpost.com/2026/10/20/byd-launches-second-gen-seagull",
   "source2": "",
   "url2": "",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Cheap EVs with fast charging in China: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n25",
@@ -1207,7 +1943,15 @@
   "url": "https://www.productcomplianceinstitute.com/2026/10/20/eu-battery-passport-draft-act-on-access-rights-to-certain-parts-of-the-battery-passport/",
   "source2": "",
   "url2": "",
-  "sources": "Product Compliance Institute"
+  "sources": "Product Compliance Institute",
+  "us": "EU battery passport rules: matter only if we export batteries or vehicles to Europe.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n15",
@@ -1228,6 +1972,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "Lithium edging down: no change yet.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
   ]
  },
  {
@@ -1242,7 +1994,15 @@
   "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/",
   "source2": "",
   "url2": "",
-  "sources": "CarNewsChina"
+  "sources": "CarNewsChina",
+  "us": "CATL's swappable heavy-truck batteries: a model for e-truck freight that could reach India.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n13",
@@ -1263,6 +2023,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "CATL's profit miss (headline only): competition among cell makers stays strong.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
   ]
  },
  {
@@ -1277,7 +2045,19 @@
   "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/",
   "source2": "",
   "url2": "",
-  "sources": "ESS News"
+  "sources": "ESS News",
+  "us": "A 7.5 GWh storage plant near Chennai from 2027, with cell-making from 2028: a nearby competitor, and a possible local cell source later.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n43",
@@ -1291,7 +2071,15 @@
   "url": "https://themachinemaker.com/news/trontek-to-unveil-5-mwh-ekom-battery-energy-storage-system-at-the-battery-show-india-2026/",
   "source2": "pv magazine India",
   "url2": "https://www.pv-magazine-india.com/2026/10/19/trontek-to-unveil-5-mwh-liquid-cooled-battery-storage-system-at-the-battery-show-india-2026/",
-  "category": "India BESS"
+  "category": "India BESS",
+  "us": "An Indian storage-container maker scaling to 12 GWh: more local competition in storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n36",
@@ -1305,7 +2093,15 @@
   "url": "https://thedriven.io/2026/10/20/oil-giants-battery-unit-to-begin-manufacturing-solid-state-batteries-for-aviation-and-space-sectors/",
   "source2": "",
   "url2": "",
-  "category": "R&D & new products"
+  "category": "R&D & new products",
+  "us": "Solid-state cells for aircraft: no effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n28",
@@ -1319,7 +2115,15 @@
   "url": "https://www.globenewswire.com/news-release/2026/10/19/3383012/0/en/byd-energy-storage-accelerates-global-bess-after-sales-network-expansion.html",
   "source2": "",
   "url2": "",
-  "sources": "BYD (GlobeNewswire)"
+  "sources": "BYD (GlobeNewswire)",
+  "us": "BYD is the world's largest storage-system shipper: the main global price setter for storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n02",
@@ -1333,7 +2137,15 @@
   "url": "https://news.metal.com/newscontent/104166417-smm-lithium-carbonate-daily-review-lithium-carbonate-bottomed-out-on-october-19-reclaiming-the-key-100000-yuan-level",
   "source2": "",
   "url2": "",
-  "category": "Lithium & materials"
+  "category": "Lithium & materials",
+  "us": "Lithium steady near $15,000: no change.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n01",
@@ -1347,7 +2159,15 @@
   "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135",
   "source2": "",
   "url2": "",
-  "category": "India BESS"
+  "category": "India BESS",
+  "us": "Maharashtra tenders 1.6 GWh of storage: more demand for storage systems; bids due 5 Nov.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n52",
@@ -1361,7 +2181,15 @@
   "url": "https://www.autocarpro.in/news/weekly-news-wrap-bs7-norms-proposed-hyundai-commits-$155-billion-stellantis-plans-rs-4000-crore-investment-135319",
   "source2": "",
   "url2": "",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Energy In Motion opens a 5,000-a-year electric heavy-truck plant: a new competitor for our trucks.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n59",
@@ -1375,7 +2203,15 @@
   "url": "https://autocarpro.in/news/varroc-to-take-control-of-forsee-power-india-in-ev-battery-jv-135291",
   "source2": "",
   "url2": "",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Varroc enters battery packs via Forsee Power India: more competition in Indian EV packs.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n31",
@@ -1389,7 +2225,15 @@
   "url": "https://cnevpost.com/2026/10/16/nio-launch-60-kwh-battery-pack-firefly-oct-23/",
   "source2": "",
   "url2": "",
-  "category": "Packs & BMS"
+  "category": "Packs & BMS",
+  "us": "Car pack upgrades in China: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n04",
@@ -1409,6 +2253,14 @@
     "m": "cell_ess",
     "k": "price",
     "s": -1
+   }
+  ],
+  "us": "A big Chinese storage award at $66–70/kWh: confirms low system prices, a benchmark for imported systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
    }
   ]
  },
@@ -1430,6 +2282,14 @@
     "m": "cell_ess",
     "k": "price",
     "s": -2
+   }
+  ],
+  "us": "Chinese 4-hour storage awards fell 12% in a month to about $70/kWh: imported system costs keep falling.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
    }
   ]
  },
@@ -1457,6 +2317,14 @@
     "k": "supply",
     "s": -1
    }
+  ],
+  "us": "Gotion's LFP cell plant in Morocco: a non-China source of LFP cells for the future.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   }
   ]
  },
  {
@@ -1471,7 +2339,15 @@
   "url": "https://www.dalybms.com/news/daly-bms-at-the-battery-show-india-2026-booth-3-167/",
   "source2": "",
   "url2": "",
-  "category": "Packs & BMS"
+  "category": "Packs & BMS",
+  "us": "Battery management systems for small vehicles at a trade show: no direct effect on us.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n16",
@@ -1491,6 +2367,14 @@
     "m": "cell_ev",
     "k": "price",
     "s": 1
+   }
+  ],
+  "us": "LFP is 85% of China's EV cells and CATL holds 41%: our supply market stays concentrated.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
    }
   ]
  },
@@ -1513,6 +2397,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "Lithium slumped 14% in a week (headline only): cell costs easing.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
   ]
  },
  {
@@ -1527,7 +2419,15 @@
   "url": "https://www.autocarpro.in/news/e-bus-share-in-new-indian-bus-registrations-projected-to-reach-17-percent-next-fiscal-crisil-135224",
   "source2": "",
   "url2": "",
-  "category": "India EV & battery makers"
+  "category": "India EV & battery makers",
+  "us": "CRISIL expects electric buses to reach 17% of new bus sales next year: a fast-growing market for our electric buses.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n30",
@@ -1541,7 +2441,15 @@
   "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
   "source2": "Battery-Tech Network",
   "url2": "https://battery-tech.net/battery-markets-news/nev-exports-rebate-cut/",
-  "category": "Regulation & trade"
+  "category": "Regulation & trade",
+  "us": "China cuts its export rebate on e-buses and e-truck tractors from April 2027: Chinese-made e-buses and e-trucks get dearer abroad, easing price pressure on ours.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n23",
@@ -1555,7 +2463,15 @@
   "url": "https://cnevpost.com/2026/10/12/china-sept-2026-nev-sales-caam/",
   "source2": "",
   "url2": "",
-  "sources": "CnEVPost (CAAM data)"
+  "sources": "CnEVPost (CAAM data)",
+  "us": "Chinese EV exports up 160%: Chinese vehicles are pushing harder into world markets.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n75",
@@ -1569,7 +2485,15 @@
   "url": "https://businesstoday.in/markets/stocks/story/tata-motors-q2-net-profit-at-rs-1257-crore-revenue-up-36-shares-update-on-iveco-deal-563321-2026-10-23",
   "source2": "",
   "url2": "",
-  "sources": "Business Today"
+  "sources": "Business Today",
+  "us": "Tata Motors' truck volumes up 42% and profitable again: our largest rival is gaining strength in trucks.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n76",
@@ -1586,7 +2510,15 @@
   "sources": "Powerpeak Digest",
   "alert": true,
   "alert_reason": "5 GWh Andhra storage tender",
-  "short": "Andhra Pradesh tenders 5 GWh of standalone battery storage"
+  "short": "Andhra Pradesh tenders 5 GWh of standalone battery storage",
+  "us": "Andhra Pradesh tenders 5 GWh of storage: a large market for storage systems; bids due 23 Nov.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n77",
@@ -1603,7 +2535,15 @@
   "sources": "Powerpeak Digest",
   "alert": true,
   "alert_reason": "6 GWh Telangana storage tender",
-  "short": "Telangana tenders 3 GW of solar with 6 GWh of storage"
+  "short": "Telangana tenders 3 GW of solar with 6 GWh of storage",
+  "us": "Telangana tenders 6 GWh of storage with solar: a large market for storage systems.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n78",
@@ -1620,7 +2560,15 @@
   "sources": "ESS News",
   "alert": true,
   "alert_reason": "3.3 GWh NTPC storage tender",
-  "short": "NTPC Green tenders 3.3 GWh of battery storage at Khavda"
+  "short": "NTPC Green tenders 3.3 GWh of battery storage at Khavda",
+  "us": "NTPC tenders a 3.3 GWh turnkey storage build: a large contract for storage-system suppliers and EPC firms.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n79",
@@ -1634,7 +2582,19 @@
   "url": "https://www.energetica-india.net/news/greencell-mobility-to-expand-fleet-to-over-5000-electric-buses",
   "source2": "",
   "url2": "",
-  "sources": "Energetica India"
+  "sources": "Energetica India",
+  "us": "An e-bus operator raises money for over 5,000 buses: more demand for electric buses, from operators who buy from several makers.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n80",
@@ -1648,7 +2608,15 @@
   "url": "https://en.fnnews.com/news/202610190759088166",
   "source2": "",
   "url2": "",
-  "sources": "Financial News (Korea)"
+  "sources": "Financial News (Korea)",
+  "us": "Korean cell makers lean on US storage: little effect on Indian supply.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n81",
@@ -1669,6 +2637,14 @@
     "k": "price",
     "s": 1
    }
+  ],
+  "us": "China's storage chain is profitable again: cell makers have less need to cut prices.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
   ]
  },
  {
@@ -1683,7 +2659,15 @@
   "url": "https://battery-tech.net/battery-markets-news/european-union-car-policy/",
   "source2": "Battery-Tech Network (T&E)",
   "url2": "https://battery-tech.net/battery-markets-news/transport-environment-battery-capacity-risk/",
-  "sources": "Battery-Tech Network · Battery-Tech Network (T&E)"
+  "sources": "Battery-Tech Network · Battery-Tech Network (T&E)",
+  "us": "Europe softens its car rules: may slow EV demand there, which keeps cell supply looser.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n83",
@@ -1703,6 +2687,14 @@
     "m": "cell_ev",
     "k": "supply",
     "s": -1
+   }
+  ],
+  "us": "CATL deepens ties with a carmaker: long supply deals keep its capacity committed.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
    }
   ]
  },
@@ -1725,6 +2717,14 @@
     "k": "supply",
     "s": -1
    }
+  ],
+  "us": "A long lithium supply deal from Chile and Texas: more non-China lithium for the market.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   }
   ]
  },
  {
@@ -1737,7 +2737,19 @@
   "direction": "down",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/28/catl-unveils-tener-plus-deepens-australian-presence/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "CATL's bigger storage containers cut site costs: raises the bar for any storage-system maker, and pushes system prices down.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n116",
@@ -1751,7 +2763,15 @@
   "url": "https://chinaevhome.com/2026/10/28/catl-signs-five-year-european-deal-for-3-gwh-sodium-ion-energy-storage/",
   "sources": "China EV Home · TaiyangNews",
   "source2": "TaiyangNews",
-  "url2": "https://taiyangnews.info/storage/global-battery-storage-news-snippets-october-28-2026"
+  "url2": "https://taiyangnews.info/storage/global-battery-storage-news-snippets-october-28-2026",
+  "us": "Sodium-ion storage is moving to commercial scale in Europe: a cheaper chemistry to watch for storage systems.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n117",
@@ -1763,7 +2783,15 @@
   "direction": "flat",
   "source": "SMM",
   "url": "https://news.metal.com/newscontent/104183588-catl-all-solid-state-battery-to-enter-small-batch-production-in-2027",
-  "sources": "SMM"
+  "sources": "SMM",
+  "us": "CATL's solid-state cells are years away: no change to what we buy before 2030.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n118",
@@ -1778,7 +2806,19 @@
   "sources": "electrive",
   "alert": true,
   "alert_reason": "Tata 3,000 e-truck order",
-  "short": "Amazon to run 3,000 Tata electric trucks in India"
+  "short": "Amazon to run 3,000 Tata electric trucks in India",
+  "us": "Amazon's 3,000 Tata electric trucks: a big fleet win for a direct rival in light e-trucks, and proof that large fleets are switching.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n119",
@@ -1790,7 +2830,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/28/li-auto-launches-2026-i6/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Bigger LFP packs at the same car price in China: shows how fast pack costs are falling.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n120",
@@ -1809,6 +2857,14 @@
     "k": "price",
     "s": -1
    }
+  ],
+  "us": "A lithium supply surge expected through 2028: supports lower cell costs over our planning horizon.",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
   ]
  },
  {
@@ -1821,7 +2877,15 @@
   "direction": "flat",
   "source": "Mercom India",
   "url": "https://mercomindia.com/sahaj-solar-to-set-up-1-8-gwh-battery-energy-storage-facility-in-gujarat",
-  "sources": "Mercom India"
+  "sources": "Mercom India",
+  "us": "Another small storage assembly plant in Gujarat: more local competition.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n128",
@@ -1838,7 +2902,15 @@
   "sources": "Powerpeak Digest · TaiyangNews",
   "alert": true,
   "alert_reason": "16 GWh India tender",
-  "short": "SECI tenders 16 GWh of standalone battery storage in Rajasthan, Gujarat"
+  "short": "SECI tenders 16 GWh of standalone battery storage in Rajasthan, Gujarat",
+  "us": "16 GWh of four-hour storage with central support: one of India's largest storage tenders, a large market for storage systems from 2027–28.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n129",
@@ -1855,7 +2927,19 @@
   "sources": "Powerpeak Digest · SolarQuarter",
   "alert": true,
   "alert_reason": "Tamil Nadu 10 GWh policy",
-  "short": "Tamil Nadu mandates 4-hour storage on new solar; plans 10 GWh buy"
+  "short": "Tamil Nadu mandates 4-hour storage on new solar; plans 10 GWh buy",
+  "us": "A large new storage market in our home state: new solar plants must add four-hour storage and the state utility will buy 10 GWh. Watch for its first tenders.",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ]
  },
  {
   "id": "n130",
@@ -1867,7 +2951,15 @@
   "direction": "flat",
   "source": "Powerpeak Digest",
   "url": "https://powerpeakdigest.com/waaree-rtl-200-mw-500-mwh-bess-epc-order/",
-  "sources": "Powerpeak Digest"
+  "sources": "Powerpeak Digest",
+  "us": "A solar EPC firm wins another storage build: Indian EPC players are moving into storage systems, adding competition.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ]
  },
  {
   "id": "n131",
@@ -1879,7 +2971,15 @@
   "direction": "up",
   "source": "Autocar Professional",
   "url": "https://www.autocarpro.in/news/hero-motocorp-plans-to-expand-vida-capacity-to-80000-units-a-month-by-q2-fy28-135549",
-  "sources": "Autocar Professional"
+  "sources": "Autocar Professional",
+  "us": "Two-wheeler makers are expanding fast: more demand for Indian cells, competing for local supply.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n132",
@@ -1891,7 +2991,15 @@
   "direction": "flat",
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/10/30/xiaomi-planned-sunwoda-evb-investment-battery-ties/",
-  "sources": "CnEVPost"
+  "sources": "CnEVPost",
+  "us": "Carmakers are buying into cell makers to secure supply: shows how much buyers value long-term cell access.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n133",
@@ -1905,7 +3013,15 @@
   "url": "https://cnevpost.com/2026/10/30/gac-inpow-starts-production-thailand-plant/",
   "source2": "electrive",
   "url2": "https://www.electrive.com/2026/10/31/gac-launches-battery-production-in-thailand/",
-  "sources": "CnEVPost · electrive"
+  "sources": "CnEVPost · electrive",
+  "us": "Chinese battery makers are building packs abroad: a pattern that could reach India as they localise.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n134",
@@ -1917,7 +3033,15 @@
   "direction": "flat",
   "source": "electrive",
   "url": "https://www.electrive.com/2026/10/30/group14-to-build-battery-material-factory-in-sagunt/",
-  "sources": "electrive"
+  "sources": "electrive",
+  "us": "A new anode material in Europe: long-term technology news, no effect on our near-term costs.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ]
  },
  {
   "id": "n135",
@@ -1931,6 +3055,14 @@
   "url": "https://www.metal.com/gfex",
   "source2": "Trading Economics",
   "url2": "https://tradingeconomics.com/commodity/lithium",
-  "sources": "SMM · Trading Economics"
+  "sources": "SMM · Trading Economics",
+  "us": "Lithium is holding near $13,000–14,000: cell costs stay low for current quotes.",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ]
  }
 ]

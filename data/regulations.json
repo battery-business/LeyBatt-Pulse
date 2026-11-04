@@ -90,7 +90,8 @@
   ],
   "source": "Mercom India, 12 Oct 2026",
   "url": "https://www.mercomindia.com/finance-ministry-clarifies-battery-storage-systems-attract-10-customs-duty",
-  "checked": "2026-10-28"
+  "checked": "2026-10-28",
+  "us": "Imported storage containers pay 10% duty, less than imported cells and packs (20%): keeps imported systems competitive with locally assembled ones."
  },
  {
   "id": "in-capgoods",
@@ -133,7 +134,8 @@
   ],
   "source": "pv magazine India, 10 Jun 2025",
   "url": "https://www.pv-magazine-india.com/2025/06/10/power-ministry-announces-inr-5400-crore-viability-gap-funding-to-support-30-gwh-bess-development/",
-  "checked": "2026-10-28"
+  "checked": "2026-10-28",
+  "us": "Funds the wave of state storage tenders through 2026-27: the main source of demand for storage systems in India."
  },
  {
   "id": "in-pmedrive",
@@ -155,7 +157,8 @@
   ],
   "source": "Drishti IAS, 1 Apr 2026",
   "url": "https://www.drishtiias.com/state-pcs-current-affairs/government-extends-pm-e-drive-scheme-till-march-2028/print_manually",
-  "checked": "2026-10-28"
+  "checked": "2026-10-28",
+  "us": "Keeps central support for electric buses and trucks, and so demand for ours, until March 2028."
  },
  {
   "id": "in-ctuil",
@@ -243,7 +246,8 @@
   ],
   "source": "EVreporter (ARAI guide)",
   "url": "https://evreporter.com/battery-safety-standards-in-india-by-arai/",
-  "checked": "2026-10-28"
+  "checked": "2026-10-28",
+  "us": "Every cell in our buses and trucks needs valid IS 16893 test reports, so switching cell supplier takes testing time."
  },
  {
   "id": "cn-no58",
@@ -269,7 +273,8 @@
   "url": "https://www.cirs-group.com/en/chemicals/china-temporarily-suspends-export-controls-on-key-raw-materials-including-rare-earths-lithium-batteries-and-diamond",
   "source2": "CMGM sourcing calendar, 30 Oct 2026 (no official extension notice found)",
   "url2": "https://www.cmgm.net/china-sourcing-calendar-november-2026-march-2027-key-dates/",
-  "checked": "2026-11-04"
+  "checked": "2026-11-04",
+  "us": "If the controls come back, every cell, pack and graphite shipment to India needs a Chinese licence: expect delays, paperwork and possibly higher prices. It is the main reason graphite shows high supply risk."
  },
  {
   "id": "cn-graphite",
@@ -453,6 +458,7 @@
   "source2": "SolarQuarter, 31 Oct 2026",
   "url2": "https://solarquarter.com/2026/10/31/tamil-nadu-targets-2-5-gw-bess-deployment-with-100-transmission-and-wheeling-charge-waiver/",
   "checked": "2026-11-01",
-  "changed": "2026-11-01"
+  "changed": "2026-11-01",
+  "us": "A large new source of four-hour storage demand in our home state: more storage tenders and steady demand for storage systems."
  }
 ]

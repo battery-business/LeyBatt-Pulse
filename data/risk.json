@@ -1,6 +1,6 @@
 {
- "asof": "2026-11-04",
- "generated": "2026-11-04T14:08:40+00:00",
+ "asof": "2026-11-05",
+ "generated": "2026-11-04T18:46:04+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -117,21 +117,21 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −26.6% · 3 months −38.2% (rising prices push the score up)",
+       "detail": "1 month −26.6% · 3 months −37.5% (rising prices push the score up)",
        "key": "momentum",
        "weight": 35
       },
       {
        "label": "How much the price swings",
        "score": 8.6,
-       "detail": "About 52% a year, from 121 price moves in the last 6 months",
+       "detail": "About 52% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 12
@@ -160,7 +160,7 @@
       },
       {
        "label": "Price news",
-       "score": 1.4,
+       "score": 1.5,
        "detail": "6 recent stories (pushing prices down)",
        "items": [
         {
@@ -218,7 +218,7 @@
        "weight": 0
       }
      ],
-     "change": -0.3
+     "change": -0.2
     },
     "supply": {
      "score": 4.1,
@@ -274,7 +274,7 @@
      "change": -0.2
     },
     "confidence": "High",
-    "obs180": 122
+    "obs180": 121
    },
    "h12": {
     "price": {
@@ -284,21 +284,21 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −26.6% · 3 months −38.2% (rising prices push the score up)",
+       "detail": "1 month −26.6% · 3 months −37.5% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
        "score": 8.6,
-       "detail": "About 52% a year, from 121 price moves in the last 6 months",
+       "detail": "About 52% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 8
@@ -327,7 +327,7 @@
       },
       {
        "label": "Price news",
-       "score": 1.4,
+       "score": 1.5,
        "detail": "6 recent stories (pushing prices down)",
        "items": [
         {
@@ -385,7 +385,7 @@
        "weight": 0
       }
      ],
-     "change": -0.4
+     "change": -0.3
     },
     "supply": {
      "score": 5.5,
@@ -441,7 +441,7 @@
      "change": -0.2
     },
     "confidence": "High",
-    "obs180": 122
+    "obs180": 121
    },
    "trend": [
     [
@@ -548,6 +548,11 @@
      "2026-11-04",
      3.9,
      4.1
+    ],
+    [
+     "2026-11-05",
+     3.9,
+     4.1
     ]
    ]
   },
@@ -575,21 +580,21 @@
       {
        "label": "Recent price trend",
        "score": 0.4,
-       "detail": "1 month −15.2% · 3 months −23.3% (rising prices push the score up)",
+       "detail": "1 month −15.2% · 3 months −22.8% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 11
@@ -694,7 +699,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 122
+    "obs180": 121
    },
    "h12": {
     "price": {
@@ -704,21 +709,21 @@
       {
        "label": "Recent price trend",
        "score": 0.4,
-       "detail": "1 month −15.2% · 3 months −23.3% (rising prices push the score up)",
+       "detail": "1 month −15.2% · 3 months −22.8% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 8
@@ -823,7 +828,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 122
+    "obs180": 121
    },
    "trend": [
     [
@@ -930,6 +935,11 @@
      "2026-11-04",
      3.4,
      5.8
+    ],
+    [
+     "2026-11-05",
+     3.4,
+     5.8
     ]
    ]
   },
@@ -973,8 +983,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 14
@@ -1048,7 +1058,7 @@
       },
       {
        "label": "Rule changes and deadlines ahead",
-       "score": 7.7,
+       "score": 7.8,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -1062,7 +1072,7 @@
        "weight": 30
       }
      ],
-     "change": 0.1
+     "change": 0.0
     },
     "confidence": "Low",
     "obs180": 0
@@ -1091,8 +1101,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10
@@ -1290,6 +1300,11 @@
      "2026-11-04",
      4.3,
      6.7
+    ],
+    [
+     "2026-11-05",
+     4.3,
+     6.7
     ]
    ]
   },
@@ -1330,8 +1345,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10
@@ -1359,7 +1374,7 @@
       },
       {
        "label": "Price news",
-       "score": 6.3,
+       "score": 6.2,
        "detail": "6 recent stories (pushing prices up)",
        "items": [
         {
@@ -1410,7 +1425,7 @@
       },
       {
        "label": "Known cost changes ahead",
-       "score": 6.6,
+       "score": 6.7,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -1440,7 +1455,7 @@
       },
       {
        "label": "Supply news",
-       "score": 3.4,
+       "score": 3.3,
        "detail": "3 recent stories (tightening)",
        "items": [
         {
@@ -1510,8 +1525,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 6
@@ -1539,7 +1554,7 @@
       },
       {
        "label": "Price news",
-       "score": 6.3,
+       "score": 6.2,
        "detail": "6 recent stories (pushing prices up)",
        "items": [
         {
@@ -1620,7 +1635,7 @@
       },
       {
        "label": "Supply news",
-       "score": 3.4,
+       "score": 3.3,
        "detail": "3 recent stories (tightening)",
        "items": [
         {
@@ -1774,6 +1789,11 @@
      "2026-11-04",
      4.2,
      5.4
+    ],
+    [
+     "2026-11-05",
+     4.2,
+     5.4
     ]
    ]
   },
@@ -1816,8 +1836,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10
@@ -1845,7 +1865,7 @@
       },
       {
        "label": "Price news",
-       "score": 5.7,
+       "score": 5.6,
        "detail": "3 recent stories (pushing prices up)",
        "items": [
         {
@@ -1875,7 +1895,7 @@
       },
       {
        "label": "Known cost changes ahead",
-       "score": 6.6,
+       "score": 6.7,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -1905,7 +1925,7 @@
       },
       {
        "label": "Supply news",
-       "score": 1.3,
+       "score": 1.4,
        "detail": "3 recent stories (easing)",
        "items": [
         {
@@ -1977,8 +1997,8 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 6
@@ -2006,7 +2026,7 @@
       },
       {
        "label": "Price news",
-       "score": 5.7,
+       "score": 5.6,
        "detail": "3 recent stories (pushing prices up)",
        "items": [
         {
@@ -2066,7 +2086,7 @@
       },
       {
        "label": "Supply news",
-       "score": 1.3,
+       "score": 1.4,
        "detail": "3 recent stories (easing)",
        "items": [
         {
@@ -2220,6 +2240,11 @@
      "2026-11-04",
      3.7,
      4.8
+    ],
+    [
+     "2026-11-05",
+     3.7,
+     4.8
     ]
    ]
   },
@@ -2245,22 +2270,22 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.4,
-       "detail": "1 month −2.2% · 3 months −2.4% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 125 price moves in the last 6 months",
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17
@@ -2303,7 +2328,7 @@
        "weight": 0
       }
      ],
-     "change": -0.8
+     "change": -0.7
     },
     "supply": {
      "score": 1.6,
@@ -2337,7 +2362,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 126
+    "obs180": 125
    },
    "h12": {
     "price": {
@@ -2346,22 +2371,22 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.4,
-       "detail": "1 month −2.2% · 3 months −2.4% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 125 price moves in the last 6 months",
+       "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17
@@ -2404,7 +2429,7 @@
        "weight": 0
       }
      ],
-     "change": -0.6
+     "change": -0.5
     },
     "supply": {
      "score": 1.4,
@@ -2438,7 +2463,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 126
+    "obs180": 125
    },
    "trend": [
     [
@@ -2545,6 +2570,11 @@
      "2026-11-04",
      3.7,
      1.6
+    ],
+    [
+     "2026-11-05",
+     3.7,
+     1.6
     ]
    ]
   },
@@ -2566,27 +2596,27 @@
    },
    "h3": {
     "price": {
-     "score": 3.8,
+     "score": 3.7,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.3,
-       "detail": "1 month −0.8% · 3 months −5.5% (rising prices push the score up)",
+       "score": 4.1,
+       "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 125 price moves in the last 6 months",
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17
@@ -2629,7 +2659,7 @@
        "weight": 0
       }
      ],
-     "change": 0.0
+     "change": -0.1
     },
     "supply": {
      "score": 2.4,
@@ -2663,31 +2693,31 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 126
+    "obs180": 125
    },
    "h12": {
     "price": {
-     "score": 3.6,
+     "score": 3.5,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.3,
-       "detail": "1 month −0.8% · 3 months −5.5% (rising prices push the score up)",
+       "score": 4.1,
+       "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 125 price moves in the last 6 months",
+       "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50
       },
       {
        "label": "Rupee against the US$",
-       "score": 3.8,
-       "detail": "US$1 = ₹94.75; rupee stronger by 1.6% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 3.6,
+       "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17
@@ -2764,7 +2794,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 126
+    "obs180": 125
    },
    "trend": [
     [
@@ -2870,6 +2900,11 @@
     [
      "2026-11-04",
      3.8,
+     2.4
+    ],
+    [
+     "2026-11-05",
+     3.7,
      2.4
     ]
    ]
@@ -3006,388 +3041,388 @@
    }
   ],
   "fx": {
-   "date": "2026-11-03",
-   "usd_inr": 94.7451,
+   "date": "2026-11-04",
+   "usd_inr": 94.6408,
    "usd_cny": 6.6723,
-   "m1": -0.016118831992174343,
-   "m3": -0.005037553242432713,
-   "y1": 0.06804382869832803,
+   "m1": -0.01850451801450037,
+   "m3": -0.006003419722641179,
+   "y1": 0.06767807927871416,
    "series": [
     [
-     "2025-09-30",
-     88.7955
+     "2025-10-01",
+     88.7257
     ],
     [
-     "2025-10-03",
-     88.7873
+     "2025-10-06",
+     88.7806
     ],
     [
-     "2025-10-08",
-     88.7568
+     "2025-10-09",
+     88.7973
     ],
     [
-     "2025-10-13",
-     88.6905
+     "2025-10-14",
+     88.7932
     ],
     [
-     "2025-10-16",
-     87.9273
+     "2025-10-17",
+     87.995
     ],
     [
-     "2025-10-21",
-     87.9704
+     "2025-10-22",
+     88.4139
     ],
     [
-     "2025-10-24",
-     87.804
+     "2025-10-27",
+     88.2448
     ],
     [
-     "2025-10-29",
-     88.2314
+     "2025-10-30",
+     88.7176
     ],
     [
-     "2025-11-03",
-     88.7741
+     "2025-11-04",
+     88.709
     ],
     [
-     "2025-11-06",
-     88.5741
+     "2025-11-07",
+     88.6757
     ],
     [
-     "2025-11-11",
-     88.4924
+     "2025-11-12",
+     88.6036
     ],
     [
-     "2025-11-14",
-     88.6732
+     "2025-11-17",
+     88.6048
     ],
     [
-     "2025-11-19",
-     88.5043
+     "2025-11-20",
+     88.7129
     ],
     [
-     "2025-11-24",
-     89.1493
+     "2025-11-25",
+     89.1995
     ],
     [
-     "2025-11-27",
-     89.4023
+     "2025-11-28",
+     89.4782
     ],
     [
-     "2025-12-02",
-     89.9522
+     "2025-12-03",
+     90.1676
     ],
     [
-     "2025-12-05",
-     89.9382
+     "2025-12-08",
+     90.0429
     ],
     [
-     "2025-12-10",
-     89.9096
+     "2025-12-11",
+     90.3197
     ],
     [
-     "2025-12-15",
-     90.7453
+     "2025-12-16",
+     90.9214
     ],
     [
-     "2025-12-18",
-     90.2624
+     "2025-12-19",
+     89.6977
     ],
     [
-     "2025-12-23",
-     89.5536
+     "2025-12-24",
+     89.7391
     ],
     [
-     "2025-12-30",
-     89.8018
+     "2025-12-31",
+     89.8694
     ],
     [
-     "2026-01-05",
-     90.2915
+     "2026-01-06",
+     90.1516
     ],
     [
-     "2026-01-08",
-     89.9255
+     "2026-01-09",
+     90.2195
     ],
     [
-     "2026-01-13",
-     90.2246
+     "2026-01-14",
+     90.3028
     ],
     [
-     "2026-01-16",
+     "2026-01-19",
+     90.8748
+    ],
+    [
+     "2026-01-22",
+     91.5906
+    ],
+    [
+     "2026-01-27",
+     91.6154
+    ],
+    [
+     "2026-01-30",
+     91.9393
+    ],
+    [
+     "2026-02-04",
+     90.4144
+    ],
+    [
+     "2026-02-09",
      90.7265
     ],
     [
-     "2026-01-21",
-     91.6411
+     "2026-02-12",
+     90.5887
     ],
     [
-     "2026-01-26",
-     91.7637
+     "2026-02-17",
+     90.6955
     ],
     [
-     "2026-01-29",
-     91.9176
+     "2026-02-20",
+     90.9454
     ],
     [
-     "2026-02-03",
-     90.1373
+     "2026-02-25",
+     90.9428
     ],
     [
-     "2026-02-06",
-     90.6618
+     "2026-03-02",
+     91.7396
     ],
     [
-     "2026-02-11",
-     90.7155
+     "2026-03-05",
+     91.6486
     ],
     [
-     "2026-02-16",
-     90.7318
+     "2026-03-10",
+     91.9595
     ],
     [
-     "2026-02-19",
-     91.1963
+     "2026-03-13",
+     92.3845
     ],
     [
-     "2026-02-24",
-     90.9285
+     "2026-03-18",
+     92.8957
     ],
     [
-     "2026-02-27",
-     91.0805
+     "2026-03-23",
+     93.2209
     ],
     [
-     "2026-03-04",
-     92.0833
+     "2026-03-26",
+     94.1195
     ],
     [
-     "2026-03-09",
-     92.2977
+     "2026-03-31",
+     93.824
     ],
     [
-     "2026-03-12",
-     92.2097
+     "2026-04-07",
+     93.0081
     ],
     [
-     "2026-03-17",
-     92.3645
+     "2026-04-10",
+     92.8866
     ],
     [
-     "2026-03-20",
-     93.6175
+     "2026-04-15",
+     93.4376
     ],
     [
-     "2026-03-25",
-     93.9445
+     "2026-04-20",
+     93.0719
     ],
     [
-     "2026-03-30",
-     94.7132
+     "2026-04-23",
+     94.1098
     ],
     [
-     "2026-04-02",
-     93.102
+     "2026-04-28",
+     94.5428
     ],
     [
-     "2026-04-09",
-     92.6605
+     "2026-05-04",
+     95.0927
     ],
     [
-     "2026-04-14",
-     93.0862
+     "2026-05-07",
+     94.2549
     ],
     [
-     "2026-04-17",
-     92.8223
+     "2026-05-12",
+     95.6368
     ],
     [
-     "2026-04-22",
-     93.8042
+     "2026-05-15",
+     95.9701
     ],
     [
-     "2026-04-27",
-     94.1991
+     "2026-05-20",
+     96.825
     ],
     [
-     "2026-04-30",
-     94.915
+     "2026-05-25",
+     95.2392
     ],
     [
-     "2026-05-06",
-     94.6153
+     "2026-05-28",
+     95.6964
     ],
     [
-     "2026-05-11",
-     95.3153
+     "2026-06-02",
+     95.2738
     ],
     [
-     "2026-05-14",
-     95.7678
+     "2026-06-05",
+     94.9497
     ],
     [
-     "2026-05-19",
-     96.5417
+     "2026-06-10",
+     95.2661
     ],
     [
-     "2026-05-22",
-     95.6951
+     "2026-06-15",
+     94.7148
     ],
     [
-     "2026-05-27",
-     95.6991
+     "2026-06-18",
+     94.3334
     ],
     [
-     "2026-06-01",
-     94.9931
+     "2026-06-23",
+     94.7402
     ],
     [
-     "2026-06-04",
-     95.7857
+     "2026-06-26",
+     94.4044
     ],
     [
-     "2026-06-09",
-     95.3508
+     "2026-07-01",
+     95.2486
     ],
     [
-     "2026-06-12",
-     95.115
+     "2026-07-06",
+     95.4039
     ],
     [
-     "2026-06-17",
-     94.5341
+     "2026-07-09",
+     95.3883
     ],
     [
-     "2026-06-22",
-     94.6866
+     "2026-07-14",
+     96.2047
     ],
     [
-     "2026-06-25",
-     94.3956
+     "2026-07-17",
+     96.2851
     ],
     [
-     "2026-06-30",
-     94.6608
+     "2026-07-22",
+     96.57
     ],
     [
-     "2026-07-03",
-     95.2149
+     "2026-07-27",
+     95.9193
     ],
     [
-     "2026-07-08",
-     95.5599
+     "2026-07-30",
+     95.6849
     ],
     [
-     "2026-07-13",
-     95.6211
+     "2026-08-04",
+     95.3786
     ],
     [
-     "2026-07-16",
-     96.3543
+     "2026-08-07",
+     95.2124
     ],
     [
-     "2026-07-21",
-     96.2358
+     "2026-08-12",
+     95.3391
     ],
     [
-     "2026-07-24",
-     96.5676
+     "2026-08-17",
+     95.6073
     ],
     [
-     "2026-07-29",
-     95.6481
+     "2026-08-20",
+     95.7097
     ],
     [
-     "2026-08-03",
-     95.3381
+     "2026-08-25",
+     95.4176
     ],
     [
-     "2026-08-06",
-     95.2248
+     "2026-08-28",
+     95.3865
     ],
     [
-     "2026-08-11",
-     95.4398
+     "2026-09-02",
+     94.975
     ],
     [
-     "2026-08-14",
-     95.4282
+     "2026-09-07",
+     94.4941
     ],
     [
-     "2026-08-19",
-     95.7574
+     "2026-09-10",
+     95.4412
     ],
     [
-     "2026-08-24",
-     95.754
+     "2026-09-15",
+     95.9602
     ],
     [
-     "2026-08-27",
-     95.541
+     "2026-09-18",
+     95.8774
     ],
     [
-     "2026-09-01",
-     94.9513
+     "2026-09-23",
+     95.741
     ],
     [
-     "2026-09-04",
-     94.4902
+     "2026-09-28",
+     95.983
     ],
     [
-     "2026-09-09",
-     95.1103
+     "2026-10-01",
+     96.3286
     ],
     [
-     "2026-09-14",
-     95.5549
+     "2026-10-06",
+     96.4251
     ],
     [
-     "2026-09-17",
-     95.9389
+     "2026-10-09",
+     96.7308
     ],
     [
-     "2026-09-22",
-     95.595
+     "2026-10-14",
+     95.157
     ],
     [
-     "2026-09-25",
-     95.8173
+     "2026-10-19",
+     94.9301
     ],
     [
-     "2026-09-30",
-     95.8349
+     "2026-10-22",
+     94.8228
     ],
     [
-     "2026-10-05",
-     96.2973
+     "2026-10-27",
+     95.1242
     ],
     [
-     "2026-10-08",
-     96.7848
+     "2026-10-30",
+     94.9552
     ],
     [
-     "2026-10-13",
-     95.2807
-    ],
-    [
-     "2026-10-16",
-     94.9649
-    ],
-    [
-     "2026-10-21",
-     94.469
-    ],
-    [
-     "2026-10-26",
-     95.1855
-    ],
-    [
-     "2026-10-29",
-     95.2691
-    ],
-    [
-     "2026-11-03",
-     94.7451
+     "2026-11-04",
+     94.6408
     ]
    ],
    "source": "ECB euro reference rates (cross rates)",

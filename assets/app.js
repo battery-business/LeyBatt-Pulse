@@ -2943,12 +2943,16 @@
     box.appendChild(hero);
     const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
-      const s = section(c.chart === 'tenders' ? 'India storage tenders over time' : 'Price history', c.chart === 'tenders' ? 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.' : 'Hover the chart for each reading and its source.');
+      const CT = { lithium: ['Lithium carbonate price, US$ per tonne', 'China battery-grade lithium carbonate: Guangzhou futures (most-traded contract) and spot, including 13% VAT. Hover for each reading and its source.'],
+        cells: ['Battery cell prices, US$ per kWh', '314 Ah LFP storage cell (InfoLink China average) and prismatic LFP EV cell (TrendForce average), excluding VAT. Hover for each reading and its source.'],
+        systems: ['Storage system prices, US$ per kWh', 'China liquid-cooled storage containers (InfoLink weekly), excluding VAT. Hover for each reading and its source.'],
+        tenders: ['India storage tenders over time', 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.'] }[c.chart];
+      const s = section(CT[0], CT[1]);
       const cb = el('div', 'chart');
       const pts = (rows, key) => rows.map((r) => ({ d: parse(r.date), v: +r[key], source: r.source || 'InfoLink' })).filter((p) => p.v > 0);
       const draw = () => {
         const o = { rangeDays: S.range.chain };
-        if (c.chart === 'lithium') timeChart(cb, [{ name: 'Futures', color: css('--l1'), points: futHist(), since: FUT_SINCE() }, { name: 'Spot', color: css('--l4'), points: spotPts() }], { fmt: fmtUsd0, ...o });
+        if (c.chart === 'lithium') timeChart(cb, [{ name: 'Li₂CO₃ futures', color: css('--l1'), points: futHist(), since: FUT_SINCE() }, { name: 'Li₂CO₃ spot', color: css('--l4'), points: spotPts() }], { fmt: fmtUsd0, ...o });
         else if (c.chart === 'cells') timeChart(cb, [{ name: '314 Ah storage', color: css('--l2'), points: pts([...(D.cell314 || [])].sort((x, y) => d3.ascending(x.date, y.date)), 'usd_kwh') }, { name: 'EV cell', color: css('--l5'), points: pts((D.evcells || {}).series || [], 'usd_kwh') }], { fmt: fmtUsd1, ...o });
         else if (c.chart === 'systems') timeChart(cb, [{ name: '2-hour AC', color: css('--l1'), points: pts(weekly(), 'ac_2h') }, { name: '4-hour AC', color: css('--l3'), points: pts(weekly(), 'ac_4h') }, { name: '2-hour DC block', color: css('--l5'), points: pts(weekly(), 'dc_2h') }], { fmt: fmtUsd1, ...o });
       };

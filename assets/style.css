@@ -1416,3 +1416,22 @@ abbr.gl { text-decoration: underline dotted; text-underline-offset: 3px; cursor:
 .rtable.trk td.mk-note { max-width: 340px; font-size: 13px; color: var(--muted); }
 .team-rules .rule-status { margin-left: 0; }
 @media (max-width: 640px) { table.stackable td.mk-note { display: block; text-align: left; max-width: none; } table.stackable td.mk-note::before { display: block; margin-bottom: 2px; } }
+
+/* Risk: 3-year jump, per-material 3-year line, touch-friendly charts */
+#risk-h .h-jump { color: var(--accent); font-weight: 650; }
+#outlook { scroll-margin-top: 76px; }
+#outlook.flash { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); transition: box-shadow .3s; }
+.rd-years { margin: 6px 0 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--accent) 4%, var(--panel)); }
+.rdy-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.rdy-head h3 { margin: 0 0 10px; }
+.rdy-open { border: 0; background: none; color: var(--accent); font: inherit; font-weight: 600; cursor: pointer; padding: 4px 0; }
+.rdy-open:hover { text-decoration: underline; }
+.rdy-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.rdy-card { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.rdy-card b { font-size: 18px; font-variant-numeric: tabular-nums; }
+.rdy-yr { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+.rdy-band { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rdy-chance .pchance { align-self: flex-start; font-size: 15px; }
+.rdy-note { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); }
+.chart svg, .risk-map svg { touch-action: pan-y; }
+svg rect.hit { cursor: crosshair; }

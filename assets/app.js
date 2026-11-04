@@ -51,7 +51,12 @@
   const hideTip = () => { tipEl.hidden = true; };
   const tipRow = (t, color, label, value) => { const r = el('div', 'row'); if (color) { const s = el('span', 'sw'); s.style.background = color; r.appendChild(s); } if (label) r.appendChild(el('span', 'k', label)); if (value) r.appendChild(el('b', null, value)); t.appendChild(r); };
   const tipNote = (t, text) => t.appendChild(el('div', 'note', text));
-  window.addEventListener('scroll', hideTip, { passive: true });
+  // On a phone a tap or drag shows the reading; it stays until the next tap or a scroll (a finger "leaves" as soon as it lifts)
+  let heldLeave = null;
+  const onLeave = (fn) => (ev) => { if (ev && ev.pointerType === 'touch') { heldLeave = fn; return; } fn(ev); };
+  const flushLeave = () => { if (heldLeave) { const f = heldLeave; heldLeave = null; f(); } };
+  document.addEventListener('pointerdown', flushLeave, true);
+  window.addEventListener('scroll', () => { flushLeave(); hideTip(); }, { passive: true });
 
   const fail = (box, msg = 'Failed to load') => box.replaceChildren(el('div', 'fail', msg));
   const measure = (svg, texts, size = 12) => { const g = svg.append('g').attr('font-size', size); const w = d3.max(texts, (s) => g.append('text').text(s).node().getComputedTextLength()) || 0; g.remove(); return w; };
@@ -115,7 +120,7 @@
     const sorted = [...pts].sort((a, b) => a.d - b.d);
     const bis = d3.bisector((p) => p.d).center;
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', Math.max(0, W - left - right)).attr('height', H - 30).attr('fill', 'transparent')
-      .on('pointermove', (ev) => {
+      .on('pointermove pointerdown', (ev) => {
         const [mx] = d3.pointer(ev);
         const near = sorted[bis(sorted, xS.invert(mx))];
         const same = sorted.filter((p) => +p.d === +near.d);
@@ -129,7 +134,7 @@
           same.filter((p) => p.note).forEach((p) => tipNote(t, p.note));
         });
       })
-      .on('pointerleave', () => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); });
+      .on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); }));
     if (gaps) box.appendChild(el('p', 'chart-note', 'Dotted line: no published readings between those dates.'));
     if (rangeDays) { // say so when a line has less history than the period chosen
       const late = vis.filter((s) => +s.points[0].d > +cutoff + 45 * 864e5);
@@ -149,8 +154,8 @@
       const y = 3 + i * (bh + gap);
       svg.append('text').attr('x', left - 8).attr('y', y + bh / 2 + 4).attr('text-anchor', 'end').attr('font-size', 12).attr('fill', css('--fg')).text(r[label]);
       svg.append('rect').attr('x', left).attr('y', y).attr('height', bh).attr('width', Math.max(2, xS(Math.abs(r[value])) - left)).attr('rx', 4).attr('fill', color(r, i))
-        .on('pointermove', (ev) => showTip(ev, (t) => { tipRow(t, color(r, i), r[label], fmt(r[value])); if (tip) tip(t, r); }))
-        .on('pointerleave', hideTip);
+        .on('pointermove pointerdown', (ev) => showTip(ev, (t) => { tipRow(t, color(r, i), r[label], fmt(r[value])); if (tip) tip(t, r); }))
+        .on('pointerleave', onLeave(hideTip));
       svg.append('text').attr('x', xS(Math.abs(r[value])) + 6).attr('y', y + bh / 2 + 4).attr('font-size', 12).attr('font-weight', 600).attr('fill', css('--fg')).text(fmt(r[value]));
     });
   }
@@ -172,8 +177,8 @@
     rows.forEach((r, i) => {
       const v = r[value];
       svg.append('rect').attr('x', xS(r[label]) + off).attr('width', bw).attr('y', yS(Math.max(0, v))).attr('height', Math.max(1, Math.abs(yS(v) - yS(0)))).attr('rx', 3).attr('fill', color(r, i))
-        .on('pointermove', (ev) => showTip(ev, (t) => { tipRow(t, color(r, i), r[label], fmt(v)); if (tip) tip(t, r); }))
-        .on('pointerleave', hideTip);
+        .on('pointermove pointerdown', (ev) => showTip(ev, (t) => { tipRow(t, color(r, i), r[label], fmt(v)); if (tip) tip(t, r); }))
+        .on('pointerleave', onLeave(hideTip));
       if (rows.length <= 8) svg.append('text').attr('x', xS(r[label]) + xS.bandwidth() / 2).attr('y', v >= 0 ? yS(v) - 6 : yS(v) + 14).attr('text-anchor', 'middle').attr('font-size', 12).attr('font-weight', 600).attr('fill', css('--fg')).text(fmt(v));
     });
   }
@@ -821,7 +826,7 @@
       const col = css(TSIZE[r.size] || '--slate');
       if (r.kind === 'range') {
         svg.append('rect').attr('x', x(r.d) - 5).attr('width', 10).attr('y', y(r.hi)).attr('height', Math.max(2, y(r.lo) - y(r.hi))).attr('rx', 3).attr('fill', col).attr('opacity', 0.35)
-          .on('pointermove', tip(r)).on('pointerleave', hideTip);
+          .on('pointermove pointerdown', tip(r)).on('pointerleave', onLeave(hideTip));
         return;
       }
       const same = rows.filter((q, j) => j < i && q.date === r.date && q.size === r.size && q.kind !== 'range').length;
@@ -829,7 +834,7 @@
       const g = svg.append('g').style('cursor', 'default');
       if (r.kind === 'list') g.append('path').attr('d', d3.symbol(d3.symbolDiamond, 90)()).attr('transform', `translate(${cx},${y(r.usd_kwh)})`).attr('fill', col);
       else g.append('circle').attr('cx', cx).attr('cy', y(r.usd_kwh)).attr('r', 5).attr('fill', col).attr('stroke', css('--panel')).attr('stroke-width', 1.5);
-      g.on('pointermove', tip(r)).on('pointerleave', hideTip);
+      g.on('pointermove pointerdown', tip(r)).on('pointerleave', onLeave(hideTip));
     });
     if (legend) {
       legend.replaceChildren(); legend.className = 'tlegend';
@@ -1145,7 +1150,7 @@
       const s = el('span'); s.style.width = (p.v / total * 100) + '%'; s.style.background = css(p.color);
       if (fmt) { s.title = `${p.label}: ${fmt(p.v)}/kWh`; s.setAttribute('aria-label', s.title); }
       s.addEventListener('pointermove', (ev) => showTip(ev, (t) => tipRow(t, css(p.color), p.label, `${fmt ? fmt(p.v) : fmtUsd1(p.v)}/kWh · ${(p.v / total * 100).toFixed(0)}%`)));
-      s.addEventListener('pointerleave', hideTip);
+      s.addEventListener('pointerleave', onLeave(hideTip)); s.addEventListener('pointerdown', (ev) => showTip(ev, (t) => tipRow(t, css(p.color), p.label, `${fmt ? fmt(p.v) : fmtUsd1(p.v)}/kWh · ${(p.v / total * 100).toFixed(0)}%`)));
       box.appendChild(s);
     });
   }
@@ -1195,9 +1200,9 @@
     }
     const rule = svg.append('line').attr('y1', 12).attr('y2', H - 30).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3').attr('opacity', 0);
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', W - left - 12).attr('height', H - 30).attr('fill', 'transparent')
-      .on('pointermove', (ev) => { const [mx] = d3.pointer(ev); const x = xS.invert(mx); const v = cellCost({ ...s, li: x }).total; rule.attr('x1', mx).attr('x2', mx).attr('opacity', 1);
+      .on('pointermove pointerdown', (ev) => { const [mx] = d3.pointer(ev); const x = xS.invert(mx); const v = cellCost({ ...s, li: x }).total; rule.attr('x1', mx).attr('x2', mx).attr('opacity', 1);
         showTip(ev, (t) => { tipRow(t, css('--amber'), 'Lithium carbonate', fmtUsd0(x) + '/t'); tipRow(t, css('--teal'), 'Modelled cell cost', fmtUsd1(v) + '/kWh'); tipRow(t, css('--blue'), 'Margin at market price', fmtSigned(market - v)); }); })
-      .on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+      .on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     return { be, slope, now };
   }
 
@@ -1487,6 +1492,8 @@
       const b = el('button', null, h.label); b.type = 'button'; b.setAttribute('aria-pressed', String(RISK.h === k));
       b.addEventListener('click', () => { RISK.h = k; renderRisk(); }); seg.appendChild(b);
     });
+    const b3 = el('button', 'h-jump', 'Next 3 years \u2193'); b3.type = 'button'; b3.title = 'Possible prices to late 2029 under four scenarios';
+    b3.addEventListener('click', () => jumpOutlook(RISK.sel)); seg.appendChild(b3);
     $('#risk-asof').textContent = `Scored ${d3.utcFormat('%-d %b %Y')(parse(R.asof))}`;
     // table
     tbl.replaceChildren();
@@ -1536,6 +1543,14 @@
     fetch('data/scenarios.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((j) => {
       OL.loading = false; D.scen = j; scenWait.splice(0).forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     });
+  }
+  function jumpOutlook(mat) { // scroll to the 3-year outlook, showing this material if it is modelled
+    const X = D.scen;
+    if (mat && X && X.results && X.results.base && X.results.base[mat] && OL_MATS.some((o) => o.id === mat)) { OL.mat = mat; renderOutlook(); }
+    const o = $('#outlook'); if (!o) return;
+    o.classList.remove('pre'); o.querySelectorAll('.rv.pre, .pre').forEach((e) => e.classList.remove('pre'));
+    o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+    o.classList.add('flash'); setTimeout(() => o.classList.remove('flash'), 1800);
   }
   function loadOutlook() { ensureScen(() => { if (S.tab === 'risk') renderOutlook(); }); }
   function renderOutlook() {
@@ -1595,14 +1610,14 @@
     const seq = [...hist.map((p) => ({ d: p.d, h: p.v })), { d: today, h: now }, ...months.map((m, i) => ({ d: m, b: R.bands[i] }))];
     const bis = d3.bisector((p) => p.d).center;
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', W - left - right).attr('height', H - 30).attr('fill', 'transparent')
-      .on('pointermove', (ev) => {
+      .on('pointermove pointerdown', (ev) => {
         const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
         showTip(ev, (t) => {
           t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d)));
           if (p.h != null) tipRow(t, css('--fg'), +p.d === +today ? 'Today' : 'Actual (month end)', mat.fmt(p.h));
           else { tipRow(t, c, 'Middle (P50)', mat.fmt(p.b[2])); tipRow(t, c, 'Likely range (P25–P75)', `${mat.fmt(p.b[1])} – ${mat.fmt(p.b[3])}`); tipRow(t, c, 'Wide range (P10–P90)', `${mat.fmt(p.b[0])} – ${mat.fmt(p.b[4])}`); }
         });
-      }).on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+      }).on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     const lg = $('#ol-legend'); lg.replaceChildren();
     const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); lg.appendChild(s2); };
     item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Middle of the range', c); item('lg-band2', 'Half of outcomes (P25–P75)', c); item('lg-band', '8 in 10 outcomes (P10–P90)', c); item('lg-dash', 'Other scenarios (middle)', css('--muted'));
@@ -1682,7 +1697,7 @@
     const sp = el('p', 'sub'); sp.append(document.createTextNode(X.supply.note + ' Source: ')); X.supply.sources.forEach((sr) => link(sp, sr.text, sr.url)); box.appendChild(sp);
     p('Prices are in US$ on the same basis as the rest of the site. This is a planning aid built from public data, not investment or procurement advice.');
   }
-  document.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('#ol-jump'); if (!a) return; e.preventDefault(); const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); });
+  document.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('#ol-jump'); if (!a) return; e.preventDefault(); jumpOutlook(); });
   function drawRiskMap(box, mats) {
     box.replaceChildren();
     const pts = mats.map((m) => ({ m, x: m[RISK.h].price.score, y: m[RISK.h].supply.score })).filter((p) => p.x != null && p.y != null);
@@ -1739,8 +1754,8 @@
       if (move) lab.attr('opacity', 0).transition().duration(400).delay(1000 + i * 40).attr('opacity', 1);
       const pick = () => { RISK.sel = p.m.id; renderRisk(); };
       a.on('click', pick).on('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } })
-        .on('mousemove', (ev) => showTip(ev, (t) => { t.appendChild(el('div', 'h', p.m.name)); tipRow(t, null, 'Price risk', `${scoreTxt(p.x)} ${p.m[RISK.h].price.level}`); tipRow(t, null, 'Supply risk', `${scoreTxt(p.y)} ${p.m[RISK.h].supply.level}`); }))
-        .on('mouseleave', hideTip);
+        .on('pointermove', (ev) => showTip(ev, (t) => { t.appendChild(el('div', 'h', p.m.name)); tipRow(t, null, 'Price risk', `${scoreTxt(p.x)} ${p.m[RISK.h].price.level}`); tipRow(t, null, 'Supply risk', `${scoreTxt(p.y)} ${p.m[RISK.h].supply.level}`); }))
+        .on('pointerleave', onLeave(hideTip));
     });
   }
   function driverList(all) {
@@ -1777,6 +1792,24 @@
     });
     return wrap;
   }
+  function riskYears(m) { // the base-case range for each of the next three years, from the outlook model
+    const w = el('div', 'rd-years'); const X = D.scen; const om = OL_MATS.find((o) => o.id === m.id);
+    const res = X && X.results && X.results.base ? X.results.base[m.id] : null;
+    const hd = el('div', 'rdy-head'); hd.appendChild(el('h3', null, 'Next 3 years, base case'));
+    if (!res || !om || !res.years) { const go = el('button', 'rdy-open', 'See the materials that are modelled \u2193'); go.type = 'button'; go.addEventListener('click', () => jumpOutlook()); hd.appendChild(go); w.append(hd, el('p', 'sub', 'This material is not in the three-year price model yet.')); return w; }
+    const go3 = el('button', 'rdy-open', 'Full 3-year view \u2193'); go3.type = 'button'; go3.addEventListener('click', () => jumpOutlook(m.id)); hd.appendChild(go3);
+    w.appendChild(hd);
+    const row = el('div', 'rdy-row');
+    Object.entries(res.years).sort((a, b) => a[0].localeCompare(b[0])).forEach(([yr, v]) => {
+      const c = el('div', 'rdy-card');
+      c.append(el('span', 'rdy-yr', v.months < 12 ? `${yr} (${v.months} months)` : yr), el('b', null, om.fmt(v.p50) + om.unit), el('span', 'rdy-band', `Likely range ${om.fmt(v.p10)}\u2013${om.fmt(v.p90)}`));
+      row.appendChild(c);
+    });
+    if (res.m36 && res.m36.up25 != null) { const pc = Math.round(res.m36.up25 * 100); const c = el('div', 'rdy-card rdy-chance'); c.append(el('span', 'rdy-yr', 'In 3 years'), el('span', 'pchance ' + (pc >= 45 ? 'hi' : pc >= 25 ? 'mid' : 'lo'), pc + '%'), el('span', 'rdy-band', 'chance of being 25% or more above today')); row.appendChild(c); }
+    w.appendChild(row);
+    const n = el('p', 'rdy-note', `Average price over each year: the middle of ${d3.format(',')(X.sims)} simulated paths, and the range that holds 8 in 10 of them. Today: ${om.fmt(X.now[m.id])}${om.unit}.`); w.appendChild(n);
+    return w;
+  }
   function renderRiskDetail(box, m, R) {
     box.replaceChildren(); if (!m) return;
     const r = m[RISK.h];
@@ -1792,6 +1825,7 @@
     const sc = el('div', 'rd-scores');
     [['Price risk', r.price], ['Supply risk', r.supply]].forEach(([lab, ax]) => { const b = el('div', 'rd-score'); b.append(el('span', null, lab), riskChip(ax), riskDelta(ax)); sc.appendChild(b); });
     head.append(t, sc); box.appendChild(head);
+    box.appendChild(riskYears(m));
 
     const cols = el('div', 'rd-cols');
     const pc = el('div', 'rd-col'); pc.append(el('h3', null, 'What drives the price score'), r.price.score == null ? el('p', 'sub', 'Not scored: there is no price history for this material yet. It builds up each day from the prices on this site.') : driverList(r.price.drivers));
@@ -1820,6 +1854,24 @@
         const lp = pts[pts.length - 1];
         svg.append('circle').attr('cx', xs(parse(lp[0]))).attr('cy', ys(lp[i])).attr('r', 3.5).attr('fill', css(col));
       });
+      // crosshair: the reading on any day
+      const td = tr.map((x) => ({ d: parse(x[0]), p: x[1], s: x[2] })).sort((a, b) => a.d - b.d);
+      const lv = (v) => (v >= 6.5 ? 'High' : v >= 4 ? 'Elevated' : 'Low');
+      const rule = svg.append('line').attr('y1', mg.t).attr('y2', H - mg.b).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3').attr('opacity', 0);
+      const hl = svg.append('g'); const bis = d3.bisector((q) => q.d).center;
+      svg.append('rect').attr('class', 'hit').attr('x', mg.l).attr('y', 0).attr('width', Math.max(0, W - mg.l - mg.r)).attr('height', H - mg.b).attr('fill', 'transparent')
+        .on('pointermove pointerdown', (ev) => {
+          const [mx] = d3.pointer(ev); const q = td[bis(td, xs.invert(mx))]; if (!q) return;
+          rule.attr('x1', xs(q.d)).attr('x2', xs(q.d)).attr('opacity', 1);
+          const on = [[q.p, '--accent'], [q.s, '--plum']].filter((a) => a[0] != null);
+          hl.selectAll('circle').data(on).join('circle').attr('cx', xs(q.d)).attr('cy', (a) => ys(a[0])).attr('r', 5).attr('fill', (a) => css(a[1])).attr('stroke', css('--panel')).attr('stroke-width', 2);
+          showTip(ev, (t) => {
+            t.appendChild(el('div', 'k', dayFmt(q.d)));
+            if (q.p != null) tipRow(t, css('--accent'), 'Price risk', `${scoreTxt(q.p)} ${lv(q.p)}`);
+            if (q.s != null) tipRow(t, css('--plum'), 'Supply risk', `${scoreTxt(q.s)} ${lv(q.s)}`);
+          });
+        })
+        .on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); }));
       const lg = el('div', 'rd-tlegend'); [['--accent', 'Price risk'], ['--plum', 'Supply risk']].forEach(([cc, n]) => { const s = el('span'); const i = el('i'); i.style.background = css(cc); s.append(i, document.createTextNode(n)); lg.appendChild(s); });
       lg.appendChild(el('span', 'note', 'Scores before 27 Oct 2026 are rebuilt from the prices known at the time.'));
       tw.appendChild(lg);
@@ -1858,6 +1910,16 @@
         svg.append('g').attr('transform', `translate(0,${H - mg.b})`).call(d3.axisBottom(xs).ticks(Math.max(2, Math.floor(W / 90))).tickFormat(d3.utcFormat('%b %y')).tickSize(0).tickPadding(6)).call(axisStyle);
         svg.append('g').attr('transform', `translate(${mg.l},0)`).call(d3.axisLeft(ys).ticks(3).tickSize(0).tickPadding(6)).call(axisStyle);
         svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css('--orange')).attr('stroke-width', 2).attr('d', d3.line().x((p) => xs(p.d)).y((p) => ys(p.v)));
+        const rule = svg.append('line').attr('y1', mg.t).attr('y2', H - mg.b).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 3').attr('opacity', 0);
+        const dot = svg.append('circle').attr('r', 4.5).attr('fill', css('--orange')).attr('stroke', css('--panel')).attr('stroke-width', 2).attr('opacity', 0);
+        const bis = d3.bisector((p) => p.d).center;
+        svg.append('rect').attr('class', 'hit').attr('x', mg.l).attr('y', 0).attr('width', Math.max(0, W - mg.l - mg.r)).attr('height', H - mg.b).attr('fill', 'transparent')
+          .on('pointermove pointerdown', (ev) => {
+            const [mx] = d3.pointer(ev); const q = pts[bis(pts, xs.invert(mx))]; if (!q) return;
+            rule.attr('x1', xs(q.d)).attr('x2', xs(q.d)).attr('opacity', 1); dot.attr('cx', xs(q.d)).attr('cy', ys(q.v)).attr('opacity', 1);
+            showTip(ev, (t) => { t.appendChild(el('div', 'k', dayFmt(q.d))); tipRow(t, css('--orange'), 'Rupees per US$', fmtInr2(q.v)); tipNote(t, 'Source: ' + fx.source); });
+          })
+          .on('pointerleave', onLeave(() => { rule.attr('opacity', 0); dot.attr('opacity', 0); hideTip(); }));
       }
       const n = el('p', 'sub'); n.append(document.createTextNode('A weaker rupee raises the rupee cost of every imported material; it is one driver in each price score. Source: '), link(fx.source, fx.url)); c.appendChild(n);
     }
@@ -2442,10 +2504,10 @@
         const c = HC[t.hours] || css('--slate');
         const a = svg.append('a').attr('href', t.url).attr('target', '_blank').attr('rel', 'noopener').attr('class', 'st-pt');
         a.append('circle').attr('cx', xs(parse(t.date))).attr('cy', ys(t.low)).attr('r', 7).attr('fill', c).attr('stroke', css('--panel')).attr('stroke-width', 2);
-        a.on('pointermove', (ev) => showTip(ev, (tt) => {
+        a.on('pointermove pointerdown', (ev) => showTip(ev, (tt) => {
           tt.appendChild(el('div', 'h', t.label)); tipRow(tt, c, `${t.hours}-hour · ${t.state}`, t.high && t.high !== t.low ? `₹${t.low}–${t.high} lakh` : `₹${t.low} lakh`);
           tipRow(tt, null, 'Reported', d3.utcFormat('%-d %b %Y')(parse(t.date))); tipNote(tt, 'Winners: ' + t.winners); tipNote(tt, 'Source: ' + t.source + ' (click to open)');
-        })).on('pointerleave', hideTip);
+        })).on('pointerleave', onLeave(hideTip));
       });
       svg.append('text').attr('x', mg.l).attr('y', 11).attr('font-size', 11.5).attr('fill', css('--muted')).text('₹ lakh per MW per month (lowest winning bid)');
   }
@@ -2830,13 +2892,13 @@
     const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i] })) : [])];
     const bis = d3.bisector((p) => p.d).center;
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', Math.max(0, W - left - right)).attr('height', H - 30).attr('fill', 'transparent')
-      .on('pointermove', (ev) => {
+      .on('pointermove pointerdown', (ev) => {
         if (!seq.length) return; const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
         showTip(ev, (t) => {
           if (p.h != null) { t.appendChild(el('div', 'k', dayFmt(p.d))); tipRow(t, css('--fg'), 'Actual', fmt(p.h)); if (p.src) tipNote(t, 'Source: ' + p.src); }
           else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Middle', fmt(p.b[2])); tipRow(t, color, 'Half of outcomes', `${fmt(p.b[1])} – ${fmt(p.b[3])}`); tipRow(t, color, '8 in 10 outcomes', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); }
         });
-      }).on('pointerleave', () => { rule.attr('opacity', 0); hideTip(); });
+      }).on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     if (legend) {
       legend.replaceChildren();
       const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); legend.appendChild(s2); };
@@ -2871,7 +2933,7 @@
     $('.fx-close', ov).addEventListener('click', () => closeFull());
     $('#fx-acts', ov).prepend(shareBtn(() => fcHash(), 'Copy link', 'Chart link'));
     $('#fx-fc', ov).addEventListener('change', (e) => { FC.fc = e.target.checked; drawFull(); });
-    $('#fx-how', ov).addEventListener('click', (e) => { e.preventDefault(); FC.pushed = false; closeFull(); go('risk'); setTimeout(() => { const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); }, 120); });
+    $('#fx-how', ov).addEventListener('click', (e) => { e.preventDefault(); FC.pushed = false; closeFull(); go('risk'); setTimeout(() => jumpOutlook(), 120); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) closeFull(); });
     return ov;
   }

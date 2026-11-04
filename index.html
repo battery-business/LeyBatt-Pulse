@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611050037">
+<link rel="stylesheet" href="assets/style.css?v=202611050050">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -20,10 +20,10 @@
         <span class="names"><h1 class="wordmark"><span class="wm-a">LeyBatt</span><span class="wm-b">Pulse</span></h1></span>
       </a>
       <nav class="tabs" id="tabs" aria-label="Sections">
-        <button type="button" data-tab="overview" class="tab">Value chain</button>
+        <button type="button" data-tab="overview" class="tab">Today</button>
         <button type="button" data-tab="news" class="tab">News <span class="count" id="news-count"></span></button>
         <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
-        <button type="button" data-tab="calculator" class="tab">Calculator</button>
+        <button type="button" data-tab="bid" class="tab">Bidding desk</button>
         <button type="button" data-tab="risk" class="tab">Risk</button>
       </nav>
       <div class="top-actions">
@@ -234,11 +234,11 @@
         </div>
         <div class="brief-actions no-print">
           <button class="btn small" type="button" id="brief-print">Download PDF</button>
-          <button class="btn ghost small" type="button" data-goto="overview">Back to overview</button>
+          <button class="btn ghost small" type="button" data-goto="overview">Back to Today</button>
         </div>
       </div>
       <div id="brief-body"></div>
-      <p class="sub brief-foot">Built from the public sources linked on LeyBatt Pulse. For internal information only.</p>
+      <p class="sub brief-foot">Built from the public sources linked on LeyBatt Pulse. A market summary, not investment or purchasing advice.</p>
     </div>
   </section>
 
@@ -321,6 +321,40 @@
   </section>
 
   <!-- CALCULATOR -->
+  <!-- BIDDING DESK: landed cost now and at delivery, tenders and EPC on one rupee basis -->
+  <section class="page" id="page-bid" data-page="bid" hidden>
+    <div class="panel bid-panel">
+      <div class="panel-head"><h2>Landed cost at delivery</h2></div>
+      <p class="sub">China price plus freight, insurance and Indian duty, in rupees per kWh, today or as an average for a delivery year in the 2–3 year outlook.</p>
+      <div class="bid-controls">
+        <div class="bid-ctl"><span class="lbl">Product</span><div class="seg" id="bid-prod" role="group" aria-label="Product"></div></div>
+        <div class="bid-ctl"><span class="lbl">Delivery</span><div class="seg" id="bid-year" role="group" aria-label="Delivery year"></div></div>
+        <div class="bid-ctl"><span class="lbl">Scenario</span><div class="seg" id="bid-scen" role="group" aria-label="Scenario"></div></div>
+        <label class="bid-ctl"><span class="lbl">Project size</span><span class="bid-mwh"><input id="bid-mwh" type="number" min="1" max="100000" step="1" value="100" inputmode="numeric"> MWh</span></label>
+      </div>
+      <div class="kpis three" id="bid-kpis"></div>
+      <div class="stackbar" id="bid-bar"></div>
+      <p class="sub" id="bid-note"></p>
+      <div class="table-wrap"><table class="rtable" id="bid-years"></table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>What Indian storage tenders pay, in rupees per kWh</h2></div>
+      <p class="sub" id="bid-t-sub"></p>
+      <div class="bid-controls small">
+        <label class="bid-ctl"><span class="lbl">Cost of capital</span><span class="bid-mwh"><input id="bid-wacc" type="number" min="4" max="20" step="0.5" value="10"> %</span></label>
+        <label class="bid-ctl"><span class="lbl">Running cost a year</span><span class="bid-mwh"><input id="bid-om" type="number" min="0" max="6" step="0.5" value="2"> % of build cost</span></label>
+      </div>
+      <div class="table-wrap"><table class="rtable" id="bid-tenders"></table></div>
+      <p class="sub" id="bid-t-note"></p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>EPC contracts against equipment cost</h2></div>
+      <p class="sub">What Indian turnkey storage contracts were worth per kWh, against today's landed cost of the matching China storage system. Contract scopes differ; read the notes.</p>
+      <div class="table-wrap"><table class="rtable" id="bid-epc"></table></div>
+      <p class="sub" id="bid-e-note"></p>
+    </div>
+  </section>
+
   <section class="page" id="page-calculator" data-page="calculator" hidden>
     <div class="panel calc-head">
       <div class="panel-head">
@@ -456,6 +490,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202611050037"></script>
+<script src="assets/app.js?v=202611050050"></script>
 </body>
 </html>

@@ -15,6 +15,7 @@ on:
       - "!data/history/**"
       - "!data/scenarios.json"
       - "!data/markets.json"
+      - "!data/live.json"
   schedule:
     - cron: "20 23 * * *"   # 23:20 UTC = 04:50 IST
   workflow_dispatch:

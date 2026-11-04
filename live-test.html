@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Live feed test – LeyBatt Pulse</title>
 <link rel="icon" href="assets/icon.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css?v=202611050037">
+<link rel="stylesheet" href="assets/style.css?v=202611050050">
 <style>
   body { padding: 24px 0 48px; }
   .lt { max-width: 52rem; }
@@ -121,8 +121,8 @@
     const ok = (k) => results[k] && results[k].st === 'ok';
     const v = $('#verdict'); v.className = 'verdict';
     if (ok('minute') || ok('quote') || ok('quote2')) { v.classList.add('ok'); v.textContent = 'Good news: a live lithium price can work on this network. Tap "Copy results" and send them over, and the live version can be built.'; }
-    else if (ok('daily')) { v.classList.add('bad'); v.textContent = 'The Sina site is reachable, but not its live prices. The live version would need a different route (for example a price refreshed every 15 minutes by GitHub). Tap "Copy results" and send them over.'; }
-    else { v.classList.add('bad'); v.textContent = 'Sina Finance is blocked on this network, so a price straight from the browser will not work here. The fallback is a price refreshed every 15 minutes by GitHub. Tap "Copy results" and send them over.'; }
+    else if (ok('daily')) { v.classList.add('bad'); v.textContent = 'The Sina site is reachable, but not its live prices. That is fine: LeyBatt Pulse now gets the live price through GitHub every 15 minutes, so nothing more is needed.'; }
+    else { v.classList.add('bad'); v.textContent = 'Sina Finance is blocked on this network, so a price straight from the browser will not work here. That is fine: LeyBatt Pulse now gets the live price through GitHub every 15 minutes, so nothing more is needed.'; }
   }
   async function all() {
     mktNow();

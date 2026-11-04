@@ -1449,3 +1449,20 @@ svg rect.hit { cursor: crosshair; }
   .brand h1.wordmark { font-size: 24px; }
 }
 .ol-legend .lg-path { height: 0; border-top: 1.5px solid color-mix(in srgb, var(--c) 65%, transparent); }
+
+/* Risk: why the score moved since last week */
+.rwhy-box { margin: 2px 0 14px; padding: 12px 14px; border-radius: 12px; background: var(--soft); border: 1px solid var(--line); }
+.rwhy-box:empty { display: none; }
+.rwhy-head b { font-size: 14px; }
+.rwhy-head.down b { color: var(--ok); } .rwhy-head.up b { color: var(--bad); }
+.rwhy-lab { margin: 8px 0 4px; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.rwhy-none { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.rwhy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rwhy-list li { font-size: 13.5px; line-height: 1.4; }
+.rwhy-list li b { margin-right: 2px; }
+.rwhy-eff { display: inline-block; min-width: 3.1em; margin-right: 8px; padding: 1px 6px; border-radius: 999px; font-size: 12px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+.rwhy-eff.down { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.rwhy-eff.up { color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+.rwhy-det { margin: 2px 0 0 calc(3.1em + 20px); font-size: 12.5px; color: var(--muted); }
+.dchg { font-size: 12px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dchg.up { color: var(--bad); } .dchg.down { color: var(--ok); }

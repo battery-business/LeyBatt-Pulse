@@ -559,6 +559,19 @@ def main():
         v = old[-1].get(h, {}).get(mid, [None, None])[idx]
         return v
 
+    # The same model run on the data as it stood a week ago, so each driver can say what changed since then.
+    # The week-on-week change is taken from this run (not the stored history row), so the drivers add up to it.
+    wk_date = today - timedelta(days=7)
+    try:
+        past = Inputs(wk_date)
+        past.news = [n for n in inp.news if n["date"] <= wk_date.isoformat()]
+        past.events = inp.events
+        past.pricelog = [r for r in inp.pricelog if r["date"] <= wk_date.isoformat()]
+        wk = score_all(past, wk_date)
+    except Exception as e:  # never let the explanation break the daily scores
+        print("week-ago run failed:", e)
+        wk = None
+
     cur = inp.current()
     mats = []
     for m in inp.cfg["materials"]:
@@ -570,8 +583,25 @@ def main():
         for h in ("h3", "h12"):
             r = scores[h][mid]
             for idx, ax in ((0, "price"), (1, "supply")):
-                prev = week_ago(h, mid, idx)
                 sc = r[ax]["score"]
+                w_ax = (wk or {}).get(h, {}).get(mid, {}).get(ax) if wk else None
+                if w_ax and w_ax.get("score") is not None and sc is not None:
+                    prev = w_ax["score"]
+                    r[ax]["prev_date"] = wk_date.isoformat()
+                    old = {dd["key"]: dd for dd in w_ax.get("drivers", [])}
+                    for dd in r[ax].get("drivers", []):
+                        o = old.get(dd["key"])
+                        if not o:
+                            continue
+                        dd["prev"] = o.get("score")
+                        if o.get("detail") and o.get("detail") != dd.get("detail"):
+                            dd["prev_detail"] = o["detail"]
+                        # points this driver added to the change in the overall score (weight x score)
+                        now_c = (dd.get("score") or 0) * (dd.get("weight") or 0) / 100
+                        old_c = (o.get("score") or 0) * (o.get("weight") or 0) / 100
+                        dd["moved"] = round(now_c - old_c, 2)
+                else:
+                    prev = week_ago(h, mid, idx)
                 r[ax]["change"] = None if (prev is None or sc is None) else round(sc - prev, 1)
             ent[h] = r
         ent["trend"] = [[x["date"], *x.get("h3", {}).get(mid, [None, None])] for x in hist][-26:]

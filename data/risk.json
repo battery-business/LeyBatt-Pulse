@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-05",
- "generated": "2026-11-04T20:26:03+00:00",
+ "generated": "2026-11-04T20:34:21+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -119,14 +119,20 @@
        "score": 0.0,
        "detail": "1 month −26.6% · 3 months −37.5% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 35
+       "weight": 35,
+       "prev": 0.0,
+       "prev_detail": "1 month −25.1% · 3 months −35.0% (rising prices push the score up)",
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 8.6,
        "detail": "About 52% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 24
+       "weight": 24,
+       "prev": 8.6,
+       "prev_detail": "About 52% a year, from 119 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -134,7 +140,10 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 12
+       "weight": 12,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.11
       },
       {
        "label": "What forecasters expect",
@@ -142,21 +151,28 @@
        "detail": "Average forecast +12.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
-       "weight": 18
+       "weight": 18,
+       "prev": 6.6,
+       "prev_detail": "Average forecast +9.6% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "moved": 0.07
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -207,7 +223,10 @@
         }
        ],
        "key": "price_news",
-       "weight": 12
+       "weight": 12,
+       "prev": 2.1,
+       "prev_detail": "5 recent stories (pushing prices down)",
+       "moved": -0.07
       },
       {
        "label": "Known cost changes ahead",
@@ -215,10 +234,13 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
-     "change": -0.2
+     "prev_date": "2026-10-29",
+     "change": -0.1
     },
     "supply": {
      "score": 4.1,
@@ -230,7 +252,9 @@
        "detail": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 7.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -253,7 +277,10 @@
         }
        ],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 1.0,
+       "prev_detail": "1 recent stories (easing)",
+       "moved": -0.3
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -268,9 +295,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 4.0,
+       "moved": 0.06
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.2
     },
     "confidence": "High",
@@ -286,14 +316,20 @@
        "score": 0.0,
        "detail": "1 month −26.6% · 3 months −37.5% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 17
+       "weight": 17,
+       "prev": 0.0,
+       "prev_detail": "1 month −25.1% · 3 months −35.0% (rising prices push the score up)",
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 8.6,
        "detail": "About 52% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 25
+       "weight": 25,
+       "prev": 8.6,
+       "prev_detail": "About 52% a year, from 119 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -301,7 +337,10 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 8
+       "weight": 8,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.07
       },
       {
        "label": "What forecasters expect",
@@ -309,21 +348,28 @@
        "detail": "Average forecast +12.1% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
-       "weight": 50
+       "weight": 50,
+       "prev": 6.6,
+       "prev_detail": "Average forecast +9.6% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "moved": 0.2
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -374,7 +420,10 @@
         }
        ],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": 2.1,
+       "prev_detail": "5 recent stories (pushing prices down)",
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -382,10 +431,13 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
-     "change": -0.3
+     "prev_date": "2026-10-29",
+     "change": 0.2
     },
     "supply": {
      "score": 5.5,
@@ -397,7 +449,9 @@
        "detail": "China makes about 70% of the world's lithium chemicals (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 7.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -420,7 +474,10 @@
         }
        ],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 1.0,
+       "prev_detail": "1 recent stories (easing)",
+       "moved": -0.15
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -435,9 +492,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 5.5,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.2
     },
     "confidence": "High",
@@ -582,14 +642,20 @@
        "score": 0.4,
        "detail": "1 month −15.2% · 3 months −22.8% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 33
+       "weight": 33,
+       "prev": 0.7,
+       "prev_detail": "1 month −14.3% · 3 months −21.1% (rising prices push the score up)",
+       "moved": -0.1
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
        "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 22
+       "weight": 22,
+       "prev": 4.9,
+       "prev_detail": "About 32% a year, from 119 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -597,28 +663,38 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 11
+       "weight": 11,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.1
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": 3.9,
        "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 11
+       "weight": 11,
+       "prev": 4.0,
+       "prev_detail": "Lithium price risk 4.0/10 feeds into this material's cost",
+       "moved": -0.01
       },
       {
        "label": "Price news",
@@ -634,7 +710,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 11
+       "weight": 11,
+       "prev": 6.0,
+       "moved": -0.02
       },
       {
        "label": "Known cost changes ahead",
@@ -649,10 +727,13 @@
         }
        ],
        "key": "price_dates",
-       "weight": 11
+       "weight": 11,
+       "prev": 6.4,
+       "moved": 0.0
       }
      ],
-     "change": -0.3
+     "prev_date": "2026-10-29",
+     "change": -0.2
     },
     "supply": {
      "score": 5.8,
@@ -664,7 +745,9 @@
        "detail": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 9.8,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -672,7 +755,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -693,9 +778,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 4.1,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Medium",
@@ -711,14 +799,20 @@
        "score": 0.4,
        "detail": "1 month −15.2% · 3 months −22.8% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 17
+       "weight": 17,
+       "prev": 0.7,
+       "prev_detail": "1 month −14.3% · 3 months −21.1% (rising prices push the score up)",
+       "moved": -0.05
       },
       {
        "label": "How much the price swings",
        "score": 4.9,
        "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 25
+       "weight": 25,
+       "prev": 4.9,
+       "prev_detail": "About 32% a year, from 119 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -726,28 +820,38 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 8
+       "weight": 8,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.07
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": 6.0,
        "detail": "Lithium price risk 6.0/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 17
+       "weight": 17,
+       "prev": 5.8,
+       "prev_detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "moved": 0.03
       },
       {
        "label": "Price news",
@@ -763,7 +867,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": 6.0,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -778,10 +884,13 @@
         }
        ],
        "key": "price_dates",
-       "weight": 33
+       "weight": 33,
+       "prev": 6.5,
+       "moved": 0.0
       }
      ],
-     "change": -0.2
+     "prev_date": "2026-10-29",
+     "change": 0.0
     },
     "supply": {
      "score": 6.9,
@@ -793,7 +902,9 @@
        "detail": "China makes about 98% of the world's LFP cathode (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 9.8,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -801,7 +912,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -822,9 +935,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 4.0,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Medium",
@@ -971,7 +1087,9 @@
        "assumed": true,
        "url": "https://news.metal.com/newscontent/104173668-artificial-graphite-more-likely-to-rise-than-fall-natural-graphite-consolidates-at-lows-smm-lithium-battery-anode-raw-material-market-weekly-review",
        "key": "momentum",
-       "weight": 43
+       "weight": 43,
+       "prev": 5.5,
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
@@ -979,7 +1097,9 @@
        "detail": "Assumed low (about 10% a year): the anode price used on this site has not changed since Feb 2026 and SMM's weekly reviews mostly report stable prices",
        "assumed": true,
        "key": "volatility",
-       "weight": 29
+       "weight": 29,
+       "prev": 1.0,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -987,28 +1107,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 14
+       "weight": 14,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.13
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -1016,7 +1145,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -1031,9 +1162,12 @@
         }
        ],
        "key": "price_dates",
-       "weight": 14
+       "weight": 14,
+       "prev": 7.7,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.1
     },
     "supply": {
@@ -1046,7 +1180,9 @@
        "detail": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 9.5,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -1054,7 +1190,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1069,10 +1207,13 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 7.4,
+       "moved": 0.12
       }
      ],
-     "change": 0.0
+     "prev_date": "2026-10-29",
+     "change": 0.1
     },
     "confidence": "Low",
     "obs180": 0
@@ -1089,7 +1230,9 @@
        "assumed": true,
        "url": "https://news.metal.com/newscontent/104173668-artificial-graphite-more-likely-to-rise-than-fall-natural-graphite-consolidates-at-lows-smm-lithium-battery-anode-raw-material-market-weekly-review",
        "key": "momentum",
-       "weight": 20
+       "weight": 20,
+       "prev": 5.5,
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
@@ -1097,7 +1240,9 @@
        "detail": "Assumed low (about 10% a year): the anode price used on this site has not changed since Feb 2026 and SMM's weekly reviews mostly report stable prices",
        "assumed": true,
        "key": "volatility",
-       "weight": 30
+       "weight": 30,
+       "prev": 1.0,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -1105,28 +1250,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 10
+       "weight": 10,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.09
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -1134,7 +1288,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -1149,9 +1305,12 @@
         }
        ],
        "key": "price_dates",
-       "weight": 40
+       "weight": 40,
+       "prev": 7.9,
+       "moved": 0.04
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "supply": {
@@ -1164,7 +1323,9 @@
        "detail": "China makes over 95% of the world's battery-grade graphite (IEA, 2024)",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 9.5,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -1172,7 +1333,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1187,9 +1350,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 7.9,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Low",
@@ -1334,14 +1500,19 @@
        "score": 4.6,
        "detail": "1 month −2.1% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 29
+       "weight": 29,
+       "prev": 4.5,
+       "prev_detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
+       "moved": 0.03
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
        "detail": "About 6% a year, from 15 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 19
+       "weight": 19,
+       "prev": 0.2,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -1349,28 +1520,39 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 10
+       "weight": 10,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.09
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": 6.0,
        "detail": "Price $46.9/kWh vs modelled cost $41.3/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
-       "weight": 14
+       "weight": 14,
+       "prev": 6.1,
+       "prev_detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
+       "moved": -0.01
       },
       {
        "label": "Lithium price risk passed through",
        "score": 3.9,
        "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 10
+       "weight": 10,
+       "prev": 4.0,
+       "prev_detail": "Lithium price risk 4.0/10 feeds into this material's cost",
+       "moved": -0.01
       },
       {
        "label": "Price news",
@@ -1421,7 +1603,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 10
+       "weight": 10,
+       "prev": 6.6,
+       "moved": -0.04
       },
       {
        "label": "Known cost changes ahead",
@@ -1436,9 +1620,12 @@
         }
        ],
        "key": "price_dates",
-       "weight": 10
+       "weight": 10,
+       "prev": 6.5,
+       "moved": 0.02
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.1
     },
     "supply": {
@@ -1451,7 +1638,9 @@
        "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 8.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -1481,7 +1670,9 @@
         }
        ],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 3.6,
+       "moved": -0.09
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1496,9 +1687,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 3.8,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "High",
@@ -1514,14 +1708,19 @@
        "score": 4.6,
        "detail": "1 month −2.1% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 12
+       "weight": 12,
+       "prev": 4.5,
+       "prev_detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
+       "moved": 0.01
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
        "detail": "About 6% a year, from 15 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 18
+       "weight": 18,
+       "prev": 0.2,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -1529,28 +1728,39 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 6
+       "weight": 6,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.05
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": 6.0,
        "detail": "Price $46.9/kWh vs modelled cost $41.3/kWh: margin 12% (thin margin = little room to fall)",
        "key": "floor",
-       "weight": 29
+       "weight": 29,
+       "prev": 6.1,
+       "prev_detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
+       "moved": -0.03
       },
       {
        "label": "Lithium price risk passed through",
        "score": 6.0,
        "detail": "Lithium price risk 6.0/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 12
+       "weight": 12,
+       "prev": 5.8,
+       "prev_detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "moved": 0.02
       },
       {
        "label": "Price news",
@@ -1601,7 +1811,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": 6.6,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -1616,10 +1828,13 @@
         }
        ],
        "key": "price_dates",
-       "weight": 24
+       "weight": 24,
+       "prev": 7.6,
+       "moved": 0.02
       }
      ],
-     "change": -0.1
+     "prev_date": "2026-10-29",
+     "change": 0.0
     },
     "supply": {
      "score": 6.1,
@@ -1631,7 +1846,9 @@
        "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 8.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -1661,7 +1878,9 @@
         }
        ],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 3.6,
+       "moved": -0.05
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1676,9 +1895,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 4.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "High",
@@ -1824,7 +2046,9 @@
        "assumed": true,
        "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
-       "weight": 29
+       "weight": 29,
+       "prev": 5.2,
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
@@ -1832,7 +2056,9 @@
        "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
-       "weight": 19
+       "weight": 19,
+       "prev": 0.2,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -1840,28 +2066,39 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 10
+       "weight": 10,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.09
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": 2.1,
        "detail": "Price $54.2/kWh vs modelled cost $41.3/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
-       "weight": 14
+       "weight": 14,
+       "prev": 2.2,
+       "prev_detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "moved": -0.01
       },
       {
        "label": "Lithium price risk passed through",
        "score": 3.9,
        "detail": "Lithium price risk 3.9/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 10
+       "weight": 10,
+       "prev": 4.0,
+       "prev_detail": "Lithium price risk 4.0/10 feeds into this material's cost",
+       "moved": -0.01
       },
       {
        "label": "Price news",
@@ -1891,7 +2128,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 10
+       "weight": 10,
+       "prev": 5.8,
+       "moved": -0.02
       },
       {
        "label": "Known cost changes ahead",
@@ -1906,9 +2145,12 @@
         }
        ],
        "key": "price_dates",
-       "weight": 10
+       "weight": 10,
+       "prev": 6.5,
+       "moved": 0.02
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.1
     },
     "supply": {
@@ -1921,7 +2163,9 @@
        "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 8.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -1951,7 +2195,9 @@
         }
        ],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 1.2,
+       "moved": 0.06
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1966,9 +2212,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 3.8,
+       "moved": 0.03
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.1
     },
     "confidence": "Low",
@@ -1985,7 +2234,9 @@
        "assumed": true,
        "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
-       "weight": 12
+       "weight": 12,
+       "prev": 5.2,
+       "moved": 0.0
       },
       {
        "label": "How much the price swings",
@@ -1993,7 +2244,9 @@
        "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
-       "weight": 18
+       "weight": 18,
+       "prev": 0.2,
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -2001,28 +2254,39 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 6
+       "weight": 6,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.05
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": 2.1,
        "detail": "Price $54.2/kWh vs modelled cost $41.3/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
-       "weight": 29
+       "weight": 29,
+       "prev": 2.2,
+       "prev_detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "moved": -0.03
       },
       {
        "label": "Lithium price risk passed through",
        "score": 6.0,
        "detail": "Lithium price risk 6.0/10 feeds into this material's cost",
        "key": "upstream",
-       "weight": 12
+       "weight": 12,
+       "prev": 5.8,
+       "prev_detail": "Lithium price risk 5.8/10 feeds into this material's cost",
+       "moved": 0.02
       },
       {
        "label": "Price news",
@@ -2052,7 +2316,9 @@
         }
        ],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": 5.8,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -2067,10 +2333,13 @@
         }
        ],
        "key": "price_dates",
-       "weight": 24
+       "weight": 24,
+       "prev": 7.6,
+       "moved": 0.02
       }
      ],
-     "change": -0.1
+     "prev_date": "2026-10-29",
+     "change": 0.0
     },
     "supply": {
      "score": 5.8,
@@ -2082,7 +2351,9 @@
        "detail": "China makes about 80% of the world's battery cells (IEA, 2024); India's own cell making is still small",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 8.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -2112,7 +2383,9 @@
         }
        ],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 1.2,
+       "moved": 0.03
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2127,9 +2400,12 @@
         }
        ],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 4.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Low",
@@ -2273,14 +2549,20 @@
        "score": 4.5,
        "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 50
+       "weight": 50,
+       "prev": 5.5,
+       "prev_detail": "1 month +0.2% · 3 months +4.9% (rising prices push the score up)",
+       "moved": -0.5
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
        "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 33
+       "weight": 33,
+       "prev": 2.6,
+       "prev_detail": "About 19% a year, from 125 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -2288,28 +2570,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 17
+       "weight": 17,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.15
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -2317,7 +2608,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -2325,9 +2618,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.7
     },
     "supply": {
@@ -2340,7 +2636,9 @@
        "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 1.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -2348,7 +2646,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2356,9 +2656,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Medium",
@@ -2374,14 +2677,20 @@
        "score": 4.5,
        "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 33
+       "weight": 33,
+       "prev": 5.5,
+       "prev_detail": "1 month +0.2% · 3 months +4.9% (rising prices push the score up)",
+       "moved": -0.33
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
        "detail": "About 19% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 50
+       "weight": 50,
+       "prev": 2.6,
+       "prev_detail": "About 19% a year, from 125 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -2389,28 +2698,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 17
+       "weight": 17,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.15
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -2418,7 +2736,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -2426,9 +2746,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.5
     },
     "supply": {
@@ -2441,7 +2764,9 @@
        "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
        "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 1.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -2449,7 +2774,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2457,9 +2784,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Medium",
@@ -2604,14 +2934,20 @@
        "score": 4.1,
        "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 50
+       "weight": 50,
+       "prev": 3.9,
+       "prev_detail": "1 month −4.8% · 3 months −3.9% (rising prices push the score up)",
+       "moved": 0.1
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
        "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 33
+       "weight": 33,
+       "prev": 3.1,
+       "prev_detail": "About 22% a year, from 125 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -2619,28 +2955,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 17
+       "weight": 17,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.15
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -2648,7 +2993,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -2656,10 +3003,13 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
-     "change": -0.1
+     "prev_date": "2026-10-29",
+     "change": 0.0
     },
     "supply": {
      "score": 2.4,
@@ -2671,7 +3021,9 @@
        "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
        "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
        "key": "concentration",
-       "weight": 40
+       "weight": 40,
+       "prev": 3.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -2679,7 +3031,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2687,9 +3041,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Low",
@@ -2705,14 +3062,20 @@
        "score": 4.1,
        "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
        "key": "momentum",
-       "weight": 33
+       "weight": 33,
+       "prev": 3.9,
+       "prev_detail": "1 month −4.8% · 3 months −3.9% (rising prices push the score up)",
+       "moved": 0.07
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
        "detail": "About 22% a year, from 124 price moves in the last 6 months",
        "key": "volatility",
-       "weight": 50
+       "weight": 50,
+       "prev": 3.1,
+       "prev_detail": "About 22% a year, from 125 price moves in the last 6 months",
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -2720,28 +3083,37 @@
        "detail": "US$1 = ₹94.64; rupee stronger by 1.9% in a month, stronger by 0.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
-       "weight": 17
+       "weight": 17,
+       "prev": 4.5,
+       "prev_detail": "US$1 = ₹95.27; rupee stronger by 0.7% in a month, stronger by 0.1% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.15
       },
       {
        "label": "What forecasters expect",
        "score": null,
        "detail": "No public forecasts tracked",
        "key": "expectations",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Room above the cost to make",
        "score": null,
        "detail": "Only modelled for cells",
        "key": "floor",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
        "score": null,
        "detail": "Not linked to lithium",
        "key": "upstream",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Price news",
@@ -2749,7 +3121,9 @@
        "detail": "No tagged price news in the last 60 days",
        "items": [],
        "key": "price_news",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       },
       {
        "label": "Known cost changes ahead",
@@ -2757,9 +3131,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "price_dates",
-       "weight": 0
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": -0.1
     },
     "supply": {
@@ -2772,7 +3149,9 @@
        "detail": "China made 44.2 of the world's 73.8 million tonnes of primary aluminium in 2025 (60%); India is a large producer too",
        "url": "https://www.mysteel.net/news/5111608-iai-global-primary-aluminum-output-exceeds-73-million-t-in-2025",
        "key": "concentration",
-       "weight": 55
+       "weight": 55,
+       "prev": 3.0,
+       "moved": 0.0
       },
       {
        "label": "Supply news",
@@ -2780,7 +3159,9 @@
        "detail": "No supply disruptions reported in the last 90 days",
        "items": [],
        "key": "supply_news",
-       "weight": 15
+       "weight": 15,
+       "prev": 2.0,
+       "moved": 0.0
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2788,9 +3169,12 @@
        "detail": "None within the horizon",
        "items": [],
        "key": "supply_dates",
-       "weight": 30
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
       }
      ],
+     "prev_date": "2026-10-29",
      "change": 0.0
     },
     "confidence": "Low",

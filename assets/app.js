@@ -1460,7 +1460,7 @@
     const ch = ax && ax.change;
     if (ch == null) return el('span', 'rdelta', '');
     const t = Math.abs(ch) < 0.05 ? 'no change' : `${ch > 0 ? '▲' : '▼'} ${Math.abs(ch).toFixed(1)}`;
-    const s = el('span', 'rdelta' + (ch > 0.04 ? ' up' : ch < -0.04 ? ' down' : ''), t); s.title = 'Change since a week ago';
+    const s = el('span', 'rdelta' + (ch > 0.04 ? ' up' : ch < -0.04 ? ' down' : ''), t); s.title = 'Change since a week ago; the reasons are under "What drives the score"';
     return s;
   }
   function riskStripItems() {
@@ -1757,7 +1757,32 @@
         .on('pointerleave', onLeave(hideTip));
     });
   }
-  function driverList(all) {
+  function whyMoved(ax, name) { // what changed since a week ago, and which drivers moved the score
+    const box = el('div', 'rwhy-box');
+    const ch = ax.change; if (ch == null) return box;
+    const since = ax.prev_date ? d3.utcFormat('%-d %b')(parse(ax.prev_date)) : 'a week ago';
+    const ds = (ax.drivers || []).filter((d) => d.moved != null && Math.abs(d.moved) >= 0.05).sort((a, b) => Math.abs(b.moved) - Math.abs(a.moved));
+    const dir = ch <= -0.05 ? 'down' : ch >= 0.05 ? 'up' : 'flat';
+    const head = el('div', 'rwhy-head ' + dir);
+    head.append(el('b', null, dir === 'flat' ? `${name}: no change since ${since}` : `${name} ${dir === 'down' ? 'eased' : 'rose'} ${Math.abs(ch).toFixed(1)} since ${since}`));
+    box.appendChild(head);
+    if (!ds.length) { box.appendChild(el('p', 'rwhy-none', dir === 'flat' ? 'None of the drivers below moved enough to matter.' : 'Small moves across several drivers; none stands out.')); return box; }
+    const main = dir === 'flat' ? ds : ds.filter((d) => Math.sign(d.moved) === Math.sign(ch));
+    const against = dir === 'flat' ? [] : ds.filter((d) => Math.sign(d.moved) !== Math.sign(ch));
+    const line = (d) => {
+      const li = el('li');
+      const eff = el('span', 'rwhy-eff ' + (d.moved < 0 ? 'down' : 'up'), `${d.moved < 0 ? '\u2212' : '+'}${Math.abs(d.moved).toFixed(1)}`);
+      eff.title = 'Points this driver added to or took off the overall score';
+      li.append(eff, el('b', null, d.label), document.createTextNode(` ${scoreTxt(d.prev)} \u2192 ${scoreTxt(d.score)}`));
+      const short = (t) => String(t || '').split(' (')[0].replace(/\b1 recent stories/, '1 recent story').replace(/\b1 dated change\(s\)/, '1 dated change').replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase());
+      if (d.detail) li.appendChild(el('div', 'rwhy-det', d.prev_detail && short(d.prev_detail) !== short(d.detail) ? `Was ${short(d.prev_detail)}; now ${short(d.detail)}` : short(d.detail)));
+      return li;
+    };
+    if (main.length) { box.appendChild(el('p', 'rwhy-lab', dir === 'flat' ? 'Moves that cancelled out:' : 'Because of:')); const ul = el('ul', 'rwhy-list'); main.slice(0, 3).forEach((d) => ul.appendChild(line(d))); box.appendChild(ul); }
+    if (against.length) { box.appendChild(el('p', 'rwhy-lab', 'Partly offset by:')); const ul = el('ul', 'rwhy-list'); against.slice(0, 2).forEach((d) => ul.appendChild(line(d))); box.appendChild(ul); }
+    return box;
+  }
+  function driverList(all, prevDate) {
     const wrap = el('div');
     const ul = el('ul', 'drivers'); wrap.appendChild(ul);
     const drivers = all.filter((d) => d.score != null && d.weight);
@@ -1774,6 +1799,10 @@
       bar.appendChild(fill);
       const val = el('b', 'dv', scoreTxt(d.score));
       const row = el('div', 'drow'); row.append(bar, val);
+      if (d.prev != null && d.score != null && Math.abs(d.score - d.prev) >= 0.1) {
+        const up = d.score > d.prev; const c = el('span', 'dchg ' + (up ? 'up' : 'down'), `${up ? '\u25b2' : '\u25bc'} ${Math.abs(d.score - d.prev).toFixed(1)}`);
+        c.title = `Was ${scoreTxt(d.prev)} on ${prevDate ? d3.utcFormat('%-d %b')(parse(prevDate)) : 'a week ago'}`; row.appendChild(c);
+      }
       const det = el('div', 'dd'); det.appendChild(document.createTextNode(d.detail || ''));
       if (d.url) { det.appendChild(document.createTextNode(' · ')); det.appendChild(link('source', d.url)); }
       li.append(top, row, det);
@@ -1827,8 +1856,9 @@
     box.appendChild(riskYears(m));
 
     const cols = el('div', 'rd-cols');
-    const pc = el('div', 'rd-col'); pc.append(el('h3', null, 'What drives the price score'), r.price.score == null ? el('p', 'sub', 'Not scored: there is no price history for this material yet. It builds up each day from the prices on this site.') : driverList(r.price.drivers));
-    const scol = el('div', 'rd-col'); scol.append(el('h3', null, 'What drives the supply score'), driverList(r.supply.drivers));
+    const pc = el('div', 'rd-col'); pc.append(el('h3', null, 'What drives the price score'), r.price.score == null ? el('p', 'sub', 'Not scored: there is no price history for this material yet. It builds up each day from the prices on this site.') : el('div'));
+    if (r.price.score != null) { pc.lastChild.replaceWith(whyMoved(r.price, 'Price risk')); pc.appendChild(driverList(r.price.drivers, r.price.prev_date)); }
+    const scol = el('div', 'rd-col'); scol.append(el('h3', null, 'What drives the supply score'), whyMoved(r.supply, 'Supply risk'), driverList(r.supply.drivers, r.supply.prev_date));
     cols.append(pc, scol); box.appendChild(cols);
 
     if (m.assumptions && m.assumptions.length) {

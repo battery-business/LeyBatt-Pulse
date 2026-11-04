@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611050028">
+<link rel="stylesheet" href="assets/style.css?v=202611050037">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -38,7 +38,7 @@
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="page" id="page-overview" data-page="overview">
-    <section class="ov-today" id="ov-today" aria-label="What matters for us"></section>
+    <section class="ov-today" id="ov-today" aria-label="What matters today"></section>
     <section class="chain-hero" id="chain-hero" aria-label="The battery value chain"></section>
     <section class="today-band" id="today-band" aria-label="Today's prices"></section>
     <div class="sincebar" id="since" hidden></div>
@@ -206,10 +206,10 @@
         <input class="search" id="news-search" type="search" placeholder="Search news" aria-label="Search news">
         <select class="select" id="news-effect" aria-label="Filter by effect">
           <option value="">All stories</option>
-          <option value="high">High impact for us</option>
-          <option value="good">Good for us</option>
-          <option value="bad">Bad for us</option>
-          <option value="watch">Mixed or to watch</option>
+          <option value="high">High impact</option>
+          <option value="EVs">EVs</option>
+          <option value="Batteries">Batteries</option>
+          <option value="BESS">BESS</option>
         </select>
       </div>
       <div class="chips chips-scroll" id="news-cats" role="group" aria-label="Topic"></div>
@@ -456,6 +456,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202611050028"></script>
+<script src="assets/app.js?v=202611050037"></script>
 </body>
 </html>

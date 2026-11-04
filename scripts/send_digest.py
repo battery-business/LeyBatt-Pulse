@@ -52,12 +52,14 @@ def signed(p):
 
 
 IMPACT_LAB = {
-    "cost": {1: "Lower costs for us", -1: "Higher costs for us", 0: "Costs: watch"},
-    "demand": {1: "More demand for what we sell", -1: "Less demand for what we sell", 0: "Demand: watch"},
+    "cost": {1: "Lower battery costs", -1: "Higher battery costs", 0: "Battery costs: watch"},
+    "demand": {1: "More {w} demand", -1: "Less {w} demand", 0: "Demand: watch"},
     "competition": {1: "Less competition", -1: "More competition", 0: "Competition: watch"},
     "supply": {1: "Easier supply", -1: "Supply risk", 0: "Supply: watch"},
-    "policy": {1: "Policy helps us", -1: "Policy hurts us", 0: "Policy: watch"},
+    "policy": {1: "Supportive policy", -1: "Tighter rules", 0: "Policy change"},
 }
+SEG_LAB = {"EVs": "For EVs", "Batteries": "For batteries", "BESS": "For BESS"}
+SEG_WORD = {"EVs": "EV", "Batteries": "battery", "BESS": "storage"}
 
 
 def week_move(pts):
@@ -172,10 +174,10 @@ def build(today):
 
     recent = [n for n in news if n.get("date", "") >= (today - dt.timedelta(days=2)).isoformat()]
     cut3 = (today - dt.timedelta(days=3)).isoformat()
-    forus = sorted([n for n in news if n.get("us") and n.get("date", "") >= cut3 and (n.get("weight") or 0) >= 2],
+    forus = sorted([n for n in news if n.get("so") and n.get("date", "") >= cut3 and (n.get("weight") or 0) >= 2],
                    key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))[:4]
     if len(forus) < 3:
-        forus = sorted([n for n in news if n.get("us") and (n.get("weight") or 0) >= 2], key=lambda n: n.get("date", ""), reverse=True)[:4]
+        forus = sorted([n for n in news if n.get("so") and (n.get("weight") or 0) >= 2], key=lambda n: n.get("date", ""), reverse=True)[:4]
     shown_ids = {n["id"] for n in forus}
     recent = sorted([n for n in recent if n["id"] not in shown_ids], key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))
     top = recent[:4]
@@ -194,7 +196,7 @@ def build(today):
         rd = d(r["date"])
         if today <= rd and (rd - today).days <= 14 and (r["date"], "rule") not in have:
             nextd.append({"date": r["date"], "what": r.get("short") or r["title"], "short": r.get("short") or r["title"], "kind": "Rule change",
-                         "us": r.get("us") or r.get("impact", ""), "weight": 2, "source": r.get("source", ""), "url": r.get("url", "")})
+                         "so": r.get("so") or r.get("impact", ""), "seg": r.get("seg", ""), "weight": 2, "source": r.get("source", ""), "url": r.get("url", "")})
     nextd = sorted(nextd, key=lambda e: (e["date"], -(e.get("weight") or 0)))[:5]
     up = up[:3]
 
@@ -361,7 +363,7 @@ def build(today):
                           f'<tr><td style="padding:13px 16px">'
                           f'<div style="font-size:11.5px;font-weight:700;color:{c}">{E(n.get("category", ""))}{flag}<span style="color:{MUTED};font-weight:400"> · {E(n.get("day", ""))}</span></div>'
                           f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px">{E(n["headline"])}</div>'
-                          + (f'<div style="font-size:13.5px;line-height:1.45;color:{INK};margin-top:6px"><b>For us:</b> {E(n["us"])}</div>' if n.get("us") else "")
+                          + (f'<div style="font-size:13.5px;line-height:1.45;color:{INK};margin-top:6px"><b>{E(SEG_LAB.get(n.get("seg"), "What it means"))}:</b> {E(n["so"])}</div>' if n.get("so") else "")
                           + f''
                           f'<div style="font-size:12.5px;margin-top:7px"><a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">Read on {E(n["source"])} ›</a></div>'
                           f'</td></tr></table></td></tr>')
@@ -412,7 +414,7 @@ def build(today):
                        f'<div style="font-size:12px;color:{MUTED};margin-top:3px">{E(r["region"])} · <a href="{E(r["url"])}" style="color:{MUTED}">{E(r["source"])}</a></div>'
                        f'</td></tr></table></td></tr>')
     if rules_html:
-        rules_html += f'<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#rules" style="color:{ACCENT};font-weight:600;text-decoration:none">All regulations and what they mean for us ›</a></td></tr>'
+        rules_html += f'<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#rules" style="color:{ACCENT};font-weight:600;text-decoration:none">All regulations and what they mean ›</a></td></tr>'
 
     alert_html = ""
     if uniq:
@@ -425,7 +427,8 @@ def build(today):
             lab = IMPACT_LAB.get(x.get("k"), {}).get(x.get("s"))
             if not lab:
                 continue
-            bg, fg = (("#e3f4ea", GREEN) if x["s"] > 0 else ("#fde4e1", RED) if x["s"] < 0 else ("#ececf0", MUTED))
+            lab = lab.replace("{w}", SEG_WORD.get(n.get("seg"), "market"))
+            bg, fg = (("#ececf0", MUTED) if x.get("k") == "competition" or not x["s"] else ("#e3f4ea", GREEN) if x["s"] > 0 else ("#fde4e1", RED))
             out += f'<span style="display:inline-block;background:{bg};color:{fg};font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap">{E(lab)}</span>'
         return out
 
@@ -442,12 +445,11 @@ def build(today):
 
     forus_html = ""
     for n in forus:
-        good = sum((x.get("s") or 0) for x in (n.get("impact") or []))
-        bc = GREEN if good > 0 else RED if good < 0 else LINE
+        bc = {"EVs": L[0], "Batteries": L[2], "BESS": L[4]}.get(n.get("seg"), LINE)
         forus_html += (f'<tr><td style="padding:5px 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-left:3px solid {bc};border-radius:14px">'
                        f'<tr><td style="padding:12px 16px">'
-                       f'<div>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'
-                       f'<div style="font-size:15px;font-weight:700;line-height:1.45;color:{INK};margin-top:2px">{E(n["us"])}</div>'
+                       f'<div><span style="font-size:11.5px;font-weight:800;color:{bc};margin-right:6px">{E(SEG_LAB.get(n.get("seg"), ""))}</span>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'
+                       f'<div style="font-size:15px;font-weight:700;line-height:1.45;color:{INK};margin-top:2px">{E(n["so"])}</div>'
                        f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px">{E(n.get("short") or n["headline"])} · <a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
                        f'</td></tr></table></td></tr>')
 
@@ -458,7 +460,7 @@ def build(today):
         unit_ = "" if nd <= 0 else ("day" if nd == 1 else "days")
         hot = (e.get("weight") or 0) >= 3
         bt = "" if i == 0 else f"border-top:1px solid {LINE};"
-        us_line = (f'<div style="font-size:13px;color:{INK};line-height:1.45;margin-top:4px">{E(e.get("us", ""))}</div>' if hot and e.get("us") else "")
+        us_line = (f'<div style="font-size:13px;color:{INK};line-height:1.45;margin-top:4px">{E(e.get("so", ""))}</div>' if hot and e.get("so") else "")
         soon_html += (f'<tr><td style="padding:0 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
                       f'<td width="58" valign="top" align="center" style="padding:12px 0;{bt}"><div style="font-size:{22 if nd > 0 else 14}px;font-weight:800;color:{AMBER if hot else INK};line-height:1">{big}</div>'
                       f'<div style="font-size:11px;color:{MUTED};margin-top:2px">{unit_}</div></td>'
@@ -513,10 +515,10 @@ def build(today):
 <tr><td style="padding:0;font-size:0;line-height:0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>{strip}</tr></table></td></tr>
 {alert_html}
 <tr><td style="padding:26px 24px 4px" class="px">
- <div style="font-size:12px;font-weight:700;color:{ACCENT};letter-spacing:1.4px;text-transform:uppercase">What matters for us</div>
- <div class="hero" style="font-size:24px;font-weight:800;color:{INK};letter-spacing:-0.6px;line-height:1.25;margin-top:8px">{E(bottom) if bottom else "Today's battery market, for us."}</div></td></tr>
+ <div style="font-size:12px;font-weight:700;color:{ACCENT};letter-spacing:1.4px;text-transform:uppercase">What matters today</div>
+ <div class="hero" style="font-size:24px;font-weight:800;color:{INK};letter-spacing:-0.6px;line-height:1.25;margin-top:8px">{E(bottom) if bottom else "Today's battery market."}</div></td></tr>
 {forus_html}
-<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#news" style="color:{ACCENT};font-weight:600;text-decoration:none">All stories, most important for us first ›</a></td></tr>
+<tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#news" style="color:{ACCENT};font-weight:600;text-decoration:none">All stories, most important first ›</a></td></tr>
 {section("Next 14 days") if soon_html else ""}
 {soon_html}
 {section("Key prices", "Latest reading, change on about a week earlier, and the base-scenario outlook.")}
@@ -539,9 +541,9 @@ def build(today):
     if uniq:
         t += ["ALERT: " + "; ".join(uniq), ""]
     if bottom:
-        t += ["WHAT MATTERS FOR US: " + bottom, ""]
+        t += ["WHAT MATTERS TODAY: " + bottom, ""]
     for n in forus:
-        t.append(f"- {n['us']} ({n.get('short') or n['headline']}; {n['source']}: {n['url']})")
+        t.append(f"- {SEG_LAB.get(n.get('seg'), '')}: {n['so']} ({n.get('short') or n['headline']}; {n['source']}: {n['url']})")
     if nextd:
         t += ["", "Next 14 days:"] + [f"- {e['date']}: {e.get('short') or e['what']}" for e in nextd]
     t += ["", "Key prices (change on about a week earlier):"]
@@ -558,7 +560,7 @@ def build(today):
         fmt = lambda ax: "not scored" if ax.get("score") is None else f"{ax['score']:.1f} {ax['level']}"  # noqa: E731
         t += ["", "Risk navigator (next 3 months, 0-10):"] + [f"- {m['short']}: price {fmt(m['h3']['price'])}, supply {fmt(m['h3']['supply'])}" for m in rmats] + [f"  Details: {SITE}#risk"]
     if top:
-        t += ["", "More news:"] + [f"- {n['headline']}" + (f" For us: {n['us']}" if n.get("us") else "") + f" ({n['source']}: {n['url']})" for n in top]
+        t += ["", "More news:"] + [f"- {n['headline']}" + (f" {SEG_LAB.get(n.get('seg'), 'What it means')}: {n['so']}" if n.get("so") else "") + f" ({n['source']}: {n['url']})" for n in top]
     if rules_up:
         t += ["", "Rules coming up:"] + [f"- {r['date']}: {r.get('short') or r['title']} ({r['region']}, {r['status']})" for r in rules_up] + [f"  Details: {SITE}#rules"]
     if today.weekday() == 0:

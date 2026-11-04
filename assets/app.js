@@ -447,18 +447,18 @@
   }
   function openForecast(mat, eyebrow) { const k = { lithium: 'lithium', cathode: 'cathode', cell_ess: 'cell_ess', cell_ev: 'cell_ev', copper: 'copper', aluminium: 'aluminium' }[mat]; if (!k) return; FC.fc = true; openFull(FC_GROUP[k], k, eyebrow || eyebrowNow()); }
 
-  // ---------- what matters for us today: the overview's first screen ----------
+  // ---------- what matters today: the overview's first screen ----------
   function decisiveDates(days = 14) {
     const today = istToday();
     return comingUp(null, 30).filter((e) => (+parse(e.date) - today) / 864e5 <= days && (e.weight >= 2 || e.kind === 'Rule change'))
-      .map((e) => { const ev = (D.events || []).find((x) => x.date === e.date && (x.short === e.short || x.what === e.what)) || {}; const rule = (D.regulations || []).find((r) => r.date === e.date && (r.short || r.title) === e.what) || {}; return { ...e, us: e.us || ev.us || rule.us || rule.impact, weight: e.weight || ev.weight || (rule.id ? 2 : 1) }; })
+      .map((e) => { const ev = (D.events || []).find((x) => x.date === e.date && (x.short === e.short || x.what === e.what)) || {}; const rule = (D.regulations || []).find((r) => r.date === e.date && (r.short || r.title) === e.what) || {}; return { ...e, so: e.so || ev.so || rule.so || rule.impact, seg: e.seg || ev.seg || rule.seg, weight: e.weight || ev.weight || (rule.id ? 2 : 1) }; })
       .sort((a, b) => d3.ascending(a.date, b.date) || (b.weight || 0) - (a.weight || 0));
   }
   function inDays(d) { const n = Math.round((+parse(d) - istToday()) / 864e5); return n <= 0 ? 'today' : n === 1 ? 'tomorrow' : `in ${n} days`; }
   function topForUs(n = 4) {
     const cut = new Date(istToday() - 3 * 864e5).toISOString().slice(0, 10);
-    let pool = sortedNews().filter((x) => x.us && x.date >= cut && (x.weight || 0) >= 2);
-    if (pool.length < n) pool = sortedNews().filter((x) => x.us && (x.weight || 0) >= 2).slice(0, 12);
+    let pool = sortedNews().filter((x) => x.so && x.date >= cut && (x.weight || 0) >= 2);
+    if (pool.length < n) pool = sortedNews().filter((x) => x.so && (x.weight || 0) >= 2).slice(0, 12);
     return pool.sort((a, b) => (b.weight || 0) - (a.weight || 0) || d3.descending(a.date, b.date)).slice(0, n);
   }
   function bottomLine() { // one sentence from the data: where cell costs are going, and the most pressing date
@@ -473,16 +473,16 @@
     const box = $('#ov-today'); if (!box) return; box.replaceChildren();
     const card = el('div', 'ot-card rv'); box.appendChild(card);
     const head = el('div', 'ot-head');
-    head.append(el('p', 'ch-eyebrow', 'What matters for us · ' + d3.utcFormat('%A %-d %B')(new Date(istToday()))), el('h2', 'ot-title', bottomLine() || 'What matters for us today'));
+    head.append(el('p', 'ch-eyebrow', 'What matters today · ' + d3.utcFormat('%A %-d %B')(new Date(istToday()))), el('h2', 'ot-title', bottomLine() || 'What matters today'));
     card.appendChild(head);
     const grid = el('div', 'ot-grid'); card.appendChild(grid);
     // stories
-    const c1 = el('section', 'ot-col'); c1.appendChild(el('h3', null, 'Top stories for us'));
+    const c1 = el('section', 'ot-col'); c1.appendChild(el('h3', null, 'Top stories'));
     const ul = el('ul', 'ot-list'); c1.appendChild(ul);
     topForUs(4).forEach((n) => {
-      const li = el('li'); const b = el('button', 'ot-item ' + goodBad(n)); b.type = 'button'; b.title = n.headline;
-      const top = el('span', 'ot-meta'); top.append(impactChips(n, 2), el('span', 'ot-day', n.day || shortDay(parse(n.date))));
-      b.append(top, el('span', 'ot-us', n.us), el('span', 'ot-h', n.short || clip(n.headline, 90)));
+      const li = el('li'); const b = el('button', 'ot-item seg-' + (n.seg || 'x')); b.type = 'button'; b.title = n.headline;
+      const top = el('span', 'ot-meta'); top.append(el('span', 'ot-seg', SEG_LAB[n.seg] || ''), impactChips(n, 2), el('span', 'ot-day', n.day || shortDay(parse(n.date))));
+      b.append(top, el('span', 'ot-us', n.so), el('span', 'ot-h', n.short || clip(n.headline, 90)));
       b.addEventListener('click', () => { location.hash = 'news?story=' + n.id; });
       li.appendChild(b); ul.appendChild(li);
     });
@@ -498,7 +498,7 @@
       const li = el('li', 'ot-date' + (e.weight >= 3 ? ' key' : ''));
       const cd = el('div', 'cd'); cd.append(el('b', null, n <= 0 ? 'Today' : String(n)), el('span', null, n <= 0 ? '' : n === 1 ? 'day' : 'days')); if (n <= 0) cd.classList.add('now');
       const body = el('div'); body.append(el('div', 'ot-dw', e.short || clip(e.what, 70)), el('div', 'ot-dm', `${d3.utcFormat('%-d %b')(parse(e.date))} · ${e.kind || ''}`));
-      if (e.us && e.weight >= 3) body.appendChild(el('p', 'ot-dus', e.us));
+      if (e.so && e.weight >= 3) body.appendChild(el('p', 'ot-dus', e.so));
       li.append(cd, body); dl.appendChild(li);
     });
     grid.appendChild(c2);
@@ -1283,24 +1283,24 @@
   }
 
   const sortedNews = () => [...(D.news || [])].sort((a, b) => d3.descending(a.date, b.date) || d3.descending(a.id, b.id));
-  // ---------- what it means for us ----------
-  // news, dates and rules carry "us" (one plain line), "impact" [{k: cost|demand|competition|supply|policy, s: 1 good / -1 bad / 0 watch}]
-  // and "weight" (3 = high, 2 = relevant, 1 = background), written each morning from data/profile.json (public facts only)
+  // ---------- what it means, by segment ----------
+  // news, dates and rules carry "seg" (EVs | Batteries | BESS), "so" (one plain line on what it means for that segment),
+  // "impact" [{k: cost|demand|competition|supply|policy, s: 1 / -1 / 0}] and "weight" (3 = high, 2 = relevant, 1 = background)
+  const SEG_LAB = { EVs: 'For EVs', Batteries: 'For batteries', BESS: 'For BESS' };
+  const SEG_WORD = { EVs: 'EV', Batteries: 'battery', BESS: 'storage' };
   const IMPACT_LAB = {
-    cost: { 1: 'Lower costs for us', '-1': 'Higher costs for us', 0: 'Costs: watch' },
-    demand: { 1: 'More demand for what we sell', '-1': 'Less demand for what we sell', 0: 'Demand: watch' },
+    cost: { 1: 'Lower battery costs', '-1': 'Higher battery costs', 0: 'Battery costs: watch' },
+    demand: { 1: 'More {w} demand', '-1': 'Less {w} demand', 0: 'Demand: watch' },
     competition: { 1: 'Less competition', '-1': 'More competition', 0: 'Competition: watch' },
     supply: { 1: 'Easier supply', '-1': 'Supply risk', 0: 'Supply: watch' },
-    policy: { 1: 'Policy helps us', '-1': 'Policy hurts us', 0: 'Policy: watch' },
+    policy: { 1: 'Supportive policy', '-1': 'Tighter rules', 0: 'Policy change' },
   };
-  const netOf = (n) => { const t = (n.impact || []).reduce((a, x) => a + (+x.s || 0), 0); return t > 0 ? 1 : t < 0 ? -1 : 0; };
-  const goodBad = (n) => (!(n.impact || []).length ? '' : ({ 1: 'good', '-1': 'bad', 0: 'watch' })[netOf(n)]);
   function impactChips(n, max = 3) {
     const box = el('span', 'ichips');
-    (n.impact || []).slice(0, max).forEach((x) => { const lab = (IMPACT_LAB[x.k] || {})[x.s]; if (!lab) return; const c = el('span', 'ich ' + (x.s > 0 ? 'good' : x.s < 0 ? 'bad' : 'watch'), lab); c.title = ((D.profile || {}).keys || {})[x.k] || ''; box.appendChild(c); });
+    (n.impact || []).slice(0, max).forEach((x) => { let lab = (IMPACT_LAB[x.k] || {})[x.s]; if (!lab) return; lab = lab.replace('{w}', SEG_WORD[n.seg] || 'market'); const c = el('span', 'ich ' + (x.k === 'competition' || !x.s ? 'watch' : x.s > 0 ? 'good' : 'bad'), lab); c.title = ((D.profile || {}).keys || {})[x.k] || ''; box.appendChild(c); });
     return box;
   }
-  function usLine(n, cls = 'us') { const p = el('p', cls); p.append(el('b', null, 'For us: '), document.createTextNode(n.us)); return p; }
+  function soLine(n, cls = 'us') { const p = el('p', cls); p.append(el('b', null, (SEG_LAB[n.seg] || 'What it means') + ': '), document.createTextNode(n.so)); return p; }
   function newsItem(n, feed = false) {
     const li = el('li', feed ? 'story' : null); if (feed) li.id = 'story-' + n.id;
     li.style.setProperty('--cc', catColor(n.category));
@@ -1311,7 +1311,7 @@
     else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
     if ((n.impact || []).length) meta.appendChild(impactChips(n, feed ? 3 : 1)); else meta.appendChild(el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
-    li.append(meta, el('div', 'h', n.headline)); if (n.us) li.appendChild(usLine(n)); li.appendChild(src);
+    li.append(meta, el('div', 'h', n.headline)); if (n.so) li.appendChild(soLine(n)); li.appendChild(src);
     if (n.weight) li.classList.add('w' + n.weight);
     if (feed) src.appendChild(shareBtn('news?story=' + n.id, 'Link', 'Story link'));
     return li;
@@ -1328,14 +1328,14 @@
       chips.appendChild(b);
     });
     const q = S.news.q.toLowerCase();
-    const list0 = all.filter((n) => (!S.news.cat || (n.category || 'News') === S.news.cat) && (!S.news.effect || (S.news.effect === 'high' ? n.weight >= 3 : ['up', 'down', 'flat'].includes(S.news.effect) ? n.direction === S.news.effect : goodBad(n) === S.news.effect)) && (!q || [n.headline, n.sources, n.category, n.effect].join(' ').toLowerCase().includes(q)));
+    const list0 = all.filter((n) => (!S.news.cat || (n.category || 'News') === S.news.cat) && (!S.news.effect || (S.news.effect === 'high' ? n.weight >= 3 : ['up', 'down', 'flat'].includes(S.news.effect) ? n.direction === S.news.effect : n.seg === S.news.effect)) && (!q || [n.headline, n.sources, n.category, n.effect].join(' ').toLowerCase().includes(q)));
     const list = list0.sort((a, b) => d3.descending(a.date, b.date) || (b.weight || 0) - (a.weight || 0) || d3.descending(a.id, b.id)); // newest day first; within a day, what matters most to us first
     const key = [S.news.cat, S.news.effect, q].join('|'); if (S.news.key !== key) { S.news.key = key; S.news.shown = 40; }
     const ist = new Date(Date.now() + 5.5 * 36e5); const todayISO = ist.toISOString().slice(0, 10);
     const yISO = new Date(+ist - 864e5).toISOString().slice(0, 10);
     const recent = all.filter((n) => n.date >= yISO).length;
     S.news.recent = recent;
-    $('#news-status').textContent = (list.length === all.length ? `${all.length} stories, newest first; within each day, what matters most to us first.` : `${list.length} of ${all.length} stories match.`);
+    $('#news-status').textContent = (list.length === all.length ? `${all.length} stories, newest first; within each day, the most important first.` : `${list.length} of ${all.length} stories match.`);
     const ul = $('#news-list'); ul.replaceChildren();
     if (!list.length) ul.appendChild(el('li', 'empty', 'No stories match. Clear the search or pick another topic.'));
     let lastDay = null;
@@ -1359,10 +1359,10 @@
     const week = all.filter((n) => n.date >= wk);
     const card = (title, sub) => { const c = el('section', 'ns-card'); c.appendChild(el('h3', null, title)); if (sub) c.appendChild(el('p', 'sub', sub)); box.appendChild(c); return c; };
     // 1. this week
-    const c1 = card('This week for us', `${week.length} stories in the last 7 days, ${week.filter((n) => n.weight >= 3).length} of them high impact`);
-    const cnt = (d) => week.filter((n) => goodBad(n) === d).length;
+    const c1 = card('This week', `${week.length} stories in the last 7 days, ${week.filter((n) => n.weight >= 3).length} of them high impact`);
+    const cnt = (d) => week.filter((n) => n.seg === d).length;
     const g = el('div', 'ns-split');
-    [['good', 'Good for us', '--ok'], ['bad', 'Bad for us', '--bad'], ['watch', 'Mixed or to watch', '--slate']].forEach(([d, lab, col]) => {
+    [['EVs', 'EVs', '--l1'], ['Batteries', 'Batteries', '--l3'], ['BESS', 'BESS', '--l5']].forEach(([d, lab, col]) => {
       const b = el('button', 'ns-stat'); b.type = 'button'; b.style.setProperty('--c', css(col)); b.setAttribute('aria-pressed', String(S.news.effect === d));
       b.append(el('b', null, String(cnt(d))), el('span', null, lab));
       b.addEventListener('click', () => { S.news.effect = S.news.effect === d ? '' : d; $('#news-effect').value = S.news.effect; renderNews(); });
@@ -1371,7 +1371,7 @@
     c1.appendChild(g);
     const hi = el('button', 'btn link small', S.news.effect === 'high' ? 'Show all stories' : 'High impact only →'); hi.type = 'button';
     hi.addEventListener('click', () => { S.news.effect = S.news.effect === 'high' ? '' : 'high'; $('#news-effect').value = S.news.effect; renderNews(); }); c1.appendChild(hi);
-    if ((D.profile || {}).about) { const ab = el('details', 'ns-about'); ab.append(el('summary', null, 'How "For us" is worked out')); ab.appendChild(el('p', null, D.profile.about)); const ul = el('ul'); Object.values(D.profile.keys || {}).forEach((t) => ul.appendChild(el('li', null, t))); ab.appendChild(ul); c1.appendChild(ab); }
+    if ((D.profile || {}).about) { const ab = el('details', 'ns-about'); ab.append(el('summary', null, 'How the "For EVs / batteries / BESS" lines work')); ab.appendChild(el('p', null, D.profile.about)); const ul = el('ul'); Object.values(D.profile.keys || {}).forEach((t) => ul.appendChild(el('li', null, t))); ab.appendChild(ul); c1.appendChild(ab); }
     // 2. alerts
     const al = all.filter((n) => n.alert && n.date >= new Date(+ist - 14 * 864e5).toISOString().slice(0, 10)).slice(0, 5);
     if (al.length) {
@@ -2097,7 +2097,7 @@
     if (days > 0 && days <= 120) when.appendChild(el('b', 'rule-soon', days === 1 ? ' · tomorrow' : ` · in ${days} days`));
     c.appendChild(when);
     c.appendChild(el('p', 'rule-what', r.what));
-    const imp = el('div', 'rule-impact'); imp.append(el('b', null, 'What it means for us'), el('p', null, r.us || r.impact)); c.appendChild(imp);
+    const imp = el('div', 'rule-impact'); imp.append(el('b', null, 'What it means'), el('p', null, r.so || r.impact)); c.appendChild(imp);
     const tags = el('div', 'rule-tags');
     (r.effects || []).forEach((e) => tags.appendChild(el('span', 'rtag ' + effectClass(e), e)));
     (r.affects || []).forEach((a) => tags.appendChild(el('span', 'rtag ef-affects', a)));

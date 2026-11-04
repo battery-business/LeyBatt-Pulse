@@ -1,13 +1,16 @@
 {
- "about": "The \"For us\" lines read each story from Ashok Leyland's side, using only public facts about its businesses. They are a quick first read, written each morning with the news, not company analysis.",
- "sells": ["Trucks and buses, diesel and electric (including Switch Mobility's electric buses and light trucks)", "Battery packs", "Battery storage systems"],
- "buys": ["LFP battery cells, mostly imported from China", "Lithium and other cell materials, through the price of cells"],
- "competitors": ["Tata Motors", "Olectra", "JBM", "PMI Electro Mobility", "EKA Mobility", "VE Commercial Vehicles (Eicher)", "Energy In Motion", "Blue Energy Motors", "Indian storage-system makers and integrators"],
+ "about": "Each story carries a one-line read of what it means for one of three segments: EVs (electric buses, trucks, cars and two-wheelers), batteries (cells, packs, lithium and cell materials) or BESS (battery energy storage systems). Tags show the direction: lower or higher battery costs, more or less demand, competition, supply and policy. Written each morning with the news; a quick first read, not analysis.",
+ "segments": {
+  "EVs": "Electric buses, trucks, cars and two-wheelers, and their makers and charging or swapping.",
+  "Batteries": "Cells, packs and BMS, lithium and cell materials, and the companies that make them.",
+  "BESS": "Battery energy storage systems: tenders, projects, prices and makers."
+ },
+ "focus": "India first, then China (the main source of cells and materials), then the rest of the world. Commercial vehicles (e-buses, e-trucks) and grid storage matter most.",
  "keys": {
-  "cost": "Our input costs: cells, and the lithium and materials inside them. Lower is good for us.",
-  "demand": "Demand for what we sell: electric buses and trucks, packs and storage systems. Higher is good for us.",
-  "competition": "Competition for our buses, trucks, packs and storage systems. More is bad for us.",
-  "supply": "How safely we can get cells and materials. Easier is good for us.",
-  "policy": "Rules and incentives that help or hurt us."
+  "cost": "Battery costs: cells and the lithium and materials inside them.",
+  "demand": "Demand for EVs, batteries or storage systems.",
+  "competition": "New makers, capacity or products entering a market.",
+  "supply": "How easily cells and materials can be obtained.",
+  "policy": "Rules and incentives."
  }
 }

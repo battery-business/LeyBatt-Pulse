@@ -14,6 +14,7 @@ on:
       - "!data/pricelog.json"
       - "!data/history/**"
       - "!data/scenarios.json"
+      - "!data/markets.json"
   schedule:
     - cron: "20 23 * * *"   # 23:20 UTC = 04:50 IST
   workflow_dispatch:
@@ -45,7 +46,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A data/history
-          for f in data/risk.json data/risk_history.json data/pricelog.json data/scenarios.json; do [ -f "$f" ] && git add "$f"; done
+          for f in data/risk.json data/risk_history.json data/pricelog.json data/scenarios.json data/markets.json; do [ -f "$f" ] && git add "$f"; done
           if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
           git commit -q -m "Risk navigator update $(TZ=Asia/Kolkata date +'%-d %b %Y')"
           for i in 1 2 3; do

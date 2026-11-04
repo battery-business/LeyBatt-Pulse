@@ -1,15 +1,15 @@
 (() => {
   'use strict';
-  const FILES = ['meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['markets', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'calculator', 'storage', 'risk', 'brief', 'chain'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { lithium: 'materials/lithium', cells: 'materials/cells', systems: 'materials/systems' };
-  const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo' };
+  const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo', system_award: '--indigo' };
   const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
   const catColor = (c) => css(CAT_COLOR[c] || '--slate');
-  const CARD_TAB = { lithium: 'materials/lithium', cathode: 'materials/all', cell314: 'materials/cells', cell587: 'materials/cells', evcell: 'materials/cells', pack: 'materials/all', system: 'materials/systems' };
+  const CARD_TAB = { lithium: 'chain/mining', cathode: 'chain/materials', cell314: 'chain/cells', cell587: 'materials/cells', evcell: 'chain/cells', pack: 'materials/all', system: 'chain/systems', system_award: 'materials/systems' };
 
   const D = {};
   const S = {
@@ -93,13 +93,14 @@
     svg.append('line').attr('x1', left).attr('x2', W - right).attr('y1', H - 30).attr('y2', H - 30).attr('stroke', css('--axis'));
     const r = pts.length > 60 ? 2.5 : 3.5;
     const dense = (s) => s.points.length > 150; // long daily histories: a clean line, no dots
-    const labels = [];
+    const labels = []; let gaps = false;
     vis.forEach((s) => {
       if (band) {
         const bp = s.points.filter((p) => p.lo != null && p.hi != null);
         if (bp.length > 1) svg.append('path').datum(bp).attr('fill', s.color).attr('fill-opacity', 0.12).attr('d', d3.area().x((p) => xS(p.d)).y0((p) => yS(p.lo)).y1((p) => yS(p.hi)));
       }
       const withGaps = s.points.flatMap((p, i) => (i && (p.d - s.points[i - 1].d) / 864e5 > 75 ? [null, p] : [p])); // no line across months with no readings
+      s.points.forEach((p, i) => { if (i && (p.d - s.points[i - 1].d) / 864e5 > 75) { gaps = true; svg.append('line').attr('x1', xS(s.points[i - 1].d)).attr('y1', yS(s.points[i - 1].v)).attr('x2', xS(p.d)).attr('y2', yS(p.v)).attr('stroke', s.color).attr('stroke-width', 1.5).attr('stroke-dasharray', '2 5').attr('stroke-linecap', 'round').attr('opacity', 0.7); } }); // dashed: no readings in between
       svg.append('path').datum(withGaps).attr('class', 'drawline').attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', d3.line().defined((p) => p != null).x((p) => xS(p.d)).y((p) => yS(p.v)));
       if (!dense(s)) svg.append('g').selectAll('circle').data(s.points).join('circle').attr('class', 'dot').attr('cx', (p) => xS(p.d)).attr('cy', (p) => yS(p.v)).attr('r', r).attr('fill', s.color).attr('stroke', css('--panel')).attr('stroke-width', 1.2);
       const last = s.points[s.points.length - 1];
@@ -129,6 +130,7 @@
         });
       })
       .on('pointerleave', () => { rule.attr('opacity', 0); hl.selectAll('circle').remove(); hideTip(); });
+    if (gaps) box.appendChild(el('p', 'chart-note', 'Dotted line: no published readings between those dates.'));
     if (rangeDays) { // say so when a line has less history than the period chosen
       const late = vis.filter((s) => +s.points[0].d > +cutoff + 45 * 864e5);
       if (late.length) box.appendChild(el('p', 'chart-note', late.map((s) => `${s.name}: readings start ${d3.utcFormat('%b %Y')(s.points[0].d)}${s.since ? ` (${s.since})` : ''}`).join(' · ') + '.'));
@@ -201,6 +203,71 @@
   const ilSpotMap = () => new Map((D.lithium || []).filter((r) => r.series === 'Spot' && /^InfoLink/.test(r.source)).map((r) => [r.date, +r.usd_t]));
   const cellMap = () => new Map((D.cell314 || []).map((r) => [r.date, +r.usd_kwh]));
 
+  // ---------- one number, one source, one age ----------
+  // normalizeData() runs once after loading, so the cards, the strip, the steps and the calculator all show the same
+  // value, the same comparison ("vs <date>", about a week back) and the same date for each price.
+  const REF_IDS = new Set(['cell587', 'pack', 'system_award']); // published rarely: shown apart from today's prices
+  const BASIS = { lithium: 'China price, includes 13% VAT', cathode: 'China price, includes 13% VAT', cell314: 'Excludes VAT', cell587: 'Excludes VAT', evcell: 'Excludes VAT', system: 'Excludes VAT', system_award: 'Excludes VAT', pack: 'Global average' };
+  const isoDay = (d) => d.toISOString().slice(0, 10);
+  // latest reading vs the one about a week earlier (or the previous reading, when readings are rarer than weekly)
+  function moveVs(pts, minDays = 6) {
+    if (!pts || pts.length < 2) return null;
+    const last = pts[pts.length - 1]; let prev = null;
+    for (let i = pts.length - 2; i >= 0; i--) { prev = pts[i]; if ((last.d - pts[i].d) / 864e5 >= minDays) break; }
+    const pct = (last.v / prev.v - 1) * 100, flat = Math.abs(pct) < 0.05;
+    return { last, prev, pct, move: (flat ? 'Flat' : pctS(pct)) + ' vs ' + shortDay(prev.d), direction: flat ? 'flat' : pct < 0 ? 'down' : 'up' };
+  }
+  const ptsOf = (rows, key, keep = () => true) => [...(rows || [])].filter(keep).map((r) => ({ d: parse(r.date), v: +r[key], source: r.source, url: r.url })).filter((p) => p.v > 0).sort((a, b) => a.d - b.d);
+  const smmSpot = () => ptsOf(D.lithium, 'usd_t', (r) => r.series === 'Spot' && /^SMM/.test(r.source || ''));
+  function normalizeData() {
+    const L = D.latest || (D.latest = []); const byId = Object.fromEntries(L.map((r) => [r.id, r]));
+    const apply = (r, m, price, keepSource) => { if (!r || !m) return; r.move = m.move; r.direction = m.direction; r.date = isoDay(m.last.d); r.asof = shortDay(m.last.d); if (price) r.price = price(m.last.v); if (m.last.source && !keepSource) r.source = m.last.source; if (m.last.url) r.url = m.last.url; };
+    // lithium: Guangzhou futures (most-traded contract), the same basis as the forecast
+    if (byId.lithium) { apply(byId.lithium, moveVs(futPts()), fmtUsd0, true); byId.lithium.source = 'Guangzhou futures, via SMM'; }
+    // 314 Ah storage cell: InfoLink weekly average
+    if (byId.cell314) apply(byId.cell314, moveVs(ptsOf(D.cell314, 'usd_kwh')), fmtUsd1);
+    // EV cells: one TrendForce average for all prismatic LFP EV cells (not a price per cell size)
+    if (byId.evcell) { byId.evcell.label = 'EV prismatic LFP cell, average of all sizes'; apply(byId.evcell, moveVs(ptsOf((D.evcells || {}).series, 'usd_kwh')), fmtUsd1); }
+    // storage system: the weekly China spot price leads; the monthly tender-award average becomes a reference price
+    const sys = byId.system, wk = weekly();
+    if (sys && !byId.system_award) {
+      const aw = { ...sys, id: 'system_award', layer: 'Container', label: '4-hour system, China tender awards (monthly average)' };
+      const ap = (D.systems || []).map((r) => { const m = String(r.period || '').match(/([A-Za-z]{3})[a-z]*\s+(\d{4})/); return m ? { d: new Date(Date.UTC(+m[2], MON[m[1].toLowerCase()] + 1, 0)), v: +r.usd_kwh, source: r.source, url: r.url } : null; }).filter(Boolean).sort((a, b) => a.d - b.d);
+      const am = moveVs(ap, 20); if (am) { apply(aw, am, fmtUsd1); aw.asof = d3.utcFormat('%b %Y')(am.last.d); aw.move = am.move.replace(/vs \d+ (\w+)/, 'vs $1'); }
+      L.push(aw); byId.system_award = aw;
+      const sp = ptsOf(wk, 'ac_4h');
+      if (sp.length) { Object.assign(sys, { label: '4-hour AC storage system, China spot', layer: 'Container', unit: 'per kWh' }); apply(sys, moveVs(sp), fmtUsd1); if (!sys.source || /TrendForce/.test(sys.source)) sys.source = 'InfoLink weekly'; }
+    }
+    // copper and aluminium: the LME cash price from the nightly job, the same series as the charts
+    const mk = D.markets || {};
+    [['Copper', mk.copper], ['Aluminium', mk.aluminium]].forEach(([name, m]) => {
+      const r = (D.rawmats || []).find((x) => x.material === name); if (!r || !m || !(m.recent || []).length) return;
+      const pts = m.recent.map(([d, v]) => ({ d: parse(d), v: +v, source: 'LME cash settlement', url: m.url }));
+      const mv = moveVs(pts); const own = dateFromAsof(r.asof);
+      if (!mv || (own && own > mv.last.d)) return;
+      apply(r, mv, fmtUsd0); r.usd = mv.last.v; r.source = 'LME cash settlement (via Westmetall)'; r.url = m.url; delete r.source2; delete r.url2;
+    });
+    // every price carries a machine date, so its age can be shown
+    [...L, ...(D.rawmats || [])].forEach((r) => { if (!r.date) { const d = dateFromAsof(r.asof); if (d) r.date = isoDay(d); } });
+    L.forEach((r) => { r.basis = BASIS[r.id] || ''; });
+    [...L, ...(D.rawmats || [])].forEach((r) => { if (r.move) r.move = String(r.move).replace(/\bsince (\d{1,2} [A-Z][a-z]{2})\b/, 'vs $1'); }); // one way of saying it
+  }
+  // how old a price is: today, yesterday, 5 days, 2 weeks, 5 months…; amber once past 10 days, grey past 45
+  function ageOf(r) {
+    const d = r && r.date ? parse(r.date) : dateFromAsof(r && r.asof); if (!d) return null;
+    const days = Math.max(0, Math.round((istToday() - d) / 864e5));
+    const wk = Math.round(days / 7), mo = Math.round(days / 30.4), yr = Math.floor(days / 365);
+    const label = days === 0 ? 'today' : days === 1 ? 'yesterday' : days < 10 ? `${days} days old` : days < 60 ? `${wk} weeks old` : days < 365 ? `${mo} months old` : `${yr} year${yr > 1 ? 's' : ''} old`;
+    const short = days <= 1 ? label : days < 10 ? `${days}d` : days < 60 ? `${wk} wk` : days < 365 ? `${mo} mo` : `${yr} yr`;
+    return { days, label, short, cls: days <= 3 ? 'fresh' : days <= 10 ? 'recent' : days <= 45 ? 'stale' : 'old' };
+  }
+  function ageTag(r, compact = false) {
+    const a = ageOf(r); if (!a) return document.createTextNode('');
+    const t = el('span', 'age age-' + a.cls, compact ? a.short : a.label);
+    t.title = a.cls === 'fresh' || a.cls === 'recent' ? 'Latest reading' : a.cls === 'stale' ? 'Older than 10 days: the source has not published a newer figure' : 'Older than 45 days: the latest public figure, published rarely';
+    return t;
+  }
+
   // ---------- renderers ----------
   function renderHeader() {
     const m = D.meta;
@@ -229,7 +296,7 @@
     const M = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const unitOf = (u) => ({ 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' }[u] || '');
     const chg = (r) => { const m = String(r.move || '').match(/([+−-]?\d+(?:\.\d+)?)%/); if (m) return m[1].replace(/^[+−-]/, '') + '%'; return /stable|flat|steady/i.test(r.move || '') ? 'flat' : ''; };
-    const price = (name, r, to) => r && out.push({ k: 'price', name, val: r.price + unitOf(r.unit), chg: chg(r), dir: chg(r) === 'flat' ? 'flat' : r.direction, tip: `${r.move || ''} · ${r.asof} · ${r.source}`, to });
+    const price = (name, r, to) => r && out.push({ k: 'price', name, val: r.price + unitOf(r.unit), chg: chg(r), dir: chg(r) === 'flat' ? 'flat' : r.direction, tip: `${r.move || ''} · ${r.asof} · ${r.source}`, to, age: ageOf(r) });
     // headline prices, then the chain from ore to system, then metals
     price('Lithium carbonate', L.lithium, CARD_TAB.lithium);
     price('Spodumene', M['Spodumene SC6'], 'materials/lithium');
@@ -241,13 +308,13 @@
     price('314 Ah cell', L.cell314, CARD_TAB.cell314);
     price('EV cell', L.evcell, CARD_TAB.evcell);
     const wk = weekly(); const w1 = wk[wk.length - 1], w0 = wk[wk.length - 2];
-    if (w1 && w1.ac_2h) {
+    if (w1 && w1.ac_2h && false) {
       const pc = w0 && w0.ac_2h ? (w1.ac_2h / w0.ac_2h - 1) * 100 : null;
       out.push({ k: 'price', name: '2-h system', val: `$${(+w1.ac_2h).toFixed(1)}/kWh`, chg: pc == null ? '' : Math.abs(pc) < 0.05 ? 'flat' : Math.abs(pc).toFixed(1) + '%', dir: pc == null || Math.abs(pc) < 0.05 ? 'flat' : pc < 0 ? 'down' : 'up', tip: `China AC system, week to ${w1.date} · InfoLink`, to: CARD_TAB.system });
     }
     price('4-h system', L.system, CARD_TAB.system);
-    price('Copper', M.Copper, 'materials/all');
-    price('Aluminium', M.Aluminium, 'materials/all');
+    price('Copper', M.Copper, 'chain/mining');
+    price('Aluminium', M.Aluminium, 'chain/mining');
     // the three highest risk scores (Risk Navigator, next 3 months)
     riskStripItems().forEach(({ m, ax, a }) => out.push({ k: 'risk', name: `${m.short} ${ax}`, score: a.score, level: a.level, change: a.change, id: m.id, tip: `${m.name}: ${ax} risk ${a.score}/10 (${a.level}), next 3 months` }));
     // dates in the next three weeks
@@ -277,6 +344,7 @@
         const arrow = it.dir === 'down' ? '▼' : it.dir === 'up' ? '▲' : '';
         b.append(el('span', 'tn', it.name), el('span', 'tv', it.val));
         if (it.chg) b.appendChild(el('span', 'tc ' + (it.dir === 'down' ? 'is-down' : it.dir === 'up' ? 'is-up' : 'is-flat'), it.chg === 'flat' ? 'flat' : arrow + it.chg));
+        if (it.age && (it.age.cls === 'stale' || it.age.cls === 'old')) b.appendChild(el('span', 'tage', it.age.short + ' old'));
         b.addEventListener('click', () => go(it.to));
       } else if (it.k === 'risk') {
         b = el('button', 'tick tk-risk'); b.type = 'button';
@@ -292,7 +360,7 @@
         b.append(el('span', 'tt', it.text), el('span', 'td', it.day + ' ↗'));
       }
       b.title = it.tip || '';
-      if (!live) b.tabIndex = -1;
+      b.tabIndex = -1; // the strip repeats what the pages show: keep it out of the keyboard order
       seg.appendChild(b);
     });
     return seg;
@@ -355,25 +423,27 @@
     renderChainHero();
     renderSince();
     { const rp = !S.resizing; requestAnimationFrame(() => reveal($('#page-overview'), rp)); }
-    // changes
-    const w = weekly(); const ul = $('#changes'); ul.replaceChildren();
-    if (w.length >= 2) {
-      const a = w[w.length - 2], b = w[w.length - 1];
-      $('#wow-sub').textContent = `InfoLink weekly prices, ${shortDay(parse(a.date))} → ${shortDay(parse(b.date))}. Lower is better for a buyer.`;
-      const fut = futPts();
-      const items = [
-        ['Lithium carbonate, spot', a.lithium_usd_t, b.lithium_usd_t, fmtUsd0, '/t'],
-        ['314 Ah LFP cell', a.cell314, b.cell314, fmtUsd1, '/kWh'],
-        ['4-hour AC system', a.ac_4h, b.ac_4h, fmtUsd1, '/kWh'],
-        ['2-hour DC system', a.dc_2h, b.dc_2h, fmtUsd1, '/kWh'],
-      ];
-      if (fut.length >= 2) items.unshift([`Lithium futures (${shortDay(fut[fut.length - 2].d)} → ${shortDay(fut[fut.length - 1].d)})`, fut[fut.length - 2].v, fut[fut.length - 1].v, fmtUsd0, '/t']);
-      items.forEach(([name, x, y, f, u]) => {
-        const ch = (y / x - 1) * 100; const li = el('li');
-        li.append(el('span', null, name), el('span', 'v', f(y) + u), el('span', 'd' + (Math.abs(ch) < 0.05 ? '' : ch < 0 ? ' is-down' : ' is-up'), Math.abs(ch) < 0.05 ? 'flat' : pctS(ch)));
-        ul.appendChild(li);
-      });
-    }
+    // what moved: each line compares its latest reading with the one about a week earlier, from the same source
+    const ul = $('#changes'); ul.replaceChildren();
+    const mk = D.markets || {}; const mpts = (m) => ((m || {}).recent || []).map(([d, v]) => ({ d: parse(d), v: +v }));
+    const wk = weekly();
+    const items = [
+      ['Lithium carbonate futures', 'Guangzhou', futPts(), fmtUsd0, '/t'],
+      ['Lithium carbonate, China spot', 'SMM', smmSpot(), fmtUsd0, '/t'],
+      ['314 Ah storage cell', 'InfoLink', ptsOf(D.cell314, 'usd_kwh'), fmtUsd1, '/kWh'],
+      ['4-hour AC system, China', 'InfoLink', ptsOf(wk, 'ac_4h'), fmtUsd1, '/kWh'],
+      ['2-hour DC block, China', 'InfoLink', ptsOf(wk, 'dc_2h'), fmtUsd1, '/kWh'],
+      ['Copper', 'LME', mpts(mk.copper), fmtUsd0, '/t'],
+      ['Aluminium', 'LME', mpts(mk.aluminium), fmtUsd0, '/t'],
+    ];
+    items.forEach(([name, src, pts, f, u]) => {
+      const m = moveVs(pts); if (!m) return;
+      const li = el('li'); const nm = el('span'); nm.append(document.createTextNode(name), el('small', null, ` ${src}, ${shortDay(m.prev.d)} → ${shortDay(m.last.d)}`));
+      if ((istToday() - m.last.d) / 864e5 > 10) nm.appendChild(ageTag({ date: isoDay(m.last.d) }, true));
+      li.append(nm, el('span', 'v', f(m.last.v) + u), el('span', 'd' + (m.direction === 'flat' ? '' : m.direction === 'down' ? ' is-down' : ' is-up'), m.direction === 'flat' ? 'flat' : pctS(m.pct)));
+      ul.appendChild(li);
+    });
+    $('#wow-sub').textContent = 'Latest reading against the one about a week earlier, same source. ▼ cheaper for a buyer.';
     // coming up: dates to watch and rule changes in one timeline
     datesList($('#ov-coming'), comingUp(null, 6));
     // latest news
@@ -684,19 +754,18 @@
   // ---------- raw materials: price map ----------
   // Each step lists [kind, key, display name, short description]; kind 'latest' = latest.json id, 'raw' = rawmats material.
   const FLOW = [
-    { step: 'Mined and refined inputs', color: '--amber', items: [['latest', 'lithium', 'Lithium carbonate', 'China futures price'], ['raw', 'Spodumene SC6', 'Spodumene', 'Lithium ore, 6% grade'], ['raw', 'Lithium hydroxide', 'Lithium hydroxide', 'Lithium salt, delivered Asia'], ['raw', 'Copper', 'Copper', 'World benchmark price'], ['raw', 'Aluminium', 'Aluminium', 'World benchmark price']] },
+    { step: 'Mined and refined inputs', color: '--amber', items: [['latest', 'lithium', 'Lithium carbonate', 'China futures price, includes 13% VAT'], ['raw', 'Spodumene SC6', 'Spodumene', 'Lithium ore, 6% grade'], ['raw', 'Lithium hydroxide', 'Lithium hydroxide', 'Lithium salt, delivered Asia'], ['raw', 'Copper', 'Copper', 'World benchmark price'], ['raw', 'Aluminium', 'Aluminium', 'World benchmark price']] },
     { step: 'Cathode and anode', color: '--plum', items: [['raw', 'Iron phosphate', 'Iron phosphate', 'Raw material for the cathode'], ['latest', 'cathode', 'LFP cathode', 'Cathode powder, China'], ['raw', 'Graphite anode', 'Graphite anode', 'Artificial graphite, storage grade']] },
     { step: 'Other cell materials', color: '--teal', items: [['raw', 'LFP electrolyte', 'Electrolyte', 'Liquid inside LFP cells'], ['raw', 'Separator', 'Separator', 'Film between the electrodes'], ['raw', 'Copper foil', 'Copper foil', 'Carries current on the anode side'], ['raw', 'Aluminium foil', 'Aluminium foil', 'Carries current on the cathode side']] },
-    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid'], ['ev', 0], ['ev', 1]] },
-    { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey'], ['latest', 'system', '4-hour storage system', 'China tender awards']] },
+    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid'], ['ev', 0]] },
+    { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'system', '4-hour AC storage system', 'China spot price, weekly (InfoLink)'], ['latest', 'system_award', '4-hour storage system', 'China tender awards, monthly average (TrendForce)'], ['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey (BloombergNEF)']] },
   ];
-  const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', evcell: 'cells', system: 'systems' }; // only items with a price history on the site
+  const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', evcell: 'cells', system: 'systems', system_award: 'systems' }; // only items with a price history on the site
   const UNIT_SHORT = { 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' };
   const numOf = (p) => (/\d/.test(p || '') ? Number(String(p).replace(/[^0-9.]/g, '')) : null);
   const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
   // Age in days of an "as of" label such as "19 Oct", "21–24 Sep", "Feb 2026", "Jul", "2025".
-  function ageDays(asof) {
-    const ref = D.meta ? parse(D.meta.updated) : new Date();
+  function dateFromAsof(asof, ref = new Date(istToday())) { // "19 Oct", "21–24 Sep", "Feb 2026", "Jul", "2025" → a date (end of the period)
     const t = String(asof || '');
     const yr = (t.match(/(20\d\d)/) || [])[1];
     const m = t.match(/(?:(\d{1,2})\s*(?:[–-]\s*(\d{1,2}))?\s+)?([A-Za-z]{3})[a-z]*/);
@@ -707,11 +776,16 @@
       d = day ? new Date(Date.UTC(y, mo, +day)) : new Date(Date.UTC(y, mo + 1, 0));
       if (!yr && d > ref) d = new Date(Date.UTC(y - 1, d.getUTCMonth(), d.getUTCDate()));
     } else if (yr) d = new Date(Date.UTC(+yr, 11, 31));
-    else return 999;
-    return Math.round((ref - d) / 864e5);
+    else return null;
+    return d;
+  }
+  // Age in days of an "as of" label, counted from the last data update.
+  function ageDays(asof) {
+    const ref = D.meta ? parse(D.meta.updated) : new Date();
+    const d = dateFromAsof(asof, ref); return d ? Math.round((ref - d) / 864e5) : 999;
   }
   // how often each source normally publishes (kept for the CSV and price map)
-  const CADENCE_ID = { lithium: 'daily', cathode: 'weekly', cell314: 'weekly', cell587: 'irregular', evcell: 'weekly', pack: 'annual', system: 'monthly' };
+  const CADENCE_ID = { lithium: 'daily', cathode: 'weekly', cell314: 'weekly', cell587: 'irregular', evcell: 'weekly', pack: 'annual', system: 'weekly', system_award: 'monthly' };
   const CADENCE_RAW = { 'Lithium hydroxide': 'daily', Copper: 'daily', Aluminium: 'daily', 'Copper foil': 'irregular', 'Aluminium foil': 'irregular' };
 
   function allPrices() {
@@ -719,9 +793,9 @@
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
-      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmt2(e.perCell).replace('.00', '')} per cell (${e.kwh.toFixed(2)} kWh) at the EV average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: e.asof, move: e.move, direction: e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
+      if (kind === 'ev') { const ev = evRows(); const e = ev[0]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: 'EV prismatic LFP cell', desc: 'One average for all sizes, not a price per size. At this average: ' + ev.map((x) => `${x.format} about ${fmtUsd0(x.perCell)} a cell`).join(', '), price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
-      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
+      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
     // anything new in rawmats.json that the map does not know yet goes under "Other cell materials"
     (D.rawmats || []).filter((r) => !used.has(r.material)).forEach((r) => steps[2].rows.push({ name: r.material, desc: r.role, price: r.price, usd: r.usd, unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, chart: null, step: steps[2].step }));
@@ -738,7 +812,7 @@
         const c = el('div', 'pcard');
         const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
         const meta = el('div', 'pm');
-        meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url));
+        meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url), document.createTextNode(' '), ageTag(r));
         c.append(el('div', 'pn', r.name), el('div', 'pd', r.desc || ''), pr);
         if (r.move) c.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
         c.appendChild(meta);
@@ -769,7 +843,7 @@
   const perT = (v) => fmtUsd0(v) + '/t', perK = (v) => fmtUsd1(v) + '/kWh';
   const fmtM = (v) => (Math.abs(v) >= 100 ? d3.format('$,.0f')(v) : d3.format('$,.1f')(v)) + 'M';
   const INPUTS = [
-    { k: 'li', g: 'Cathode', label: 'Lithium carbonate', min: 6000, max: 40000, step: 10, f: perT },
+    { k: 'li', g: 'Cathode', label: 'Lithium carbonate (China spot)', min: 6000, max: 40000, step: 10, f: perT },
     { k: 'fe', g: 'Cathode', label: 'Iron phosphate', min: 800, max: 4500, step: 10, f: perT },
     { k: 'proc', g: 'Cathode', label: 'Cathode processing fee', min: 200, max: 3000, step: 10, f: perT },
     { k: 'gr', g: 'Anode, electrolyte, separator', label: 'Graphite anode', min: 1500, max: 7000, step: 10, f: perT },
@@ -1133,6 +1207,7 @@
     else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'), el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
     li.append(meta, el('div', 'h', n.headline), src);
+    if (feed) src.appendChild(shareBtn('news?story=' + n.id, 'Link', 'Story link'));
     return li;
   }
   function renderNews() {
@@ -1912,6 +1987,7 @@
     const src = el('div', 'rule-src'); src.appendChild(link(r.source, r.url));
     if (r.url2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(r.source2, r.url2)); }
     src.appendChild(el('span', 'rule-checked', ` · checked ${d3.utcFormat('%-d %b %Y')(parse(r.checked))}`));
+    src.appendChild(shareBtn('rules?rule=' + r.id, 'Link', 'Rule link'));
     c.appendChild(src);
     return c;
   }
@@ -2026,7 +2102,7 @@
     (D.news || []).forEach((n) => { if (!seen.has(n.id)) VISIT.news.add(n.id); });
     (D.regulations || []).forEach((r) => { const o = (P.r || {})[r.id]; if (o !== ruleSig(r)) { VISIT.rules.add(r.id); VISIT.ruleOld.set(r.id, o || null); } });
     (D.latest || []).forEach((r) => {
-      const o = (P.p || {})[r.id]; if (!o || (o[0] === r.price && o[1] === r.asof)) return;
+      const o = (P.p || {})[r.id]; if (!o || o[0] === r.price) return; // a new reading at the same price is not a change
       const a = numOf(o[0]), b = numOf(r.price);
       VISIT.prices.set(r.id, { from: o[0], to: r.price, pct: a && b ? (b / a - 1) * 100 : null });
     });
@@ -2065,9 +2141,7 @@
     const box = $('#since'); if (!box) return;
     box.replaceChildren();
     if (VISIT.first) {
-      box.hidden = false; box.className = 'sincebar is-first';
-      box.append(el('span', 'since-dot'), el('span', 'since-lead', 'Welcome.'), document.createTextNode(' From your next visit, this line will show what changed since you were last here: new stories, price moves and rule changes.'));
-      return;
+      box.hidden = true; return; // nothing to compare yet
     }
     if (!VISIT.prev) { box.hidden = true; return; }
     box.hidden = false; box.className = 'sincebar';
@@ -2276,6 +2350,8 @@
     calc: 'M6.5 2.5h11A1.5 1.5 0 0 1 19 4v16a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V4a1.5 1.5 0 0 1 1.5-1.5zM8 6h8v3.5H8zM8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01',
     shield: 'M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6L12 2.5zM9 12l2.2 2.2L15.5 10',
     map: 'M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20V6.5zM9 4v13.5M15 6.5V20',
+    link: 'M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2',
+    chain: 'M4 6h4v4H4zM10 14h4v4h-4zM16 6h4v4h-4zM8 8h8M12 10v4',
   };
   // ---------- page headers: the value-chain step header, reused on every inner page ----------
   const HERO = {
@@ -2328,10 +2404,10 @@
   function chainKey(c) {
     if (c.key[0] === 'tender') {
       const t = stTenders(); const l = t[t.length - 1]; if (!l) return null;
-      return { label: 'Latest India storage tender', value: `₹${l.low}`, unit: ' lakh/MW', move: `a month · ${l.agency}, ${d3.utcFormat('%-d %b')(parse(l.date))}`, dir: 'flat' };
+      return { label: 'Latest India storage tender, lowest winning bid', value: `₹${l.low}`, unit: ' lakh/MW/month', move: `${l.agency}, ${l.hours}-hour`, dir: 'flat', row: { date: l.date, asof: d3.utcFormat('%-d %b')(parse(l.date)) } };
     }
     const r = (D.latest || []).find((x) => x.id === c.key[1]); if (!r) return null;
-    return { label: r.label, value: r.price, unit: UNIT_SHORT[r.unit] || '', move: r.move, dir: r.direction };
+    return { label: r.label, value: r.price, unit: UNIT_SHORT[r.unit] || '', move: r.move, dir: r.direction, row: r };
   }
   function renderChainHero() {
     const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
@@ -2346,7 +2422,7 @@
       const b = el('button', 'ch-node'); b.type = 'button'; b.setAttribute('aria-label', `${c.name}: open prices, news and risks`);
       const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
       const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
-      if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move)); }
+      if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move)); if (k.row) { const a = ageOf(k.row); if (a && a.days > 10) txt.appendChild(ageTag(k.row)); } }
       txt.appendChild(el('span', 'ch-more', 'Explore ›'));
       b.append(orb, txt);
       b.addEventListener('click', () => go('chain/' + c.id));
@@ -2355,23 +2431,27 @@
     box.appendChild(row);
     renderToday();
   }
-  function renderToday() { // today's prices: the cards with small charts, under the hero
+  function renderToday() { // today's prices: the cards with small charts, under the hero; rarely published prices below them
     const box = $('#today-band'); if (!box) return; box.replaceChildren();
-    box.append(el('h2', 'tb-title rv', "Today's prices."), el('p', 'tb-sub rv', 'From lithium to a finished storage system. Click a card for its full history.'));
+    box.append(el('h2', 'tb-title rv', "Today's prices."), el('p', 'tb-sub rv', 'From lithium to a finished storage system. Each change compares the latest reading with the one about a week earlier. Raw materials are China prices including 13% VAT; cells and systems exclude it. Click a card for its full history.'));
     const mon = d3.utcFormat('%b %Y');
     const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
     const sparks = {
       evcell: [evs.map((r) => r.usd_kwh), evs[0] && mon(parse(evs[0].date))],
       lithium: [fut.map((p) => p.v), fut[0] && mon(fut[0].d)],
       cell314: [wk.map((w) => w.cell314), wk[0] && mon(parse(wk[0].date))],
-      system: [(D.systems || []).map((r) => +r.usd_kwh), (D.systems || [])[0] && (D.systems || [])[0].period],
+      system: [wk.map((w) => +w.ac_4h).filter((v) => v > 0), wk[0] && mon(parse(wk[0].date))],
     };
-    const cards = el('div', 'cards tb-cards'); cards.id = 'cards'; box.appendChild(cards);
-    (D.latest || []).forEach((r) => {
-      const c = el('button', 'card rv layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = 'Open its prices';
-      const un = el('span', 'unit', `${r.unit} · ${r.asof}`);
+    const all = D.latest || [];
+    const head = all.filter((r) => !REF_IDS.has(r.id) && (ageOf(r) || {}).cls !== 'old');
+    const ref = all.filter((r) => !head.includes(r));
+    const cards = el('div', 'cards tb-cards'); cards.id = 'cards'; cards.style.setProperty('--n', head.length); box.appendChild(cards);
+    head.forEach((r) => {
+      const c = el('button', 'card rv layer-' + r.id); c.type = 'button'; c.id = 'card-' + r.id; c.title = (r.basis ? r.basis + '. ' : '') + 'Open its prices';
+      const un = el('span', 'unit'); un.append(document.createTextNode(`${r.unit} · ${r.asof} `), ageTag(r));
       const vc = VISIT.prices.get(r.id); if (vc) un.appendChild(newTag(`Changed since your last visit: ${vc.from} → ${vc.to}`));
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
+      if (r.id === 'lithium') { const sp = smmSpot(); const l = sp[sp.length - 1]; if (l) c.appendChild(el('span', 'alt', `Spot ${fmtUsd0(l.v)} (${shortDay(l.d)})`)); }
       const sp = el('div', 'sparkbox');
       if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
       else sp.appendChild(el('span', 'none', 'No price history yet'));
@@ -2380,6 +2460,19 @@
       c.addEventListener('click', () => go(CARD_TAB[r.id] || 'overview'));
       cards.appendChild(c);
     });
+    if (ref.length) {
+      const rb = el('div', 'tb-ref rv'); rb.appendChild(el('h3', null, 'Reference prices, published rarely'));
+      const ul = el('ul'); rb.appendChild(ul);
+      ref.forEach((r) => {
+        const li = el('li'); const b = el('button'); b.type = 'button'; b.title = 'Open its prices';
+        const v = el('span', 'rv-v'); v.append(el('b', null, r.price), document.createTextNode(UNIT_SHORT[r.unit] || ''));
+        const m = el('span', 'rv-m'); m.append(document.createTextNode(`${r.asof} · ${r.source} `), ageTag(r));
+        b.append(el('span', 'rv-l', r.label), v, m);
+        b.addEventListener('click', () => go(CARD_TAB[r.id] || 'materials/all'));
+        li.appendChild(b); ul.appendChild(li);
+      });
+      box.appendChild(rb);
+    }
     overviewMotion();
   }
   // Apple-style reveal: sections rise and fade in as they scroll into view (off for reduced motion)
@@ -2389,11 +2482,11 @@
     document.documentElement.classList.add('rv-on');
     if (!reveal.io) reveal.io = new IntersectionObserver((ents) => ents.forEach((e) => {
       const n = e.target, r = e.boundingClientRect;
-      if (e.isIntersecting) { if (n.classList.contains('pre')) playIn(n); }
+      if (e.isIntersecting && (e.intersectionRatio >= 0.08 || r.height > window.innerHeight * 0.6)) { if (n.classList.contains('pre')) playIn(n); } // tall panels (a long news list on a phone) play as soon as they enter
       else if (e.rootBounds && r.height && r.top >= e.rootBounds.bottom) { // scrolled back below the screen: ready to play again
         clearTimeout(n._rvT); n.classList.remove('go'); n.classList.add('pre');
       }
-    }), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    }), { threshold: [0, 0.08], rootMargin: '0px 0px -6% 0px' });
     $$('.rv', root).forEach((n) => {
       const k = Array.prototype.indexOf.call(n.parentNode.children, n) % 8; n.style.setProperty('--rd', (k * 70) + 'ms');
       if (replay) { clearTimeout(n._rvT); n.classList.remove('go'); n.classList.add('pre'); }
@@ -2421,7 +2514,9 @@
     });
   }, { passive: true });
   // ---------- full chart with an optional forecast (opened from the value-chain step charts) ----------
-  const FC = { keys: [], key: null, range: 1827, fc: false, scen: 'base', opener: null };
+  const FC = { keys: [], key: null, range: 1827, fc: false, scen: 'base', opener: null, pushed: false };
+  const FC_GROUP = { lithium: ['lithium', 'copper', 'aluminium'], copper: ['copper', 'aluminium', 'lithium'], aluminium: ['aluminium', 'copper', 'lithium'], cathode: ['cathode', 'lithium'], cell_ess: ['cell_ess', 'cell_ev'], cell_ev: ['cell_ev', 'cell_ess'], sys4: ['sys4', 'sys2', 'dc2'], sys2: ['sys2', 'sys4', 'dc2'], dc2: ['dc2', 'sys4', 'sys2'] };
+  const fcHash = () => `${(location.hash.slice(1) || 'overview').split('?')[0]}?chart=${FC.key}${FC.fc ? '&fc=1' : ''}${FC.fc && FC.scen !== 'base' ? '&scen=' + FC.scen : ''}`;
   const histPts = (rows, key) => [...(rows || [])].sort((a, b) => d3.ascending(a.date, b.date)).map((r) => ({ d: parse(r.date), v: +r[key], source: r.source })).filter((p) => p.v > 0);
   const FC_SERIES = {
     lithium: { name: 'Lithium carbonate', sub: 'Guangzhou futures, US$ per tonne', fmt: fmtUsd0, unit: '/t', mat: 'lithium', hist: () => futHist() },
@@ -2507,7 +2602,7 @@
     let ov = $('#fx-overlay'); if (ov) return ov;
     ov = el('div', 'fx-overlay'); ov.id = 'fx-overlay'; ov.hidden = true; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'fx-title');
     ov.innerHTML = `<div class="fx-sheet" tabindex="-1">
-      <div class="fx-top"><div><p class="ch-eyebrow" id="fx-eyebrow"></p><h2 id="fx-title"></h2><p class="sub" id="fx-sub"></p></div><button type="button" class="fx-close" aria-label="Close">✕</button></div>
+      <div class="fx-top"><div><p class="ch-eyebrow" id="fx-eyebrow"></p><h2 id="fx-title"></h2><p class="sub" id="fx-sub"></p></div><div class="fx-acts" id="fx-acts"><button type="button" class="fx-close" aria-label="Close">✕</button></div></div>
       <div class="ol-mats" id="fx-chips" role="group" aria-label="Series"></div>
       <div class="fx-controls"><div class="seg" id="fx-range" role="group" aria-label="Time range"></div>
         <label class="fx-switch"><input type="checkbox" id="fx-fc"><span class="tr" aria-hidden="true"></span><span>Show forecast</span></label></div>
@@ -2520,22 +2615,29 @@
     </div>`;
     document.body.appendChild(ov);
     ov.addEventListener('click', (e) => { if (e.target === ov) closeFull(); });
-    $('.fx-close', ov).addEventListener('click', closeFull);
+    $('.fx-close', ov).addEventListener('click', () => closeFull());
+    $('#fx-acts', ov).prepend(shareBtn(() => fcHash(), 'Copy link', 'Chart link'));
     $('#fx-fc', ov).addEventListener('change', (e) => { FC.fc = e.target.checked; drawFull(); });
-    $('#fx-how', ov).addEventListener('click', (e) => { e.preventDefault(); closeFull(); go('risk'); setTimeout(() => { const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); }, 120); });
+    $('#fx-how', ov).addEventListener('click', (e) => { e.preventDefault(); FC.pushed = false; closeFull(); go('risk'); setTimeout(() => { const o = $('#outlook'); if (o) o.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); }, 120); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) closeFull(); });
     return ov;
   }
-  function openFull(keys, key, eyebrow, opener) {
-    loadHistory(); const ov = fullUi(); FC.keys = keys; FC.key = key || keys[0]; FC.opener = opener || document.activeElement;
+  function openFull(keys, key, eyebrow, opener, push = true) {
+    loadHistory(); const ov = fullUi(); FC.keys = keys; FC.key = key || keys[0];
+    if (!ov.hidden) { drawFull(); return; } // already open (Back/Forward between two charts)
+    FC.opener = opener || document.activeElement;
+    if (push) { try { const base = location.hash.slice(1) || 'overview'; history.replaceState({ ...(history.state || {}), y: window.scrollY }, ''); history.pushState({ y: window.scrollY, chart: 1 }, '', '#' + fcHash()); NAV.cur = location.hash.slice(1); FC.pushed = base.split('?')[0] === NAV.cur.split('?')[0]; } catch (e) { /* ignore */ } }
     $('#fx-eyebrow').textContent = eyebrow || '';
     ov.hidden = false; document.documentElement.classList.add('fx-open');
     requestAnimationFrame(() => ov.classList.add('on'));
     ensureScen(drawFull); drawFull();
     $('.fx-close', ov).focus();
   }
-  function closeFull() {
+  function closeFull(fromNav = false) {
     const ov = $('#fx-overlay'); if (!ov || ov.hidden) return;
+    if (!fromNav && FC.pushed) { FC.pushed = false; history.back(); return; } // Back closes it, so the close button does the same
+    FC.pushed = false;
+    if (!fromNav) { try { history.replaceState(history.state, '', '#' + (location.hash.slice(1) || 'overview').split('?')[0]); NAV.cur = location.hash.slice(1); } catch (e) { /* ignore */ } }
     ov.classList.remove('on'); hideTip();
     const done = () => { ov.hidden = true; document.documentElement.classList.remove('fx-open'); if (FC.opener && FC.opener.focus) FC.opener.focus(); };
     if (reduced()) done(); else setTimeout(done, 220);
@@ -2543,6 +2645,7 @@
   function drawFull() {
     const ov = $('#fx-overlay'); if (!ov || ov.hidden) return;
     const sr = FC_SERIES[FC.key]; const X = D.scen;
+    if (/[?&]chart=/.test(location.hash)) { try { history.replaceState(history.state, '', '#' + fcHash()); NAV.cur = location.hash.slice(1); } catch (e) { /* ignore */ } }
     $('#fx-title').textContent = sr.name; $('#fx-sub').textContent = sr.sub;
     const chips = $('#fx-chips'); chips.replaceChildren(); chips.hidden = FC.keys.length < 2;
     FC.keys.forEach((k) => { const b = el('button', 'ol-chip', FC_SERIES[k].name); b.type = 'button'; b.setAttribute('aria-pressed', String(k === FC.key)); b.addEventListener('click', () => { FC.key = k; drawFull(); }); chips.appendChild(b); });
@@ -2590,7 +2693,7 @@
     const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(c.icon, 40));
     const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
     hero.append(orb, ht);
-    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); hero.appendChild(kv); }
+    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) { const a = el('span', 'k-age'); a.append(document.createTextNode(k.row.asof + ' · '), ageTag(k.row)); kv.appendChild(a); } hero.appendChild(kv); }
     box.appendChild(hero);
     const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {
@@ -2637,14 +2740,15 @@
     const steps = allPrices();
     const rows = c.flow.flatMap((f) => (steps[f] || {}).rows || []);
     if (rows.length) {
-      const s = section('Prices', 'Latest public price for each item, in US$ excluding VAT.');
+      const s = section('Prices', { mining: 'Latest public price for each item, in US$. Lithium carbonate is a China price including 13% VAT; spodumene and lithium hydroxide are import prices into Asia, and copper and aluminium LME prices, without VAT.', materials: 'Latest public price for each item, in US$. China prices, including 13% VAT, as quoted there.', cells: 'Latest public price for each item, in US$ excluding China\u2019s 13% VAT.', systems: 'Latest public price for each item, in US$ excluding VAT. Use the weekly spot price for today\u2019s equipment cost; the tender-award average shows what Chinese projects actually paid.' }[c.id] || 'Latest public price for each item, in US$.');
       const g = el('div', 'chp-prices');
       rows.forEach((r) => {
         const card = el('div', 'chp-card');
         const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
         card.append(el('div', 'pn', r.name), pr);
         if (r.move) card.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
-        const meta = el('div', 'pm'); meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url)); card.appendChild(meta);
+        if (r.desc && (c.id === 'cells' || c.id === 'systems')) card.appendChild(el('div', 'pd', r.desc));
+        const meta = el('div', 'pm'); meta.append(document.createTextNode(r.asof + ' · '), link(r.source, r.url), document.createTextNode(' '), ageTag(r)); card.appendChild(meta);
         if (r.chart) { const b = el('button', 'btn link small', 'Price history →'); b.type = 'button'; b.addEventListener('click', () => go('materials/' + r.chart)); card.appendChild(b); }
         g.appendChild(card);
       });
@@ -2698,7 +2802,9 @@
 
   // ---------- tabs ----------
   const RENDER = { overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules, brief: renderBrief };
-  function go(route, push = true) {
+  const NAV = { cur: null };
+  function go(route, push = true, nav = false) {
+    const y0 = window.scrollY; // before the old page is hidden and the document shrinks
     const path = String(route || 'overview').split('?')[0];
     let [tab, sub] = (LEGACY[path] || path).split('/');
     if (!TABS.includes(tab)) tab = 'overview';
@@ -2710,7 +2816,11 @@
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (tab === 'chain' || tab === 'storage' || tab === 'materials' ? 'overview' : tab))));
     $$('.subpage').forEach((p) => { p.hidden = p.dataset.sub !== S.sub; });
     $$('#page-materials .subnav button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sub === S.sub)));
-    if (push) { try { history.replaceState(null, '', '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab)); } catch (e) { /* ignore */ } }
+    if (push) { // a real step in the browser history, so Back returns here (with the scroll position)
+      const h = '#' + (tab === 'materials' && S.sub !== 'all' ? 'materials/' + S.sub : tab === 'chain' ? 'chain/' + (S.chain || 'mining') : tab);
+      try { if (location.hash !== h) { history.replaceState({ ...(history.state || {}), y: y0 }, ''); history.pushState({ y: 0 }, '', h); } } catch (e) { /* ignore */ }
+      NAV.cur = location.hash.slice(1) || 'overview';
+    }
     try { pageHero(tab); RENDER[tab](); pageHero(tab); if (tab === 'rules') renderRules(); } catch (e) { console.error(e); }
     if (tab === 'news' || tab === 'rules') visitSeenTab(tab);
     if (tab !== 'overview' && tab !== 'chain') { // every other page: panels rise in like the overview (off for reduced motion)
@@ -2718,11 +2828,52 @@
       if (pg) { $$(':scope > .panel, :scope > .pg-card, :scope > .subpage > .panel, :scope > .calc-simple > .panel, :scope > .risk-grid > .panel', pg).forEach((n) => n.classList.add('rv')); const rp = !S.resizing; requestAnimationFrame(() => reveal(pg, rp)); }
     }
     if (push) window.scrollTo({ top: 0 });
+    if (nav) applyParams(route);
   }
-  $$('.tab').forEach((b) => b.addEventListener('click', () => go(b.dataset.tab)));
+  const TAB_ICON = { overview: 'chain', news: 'news', rules: 'rules', calculator: 'calc', risk: 'shield' };
+  $$('.tab').forEach((b) => { const ic = el('span', 'tab-ic'); ic.appendChild(svgIcon(TAB_ICON[b.dataset.tab] || 'map', 22)); b.prepend(ic); b.addEventListener('click', () => go(b.dataset.tab)); });
+  { const sk = $('#skip'); if (sk) sk.addEventListener('click', () => { const m = $('main'); m.setAttribute('tabindex', '-1'); m.focus(); window.scrollTo({ top: $('main').offsetTop - 10 }); }); }
   $$('#page-materials .subnav button').forEach((b) => b.addEventListener('click', () => go('materials/' + b.dataset.sub)));
   $$('[data-goto]').forEach((b) => b.addEventListener('click', () => go(b.dataset.goto)));
-  window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
+  // Back and Forward: re-show the page (or only open or close the chart overlay) and restore the scroll position
+  try { history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
+  function onNav() {
+    const h = location.hash.slice(1) || 'overview'; if (h === NAV.cur) return;
+    const same = h.split('?')[0] === String(NAV.cur || '').split('?')[0];
+    NAV.cur = h;
+    if (same) { applyParams(h); return; }
+    go(h, false, true);
+    const y = (history.state || {}).y; requestAnimationFrame(() => window.scrollTo({ top: y || 0, behavior: 'instant' }));
+  }
+  window.addEventListener('popstate', onNav); window.addEventListener('hashchange', onNav);
+  // links to one view: #chain/cells?chart=cell_ess&fc=1, #news?story=n12, #rules?rule=bcd
+  function applyParams(h) {
+    const q = new URLSearchParams(String(h || '').split('?')[1] || '');
+    const ch = q.get('chart');
+    if (ch && FC_SERIES[ch]) { FC.fc = q.get('fc') === '1'; if (q.get('scen')) FC.scen = q.get('scen'); openFull(FC_GROUP[ch] || [ch], ch, eyebrowNow(), null, false); }
+    else closeFull(true);
+    const flash = (id) => setTimeout(() => { const t = document.getElementById(id); if (!t) return; t.scrollIntoView({ behavior: 'auto', block: 'center' }); t.classList.add('flash'); setTimeout(() => t.classList.remove('flash'), 1800); }, 60);
+    const sid = q.get('story');
+    if (sid && S.tab === 'news') {
+      Object.assign(S.news, { q: '', cat: '', effect: '' }); const ns = $('#news-search'); if (ns) ns.value = ''; const ne = $('#news-effect'); if (ne) ne.value = '';
+      renderNews(); const i = sortedNews().findIndex((n) => n.id === sid); if (i >= S.news.shown) { S.news.shown = i + 1; renderNews(); }
+      flash('story-' + sid);
+    }
+    const rid = q.get('rule');
+    if (rid && S.tab === 'rules') {
+      Object.assign(RULES, { region: '', area: '', status: '', q: '' }); const sr = $('#rules-search'); if (sr) sr.value = ''; ['#rules-area', '#rules-status'].forEach((x) => { const e = $(x); if (e) e.value = ''; });
+      renderRules(); flash('rule-' + rid);
+    }
+  }
+  function eyebrowNow() { const c = CHAIN.find((x) => x.id === S.chain); return S.tab === 'chain' && c ? `Step ${c.n} · ${c.name}` : S.tab === 'risk' ? 'Risk · outlook' : 'LeyBatt Pulse'; }
+  function shareUrl(hash) { return location.href.split('#')[0] + '#' + hash; }
+  function copyLink(hash, what = 'Link') {
+    const url = shareUrl(hash);
+    const done = () => showToast(`${what} copied. Paste it anywhere to open this view.`);
+    try { navigator.clipboard.writeText(url).then(done, () => window.prompt('Copy this link:', url)); } catch (e) { window.prompt('Copy this link:', url); }
+  }
+  function showToast(msg) { const t = $('#toast'); if (!t) return; t.replaceChildren(el('span', null, msg)); t.hidden = false; clearTimeout(showToast.t); showToast.t = setTimeout(() => { t.hidden = true; }, 3200); }
+  function shareBtn(hash, label = 'Copy link', what) { const b = el('button', 'share-btn'); b.type = 'button'; b.title = 'Copy a link to this'; b.setAttribute('aria-label', label); b.append(svgIcon('link', 15), el('span', null, label)); b.addEventListener('click', (e) => { e.stopPropagation(); copyLink(typeof hash === 'function' ? hash() : hash, what); }); return b; }
 
   // ---------- inputs ----------
   $('#news-search').addEventListener('input', (e) => { S.news.q = e.target.value; renderNews(); });
@@ -2740,7 +2891,7 @@
 
   // ---------- theme ----------
   const themes = ['light', 'dark'];
-  let theme = store.get('bmi-theme') || 'light';
+  let theme = store.get('bmi-theme') || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   if (!themes.includes(theme)) theme = 'light'; // older 'auto' choice falls back to light
   const applyTheme = () => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -2758,9 +2909,11 @@
   Promise.all(FILES.map((f) => fetch(`data/${f}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null)))
     .then((res) => {
       FILES.forEach((f, i) => { D[f] = res[i]; });
+      try { normalizeData(); } catch (e) { console.error(e); }
       visitInit();
       renderHeader();
-      go(location.hash.slice(1) || 'overview', false);
+      NAV.cur = location.hash.slice(1) || 'overview';
+      go(NAV.cur, false, true);
       startFresh();
     });
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates

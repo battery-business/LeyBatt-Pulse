@@ -63,7 +63,7 @@ def series_points():
     out["cell"] = ("314 Ah storage cell", "/kWh", [(r["date"], float(r["cell314"]), r.get("source", ""), r.get("url", "")) for r in wk])
     ev = load("evcells", {}) or {}
     evs = sorted(ev.get("series", []), key=lambda r: r["date"])
-    out["ev"] = ("EV prismatic LFP cell (230/324 Ah class)", "/kWh", [(r["date"], float(r["usd_kwh"]), r.get("source", ""), r.get("url", "")) for r in evs])
+    out["ev"] = ("EV prismatic LFP cell, average of all sizes", "/kWh", [(r["date"], float(r["usd_kwh"]), r.get("source", ""), r.get("url", "")) for r in evs])
     out["sys"] = ("4-hour storage system, China (weekly)", "/kWh", [(r["date"], float(r["ac_4h"]), r.get("source", ""), r.get("url", "")) for r in wk])
     return out
 
@@ -112,8 +112,8 @@ def build(today):
         if m and same:
             chg = float(m.group(2)) * (-1 if m.group(1) and m.group(1) in "−-" else 1)
             vs = m.group(3).strip()
-        elif gap > 21:
-            vs = f"since {day(prev[0])}"
+        elif prev:
+            vs = f"vs {day(prev[0])}"  # always say what the change is measured against, as the website does
         new = last[0] >= fresh_from
         fmt = (lambda v: f"${v:,.0f}") if unit == "/t" else (lambda v: f"${v:,.1f}")
         rows.append({"key": key, "label": label, "value": fmt(last[1]), "unit": unit, "num": last[1], "chg": chg, "vs": vs,

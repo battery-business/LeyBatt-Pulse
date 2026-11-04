@@ -8,9 +8,10 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611041733">
+<link rel="stylesheet" href="assets/style.css?v=202611041931">
 </head>
 <body>
+<button class="skip" id="skip" type="button">Skip to content</button>
 <header class="top">
   <div class="bar">
     <div class="wrap top-row">
@@ -44,7 +45,7 @@
       <div class="ov-col">
         <div class="panel rv">
           <div class="panel-head"><h2>What moved this week</h2><button class="btn link" type="button" data-goto="brief">This week's brief →</button></div>
-          <p class="sub" id="wow-sub">InfoLink weekly prices, latest two readings.</p>
+          <p class="sub" id="wow-sub">Latest reading against the one about a week earlier, same source.</p>
           <ul class="changes" id="changes"></ul>
         </div>
         <div class="panel rv">
@@ -445,14 +446,14 @@
   </section>
 
   <footer class="foot">
-    <p>Method: prices come from the public sources linked on each item and are converted to US$ at a fixed US$1 = 6.70 yuan; older dates use the same rate, so they are approximate. China cell and system prices include 13% VAT, which is removed so they compare with international prices. Pack prices come from BloombergNEF's annual survey (December 2025). Iron phosphate, graphite and foil prices have no free weekly source, so the latest public figures are used and dated.</p>
+    <p>Method: every price links to the public source it comes from, and shows its date and how old it is. Daily prices from Chinese sources are converted to US$ at a fixed US$1 = 6.70 yuan, close to this year's rate; the long histories (lithium futures since 2023) use each day's ECB rate. Raw-material prices from China (lithium, cathode, anode, electrolyte) are quoted there including 13% VAT and are shown that way; cell and system prices have the VAT removed so they compare with international prices. Copper and aluminium are LME cash prices, refreshed every night. Changes compare the latest reading with the one about a week earlier from the same source. Pack prices come from BloombergNEF's annual survey (December 2025).</p>
     <p><b>Automatic updates:</b> this website updates itself every day at 4:00 am IST. Chinese markets open later, so each morning shows the previous trading day’s prices; weekend updates mainly add news.</p>
-    <p>For internal information only.</p>
+    <p class="muted">Built only from public sources. A market summary, not investment or purchasing advice.</p>
   </footer>
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202611041733"></script>
+<script src="assets/app.js?v=202611041931"></script>
 </body>
 </html>

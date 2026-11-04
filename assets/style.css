@@ -1242,3 +1242,48 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .rnew-title { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; }
 .rnew-meta { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .rnew-meta .rule-status { margin-left: 0; }
+
+/* ---------- Phase 1: freshness, reference prices, links, phone tab bar ---------- */
+.age { display: inline-block; font-size: 11.5px; font-weight: 600; line-height: 1.5; padding: 0 7px; border-radius: 999px; white-space: nowrap; vertical-align: 1px; }
+.age-fresh, .age-recent { color: var(--ok); background: color-mix(in srgb, var(--ok) 11%, transparent); }
+.age-stale { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.age-old { color: var(--muted); background: color-mix(in srgb, var(--muted) 14%, transparent); }
+.tage { font-size: 11px; font-weight: 600; color: var(--warn); margin-left: 6px; }
+.card .alt { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.chp-key .k-age { font-size: 12.5px; color: var(--muted); display: inline-flex; gap: 4px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 760px) { .chp-key .k-age { justify-content: flex-start; } }
+.ch-txt .age { margin-top: 2px; align-self: flex-start; }
+.changes li > span:first-child { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.changes li small { font-size: 12px; color: var(--muted); font-weight: 400; }
+.tb-ref { margin-top: 18px; }
+.tb-ref h3 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 0 0 8px; letter-spacing: 0; }
+.tb-ref ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.tb-ref button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; gap: 2px; background: var(--panel); border-radius: 14px; padding: 12px 14px; }
+.tb-ref button:hover { box-shadow: 0 0 0 1px var(--line); }
+.tb-ref button:focus-visible { outline: 2px solid var(--l2); outline-offset: 2px; }
+.tb-ref .rv-l { font-size: 13px; color: var(--muted); }
+.tb-ref .rv-v { font-size: 13px; color: var(--muted); } .tb-ref .rv-v b { font-size: 18px; color: var(--fg); font-variant-numeric: tabular-nums; }
+.tb-ref .rv-m { font-size: 12px; color: var(--muted); }
+.share-btn { appearance: none; border: 0; background: none; color: var(--muted); font: inherit; font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; margin-left: 8px; border-radius: 999px; cursor: pointer; vertical-align: middle; }
+.share-btn:hover { color: var(--fg); background: var(--soft); }
+.share-btn:focus-visible { outline: 2px solid var(--l2); outline-offset: 1px; }
+.fx-acts { display: flex; align-items: center; gap: 6px; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 400; background: var(--fg); color: var(--panel); border: 0; border-radius: 10px; padding: 10px 16px; font: inherit; font-weight: 600; cursor: pointer; }
+.skip:focus { top: 10px; }
+.tab-ic { display: none; }
+.foot .muted { color: var(--muted); }
+/* phones: the sections become a bottom tab bar, always in reach */
+@media (max-width: 640px) {
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 250; margin: 0; flex-basis: auto; order: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; overflow: visible;
+    background: color-mix(in srgb, var(--panel) 92%, transparent); -webkit-backdrop-filter: saturate(1.6) blur(18px); backdrop-filter: saturate(1.6) blur(18px);
+    border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom)); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 2px 4px; font-size: 11px; font-weight: 500; border-radius: 10px; position: relative; color: var(--muted); white-space: nowrap; }
+  .tab[aria-selected="true"] { color: var(--l2); background: none; }
+  .tab-ic { display: block; line-height: 0; }
+  .tab .count { position: absolute; top: 2px; left: calc(50% + 6px); font-size: 10px; padding: 0 5px; line-height: 16px; min-width: 16px; }
+  .bar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--panel); } /* a filter here would trap the fixed bar inside the header */
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .toast { bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 1100px) { .tb-cards { grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); } }
+.tb-ref { max-width: 1400px; margin: 18px auto 0; }

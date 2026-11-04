@@ -50,7 +50,7 @@
  {
   "id": "evcell",
   "layer": "EV cell",
-  "label": "EV prismatic LFP cell (230 / 324 Ah class)",
+  "label": "EV prismatic LFP cell, average of all sizes",
   "price": "$54.2",
   "unit": "per kWh",
   "asof": "22 Oct",

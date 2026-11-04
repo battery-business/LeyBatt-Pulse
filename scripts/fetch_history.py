@@ -250,6 +250,34 @@ def main():
                 break
         else:
             print(f"::warning::Could not refresh the {name} price history; keeping the saved copy.")
+    write_markets()
+
+
+def write_markets():
+    """data/markets.json: the latest LME copper and aluminium readings and the ECB rates, from the saved history files.
+    The website shows these as today's metal prices (so cards, charts and the calculator use one source)."""
+    import json
+    out = {}
+    for name in ("copper", "aluminium"):
+        try:
+            with open(OUT / f"{name}.csv") as f:
+                rows = [r for r in csv.DictReader(f) if r.get("usd_t")]
+        except FileNotFoundError:
+            continue
+        rows = rows[-12:]
+        if rows:
+            out[name] = {"recent": [[r["date"], round(float(r["usd_t"]), 1)] for r in rows], "source": rows[-1]["source"],
+                         "url": "https://www.westmetall.com/en/markdaten.php"}
+    try:
+        with open(OUT / "fx.csv") as f:
+            fx = list(csv.DictReader(f))
+        if fx:
+            out["fx"] = {"date": fx[-1]["date"], "usd_inr": float(fx[-1]["usd_inr"]), "usd_cny": float(fx[-1]["usd_cny"]), "source": "ECB euro reference rates (cross rates)"}
+    except FileNotFoundError:
+        pass
+    with open(OUT.parent / "markets.json", "w") as f:
+        json.dump(out, f, indent=1)
+    print("markets.json:", {k: (v.get("recent") or [[v.get("date")]])[-1][0] for k, v in out.items()})
 
 
 if __name__ == "__main__":

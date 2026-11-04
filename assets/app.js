@@ -1960,11 +1960,42 @@
     list.replaceChildren();
     shown.forEach((r) => { const c = ruleCard(r, today); c.id = 'rule-' + r.id; list.appendChild(c); });
     if (!shown.length) list.appendChild(el('p', 'sub', 'No rules match these filters.'));
+    rulesNewBox(all);
+  }
+  // what changed since the last visit, in plain words, with a jump to the full rule
+  function ruleChangeText(r, old) {
+    if (!old) return 'Added to the list';
+    const [os, od] = String(old).split('|'); const out = [];
+    if (os && os !== r.status) out.push(`Status changed: ${os} → ${r.status}`);
+    if (od && od !== r.date) out.push(`Date moved: ${d3.utcFormat('%-d %b %Y')(parse(od))} → ${d3.utcFormat('%-d %b %Y')(parse(r.date))}`);
+    if (!out.length) out.push(r.changed ? `Updated on ${d3.utcFormat('%-d %b')(parse(r.changed))}` : 'Updated');
+    return out.join(' · ');
+  }
+  function rulesNewBox(all) {
+    const box = $('#rules-newbox'); if (!box) return;
+    const ids = [...new Set([...VISIT.rules, ...VISIT.keepRules])];
+    const items = ids.map((id) => all.find((r) => r.id === id)).filter(Boolean);
+    box.hidden = !items.length; if (!items.length) return;
+    $('#rules-newsub').textContent = VISIT.prev ? `Since ${whenLabel(VISIT.prev.t)}. Click one to read it.` : 'Click one to read it.';
+    const ul = $('#rules-newlist'); ul.replaceChildren();
+    items.forEach((r) => {
+      const old = VISIT.ruleOld.has(r.id) ? VISIT.ruleOld.get(r.id) : VISIT.keepRuleOld.get(r.id);
+      const li = el('li'); const b = el('button', 'rnew'); b.type = 'button'; b.style.setProperty('--sc', css(STATUS_COL[r.status] || '--slate'));
+      const top = el('div', 'rnew-top'); top.append(newTag(), el('span', 'rnew-what', ruleChangeText(r, old)));
+      const meta = el('div', 'rnew-meta'); meta.append(document.createTextNode(`${r.region} · `), el('span', 'rule-status', r.status), document.createTextNode(` · ${r.date_label || d3.utcFormat('%-d %b %Y')(parse(r.date))}`));
+      b.append(top, el('div', 'rnew-title', r.title), meta);
+      b.addEventListener('click', () => {
+        Object.assign(RULES, { region: '', area: '', status: '', q: '' }); const sr = $('#rules-search'); if (sr) sr.value = ''; ['#rules-area', '#rules-status'].forEach((q) => { const x = $(q); if (x) x.value = ''; });
+        renderRules();
+        const card = document.getElementById('rule-' + r.id); if (card) { card.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1800); }
+      });
+      li.appendChild(b); ul.appendChild(li);
+    });
   }
 
   // ---------- alive: new since your last visit ----------
   // Kept in this browser only (localStorage); nothing is sent anywhere. A visit ends after 30 minutes away.
-  const VISIT = { prev: null, first: false, news: new Set(), rules: new Set(), prices: new Map(), keepNews: new Set(), keepRules: new Set() };
+  const VISIT = { prev: null, first: false, news: new Set(), rules: new Set(), prices: new Map(), keepNews: new Set(), keepRules: new Set(), ruleOld: new Map(), keepRuleOld: new Map() };
   const isNewNews = (id) => VISIT.news.has(id) || VISIT.keepNews.has(id);
   const isNewRule = (id) => VISIT.rules.has(id) || VISIT.keepRules.has(id);
   const ruleSig = (r) => [r.status, r.date, r.changed || ''].join('|');
@@ -1989,11 +2020,11 @@
     window.addEventListener('pagehide', () => { const c = readJSON('lbp-visit'); if (c) { c.last = Date.now(); writeJSON('lbp-visit', c); } });
   }
   function visitDiff() {
-    VISIT.news.clear(); VISIT.rules.clear(); VISIT.prices.clear();
+    VISIT.news.clear(); VISIT.rules.clear(); VISIT.prices.clear(); VISIT.ruleOld.clear();
     const P = VISIT.prev && VISIT.prev.snap; if (!P) return;
     const seen = new Set(P.n || []);
     (D.news || []).forEach((n) => { if (!seen.has(n.id)) VISIT.news.add(n.id); });
-    (D.regulations || []).forEach((r) => { if ((P.r || {})[r.id] !== ruleSig(r)) VISIT.rules.add(r.id); });
+    (D.regulations || []).forEach((r) => { const o = (P.r || {})[r.id]; if (o !== ruleSig(r)) { VISIT.rules.add(r.id); VISIT.ruleOld.set(r.id, o || null); } });
     (D.latest || []).forEach((r) => {
       const o = (P.p || {})[r.id]; if (!o || (o[0] === r.price && o[1] === r.asof)) return;
       const a = numOf(o[0]), b = numOf(r.price);
@@ -2006,6 +2037,7 @@
     if (!VISIT.prev || !VISIT.prev.snap) return;
     const set = kind === 'news' ? VISIT.news : VISIT.rules; if (!set.size) return;
     const keep = kind === 'news' ? VISIT.keepNews : VISIT.keepRules; set.forEach((id) => keep.add(id));
+    if (kind === 'rules') VISIT.ruleOld.forEach((v, id) => VISIT.keepRuleOld.set(id, v));
     const snap = visitSnap();
     if (kind === 'news') VISIT.prev.snap.n = snap.n; else VISIT.prev.snap.r = snap.r;
     writeJSON('lbp-prev', VISIT.prev); visitDiff(); renderCounts();

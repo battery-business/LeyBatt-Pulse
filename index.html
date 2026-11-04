@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202610302114">
+<link rel="stylesheet" href="assets/style.css?v=202611041733">
 </head>
 <body>
 <header class="top">
@@ -241,6 +241,10 @@
 
   <!-- REGULATIONS: rules that change cost, supply or demand -->
   <section class="page" id="page-rules" data-page="rules" hidden>
+    <div class="panel rules-newbox" id="rules-newbox" hidden>
+      <div class="panel-head"><h2>New since your last visit</h2><span class="sub" id="rules-newsub"></span></div>
+      <ul class="rnew-list" id="rules-newlist"></ul>
+    </div>
     <div class="panel">
       <div class="panel-head"><h2>Coming up</h2><span class="sub">Rules with a date ahead. Click one to read it.</span></div>
       <ol class="rules-next timeline" id="rules-next"></ol>
@@ -449,6 +453,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202610302114"></script>
+<script src="assets/app.js?v=202611041733"></script>
 </body>
 </html>

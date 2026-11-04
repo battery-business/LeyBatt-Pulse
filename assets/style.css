@@ -1390,3 +1390,7 @@ abbr.gl { text-decoration: underline dotted; text-underline-offset: 3px; cursor:
   table.stackable td:first-child::before { content: none; }
 }
 @media (max-width: 640px) { table.stackable td { flex-wrap: wrap; } table.stackable td .role { flex-basis: 100%; text-align: right; } table.stackable td:first-child .role { text-align: left; } }
+/* Today: the value chain sits on top, compact, with "What matters today" right under it */
+.chain-hero { min-height: 0; padding-top: clamp(18px, 3vh, 34px); padding-bottom: clamp(16px, 3vh, 30px); }
+#chain-hero .ch-head.compact { opacity: 1 !important; transform: none !important; }
+.ov-today { margin-top: clamp(12px, 2vw, 20px); }

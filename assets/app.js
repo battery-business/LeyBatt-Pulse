@@ -2751,7 +2751,7 @@
   window.addEventListener('scroll', () => {
     if (heroRaf || S.tab !== 'overview' || reduced()) return;
     heroRaf = requestAnimationFrame(() => {
-      heroRaf = 0; const h = $('#chain-hero .ch-head'); if (!h || h.classList.contains('pre') || h.classList.contains('go')) return;
+      heroRaf = 0; const h = $('#chain-hero .ch-head'); if (!h || h.classList.contains('compact') || h.classList.contains('pre') || h.classList.contains('go')) return; // the compact header stays put above the steps
       const y = window.scrollY, k = Math.min(1, y / 520);
       h.style.opacity = String(1 - k * 0.85); h.style.transform = y > 0 ? `translateY(${(y * 0.22).toFixed(1)}px) scale(${(1 - k * 0.05).toFixed(3)})` : '';
     });

@@ -63,7 +63,7 @@ def series_points():
     out["cell"] = ("314 Ah storage cell", "/kWh", [(r["date"], float(r["cell314"]), r.get("source", ""), r.get("url", "")) for r in wk])
     ev = load("evcells", {}) or {}
     evs = sorted(ev.get("series", []), key=lambda r: r["date"])
-    out["ev"] = ("EV prismatic LFP cell, average of all sizes", "/kWh", [(r["date"], float(r["usd_kwh"]), r.get("source", ""), r.get("url", "")) for r in evs])
+    out["ev"] = ("EV prismatic LFP cell (230/324 Ah class)", "/kWh", [(r["date"], float(r["usd_kwh"]), r.get("source", ""), r.get("url", "")) for r in evs])
     out["sys"] = ("4-hour storage system, China (weekly)", "/kWh", [(r["date"], float(r["ac_4h"]), r.get("source", ""), r.get("url", "")) for r in wk])
     return out
 

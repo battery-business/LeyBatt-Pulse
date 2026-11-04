@@ -227,7 +227,7 @@
     // 314 Ah storage cell: InfoLink weekly average
     if (byId.cell314) apply(byId.cell314, moveVs(ptsOf(D.cell314, 'usd_kwh')), fmtUsd1);
     // EV cells: one TrendForce average for all prismatic LFP EV cells (not a price per cell size)
-    if (byId.evcell) { byId.evcell.label = 'EV prismatic LFP cell, average of all sizes'; apply(byId.evcell, moveVs(ptsOf((D.evcells || {}).series, 'usd_kwh')), fmtUsd1); }
+    if (byId.evcell) { apply(byId.evcell, moveVs(ptsOf((D.evcells || {}).series, 'usd_kwh')), fmtUsd1); }
     // storage system: the weekly China spot price leads; the monthly tender-award average becomes a reference price
     const sys = byId.system, wk = weekly();
     if (sys && !byId.system_award) {
@@ -262,6 +262,7 @@
     return { days, label, short, cls: days <= 3 ? 'fresh' : days <= 10 ? 'recent' : days <= 45 ? 'stale' : 'old' };
   }
   function ageTag(r, compact = false) {
+    return document.createTextNode(''); // ages are not shown (owner's choice); each price still shows its date
     const a = ageOf(r); if (!a) return document.createTextNode('');
     const t = el('span', 'age age-' + a.cls, compact ? a.short : a.label);
     t.title = a.cls === 'fresh' || a.cls === 'recent' ? 'Latest reading' : a.cls === 'stale' ? 'Older than 10 days: the source has not published a newer figure' : 'Older than 45 days: the latest public figure, published rarely';
@@ -344,7 +345,6 @@
         const arrow = it.dir === 'down' ? '▼' : it.dir === 'up' ? '▲' : '';
         b.append(el('span', 'tn', it.name), el('span', 'tv', it.val));
         if (it.chg) b.appendChild(el('span', 'tc ' + (it.dir === 'down' ? 'is-down' : it.dir === 'up' ? 'is-up' : 'is-flat'), it.chg === 'flat' ? 'flat' : arrow + it.chg));
-        if (it.age && (it.age.cls === 'stale' || it.age.cls === 'old')) b.appendChild(el('span', 'tage', it.age.short + ' old'));
         b.addEventListener('click', () => go(it.to));
       } else if (it.k === 'risk') {
         b = el('button', 'tick tk-risk'); b.type = 'button';
@@ -439,7 +439,6 @@
     items.forEach(([name, src, pts, f, u]) => {
       const m = moveVs(pts); if (!m) return;
       const li = el('li'); const nm = el('span'); nm.append(document.createTextNode(name), el('small', null, ` ${src}, ${shortDay(m.prev.d)} → ${shortDay(m.last.d)}`));
-      if ((istToday() - m.last.d) / 864e5 > 10) nm.appendChild(ageTag({ date: isoDay(m.last.d) }, true));
       li.append(nm, el('span', 'v', f(m.last.v) + u), el('span', 'd' + (m.direction === 'flat' ? '' : m.direction === 'down' ? ' is-down' : ' is-up'), m.direction === 'flat' ? 'flat' : pctS(m.pct)));
       ul.appendChild(li);
     });
@@ -757,7 +756,7 @@
     { step: 'Mined and refined inputs', color: '--amber', items: [['latest', 'lithium', 'Lithium carbonate', 'China futures price, includes 13% VAT'], ['raw', 'Spodumene SC6', 'Spodumene', 'Lithium ore, 6% grade'], ['raw', 'Lithium hydroxide', 'Lithium hydroxide', 'Lithium salt, delivered Asia'], ['raw', 'Copper', 'Copper', 'World benchmark price'], ['raw', 'Aluminium', 'Aluminium', 'World benchmark price']] },
     { step: 'Cathode and anode', color: '--plum', items: [['raw', 'Iron phosphate', 'Iron phosphate', 'Raw material for the cathode'], ['latest', 'cathode', 'LFP cathode', 'Cathode powder, China'], ['raw', 'Graphite anode', 'Graphite anode', 'Artificial graphite, storage grade']] },
     { step: 'Other cell materials', color: '--teal', items: [['raw', 'LFP electrolyte', 'Electrolyte', 'Liquid inside LFP cells'], ['raw', 'Separator', 'Separator', 'Film between the electrodes'], ['raw', 'Copper foil', 'Copper foil', 'Carries current on the anode side'], ['raw', 'Aluminium foil', 'Aluminium foil', 'Carries current on the cathode side']] },
-    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid'], ['ev', 0]] },
+    { step: 'Cells', color: '--blue', items: [['latest', 'cell314', '314 Ah storage cell', 'China market average'], ['latest', 'cell587', '587 Ah storage cell', 'Latest tender bid'], ['ev', 0], ['ev', 1]] },
     { step: 'Packs and storage systems', color: '--indigo', items: [['latest', 'system', '4-hour AC storage system', 'China spot price, weekly (InfoLink)'], ['latest', 'system_award', '4-hour storage system', 'China tender awards, monthly average (TrendForce)'], ['latest', 'pack', 'Storage battery pack', 'Global average, yearly survey (BloombergNEF)']] },
   ];
   const CHART_OF = { lithium: 'lithium', cell314: 'cells', cell587: 'cells', evcell: 'cells', system: 'systems', system_award: 'systems' }; // only items with a price history on the site
@@ -793,7 +792,7 @@
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
-      if (kind === 'ev') { const ev = evRows(); const e = ev[0]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: 'EV prismatic LFP cell', desc: 'One average for all sizes, not a price per size. At this average: ' + ev.map((x) => `${x.format} about ${fmtUsd0(x.perCell)} a cell`).join(', '), price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
+      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmtUsd0(e.perCell)} a cell (${e.kwh.toFixed(2)} kWh), at TrendForce's EV-cell average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
       return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
@@ -2422,7 +2421,7 @@
       const b = el('button', 'ch-node'); b.type = 'button'; b.setAttribute('aria-label', `${c.name}: open prices, news and risks`);
       const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
       const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
-      if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move)); if (k.row) { const a = ageOf(k.row); if (a && a.days > 10) txt.appendChild(ageTag(k.row)); } }
+      if (k) { const kv = el('span', 'ch-key'); kv.append(el('b', null, k.value), el('small', null, k.unit)); txt.appendChild(kv); txt.appendChild(el('span', 'ch-move' + dirClass(k.dir), k.move));  }
       txt.appendChild(el('span', 'ch-more', 'Explore ›'));
       b.append(orb, txt);
       b.addEventListener('click', () => go('chain/' + c.id));
@@ -2693,7 +2692,7 @@
     const orb = el('span', 'ch-orb big'); orb.appendChild(svgIcon(c.icon, 40));
     const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
     hero.append(orb, ht);
-    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) { const a = el('span', 'k-age'); a.append(document.createTextNode(k.row.asof + ' · '), ageTag(k.row)); kv.appendChild(a); } hero.appendChild(kv); }
+    if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) kv.appendChild(el('span', 'k-age', k.row.asof)); hero.appendChild(kv); }
     box.appendChild(hero);
     const section = (t, sub) => { const s = el('section', 'chp-sec rv'); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; };
     if (c.chart) {

@@ -1394,3 +1394,5 @@ abbr.gl { text-decoration: underline dotted; text-underline-offset: 3px; cursor:
 .chain-hero { min-height: 0; padding-top: clamp(18px, 3vh, 34px); padding-bottom: clamp(16px, 3vh, 30px); }
 #chain-hero .ch-head.compact { opacity: 1 !important; transform: none !important; }
 .ov-today { margin-top: clamp(12px, 2vw, 20px); }
+.chp-card.flash, .ot-dates.flash, #risk-table tr.flash td { box-shadow: 0 0 0 3px color-mix(in srgb, var(--l2) 45%, transparent); transition: box-shadow .3s; }
+.ot-dates.flash { border-radius: 14px; }

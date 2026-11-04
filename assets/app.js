@@ -322,25 +322,25 @@
     const M = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const unitOf = (u) => ({ 'per tonne': '/t', 'per kWh': '/kWh', 'per m²': '/m²' }[u] || '');
     const chg = (r) => { const m = String(r.move || '').match(/([+−-]?\d+(?:\.\d+)?)%/); if (m) return m[1].replace(/^[+−-]/, '') + '%'; return /stable|flat|steady/i.test(r.move || '') ? 'flat' : ''; };
-    const price = (name, r, to) => r && out.push({ k: 'price', name, val: r.price + unitOf(r.unit), chg: chg(r), dir: chg(r) === 'flat' ? 'flat' : r.direction, tip: `${r.move || ''} · ${r.asof} · ${r.source}`, to, age: ageOf(r) });
+    const price = (name, r, to, key) => r && out.push({ k: 'price', name, key, val: r.price + unitOf(r.unit), chg: chg(r), dir: chg(r) === 'flat' ? 'flat' : r.direction, tip: `${r.move || ''} · ${r.asof} · ${r.source}`, to, age: ageOf(r) });
     // headline prices, then the chain from ore to system, then metals
-    price('Lithium carbonate', L.lithium, CARD_TAB.lithium);
-    price('Spodumene', M['Spodumene SC6'], 'materials/lithium');
-    price('Lithium hydroxide', M['Lithium hydroxide'], 'materials/lithium');
-    price('LFP cathode', L.cathode, CARD_TAB.cathode);
-    price('Iron phosphate', M['Iron phosphate'], 'materials/all');
-    price('Electrolyte', M['LFP electrolyte'], 'materials/all');
-    price('Separator', M['Separator'], 'materials/all');
-    price('314 Ah cell', L.cell314, CARD_TAB.cell314);
-    price('EV cell', L.evcell, CARD_TAB.evcell);
+    price('Lithium carbonate', L.lithium, 'chain/mining', 'lithium');
+    price('Spodumene', M['Spodumene SC6'], 'chain/mining', 'Spodumene SC6');
+    price('Lithium hydroxide', M['Lithium hydroxide'], 'chain/mining', 'Lithium hydroxide');
+    price('LFP cathode', L.cathode, 'chain/materials', 'cathode');
+    price('Iron phosphate', M['Iron phosphate'], 'chain/materials', 'Iron phosphate');
+    price('Electrolyte', M['LFP electrolyte'], 'chain/materials', 'LFP electrolyte');
+    price('Separator', M['Separator'], 'chain/materials', 'Separator');
+    price('314 Ah cell', L.cell314, 'chain/cells', 'cell314');
+    price('EV cell', L.evcell, 'chain/cells', 'ev0');
     const wk = weekly(); const w1 = wk[wk.length - 1], w0 = wk[wk.length - 2];
     if (w1 && w1.ac_2h && false) {
       const pc = w0 && w0.ac_2h ? (w1.ac_2h / w0.ac_2h - 1) * 100 : null;
       out.push({ k: 'price', name: '2-h system', val: `$${(+w1.ac_2h).toFixed(1)}/kWh`, chg: pc == null ? '' : Math.abs(pc) < 0.05 ? 'flat' : Math.abs(pc).toFixed(1) + '%', dir: pc == null || Math.abs(pc) < 0.05 ? 'flat' : pc < 0 ? 'down' : 'up', tip: `China AC system, week to ${w1.date} · InfoLink`, to: CARD_TAB.system });
     }
-    price('4-h system', L.system, CARD_TAB.system);
-    price('Copper', M.Copper, 'chain/mining');
-    price('Aluminium', M.Aluminium, 'chain/mining');
+    price('4-h system', L.system, 'chain/systems', 'system');
+    price('Copper', M.Copper, 'chain/mining', 'Copper');
+    price('Aluminium', M.Aluminium, 'chain/mining', 'Aluminium');
     // the three highest risk scores (Risk Navigator, next 3 months)
     riskStripItems().forEach(({ m, ax, a }) => out.push({ k: 'risk', name: `${m.short} ${ax}`, score: a.score, level: a.level, change: a.change, id: m.id, tip: `${m.name}: ${ax} risk ${a.score}/10 (${a.level}), next 3 months` }));
     // dates in the next three weeks
@@ -359,6 +359,16 @@
     alerts.forEach(({ n, lab }) => out.push({ k: lab, text: n.short || clip(n.headline), day: n.day, url: n.url, tip: n.headline }));
     return out;
   }
+  // jump to the part of a page that carries an item, and flash it
+  const priceId = (key) => 'pc-' + String(key).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  function focusOn(sel, tries = 12) {
+    if (tries === 12) { S.focusSel = sel; S.focusUntil = Date.now() + 2500; } // a page that redraws itself (late data) finds it again
+    const e = $(sel);
+    if (!e) { if (tries > 0) setTimeout(() => focusOn(sel, tries - 1), 120); return; }
+    e.classList.remove('pre'); const sec = e.closest('.rv'); if (sec) { sec.classList.remove('pre'); }
+    e.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+    e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800);
+  }
   function tapeSeg(items, live) {
     const seg = el('div', 'tk-seg'); let last = null;
     const LAB = { price: 'Prices', risk: 'Risk', next: 'Next', alert: 'Alert', latest: 'Latest' };
@@ -370,16 +380,16 @@
         const arrow = it.dir === 'down' ? '▼' : it.dir === 'up' ? '▲' : '';
         b.append(el('span', 'tn', it.name), el('span', 'tv', it.val));
         if (it.chg) b.appendChild(el('span', 'tc ' + (it.dir === 'down' ? 'is-down' : it.dir === 'up' ? 'is-up' : 'is-flat'), it.chg === 'flat' ? 'flat' : arrow + it.chg));
-        b.addEventListener('click', () => go(it.to));
+        b.addEventListener('click', () => { go(it.to); if (it.key) focusOn('#' + priceId(it.key)); });
       } else if (it.k === 'risk') {
         b = el('button', 'tick tk-risk'); b.type = 'button';
         b.append(el('span', 'tn', it.name), el('span', 'tv', it.score.toFixed(1)), el('span', 'tl lv-' + String(it.level).toLowerCase(), it.level));
         if (it.change != null && Math.abs(it.change) >= 0.05) b.appendChild(el('span', 'tc ' + (it.change > 0 ? 'is-up' : 'is-down'), (it.change > 0 ? '▲' : '▼') + Math.abs(it.change).toFixed(1)));
-        b.addEventListener('click', () => { RISK.sel = it.id; go('risk'); });
+        b.addEventListener('click', () => { RISK.sel = it.id; go('risk'); focusOn('#risk-table tr.sel'); });
       } else if (it.k === 'next') {
         b = el('button', 'tick tk-next'); b.type = 'button';
         b.append(el('span', 'tt', it.text), el('span', 'tw' + (it.soon ? ' soon' : ''), it.when));
-        b.addEventListener('click', () => { go('overview'); const d = $('#ov-dates'); if (d) setTimeout(() => d.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60); });
+        b.addEventListener('click', () => { go('overview'); focusOn('.ot-dates'); });
       } else {
         b = el('a', 'tick tk-story'); b.href = it.url; b.target = '_blank'; b.rel = 'noopener'; b.draggable = false;
         b.append(el('span', 'tt', it.text), el('span', 'td', it.day + ' ↗'));
@@ -896,9 +906,9 @@
     const raw = Object.fromEntries((D.rawmats || []).map((r) => [r.material, r]));
     const used = new Set();
     const steps = FLOW.map((f) => ({ ...f, rows: f.items.map(([kind, key, name, desc]) => {
-      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; const L = latest.evcell || {}; return { cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmtUsd0(e.perCell)} a cell (${e.kwh.toFixed(2)} kWh), at TrendForce's EV-cell average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', mat: 'cell_ev', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
+      if (kind === 'ev') { const e = evRows()[key]; if (!e) return null; const L = latest.evcell || {}; return { key: 'ev' + key, cad: 'weekly', name: e.format + ' EV cell', desc: `About ${fmtUsd0(e.perCell)} a cell (${e.kwh.toFixed(2)} kWh), at TrendForce's EV-cell average`, price: fmtUsd1(e.usd_kwh), usd: e.usd_kwh, unit: 'per kWh', mat: 'cell_ev', asof: L.asof || e.asof, date: L.date, move: L.move || e.move, direction: L.direction || e.direction, source: e.source, url: e.url, chart: 'cells', step: f.step }; }
       const r = kind === 'latest' ? latest[key] : raw[key]; if (!r) return null; used.add(key);
-      return { cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, mat: OUT_MAT[key], asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
+      return { key, cad: kind === 'latest' ? CADENCE_ID[key] : (CADENCE_RAW[key] || 'weekly'), name, desc, price: r.price, usd: r.usd != null ? r.usd : numOf(r.price), unit: r.unit, mat: OUT_MAT[key], asof: r.asof, date: r.date, move: r.move, direction: r.direction, source: r.source, url: r.url, source2: r.source2, url2: r.url2, chart: CHART_OF[key] || null, step: f.step };
     }).filter(Boolean) }));
     // anything new in rawmats.json that the map does not know yet goes under "Other cell materials"
     (D.rawmats || []).filter((r) => !used.has(r.material)).forEach((r) => steps[2].rows.push({ name: r.material, desc: r.role, price: r.price, usd: r.usd, unit: r.unit, asof: r.asof, move: r.move, direction: r.direction, source: r.source, url: r.url, chart: null, step: steps[2].step }));
@@ -2601,7 +2611,7 @@
     bid: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk', title: 'What it costs, landed in India',
       say: () => 'Landed cost today and at delivery, project cost in \u20b9 crore, and what Indian storage tenders and EPC contracts pay, all in rupees per kWh. Estimates from public data, not quotes.',
       key: () => { try { landInit(); const it = landItems().find((x) => x.id === 'cell314'); const a = landCalc(it.usd, 'C', false); return { label: '314 Ah storage cell, landed today', value: inr(a.inr), unit: '/kWh', move: `China price ${fmtUsd1(it.usd)}/kWh, ${shortDay(parse(it.date))}` }; } catch (e) { return null; } } },
-    calculator: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk · Cost to make', title: 'What would a battery cost?',
+    calculator: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk · Cost calculator', title: 'What would a battery cost?',
       say: () => 'Move raw-material prices and see what a storage cell and a 4-hour storage system would cost. Starts at today\u2019s prices; estimates from public data, not quotes.',
       key: () => { try { const c = cellCost(calcBase()); return { label: 'Storage cell, cost to make today', value: fmtUsd1(c.total), unit: '/kWh', move: 'From today\u2019s material prices' }; } catch (e) { return null; } } },
     risk: { icon: 'shield', color: '--l1', eyebrow: 'Risk', title: 'Where the risk sits',
@@ -2997,7 +3007,7 @@
       const s = section('Prices', { mining: 'Latest public price for each item, in US$. Lithium carbonate is a China price including 13% VAT; spodumene and lithium hydroxide are import prices into Asia, and copper and aluminium LME prices, without VAT.', materials: 'Latest public price for each item, in US$. China prices, including 13% VAT, as quoted there.', cells: 'Latest public price for each item, in US$ excluding China\u2019s 13% VAT.', systems: 'Latest public price for each item, in US$ excluding VAT. Use the weekly spot price for today\u2019s equipment cost; the tender-award average shows what Chinese projects actually paid.' }[c.id] || 'Latest public price for each item, in US$.');
       const g = el('div', 'chp-prices');
       rows.forEach((r) => {
-        const card = el('div', 'chp-card');
+        const card = el('div', 'chp-card'); if (r.key != null) card.id = priceId(r.key);
         const pr = el('div', 'pp'); pr.append(el('span', 'v', r.price), el('span', 'u', UNIT_SHORT[r.unit] || (r.unit ? ' ' + r.unit : '')));
         card.append(el('div', 'pn', r.name), pr);
         if (r.move) card.appendChild(el('span', 'chip' + dirClass(r.direction), r.move));
@@ -3057,7 +3067,9 @@
     if (i < CHAIN.length - 1) { const b = el('button', 'chp-next'); b.type = 'button'; b.append(el('small', null, 'Next →'), el('b', null, CHAIN[i + 1].name)); b.addEventListener('click', () => go('chain/' + CHAIN[i + 1].id)); pn.appendChild(b); }
     box.appendChild(pn);
     { const rp = !S.resizing; requestAnimationFrame(() => reveal(box, rp)); }
+    refocus();
   }
+  function refocus() { if (S.focusSel && Date.now() < S.focusUntil) requestAnimationFrame(() => { const e = $(S.focusSel); if (!e) return; const sec = e.closest('.rv'); if (sec) sec.classList.remove('pre'); e.scrollIntoView({ block: 'center' }); e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800); }); }
 
   // ---------- tabs ----------
   const RENDER = { bid: renderBid, overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules, brief: renderBrief };
@@ -3098,7 +3110,7 @@
     let n = $(':scope > .desk-nav', pg);
     if (!n) { n = el('nav', 'desk-nav'); n.setAttribute('aria-label', 'Bidding desk'); const h = $(':scope > .pg-card', pg); if (h) h.after(n); else pg.prepend(n); }
     n.replaceChildren();
-    [['bid', 'Landed cost and outlook'], ['calculator', 'Cost to make a cell'], ['storage', 'India tenders and EPC']].forEach(([t, l]) => { const b = el('button', null, l); b.type = 'button'; b.setAttribute('aria-current', String(t === tab)); b.addEventListener('click', () => go(t)); n.appendChild(b); });
+    [['bid', 'Landed cost and outlook'], ['calculator', 'Cost calculator'], ['storage', 'India tenders and EPC']].forEach(([t, l]) => { const b = el('button', null, l); b.type = 'button'; b.setAttribute('aria-current', String(t === tab)); b.addEventListener('click', () => go(t)); n.appendChild(b); });
   }
   function go(route, push = true, nav = false) {
     const y0 = window.scrollY; // before the old page is hidden and the document shrinks

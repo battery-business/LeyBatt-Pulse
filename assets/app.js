@@ -2850,6 +2850,10 @@
     const cutoff = rangeDays ? new Date(+today - rangeDays * 864e5) : new Date(-8.64e15);
     const hv = thin(hist.filter((p) => p.d >= cutoff));
     if (!hv.length && !fc) { box.appendChild(el('div', 'empty', 'No readings in this period.')); return; }
+    if (fc && rangeDays) { // the range applies both ways: 1Y shows the last 12 months and the next 12, and the axis zooms to them
+      const end = +today + (rangeDays + 20) * 864e5; const k = fc.months.filter((m) => +m <= end).length;
+      if (k > 0 && k < fc.months.length) fc = { ...fc, months: fc.months.slice(0, k), bands: fc.bands.slice(0, k), others: fc.others.map((o) => ({ ...o, mids: o.mids.slice(0, k) })) };
+    }
     const months = fc ? fc.months : [];
     const W = box.clientWidth || 700, H = height;
     const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]]), ...fc.others.flatMap((o) => o.mids)] : [])].filter((v) => v > 0);

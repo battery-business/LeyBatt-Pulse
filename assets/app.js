@@ -1577,7 +1577,7 @@
     const hist = ((X.history || {})[mat.id] || []).map(([dd, v]) => ({ d: parse(dd), v: +v })).filter((p) => +p.d >= +months[0] - 3 * 366 * 864e5);
     const today = parse(X.asof);
     const W = box.clientWidth || 700, H = 340;
-    const allV = [...hist.map((p) => p.v), now, ...R.bands.flatMap((b) => [b[0], b[4]]), ...X.scenarios.map((s) => X.results[s.id][mat.id].bands.map((b) => b[2])).flat()].filter((v) => v > 0);
+    const allV = [...hist.map((p) => p.v), now, ...R.bands.flatMap((b) => [b[0], b[4]]), ...(R.ex || []).flat(), ...X.scenarios.map((s) => X.results[s.id][mat.id].bands.map((b) => b[2])).flat()].filter((v) => v > 0);
     const y = d3.scaleLinear([Math.min(...allV) * 0.92, Math.max(...allV) * 1.04], [H - 30, 14]).nice();
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img').attr('aria-label', `${mat.name}: history and ${OL.scen} scenario range to ${d3.utcFormat('%b %Y')(months[months.length - 1])}`);
     const ticks = y.ticks(5); const left = measure(svg, ticks.map(mat.fmt)) + 12; const narrow = W < 560; const right = narrow ? Math.min(96, W * 0.27) : Math.min(150, W * 0.2);
@@ -1595,6 +1595,10 @@
       const b = X.results[s.id][mat.id].bands; const pts = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: b[i][2] }))];
       svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css(OL_COL[s.id])).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
       if (!narrow) labels.push({ y: y(pts[pts.length - 1].v), t: s.name, c: css(OL_COL[s.id]), w: 500 });
+    });
+    (R.ex || []).forEach((e) => { // example paths, unsmoothed
+      const pts = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: e[i] }))].filter((p) => p.v != null);
+      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 1.1).attr('stroke-opacity', 0.55).attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
     });
     const mid = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: R.bands[i][2] }))];
     svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
@@ -1621,6 +1625,7 @@
     const lg = $('#ol-legend'); lg.replaceChildren();
     const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); lg.appendChild(s2); };
     item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Middle of the range', c); item('lg-band2', 'Half of outcomes (P25–P75)', c); item('lg-band', '8 in 10 outcomes (P10–P90)', c); item('lg-dash', 'Other scenarios (middle)', css('--muted'));
+    if (R.ex && R.ex.length) { item('lg-ex', 'Example paths', c); lg.lastChild.title = 'Three of the simulated month-by-month tracks (typical ones, not extremes). Single tracks swing; the middle line is smooth because it averages thousands of them.'; }
     if (mat.note) lg.appendChild(el('span', 'note', mat.unit + ' ' + mat.note));
   }
   function olYears(tbl, X, mat, scen = OL.scen, oddsEl = $('#ol-odds')) {
@@ -2852,11 +2857,11 @@
     if (!hv.length && !fc) { box.appendChild(el('div', 'empty', 'No readings in this period.')); return; }
     if (fc && rangeDays) { // the range applies both ways: 1Y shows the last 12 months and the next 12, and the axis zooms to them
       const end = +today + (rangeDays + 20) * 864e5; const k = fc.months.filter((m) => +m <= end).length;
-      if (k > 0 && k < fc.months.length) fc = { ...fc, months: fc.months.slice(0, k), bands: fc.bands.slice(0, k), others: fc.others.map((o) => ({ ...o, mids: o.mids.slice(0, k) })) };
+      if (k > 0 && k < fc.months.length) fc = { ...fc, months: fc.months.slice(0, k), bands: fc.bands.slice(0, k), others: fc.others.map((o) => ({ ...o, mids: o.mids.slice(0, k) })), ex: (fc.ex || []).map((e) => e.slice(0, k)) };
     }
     const months = fc ? fc.months : [];
     const W = box.clientWidth || 700, H = height;
-    const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]]), ...fc.others.flatMap((o) => o.mids)] : [])].filter((v) => v > 0);
+    const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]]), ...fc.others.flatMap((o) => o.mids), ...(compact ? [] : (fc.ex || []).flat())] : [])].filter((v) => v > 0);
     const y = d3.scaleLinear([Math.min(...vals) * 0.92, Math.max(...vals) * 1.04], [H - 30, 14]).nice();
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
     const ticks = y.ticks(5); const left = measure(svg, ticks.map(fmt)) + 12; const narrow = W < 560;
@@ -2876,6 +2881,10 @@
         svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', o.color).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
         if (!narrow && !compact) labels.push({ y: y(pts[pts.length - 1].v), t: o.name, c: o.color, w: 500 });
       });
+      if (!compact) (fc.ex || []).forEach((e) => { // example paths: one possible month-by-month track each, unsmoothed
+        const pts = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: e[i] }))].filter((p) => p.v != null);
+        svg.append('path').datum(pts).attr('class', 'fc-ex').attr('fill', 'none').attr('stroke', color).attr('stroke-width', 1.1).attr('stroke-opacity', 0.55).attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
+      });
       const mid = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: fc.bands[i][2] }))];
       svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
       labels.push({ y: y(mid[mid.length - 1].v), t: narrow || compact ? fmt(mid[mid.length - 1].v) : `${fc.name} ${fmt(mid[mid.length - 1].v)}`, c: color, w: 700 });
@@ -2893,28 +2902,28 @@
     labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
     labels.forEach((l) => svg.append('text').attr('x', W - right + 8).attr('y', l.y + 4).attr('font-size', 11.5).attr('font-weight', l.w).attr('fill', l.c).text(l.t));
     const rule = svg.append('line').attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('opacity', 0);
-    const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i] })) : [])];
+    const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i], ex: compact ? [] : (fc.ex || []).map((e) => e[i]).filter((v) => v != null) })) : [])];
     const bis = d3.bisector((p) => p.d).center;
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', Math.max(0, W - left - right)).attr('height', H - 30).attr('fill', 'transparent')
       .on('pointermove pointerdown', (ev) => {
         if (!seq.length) return; const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
         showTip(ev, (t) => {
           if (p.h != null) { t.appendChild(el('div', 'k', dayFmt(p.d))); tipRow(t, css('--fg'), 'Actual', fmt(p.h)); if (p.src) tipNote(t, 'Source: ' + p.src); }
-          else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Middle', fmt(p.b[2])); tipRow(t, color, 'Half of outcomes', `${fmt(p.b[1])} – ${fmt(p.b[3])}`); tipRow(t, color, '8 in 10 outcomes', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); }
+          else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Middle', fmt(p.b[2])); tipRow(t, color, 'Half of outcomes', `${fmt(p.b[1])} – ${fmt(p.b[3])}`); tipRow(t, color, '8 in 10 outcomes', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); if (p.ex && p.ex.length) tipRow(t, null, 'Example paths', p.ex.map(fmt).join(' · ')); }
         });
       }).on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     if (legend) {
       legend.replaceChildren();
       const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); legend.appendChild(s2); };
       if (hv.length) item('lg-line', 'Actual', css('--fg'));
-      if (fc) { item('lg-mid', 'Forecast, middle', color); item('lg-band2', 'Half of outcomes', color); item('lg-band', '8 in 10 outcomes', color); if (fc.others.length) item('lg-dash', 'Other scenarios', css('--muted')); }
+      if (fc) { item('lg-mid', 'Forecast, middle', color); item('lg-band2', 'Half of outcomes', color); item('lg-band', '8 in 10 outcomes', color); if (!compact && fc.ex && fc.ex.length) { item('lg-ex', 'Example paths', color); legend.lastChild.title = 'Three of the simulated month-by-month tracks (typical ones, not extremes). Single tracks swing; the middle line is smooth because it averages thousands of them.'; } if (fc.others.length) item('lg-dash', 'Other scenarios', css('--muted')); }
     }
     drawIn(box);
   }
   function fcData(X, mat, scen, includeOthers = true) {
     if (!X || !X.results || !X.results[scen] || !X.results[scen][mat]) return null;
     const sc = X.scenarios.find((s) => s.id === scen);
-    return { asof: X.asof, months: X.months.map(parse), now: X.now[mat], bands: X.results[scen][mat].bands, name: sc.name,
+    return { asof: X.asof, months: X.months.map(parse), now: X.now[mat], bands: X.results[scen][mat].bands, ex: X.results[scen][mat].ex || [], name: sc.name,
       others: includeOthers ? X.scenarios.filter((s) => s.id !== scen).map((s) => ({ name: s.name, color: css(OL_COL[s.id]), mids: X.results[s.id][mat].bands.map((b) => b[2]) })) : [] };
   }
   function fullUi() {

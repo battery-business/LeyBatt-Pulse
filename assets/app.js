@@ -1577,7 +1577,7 @@
     const hist = ((X.history || {})[mat.id] || []).map(([dd, v]) => ({ d: parse(dd), v: +v })).filter((p) => +p.d >= +months[0] - 3 * 366 * 864e5);
     const today = parse(X.asof);
     const W = box.clientWidth || 700, H = 340;
-    const allV = [...hist.map((p) => p.v), now, ...R.bands.flatMap((b) => [b[0], b[4]]), ...(R.ex || []).flat(), ...X.scenarios.map((s) => X.results[s.id][mat.id].bands.map((b) => b[2])).flat()].filter((v) => v > 0);
+    const allV = [...hist.map((p) => p.v), now, ...R.bands.flatMap((b) => [b[0], b[4]])].filter((v) => v > 0);
     const y = d3.scaleLinear([Math.min(...allV) * 0.92, Math.max(...allV) * 1.04], [H - 30, 14]).nice();
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H).attr('role', 'img').attr('aria-label', `${mat.name}: history and ${OL.scen} scenario range to ${d3.utcFormat('%b %Y')(months[months.length - 1])}`);
     const ticks = y.ticks(5); const left = measure(svg, ticks.map(mat.fmt)) + 12; const narrow = W < 560; const right = narrow ? Math.min(96, W * 0.27) : Math.min(150, W * 0.2);
@@ -1587,19 +1587,9 @@
     svg.append('g').attr('transform', `translate(0,${H - 30})`).call(d3.axisBottom(x).ticks(d3.utcYear.every(1)).tickFormat(d3.utcFormat(narrow ? "'%y" : '%Y')).tickSize(0).tickPadding(10)).call(axisStyle);
     const c = css(OL_COL[OL.scen]);
     const fut = [{ d: today, b: [now, now, now, now, now] }, ...months.map((m, i) => ({ d: m, b: R.bands[i] }))];
-    svg.append('path').datum(fut).attr('fill', c).attr('fill-opacity', 0.13).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
-    svg.append('path').datum(fut).attr('fill', c).attr('fill-opacity', 0.22).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[1])).y1((p) => y(p.b[3])).curve(d3.curveMonotoneX));
-    // other scenarios' middles, thin and muted
+    // kept simple: one line (the middle) and one band (8 in 10 outcomes); other scenarios are one click away
+    svg.append('path').datum(fut).attr('fill', c).attr('fill-opacity', 0.18).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
     const labels = [];
-    X.scenarios.filter((s) => s.id !== OL.scen).forEach((s) => {
-      const b = X.results[s.id][mat.id].bands; const pts = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: b[i][2] }))];
-      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', css(OL_COL[s.id])).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
-      if (!narrow) labels.push({ y: y(pts[pts.length - 1].v), t: s.name, c: css(OL_COL[s.id]), w: 500 });
-    });
-    (R.ex || []).forEach((e) => { // example paths, unsmoothed
-      const pts = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: e[i] }))].filter((p) => p.v != null);
-      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 1.1).attr('stroke-opacity', 0.55).attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
-    });
     const mid = [{ d: today, v: now }, ...months.map((m, i) => ({ d: m, v: R.bands[i][2] }))];
     svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
     labels.push({ y: y(mid[mid.length - 1].v), t: narrow ? mat.fmt(mid[mid.length - 1].v) : `${X.scenarios.find((s) => s.id === OL.scen).name} ${mat.fmt(mid[mid.length - 1].v)}`, c, w: 700 });
@@ -1619,13 +1609,12 @@
         showTip(ev, (t) => {
           t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d)));
           if (p.h != null) tipRow(t, css('--fg'), +p.d === +today ? 'Today' : 'Actual (month end)', mat.fmt(p.h));
-          else { tipRow(t, c, 'Middle (P50)', mat.fmt(p.b[2])); tipRow(t, c, 'Likely range (P25–P75)', `${mat.fmt(p.b[1])} – ${mat.fmt(p.b[3])}`); tipRow(t, c, 'Wide range (P10–P90)', `${mat.fmt(p.b[0])} – ${mat.fmt(p.b[4])}`); }
+          else { tipRow(t, c, 'Forecast', mat.fmt(p.b[2])); tipRow(t, c, 'Likely range', `${mat.fmt(p.b[0])} – ${mat.fmt(p.b[4])}`); }
         });
       }).on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     const lg = $('#ol-legend'); lg.replaceChildren();
     const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); lg.appendChild(s2); };
-    item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Middle of the range', c); item('lg-band2', 'Half of outcomes (P25–P75)', c); item('lg-band', '8 in 10 outcomes (P10–P90)', c); item('lg-dash', 'Other scenarios (middle)', css('--muted'));
-    if (R.ex && R.ex.length) { item('lg-ex', 'Example paths', c); lg.lastChild.title = 'Three of the simulated month-by-month tracks (typical ones, not extremes). Single tracks swing; the middle line is smooth because it averages thousands of them.'; }
+    item('lg-line', 'Actual', css('--fg')); item('lg-mid', 'Forecast', c); item('lg-band', 'Likely range (8 in 10 outcomes)', c);
     if (mat.note) lg.appendChild(el('span', 'note', mat.unit + ' ' + mat.note));
   }
   function olYears(tbl, X, mat, scen = OL.scen, oddsEl = $('#ol-odds')) {
@@ -1670,7 +1659,7 @@
     [`Each scenario sets an expected price path from today's price through published forecasts (sources below).`,
      `Around that path, ${d3.format(',')(X.sims)} possible futures are simulated month by month. The size of the monthly swings is taken from each material's real price history, and a swing fades over time instead of building up for ever. Every scenario uses the same random draws, so the differences between scenarios come only from their assumptions.`,
      `Lithium, copper and aluminium are passed through the site's own cost model to work out LFP cathode, the cost to make a 314 Ah storage cell, and the cell price (cost plus the makers' margin, which also swings). The rupee path converts it to rupees.`,
-     `The ranges show where 8 in 10 (P10–P90) and half (P25–P75) of the simulated futures land. For 2 and 3 years the page shows the chance of being at least 25% above today's price, as a percentage, so it is not confused with the 0–10 scores for the next 3 and 12 months.`].forEach((t) => ol.appendChild(el('li', null, t)));
+     `The shaded likely range shows where 8 in 10 of the simulated futures land (P10–P90); the line is the middle (P50). For 2 and 3 years the page shows the chance of being at least 25% above today's price, as a percentage, so it is not confused with the 0–10 scores for the next 3 and 12 months.`].forEach((t) => ol.appendChild(el('li', null, t)));
     h('What the model learned from the history');
     const C = X.calibration; const ul = el('ul'); box.appendChild(ul);
     [['lithium', 'Lithium'], ['copper', 'Copper'], ['aluminium', 'Aluminium']].forEach(([k, n]) => { const c = C[k]; if (c) ul.appendChild(el('li', null, `${n}: swings about ${c.monthly_swing_pct}% in a typical month; a swing halves in about ${Math.round(c.half_life_months)} months (${c.how}). ${c.months_of_history} months of history from ${c.from}.`)); });
@@ -2857,11 +2846,11 @@
     if (!hv.length && !fc) { box.appendChild(el('div', 'empty', 'No readings in this period.')); return; }
     if (fc && rangeDays) { // the range applies both ways: 1Y shows the last 12 months and the next 12, and the axis zooms to them
       const end = +today + (rangeDays + 20) * 864e5; const k = fc.months.filter((m) => +m <= end).length;
-      if (k > 0 && k < fc.months.length) fc = { ...fc, months: fc.months.slice(0, k), bands: fc.bands.slice(0, k), others: fc.others.map((o) => ({ ...o, mids: o.mids.slice(0, k) })), ex: (fc.ex || []).map((e) => e.slice(0, k)) };
+      if (k > 0 && k < fc.months.length) fc = { ...fc, months: fc.months.slice(0, k), bands: fc.bands.slice(0, k) };
     }
     const months = fc ? fc.months : [];
     const W = box.clientWidth || 700, H = height;
-    const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]]), ...fc.others.flatMap((o) => o.mids), ...(compact ? [] : (fc.ex || []).flat())] : [])].filter((v) => v > 0);
+    const vals = [...hv.map((p) => p.v), ...(fc ? [fc.now, ...fc.bands.flatMap((b) => [b[0], b[4]])] : [])].filter((v) => v > 0);
     const y = d3.scaleLinear([Math.min(...vals) * 0.92, Math.max(...vals) * 1.04], [H - 30, 14]).nice();
     const svg = d3.select(box).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('height', H);
     const ticks = y.ticks(5); const left = measure(svg, ticks.map(fmt)) + 12; const narrow = W < 560;
@@ -2874,17 +2863,7 @@
     const labels = [];
     if (fc) {
       const fut = [{ d: today, b: [fc.now, fc.now, fc.now, fc.now, fc.now] }, ...months.map((m, i) => ({ d: m, b: fc.bands[i] }))];
-      svg.append('path').datum(fut).attr('fill', color).attr('fill-opacity', 0.13).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
-      svg.append('path').datum(fut).attr('fill', color).attr('fill-opacity', 0.22).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[1])).y1((p) => y(p.b[3])).curve(d3.curveMonotoneX));
-      fc.others.forEach((o) => {
-        const pts = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: o.mids[i] }))];
-        svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', o.color).attr('stroke-width', 1.2).attr('stroke-dasharray', '4 4').attr('opacity', 0.75).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
-        if (!narrow && !compact) labels.push({ y: y(pts[pts.length - 1].v), t: o.name, c: o.color, w: 500 });
-      });
-      if (!compact) (fc.ex || []).forEach((e) => { // example paths: one possible month-by-month track each, unsmoothed
-        const pts = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: e[i] }))].filter((p) => p.v != null);
-        svg.append('path').datum(pts).attr('class', 'fc-ex').attr('fill', 'none').attr('stroke', color).attr('stroke-width', 1.1).attr('stroke-opacity', 0.55).attr('stroke-linejoin', 'round').attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)));
-      });
+      svg.append('path').datum(fut).attr('fill', color).attr('fill-opacity', 0.18).attr('d', d3.area().x((p) => x(p.d)).y0((p) => y(p.b[0])).y1((p) => y(p.b[4])).curve(d3.curveMonotoneX));
       const mid = [{ d: today, v: fc.now }, ...months.map((m, i) => ({ d: m, v: fc.bands[i][2] }))];
       svg.append('path').datum(mid).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2.4).attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v)).curve(d3.curveMonotoneX));
       labels.push({ y: y(mid[mid.length - 1].v), t: narrow || compact ? fmt(mid[mid.length - 1].v) : `${fc.name} ${fmt(mid[mid.length - 1].v)}`, c: color, w: 700 });
@@ -2902,28 +2881,28 @@
     labels.sort((a, b) => a.y - b.y); for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
     labels.forEach((l) => svg.append('text').attr('x', W - right + 8).attr('y', l.y + 4).attr('font-size', 11.5).attr('font-weight', l.w).attr('fill', l.c).text(l.t));
     const rule = svg.append('line').attr('y1', 14).attr('y2', H - 30).attr('stroke', css('--axis')).attr('opacity', 0);
-    const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i], ex: compact ? [] : (fc.ex || []).map((e) => e[i]).filter((v) => v != null) })) : [])];
+    const seq = [...hv.map((p) => ({ d: p.d, h: p.v, src: p.source })), ...(fc ? months.map((m, i) => ({ d: m, b: fc.bands[i] })) : [])];
     const bis = d3.bisector((p) => p.d).center;
     svg.append('rect').attr('x', left).attr('y', 0).attr('width', Math.max(0, W - left - right)).attr('height', H - 30).attr('fill', 'transparent')
       .on('pointermove pointerdown', (ev) => {
         if (!seq.length) return; const p = seq[bis(seq, x.invert(d3.pointer(ev)[0]))]; rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('opacity', 1);
         showTip(ev, (t) => {
           if (p.h != null) { t.appendChild(el('div', 'k', dayFmt(p.d))); tipRow(t, css('--fg'), 'Actual', fmt(p.h)); if (p.src) tipNote(t, 'Source: ' + p.src); }
-          else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Middle', fmt(p.b[2])); tipRow(t, color, 'Half of outcomes', `${fmt(p.b[1])} – ${fmt(p.b[3])}`); tipRow(t, color, '8 in 10 outcomes', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); if (p.ex && p.ex.length) tipRow(t, null, 'Example paths', p.ex.map(fmt).join(' · ')); }
+          else { t.appendChild(el('div', 'k', d3.utcFormat('%b %Y')(p.d) + ' · forecast')); tipRow(t, color, 'Forecast', fmt(p.b[2])); tipRow(t, color, 'Likely range', `${fmt(p.b[0])} – ${fmt(p.b[4])}`); }
         });
       }).on('pointerleave', onLeave(() => { rule.attr('opacity', 0); hideTip(); }));
     if (legend) {
       legend.replaceChildren();
       const item = (cls, txt, col) => { const s2 = el('span'); const i2 = el('i', cls); if (col) i2.style.setProperty('--c', col); s2.append(i2, document.createTextNode(txt)); legend.appendChild(s2); };
       if (hv.length) item('lg-line', 'Actual', css('--fg'));
-      if (fc) { item('lg-mid', 'Forecast, middle', color); item('lg-band2', 'Half of outcomes', color); item('lg-band', '8 in 10 outcomes', color); if (!compact && fc.ex && fc.ex.length) { item('lg-ex', 'Example paths', color); legend.lastChild.title = 'Three of the simulated month-by-month tracks (typical ones, not extremes). Single tracks swing; the middle line is smooth because it averages thousands of them.'; } if (fc.others.length) item('lg-dash', 'Other scenarios', css('--muted')); }
+      if (fc) { item('lg-mid', 'Forecast', color); item('lg-band', 'Likely range (8 in 10 outcomes)', color); }
     }
     drawIn(box);
   }
   function fcData(X, mat, scen, includeOthers = true) {
     if (!X || !X.results || !X.results[scen] || !X.results[scen][mat]) return null;
     const sc = X.scenarios.find((s) => s.id === scen);
-    return { asof: X.asof, months: X.months.map(parse), now: X.now[mat], bands: X.results[scen][mat].bands, ex: X.results[scen][mat].ex || [], name: sc.name,
+    return { asof: X.asof, months: X.months.map(parse), now: X.now[mat], bands: X.results[scen][mat].bands, name: sc.name,
       others: includeOthers ? X.scenarios.filter((s) => s.id !== scen).map((s) => ({ name: s.name, color: css(OL_COL[s.id]), mids: X.results[s.id][mat].bands.map((b) => b[2]) })) : [] };
   }
   function fullUi() {

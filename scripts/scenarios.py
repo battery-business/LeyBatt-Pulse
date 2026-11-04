@@ -254,12 +254,7 @@ def summarise(paths, months, now):
         dn = sum(1 for v in vals if v <= now * 0.75) / len(vals)
         return {"month": months[h - 1].isoformat(), "p10": q[0], "p50": q[2], "p90": q[4], "up25": up, "down25": dn,
                 "score": round(10 * up, 1)}
-    # three example paths, to show how a single month-by-month track moves (the bands smooth that out):
-    # the paths whose final value ranks at the 25th, 50th and 75th percentile, so they are typical, not extremes
-    order = sorted(range(len(paths)), key=lambda i: paths[i][-1])
-    rnd = lambda v: round(v, 2) if abs(v) < 1000 else round(v)
-    ex = [[rnd(v) for v in paths[order[int(q * (len(order) - 1))]]] for q in (0.25, 0.5, 0.75)] if len(paths) >= 20 else []
-    return {"bands": [[round(v, 2) for v in b] for b in bands], "years": years, "m12": at(12), "m24": at(24), "m36": at(36), "ex": ex}
+    return {"bands": [[round(v, 2) for v in b] for b in bands], "years": years, "m12": at(12), "m24": at(24), "m36": at(36)}
 
 
 def level(bands, score):

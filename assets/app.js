@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'bid', 'calculator', 'storage', 'risk', 'brief', 'chain'];
@@ -2932,6 +2932,115 @@
     const h = $('.chp-h', sec); if (h) { const row = el('div', 'chp-hrow'); h.replaceWith(row); row.append(h, b); } else sec.appendChild(b);
     return b;
   }
+  // ---------- everything a cell team or a pack team needs, on their step ----------
+  function trackerTable(box, rows, cols, { limit = 8, empty = 'Nothing yet.' } = {}) {
+    const wrap = el('div', 'table-wrap'); const t = el('table', 'rtable trk'); wrap.appendChild(t); box.appendChild(wrap);
+    const hr = el('tr'); cols.forEach(([h]) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    const tb = el('tbody'); t.appendChild(tb);
+    const draw = (n) => { tb.replaceChildren(); rows.slice(0, n).forEach((r) => { const tr = el('tr'); cols.forEach(([, f, cls]) => { const td = el('td', cls || null); const v = f(r); if (v instanceof Node) td.appendChild(v); else td.textContent = v == null || v === '' ? '–' : v; tr.appendChild(td); }); tb.appendChild(tr); }); stackLabels(t); };
+    draw(limit);
+    if (!rows.length) box.appendChild(el('p', 'sub', empty));
+    if (rows.length > limit) { const b = el('button', 'btn link small', `Show all ${rows.length}`); b.type = 'button'; b.addEventListener('click', () => { draw(rows.length); b.remove(); }); box.appendChild(b); }
+  }
+  const srcCell = (r) => { const f = document.createDocumentFragment(); f.appendChild(link(r.source, r.url)); return f; };
+  const nameCell = (main, sub) => { const f = document.createDocumentFragment(); f.appendChild(el('b', null, main)); if (sub) f.appendChild(el('span', 'role', sub)); return f; };
+  const dshort = (d) => (d ? d3.utcFormat('%-d %b %Y')(parse(d)) : '');
+  function rulesFor(box, test) { // the rules that hit this team, nearest date first
+    const today = istToday();
+    const rs = (D.regulations || []).filter(test).sort((a, b) => { const fa = +parse(a.date) >= today, fb = +parse(b.date) >= today; return fa !== fb ? (fa ? -1 : 1) : fa ? d3.ascending(a.date, b.date) : d3.descending(a.date, b.date); });
+    const ul = el('ul', 'team-rules'); box.appendChild(ul);
+    rs.slice(0, 8).forEach((r) => {
+      const days = Math.round((+parse(r.date) - today) / 864e5);
+      const li = el('li'); const a = el('a'); a.href = '#rules?rule=' + r.id;
+      const top = el('span', 'tr-top'); top.append(el('span', 'rule-status', r.status), el('span', 'tr-when' + (days >= 0 && days <= 60 ? ' soon' : ''), days > 0 && days <= 120 ? `${r.date_label || dshort(r.date)} · in ${days} days` : (r.date_label || dshort(r.date))));
+      a.append(top, el('b', null, r.title), el('span', 'tr-so', r.so || r.impact)); li.appendChild(a); ul.appendChild(li);
+    });
+  }
+  function landedOutlook(box, items) { // ₹/kWh landed today and as an average for 2027-2029 (base scenario)
+    landInit();
+    const t = el('table', 'rtable'); const hr = el('tr'); ['', 'Today', '2027', '2028', '2029'].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    const tb = el('tbody'); t.appendChild(tb);
+    items.forEach(([prod, name]) => {
+      const tr = el('tr'); tr.appendChild(el('td', null, name)); const cls = prod === 'ac4h' || prod === 'dc2h' ? 'B' : 'C';
+      ['now', '2027', '2028', '2029'].forEach((y) => {
+        const q = bidPrice(prod, y, 'base'); const td = el('td', 'num' + (y === 'now' ? ' strong' : ''));
+        if (!q) { td.textContent = '–'; tr.appendChild(td); return; }
+        const a = landCalc(q.mid, cls, y !== 'now', q.fx); td.textContent = inr(a.inr);
+        if (y !== 'now') td.appendChild(el('span', 'role', `${inr(landCalc(q.lo, cls, true, q.fx).inr)}–${inr(landCalc(q.hi, cls, true, q.fx).inr)}`));
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    const w = el('div', 'table-wrap'); w.appendChild(t); box.appendChild(w); stackLabels(t);
+    box.appendChild(el('p', 'sub', 'Rupees per kWh landed in India (China price + freight, insurance and duty; IGST excluded). 2027–2029: yearly average in the base scenario, with the range 8 in 10 outcomes fall in, including China’s 6% export rebate ending on 1 Jan 2027 and the outlook for the rupee.'));
+    const b = el('button', 'btn link', 'Change product, year, scenario or project size in the Bidding desk →'); b.type = 'button'; b.addEventListener('click', () => go('bid')); box.appendChild(b);
+  }
+  function teamSections(c, section) {
+    const w = weekly(); const last = w[w.length - 1] || {};
+    if (c.id === 'cells') {
+      // 1. what is inside a cell price
+      const s1 = section('What’s inside a cell price', 'A 314 Ah LFP storage cell, built up from today’s material prices with the site’s cost model, against what it sells for.');
+      try {
+        const base = calcBase(); const cc = cellCost(base); const price = +last.cell314; const keep = price - cc.total;
+        const groups = [['Cathode (lithium, iron phosphate, processing)', '--amber', ['li', 'fe', 'proc']], ['Anode, electrolyte, separator', '--teal', ['gr', 'el', 'sep']], ['Foils, case and other materials', '--indigo', ['cu', 'al', 'aux', 'struct']], ['Making the cell (incl. yield loss)', '--slate', ['loss', 'mfg']]]
+          .map(([label, color, ks]) => ({ label, color, v: d3.sum(cc.parts.filter((p) => ks.includes(p.k)), (p) => p.v) }));
+        if (keep > 0) groups.push({ label: 'Maker margin', color: '--green', v: keep });
+        const bar = el('div', 'stackbar'); s1.appendChild(bar); stackBar(bar, groups, Math.max(price, cc.total));
+        const lg = el('div', 'team-legend'); groups.forEach((g) => { const r = el('span'); const i = el('i'); i.style.background = css(g.color); r.append(i, document.createTextNode(`${g.label} `), el('b', null, fmtUsd1(g.v))); lg.appendChild(r); }); s1.appendChild(lg);
+        const slope = (cellCost({ ...base, li: base.li + 1000 }).total - cc.total);
+        s1.appendChild(el('p', 'team-key', `Every $1,000/t move in lithium carbonate moves the cost of a cell by about ${fmtUsd1(slope)}/kWh. Cost to make ${fmtUsd1(cc.total)}/kWh; market price ${fmtUsd1(price)}/kWh (InfoLink, ${last.date ? shortDay(parse(last.date)) : ''}).`));
+        const mb = el('div'); s1.appendChild(mb); renderMargin(mb);
+        const lk = el('button', 'btn link', 'Open the cost calculator →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s1.appendChild(lk);
+      } catch (e) { console.error(e); s1.appendChild(el('p', 'sub', 'Cost model unavailable.')); }
+      // 2. landed in India
+      landedOutlook(section('Landed in India, now and 2027–2029', null), [['cell314', '314 Ah storage cell'], ['evcell', 'EV prismatic LFP cell']]);
+      // 3. who sells at what price
+      const s3 = section('Who sells at what price', 'Latest public bid or list price from each cell maker, against InfoLink’s 314 Ah market average on the same date. Bids include VAT as published, converted and with VAT removed.');
+      const cm = cellMap(); const cmDates = [...cm.keys()].sort();
+      const avgOn = (d) => { let v = null; cmDates.forEach((x) => { if (x <= d) v = cm.get(x); }); return v; };
+      const lastBy = new Map(); [...((D.tenders || {}).rows || [])].filter((r) => r.usd_kwh).sort((a, b) => d3.ascending(a.date, b.date)).forEach((r) => lastBy.set(r.bidder, r));
+      const bids = [...lastBy.values()].sort((a, b) => a.usd_kwh - b.usd_kwh);
+      trackerTable(s3, bids, [['Maker', (r) => nameCell(r.bidder, r.kind === 'list' ? 'List price' : r.kind === 'range' ? 'Range' : 'Bid')], ['Cell', (r) => r.size], ['US$/kWh', (r) => fmtUsd1(r.usd_kwh), 'num strong'], ['vs market average', (r) => { const a = avgOn(r.date); return a ? pctS((r.usd_kwh / a - 1) * 100) : '–'; }, 'num'], ['Where', (r) => nameCell(r.buyer, r.when)], ['Source', srcCell]], { limit: 10 });
+      // 4. new cells
+      const s4 = section('New cells', (D.cellmodels || {}).about || 'New cells from the makers.');
+      trackerTable(s4, [...((D.cellmodels || {}).rows || [])].sort((a, b) => d3.descending(a.date, b.date)), [['Cell', (r) => nameCell(r.maker, r.cell)], ['Chemistry', (r) => r.chemistry], ['Size', (r) => r.size || r.format], ['What it claims', (r) => r.spec, 'mk-note'], ['Stage', (r) => nameCell(r.stage, r.when)], ['Source', (r) => { const f = srcCell(r); f.appendChild(el('span', 'role', dshort(r.date))); return f; }]], { limit: 8 });
+      // 5. India cell factories
+      const pl = ((D.plants || {}).rows || []).filter((r) => r.kind === 'Cells');
+      const s5 = section('Cell factories in India', 'Who is making cells in India, how much and when.');
+      plantsTable(s5, pl);
+      // 6. rules
+      rulesFor(section('Rules that hit cells', 'Duties, testing, incentives and export controls that change the cost or supply of cells. Click one for the full rule.'), (r) => (r.affects || []).some((a) => ['Cells', 'Storage cells', 'EV cells', 'Graphite', 'Cathode', 'Lithium'].includes(a)));
+    }
+    if (c.id === 'systems') {
+      // 1. what is inside a system price
+      const s1 = section('What’s inside a storage system price', 'Split worked out from InfoLink’s weekly China prices, assuming 1 kWh of cells per kWh of system.');
+      const cell = +last.cell314, dc2 = +last.dc_2h, ac2 = +last.ac_2h, ac4 = +last.ac_4h;
+      const rowsS = [['2-hour AC system', [{ label: 'Cells', color: '--blue', v: cell }, { label: 'Racks, container, cooling, BMS and fire safety', color: '--teal', v: dc2 - cell }, { label: 'Inverter (PCS) and AC side', color: '--orange', v: ac2 - dc2 }], ac2], ['4-hour AC system', [{ label: 'Cells', color: '--blue', v: cell }, { label: 'Everything else (per kWh, spread over 4 hours)', color: '--teal', v: ac4 - cell }], ac4]];
+      rowsS.forEach(([name, parts, tot]) => { if (!(tot > 0)) return; const r = el('div', 'team-stack'); r.appendChild(el('b', null, `${name}: ${fmtUsd1(tot)}/kWh`)); const bar = el('div', 'stackbar'); r.appendChild(bar); stackBar(bar, parts.filter((p) => p.v > 0), tot); const lg = el('div', 'team-legend'); parts.forEach((g) => { const x = el('span'); const i = el('i'); i.style.background = css(g.color); x.append(i, document.createTextNode(`${g.label} `), el('b', null, `${fmtUsd1(g.v)} (${Math.round(g.v / tot * 100)}%)`)); lg.appendChild(x); }); r.appendChild(lg); s1.appendChild(r); });
+      s1.appendChild(el('p', 'team-key', `Cells are about ${Math.round(cell / ac4 * 100)}% of a 4-hour system and ${Math.round(cell / ac2 * 100)}% of a 2-hour one: the longer the duration, the more the price follows cells. InfoLink, ${last.date ? shortDay(parse(last.date)) : ''}.`));
+      // 2. landed in India
+      landedOutlook(section('Landed in India, now and 2027–2029', 'For the system, and for the EV cell a pack is built from.'), [['ac4h', '4-hour AC storage system'], ['cell314', '314 Ah storage cell'], ['evcell', 'EV prismatic LFP cell']]);
+      // 3. vehicle packs
+      const s3 = section('Battery packs in Indian e-buses and e-trucks', (D.vehicles || {}).about || '');
+      trackerTable(s3, [...((D.vehicles || {}).rows || [])].sort((a, b) => d3.descending(a.date, b.date)), [['Vehicle', (r) => nameCell(r.maker, `${r.model} · ${r.type}`)], ['Pack, kWh', (r) => r.pack_kwh || 'Not disclosed', 'num strong'], ['Chemistry', (r) => r.chemistry], ['Charging', (r) => r.charging], ['Range, km', (r) => r.range_km, 'num'], ['Notes', (r) => r.note, 'mk-note'], ['Source', (r) => { const f = srcCell(r); f.appendChild(el('span', 'role', dshort(r.date))); return f; }]], { limit: 8 });
+      // 4. plants
+      const s4 = section('Pack and storage-system plants in India', (D.plants || {}).about || '');
+      plantsTable(s4, ((D.plants || {}).rows || []).filter((r) => r.kind === 'Packs' || r.kind === 'Storage systems'));
+      if ((D.plants || {}).about_url) { const p2 = el('p', 'sub'); p2.append(document.createTextNode('Capacity figure: '), link((D.plants || {}).about_source, D.plants.about_url)); s4.appendChild(p2); }
+      // 5. swapping and safety standards
+      const s5 = section('Battery swapping and safety standards', (D.standards || {}).about || '');
+      trackerTable(s5, (D.standards || {}).rows || [], [['Standard or network', (r) => nameCell(r.name, `${r.kind} · ${r.body}`)], ['What it covers', (r) => r.scope, 'mk-note'], ['Applies to', (r) => r.applies], ['Status', (r) => r.status, 'strong'], ['Source', srcCell]], { limit: 9 });
+      // 6. fires and recalls
+      const s6 = section('Battery fires and recalls', (D.safety || {}).about || '');
+      trackerTable(s6, [...((D.safety || {}).rows || [])].sort((a, b) => d3.descending(a.date, b.date)), [['When and where', (r) => nameCell(dshort(r.date), `${r.place}, ${r.country}`)], ['What', (r) => nameCell(r.kind, `${r.operator}. ${r.what}`)], ['Cause as reported', (r) => r.cause, 'mk-note'], ['Lesson published', (r) => r.lesson, 'mk-note'], ['Source', srcCell]], { limit: 6 });
+      // 7. rules
+      rulesFor(section('Rules that hit packs and storage systems', 'Safety standards, duties, recycling and battery passports. Click one for the full rule.'), (r) => (r.affects || []).some((a) => ['EV packs', 'BESS', 'EV'].includes(a)) || ['Standards & safety', 'Recycling & passports'].includes(r.area));
+    }
+  }
+  function plantsTable(box, rows) {
+    const ord = { Running: 0, Expanding: 1, Building: 2, Planned: 3, Announced: 4, Proposed: 5 };
+    trackerTable(box, [...rows].sort((a, b) => (ord[a.stage] ?? 9) - (ord[b.stage] ?? 9) || (b.gwh || 0) - (a.gwh || 0)), [['Company', (r) => nameCell(r.company, r.location)], ['What', (r) => r.kind], ['Capacity', (r) => r.capacity], ['Stage', (r) => nameCell(r.stage, r.start)], ['Notes', (r) => r.note, 'mk-note'], ['Source', (r) => { const f = srcCell(r); f.appendChild(el('span', 'role', dshort(r.date))); return f; }]], { limit: 8 });
+  }
   // the detailed price pages (lithium, cells, storage systems) shown inside their value-chain step
   const FOLD = { mining: ['lithium', 'More on lithium', 'Weekly moves and analyst forecasts.'], cells: ['cells', 'More on cells', 'Supplier price range, EV cells by size, cell tenders and who supplies China’s EV batteries.'], systems: ['systems', 'More on storage systems', 'Weekly China prices by duration and the monthly tender awards.'] };
   const FOLD_NODES = Object.fromEntries(['lithium', 'cells', 'systems'].map((k) => [k, $(`#page-materials .subpage[data-sub="${k}"]`)]));
@@ -3018,13 +3127,12 @@
       });
       s.appendChild(g);
     }
+    try { teamSections(c, section); } catch (e) { console.error(e); }
     if (FOLD[c.id] && FOLD_NODES[FOLD[c.id][0]]) {
       const [sub, title, say] = FOLD[c.id]; const node = FOLD_NODES[sub];
       const s = section(title, say); s.classList.add('chp-fold'); node.hidden = false; node.classList.add('folded'); s.appendChild(node);
       const prev = S.sub; S.sub = sub; try { ({ lithium: renderLithium, cells: renderCells, systems: renderSystems })[sub](); } catch (e) { console.error(e); } S.sub = prev;
     }
-    if (c.id === 'cells') { const s = section('How much cell makers keep', 'Cost to make a 314 Ah cell from today\'s material prices, against its market price.'); const mb = el('div'); s.appendChild(mb); renderMargin(mb); const lk = el('button', 'btn link', 'Cost calculator →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s.appendChild(lk); }
-    if (c.id === 'systems') { const s = section('Landed in India', 'China price plus freight, insurance and Indian duty, at today\'s rupee rate.'); const lb = el('div'); s.appendChild(lb); renderLandedOverview(lb); const lk = el('button', 'btn link', 'Change the assumptions →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s.appendChild(lk); }
     if (c.id === 'enduse') {
       const s = section('India storage tenders', 'What state utilities pay the project owner each month for every MW of storage, for 12–15 years. Lowest winning bid of the latest tenders.');
       const g = el('div', 'chp-prices');

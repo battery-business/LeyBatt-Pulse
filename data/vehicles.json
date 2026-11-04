@@ -1,0 +1,80 @@
+{
+ "about": "Battery packs in electric buses and trucks sold or ordered in India (plus one China reference): pack size, chemistry, cell supplier, charging and range, as published.",
+ "rows": [
+  {
+   "id": "v-switch-eiv12",
+   "date": "2026-04-18",
+   "maker": "Switch Mobility",
+   "model": "EiV12 intercity coach",
+   "type": "E-bus (12 m coach)",
+   "pack_kwh": "423",
+   "chemistry": "LFP",
+   "cell_supplier": null,
+   "charging": "Plug-in, CCS2 dual gun (2–3 hours)",
+   "range_km": "300+",
+   "note": "235 kW motor; 25 coaches for Purple Bus on Mumbai–Pune; the EiV12m on Nagpur–Chandrapur is rated 350 km",
+   "source": "electrive, 18 Apr 2026",
+   "url": "https://www.electrive.com/2026/04/18/india-switch-mobility-to-deploy-25-electric-intercity-coaches/"
+  },
+  {
+   "id": "v-eim-ashwa",
+   "date": "2026-04-01",
+   "maker": "Energy In Motion",
+   "model": "Ashwa 55-tonne tractor",
+   "type": "E-truck (tractor)",
+   "pack_kwh": "282",
+   "chemistry": "LFP",
+   "cell_supplier": null,
+   "charging": "Battery swap (under 7 minutes)",
+   "range_km": null,
+   "note": "Rebadged Foton eAuman; 66 trucks for Transvolt at Kandla and JNPA ports",
+   "source": "electrive, 1 Apr 2026",
+   "url": "https://www.electrive.com/2026/04/01/india-energy-in-motion-bags-order-for-66-electric-heavy-duty-trucks/"
+  },
+  {
+   "id": "v-tata-ultrae7",
+   "date": "2026-10-28",
+   "maker": "Tata Motors",
+   "model": "Ultra E.7",
+   "type": "E-truck (light)",
+   "pack_kwh": "96",
+   "chemistry": "LFP",
+   "cell_supplier": null,
+   "charging": "Plug-in",
+   "range_km": "About 130",
+   "note": "3,000 for Amazon in India, starting in Delhi",
+   "source": "electrive",
+   "url": "https://www.electrive.com/2026/10/28/amazon-to-deploy-3000-electric-trucks-in-india/"
+  },
+  {
+   "id": "v-olectra-trucks",
+   "date": "2026-10-27",
+   "maker": "Olectra",
+   "model": "Tippers and tractor-trailers, 28–55 tonnes",
+   "type": "E-truck (heavy)",
+   "pack_kwh": null,
+   "chemistry": null,
+   "cell_supplier": null,
+   "charging": null,
+   "range_km": null,
+   "note": "Sitarampur plant sized for about 1,200 trucks a year; pack size not disclosed",
+   "source": "Autocar Professional",
+   "url": "https://www.autocarpro.in/news/electric-trucks-next-big-ev-growth-opportunity-financing-key-to-adoption-olectra-md-135495"
+  },
+  {
+   "id": "v-catl-truck",
+   "date": "2026-10-20",
+   "maker": "CATL (China)",
+   "model": "Dual-electric swappable heavy-truck battery",
+   "type": "Heavy-truck battery system",
+   "pack_kwh": "432–513 + 77 backup",
+   "chemistry": null,
+   "cell_supplier": "CATL",
+   "charging": "Battery swap",
+   "range_km": null,
+   "note": "Reference from China: CATL targets 900 swap stations by end-2026",
+   "source": "CarNewsChina",
+   "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/"
+  }
+ ]
+}

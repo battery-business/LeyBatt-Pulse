@@ -1,0 +1,113 @@
+{
+ "about": "Battery swapping and safety standards and the swap networks being built in India, with their status.",
+ "rows": [
+  {
+   "id": "s-is17896-1",
+   "name": "IS 17896 Part 1: battery swap systems, general and guidance",
+   "kind": "Standard",
+   "scope": "Swapping of EV batteries with the powertrain off, up to 1,000 V AC and 1,500 V DC; based on IEC TS 62840-1",
+   "status": "Published (June 2022)",
+   "body": "BIS",
+   "date": "2022-06-01",
+   "applies": "All EVs",
+   "source": "BIS, IS 17896 (Part 1):2022",
+   "url": "https://services.bis.gov.in/tmp/1734582541.pdf"
+  },
+  {
+   "id": "s-is17896-2",
+   "name": "IS 17896 Part 2: safety requirements",
+   "kind": "Standard",
+   "scope": "Safety of battery swap systems; based on IEC 62840-2",
+   "status": "Listed in Part 1 (status not stated there)",
+   "body": "BIS",
+   "date": null,
+   "applies": "All EVs",
+   "source": "BIS, IS 17896 (Part 1):2022",
+   "url": "https://services.bis.gov.in/tmp/1734582541.pdf"
+  },
+  {
+   "id": "s-is17896-3",
+   "name": "IS 17896 Part 3: central management system for interoperable packs",
+   "kind": "Standard",
+   "scope": "How swap stations and interoperable packs are managed centrally",
+   "status": "Under development",
+   "body": "BIS",
+   "date": null,
+   "applies": "All EVs",
+   "source": "BIS, IS 17896 (Part 1):2022",
+   "url": "https://services.bis.gov.in/tmp/1734582541.pdf"
+  },
+  {
+   "id": "s-is17896-4",
+   "name": "IS 17896 Part 4: light electric vehicle battery swap",
+   "kind": "Standard",
+   "scope": "Pack dimensions, connectors and communication for two- and three-wheelers",
+   "status": "Under development",
+   "body": "BIS",
+   "date": null,
+   "applies": "Two- and three-wheelers",
+   "source": "BIS, IS 17896 (Part 1):2022",
+   "url": "https://services.bis.gov.in/tmp/1734582541.pdf"
+  },
+  {
+   "id": "s-is17896-5",
+   "name": "IS 17896 Part 5: heavy electric vehicle battery swap",
+   "kind": "Standard",
+   "scope": "Battery swapping for buses and trucks",
+   "status": "Under consideration",
+   "body": "BIS",
+   "date": null,
+   "applies": "Buses and trucks",
+   "source": "BIS, IS 17896 (Part 1):2022",
+   "url": "https://services.bis.gov.in/tmp/1734582541.pdf"
+  },
+  {
+   "id": "s-ais038",
+   "name": "AIS-038 Rev 2: traction battery safety",
+   "kind": "Standard",
+   "scope": "Battery safety for electric buses and trucks; cells need valid IS 16893 test reports",
+   "status": "In force",
+   "body": "ARAI / MoRTH",
+   "date": "2023-03-31",
+   "applies": "Buses and trucks",
+   "source": "EVreporter (ARAI guide)",
+   "url": "https://evreporter.com/battery-safety-standards-in-india-by-arai/"
+  },
+  {
+   "id": "n-catl-choco",
+   "name": "CATL standard swappable packs (#20, #25, #26 for cars, 75# for heavy trucks)",
+   "kind": "Industry standard",
+   "scope": "CATL says its standard packs fit about 85% of China's A-segment models; truck swaps take about 5 minutes vs about 25 at a charger",
+   "status": "In use in China",
+   "body": "CATL",
+   "date": "2026-10-22",
+   "applies": "Cars and heavy trucks",
+   "source": "electrive",
+   "url": "https://www.electrive.com/2026/10/22/catls-akin-li-whichever-battery-type-the-market-demands-well-have-it/"
+  },
+  {
+   "id": "n-eim-hpcl",
+   "name": "EIM and HPCL swap-and-charge hubs for heavy trucks",
+   "kind": "Network",
+   "scope": "Hubs on the Mumbai–Pune, Delhi–Jaipur and Chennai–Bangalore corridors over 18–24 months",
+   "status": "Building",
+   "body": "EIM / HPCL",
+   "date": "2026-07-27",
+   "applies": "Heavy trucks",
+   "source": "Autocar Professional, 27 Jul 2026",
+   "url": "https://www.autocarpro.in/NEWS/energy-in-motion-partners-hpcl-for-ev-truck-charging-battery-swapping-network-133747"
+  },
+  {
+   "id": "n-blue-hpcl",
+   "name": "Blue Energy Motors and HPCL heavy e-truck swap station, Bhiwandi",
+   "kind": "Network",
+   "scope": "On the Mumbai–Pune electric freight corridor; a swap takes under five minutes",
+   "status": "Running",
+   "body": "Blue Energy Motors / HPCL",
+   "date": "2026-10-26",
+   "applies": "Heavy trucks",
+   "source": "Autocar Professional",
+   "url": "https://www.autocarpro.in/news/blue-energy-motors-and-hpcl-open-heavy-duty-truck-battery-swapping-station-in-bhiwandi-135479"
+  }
+ ]
+}

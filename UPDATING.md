@@ -60,13 +60,23 @@ On **regulations**, `seg` and `so` (optional) replace `impact` in the "What it m
 
 The navy strip loops the full price board, the dates in the next 21 days (from `events.json`) and the alert stories from the last 21 days (from `news.json`). It is built from the data files automatically; the only thing an update must add is the `short` line on alert stories and new dates (see below). If `short` is missing, the page cuts the long text at its first clause, which reads worse.
 
+## Cell team and pack team trackers
+
+The Cells step and the Packs & systems step carry five small trackers. Add a row only from a page you opened, with `source`, `url` and `date` (the date it was reported, YYYY-MM-DD); never estimate a number the source did not give (use null). Keep `id`s stable. When a news item you add fits a tracker, add the row in the same run.
+
+- `cellmodels.json` → `rows`: a new cell announced, launched, sampled or bid (not a price report): `id`, `date`, `maker`, `cell`, `chemistry` (LFP, LMFP, sodium-ion, solid-state, semi-solid, NMC, LMR), `format`, `size` (e.g. "587 Ah"), `spec` (energy density, cycle life, charging, as claimed), `use` (Storage, EV, Two-wheelers…), `stage` (Samples, Pilot line, Products launched, Mass production, Bidding in tenders, Planned), `when` (production timing as stated).
+- `plants.json` → `rows`: an Indian factory for `kind` Cells, Packs or Storage systems: `id`, `date`, `company`, `location`, `capacity` (as stated), `gwh` (number or null), `stage` (Announced, Proposed, Planned, Building, Expanding, Running), `start`, `note`. Update the existing row (and its `date`, `source`, `url`) when a plant moves stage.
+- `vehicles.json` → `rows`: an electric bus or truck sold, ordered or launched in India with published pack details: `id`, `date`, `maker`, `model`, `type`, `pack_kwh` (as published, text), `chemistry`, `cell_supplier`, `charging`, `range_km`, `note`.
+- `standards.json` → `rows`: battery swapping, safety or charging standards and swap networks: `id`, `name`, `kind` (Standard, Industry standard, Network), `scope`, `status`, `body`, `date`, `applies`. Update `status` when it changes.
+- `safety.json` → `rows`: a battery fire or recall involving an electric bus, truck or storage system (India first, then major ones elsewhere): `id`, `date` (of the incident), `kind` (E-bus fire, E-truck fire, BESS fire, Recall), `place`, `country`, `operator`, `what`, `cause` (exactly as reported, "Not determined" if not), `lesson` (only if the source states one, else null). State facts only; no blame beyond the source.
+
 ## Live lithium during the trading day (`live.json`)
 
 Some company networks block Sina Finance in the browser, so a GitHub Action (`.github/workflows/live.yml`, `scripts/live_lithium.py`) fetches the latest 5-minute Guangzhou lithium carbonate futures price every 15 minutes while the market is open (06:30–09:00 and 11:00–12:30 IST, weekdays) and writes `data/live.json`. The site shows it on the lithium card with a "Live" tag and checks for a newer price every 5 minutes. Never edit `live.json` by hand; a daily update leaves it alone.
 
 ## Site structure
 
-Tabs: **Today** (what matters today, the value chain, today's prices), **News**, **Regulations**, **Bidding desk** (landed cost and outlook, cost to make a cell, India tenders and EPC) and **Risk**. The detailed lithium, cell and storage-system price panels sit inside their value-chain steps (Mining, Cells, Packs & systems); old links to `#materials/lithium`, `#materials/cells` and `#materials/systems` open those steps. `#materials/all` is the table of every price.
+Tabs: **Today** (the value chain, what matters today, today's prices), **News**, **Regulations**, **Bidding desk** (landed cost and outlook, cost to make a cell, India tenders and EPC) and **Risk**. The detailed lithium, cell and storage-system price panels sit inside their value-chain steps (Mining, Cells, Packs & systems); old links to `#materials/lithium`, `#materials/cells` and `#materials/systems` open those steps. `#materials/all` is the table of every price.
 
 ## Page code changes
 

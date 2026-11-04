@@ -1,0 +1,70 @@
+{
+ "about": "Battery fires and recalls in electric buses, trucks and storage systems: what happened, the stated cause and any lesson published. Causes are as reported; many investigations are still open.",
+ "rows": [
+  {
+   "id": "f-msrtc-pune",
+   "date": "2026-10-26",
+   "kind": "E-bus fire",
+   "place": "Swargate, Pune",
+   "country": "India",
+   "operator": "MSRTC",
+   "what": "Fully electric air-conditioned bus caught fire while moving; 17 passengers evacuated safely",
+   "cause": "Short circuit suspected (not confirmed)",
+   "lesson": null,
+   "source": "Punekar News",
+   "url": "https://www.punekarnews.in/?p=247859"
+  },
+  {
+   "id": "f-rufford",
+   "date": "2026-05-01",
+   "kind": "BESS fire",
+   "place": "Rufford Colliery, near Rainworth",
+   "country": "UK",
+   "operator": "Gresham House (operated by Noriker Power)",
+   "what": "Fire in a lithium-ion container at a 7.5 MW / 7.5 MWh site; no injuries",
+   "cause": "Under investigation",
+   "lesson": null,
+   "source": "PVTIME, 7 May 2026",
+   "url": "https://www.pvtime.org/?p=25337"
+  },
+  {
+   "id": "f-dtc-delhi",
+   "date": "2026-03-05",
+   "kind": "E-bus fire",
+   "place": "Vayusenabad, Delhi",
+   "country": "India",
+   "operator": "DTC (private contractor)",
+   "what": "Bus gutted on route with about 15 passengers, all safe; about the fifth e-bus fire in Delhi since 2022",
+   "cause": "Not determined",
+   "lesson": "The driver's battery cut-off switch reduced the fire in the under-chassis packs; recommended: BMS with real-time temperature monitoring (AIS-156), wiring checks after any impact, lithium-ion extinguishing agents",
+   "source": "Down To Earth",
+   "url": "https://www.downtoearth.org.in/governance/electric-bus-fire-raises-safety-concerns-in-public-transport-fleets-mitigation-strategies-explained"
+  },
+  {
+   "id": "f-pmpml-chakan",
+   "date": "2026-02-13",
+   "kind": "E-bus fire",
+   "place": "Chakan MIDC, Pune",
+   "country": "India",
+   "operator": "PMPML",
+   "what": "Bus completely gutted; about 50 passengers evacuated safely",
+   "cause": "Preliminary: short circuit in the electrical system or battery compartment; formal investigation under way",
+   "lesson": null,
+   "source": "PuneNow",
+   "url": "https://www.punenow.com/?p=53744"
+  },
+  {
+   "id": "f-best-colaba",
+   "date": "2025-07-15",
+   "kind": "E-bus fire",
+   "place": "Colaba depot, Mumbai",
+   "country": "India",
+   "operator": "BEST (wet lease; Switch Mobility double-decker)",
+   "what": "Fire near the high-voltage battery system; no injuries",
+   "cause": "Not confirmed; battery system under investigation",
+   "lesson": null,
+   "source": "Autocar Professional",
+   "url": "https://www.autocarpro.in/news/switch-mobility-double-decker-bus-catches-fire-in-mumbai-127536"
+  }
+ ]
+}

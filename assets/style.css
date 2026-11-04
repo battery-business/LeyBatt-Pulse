@@ -1396,3 +1396,23 @@ abbr.gl { text-decoration: underline dotted; text-underline-offset: 3px; cursor:
 .ov-today { margin-top: clamp(12px, 2vw, 20px); }
 .chp-card.flash, .ot-dates.flash, #risk-table tr.flash td { box-shadow: 0 0 0 3px color-mix(in srgb, var(--l2) 45%, transparent); transition: box-shadow .3s; }
 .ot-dates.flash { border-radius: 14px; }
+
+/* ---------- cell team and pack team sections ---------- */
+.team-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin: 8px 0 4px; }
+.team-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.team-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.team-legend b { color: var(--fg); font-variant-numeric: tabular-nums; }
+.team-key { font-size: 15px; line-height: 1.5; margin: 10px 0; font-weight: 500; }
+.team-stack { margin: 6px 0 14px; display: flex; flex-direction: column; gap: 6px; }
+.team-stack > b { font-size: 14px; }
+.team-rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 10px; }
+.team-rules a { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--soft); color: var(--fg); text-decoration: none; height: 100%; box-sizing: border-box; }
+.team-rules a:hover { box-shadow: 0 0 0 1px var(--line); }
+.team-rules .tr-top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.team-rules .tr-when.soon { color: var(--warn); font-weight: 600; }
+.team-rules b { font-size: 14px; line-height: 1.35; }
+.team-rules .tr-so { font-size: 13px; color: var(--muted); line-height: 1.45; }
+.rtable.trk td { vertical-align: top; }
+.rtable.trk td.mk-note { max-width: 340px; font-size: 13px; color: var(--muted); }
+.team-rules .rule-status { margin-left: 0; }
+@media (max-width: 640px) { table.stackable td.mk-note { display: block; text-align: left; max-width: none; } table.stackable td.mk-note::before { display: block; margin-bottom: 2px; } }

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-05",
- "generated": "2026-11-05T00:44:03+00:00",
+ "generated": "2026-11-05T03:51:08+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -226,6 +226,15 @@
        "weight": 12,
        "prev": 2.1,
        "prev_detail": "5 recent stories (pushing prices down)",
+       "new_items": [
+        {
+         "id": "n151",
+         "date": "2026-11-03",
+         "text": "Citi cuts its three-month lithium carbonate target to $12,000 a tonne (from $20,000), hydroxide to $12,000 and spodumene to $1,200, and lowers estimates through 2028 on weaker 2027 battery demand and new supply such as a possible restart of CATL's Jianxiawo mine",
+         "url": "https://mining.com.au/citi-cuts-lithium-price-forecasts-as-battery-demand-concerns-grow",
+         "s": -1
+        }
+       ],
        "moved": -0.07
       },
       {
@@ -280,6 +289,15 @@
        "weight": 30,
        "prev": 1.0,
        "prev_detail": "1 recent stories (easing)",
+       "new_items": [
+        {
+         "id": "n152",
+         "date": "2026-11-03",
+         "text": "Rio Tinto adds 25,000 t a year of lithium carbonate capacity in Argentina for about $1.4 billion: the Fénix 1B expansion (+10,000 t, taking the site to about 40,000 t) and the new 15,000 t Sal de Vida operation, both producing since the second quarter",
+         "url": "https://www.electrive.com/2026/11/03/rio-tinto-expands-lithium-production-in-argentina/",
+         "s": -1
+        }
+       ],
        "moved": -0.3
       },
       {
@@ -423,6 +441,15 @@
        "weight": 0,
        "prev": 2.1,
        "prev_detail": "5 recent stories (pushing prices down)",
+       "new_items": [
+        {
+         "id": "n151",
+         "date": "2026-11-03",
+         "text": "Citi cuts its three-month lithium carbonate target to $12,000 a tonne (from $20,000), hydroxide to $12,000 and spodumene to $1,200, and lowers estimates through 2028 on weaker 2027 battery demand and new supply such as a possible restart of CATL's Jianxiawo mine",
+         "url": "https://mining.com.au/citi-cuts-lithium-price-forecasts-as-battery-demand-concerns-grow",
+         "s": -1
+        }
+       ],
        "moved": 0.0
       },
       {
@@ -477,6 +504,15 @@
        "weight": 15,
        "prev": 1.0,
        "prev_detail": "1 recent stories (easing)",
+       "new_items": [
+        {
+         "id": "n152",
+         "date": "2026-11-03",
+         "text": "Rio Tinto adds 25,000 t a year of lithium carbonate capacity in Argentina for about $1.4 billion: the Fénix 1B expansion (+10,000 t, taking the site to about 40,000 t) and the new 15,000 t Sal de Vida operation, both producing since the second quarter",
+         "url": "https://www.electrive.com/2026/11/03/rio-tinto-expands-lithium-production-in-argentina/",
+         "s": -1
+        }
+       ],
        "moved": -0.15
       },
       {

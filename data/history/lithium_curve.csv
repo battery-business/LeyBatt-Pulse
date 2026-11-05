@@ -1,5 +1,4 @@
 contract,month,date,cny_t,volume,source
-LC2611,2026-11,2026-11-04,89060.0,469.0,Guangzhou Futures Exchange contract close (via Sina Finance)
 LC2612,2026-12,2026-11-04,88720.0,19721.0,Guangzhou Futures Exchange contract close (via Sina Finance)
 LC2701,2027-01,2026-11-04,86460.0,376950.0,Guangzhou Futures Exchange contract close (via Sina Finance)
 LC2702,2027-02,2026-11-04,85440.0,970.0,Guangzhou Futures Exchange contract close (via Sina Finance)

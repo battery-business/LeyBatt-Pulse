@@ -14,7 +14,7 @@
   const D = {};
   const S = {
     tab: 'overview',
-    range: { lithium: 1827, cell: 0, sysweekly: 0, chain: 1827, metals: 1827 },
+    range: { lithium: 1827, cell: 0, sysweekly: 0, chain: 1827, metals: 1827, outlook: 0 },
     hidden: { lithium: new Set(), sys: new Set() },
     news: { q: '', cat: '', effect: '' },
     sub: 'all',
@@ -3220,15 +3220,18 @@
     const OUTSEC = { mining: ['lithium', 'Lithium carbonate: where the price could go', ['lithium', 'copper', 'aluminium']], materials: ['cathode', 'LFP cathode: where the price could go', ['cathode', 'lithium']], cells: ['cell_ess', '314 Ah storage cell: where the price could go', ['cell_ess', 'cell_ev']] }[c.id];
     if (OUTSEC) {
       const [mat, title, keys] = OUTSEC;
-      const s = section(title, 'Base scenario to late 2029, from the 2–3 year outlook. The band holds 8 in 10 simulated outcomes. Click for the other scenarios and the yearly ranges.');
+      const s = section(title, 'Base scenario from the 2–3 year outlook, up to late 2029. The band holds 8 in 10 simulated outcomes. The time range applies both ways (1M: the last month and the next); click the chart for the other scenarios and the yearly ranges.');
       const ot = outlookEl(mat, 'olk big', true); if (ot) s.appendChild(ot);
+      const og = el('div', 'seg chp-range'); og.dataset.rangeFor = 'outlook'; og.setAttribute('role', 'group'); og.setAttribute('aria-label', 'Time range'); s.appendChild(og);
       const cb = el('div', 'chart zoomable'); s.appendChild(cb); cb.title = 'Click for the full forecast';
       const eb = `Step ${c.n} · ${c.name}`;
       expandBtn(s, keys, mat, eb, 'Full forecast');
       cb.addEventListener('click', () => openForecast(mat, eb));
       const lg = el('div', 'ol-legend'); s.appendChild(lg);
       const hist = (FC_SERIES[mat] || {}).hist ? FC_SERIES[mat].hist() : [];
-      ensureScen(() => { if (!cb.isConnected) return; const f = fcData(D.scen, mat, 'base', false); if (f) fcChart(cb, { hist: hist.filter((p) => +p.d >= +parse(D.scen.asof) - 548 * 864e5), fmt: FC_SERIES[mat].fmt, fc: f, color: css('--l2'), legend: lg, height: 260, compact: true }); else cb.appendChild(el('div', 'empty', 'The outlook is not available yet.')); });
+      // the range applies both ways, as in the full view: 1M shows the last month and the next one; All shows every reading and the forecast to late 2029
+      const drawO = () => ensureScen(() => { if (!cb.isConnected) return; const f = fcData(D.scen, mat, 'base', false); if (f) fcChart(cb, { hist, rangeDays: S.range.outlook, fmt: FC_SERIES[mat].fmt, fc: f, color: css('--l2'), legend: lg, height: 260, compact: true }); else cb.appendChild(el('div', 'empty', 'The outlook is not available yet.')); });
+      rangeSeg('outlook', drawO); drawO();
     }
     // prices
     const steps = allPrices();

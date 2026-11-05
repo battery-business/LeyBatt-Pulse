@@ -1527,3 +1527,17 @@ main [id] { scroll-margin-top: 84px; }
 .rwhy-k { font-weight: 600; color: var(--fg); }
 .rwhy-det a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent); text-underline-offset: 2px; }
 .rwhy-det + .rwhy-det { margin-top: 3px; }
+
+/* header: a little shorter, and the tabs always fit (no sideways scroll cutting off "Today") */
+.top-row { min-height: 60px; gap: 18px; }
+.brand { gap: 10px; }
+.brand .logo { width: 40px; height: 40px; }
+.brand h1.wordmark { font-size: 24px; }
+.tab { font-size: 13.5px; padding: 7px 12px; }
+.tabs { padding: 3px 0; }
+.sx-btn { height: 34px; }
+@media (max-width: 1320px) { .updated { display: none; } }
+@media (max-width: 1180px) { .sx-btn kbd { display: none; } .tab { padding: 7px 9px; } .top-row { gap: 12px; } }
+@media (max-width: 1080px) and (min-width: 981px) { .sx-btn { width: 34px; padding: 0; justify-content: center; } .sx-btn-t { display: none; } .tab { font-size: 13px; padding: 7px 8px; } }
+@media (max-width: 980px) { .top-row { min-height: 56px; padding-top: 8px; } }
+@media (max-width: 640px) { .brand .logo { width: 38px; height: 38px; } .brand h1.wordmark { font-size: 22px; } }

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-05",
- "generated": "2026-11-04T23:57:15+00:00",
+ "generated": "2026-11-05T00:44:03+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -1485,33 +1485,34 @@
     "The cost to make comes from the site's cell cost model (SMM-based quantities and today's material prices)."
    ],
    "now": {
-    "value": 46.9,
-    "date": "2026-10-28",
+    "value": 46.6,
+    "date": "2026-11-04",
     "source": "InfoLink weekly",
-    "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+    "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104"
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.1,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.6,
-       "detail": "1 month −2.1% · 3 months −1.3% (rising prices push the score up)",
+       "score": 4.4,
+       "detail": "1 month −2.7% · 3 months −1.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 29,
        "prev": 4.5,
        "prev_detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
-       "moved": 0.03
+       "moved": -0.03
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 15 price moves in the last 6 months",
+       "detail": "About 6% a year, from 16 price moves in the last 6 months",
        "key": "volatility",
        "weight": 19,
        "prev": 0.2,
+       "prev_detail": "About 6% a year, from 15 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -1536,13 +1537,13 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.0,
-       "detail": "Price $46.9/kWh vs modelled cost $41.3/kWh: margin 12% (thin margin = little room to fall)",
+       "score": 6.2,
+       "detail": "Price $46.6/kWh vs modelled cost $41.3/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14,
        "prev": 6.1,
        "prev_detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": -0.01
+       "moved": 0.01
       },
       {
        "label": "Lithium price risk passed through",
@@ -1626,7 +1627,7 @@
       }
      ],
      "prev_date": "2026-10-29",
-     "change": -0.1
+     "change": -0.2
     },
     "supply": {
      "score": 5.4,
@@ -1696,7 +1697,7 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 16
+    "obs180": 17
    },
    "h12": {
     "price": {
@@ -1705,21 +1706,22 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.6,
-       "detail": "1 month −2.1% · 3 months −1.3% (rising prices push the score up)",
+       "score": 4.4,
+       "detail": "1 month −2.7% · 3 months −1.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 12,
        "prev": 4.5,
        "prev_detail": "1 month −2.7% · 3 months −1.3% (rising prices push the score up)",
-       "moved": 0.01
+       "moved": -0.01
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 15 price moves in the last 6 months",
+       "detail": "About 6% a year, from 16 price moves in the last 6 months",
        "key": "volatility",
        "weight": 18,
        "prev": 0.2,
+       "prev_detail": "About 6% a year, from 15 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -1744,13 +1746,13 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.0,
-       "detail": "Price $46.9/kWh vs modelled cost $41.3/kWh: margin 12% (thin margin = little room to fall)",
+       "score": 6.2,
+       "detail": "Price $46.6/kWh vs modelled cost $41.3/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29,
        "prev": 6.1,
        "prev_detail": "Price $46.9/kWh vs modelled cost $41.4/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": -0.03
+       "moved": 0.03
       },
       {
        "label": "Lithium price risk passed through",
@@ -1904,7 +1906,7 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 16
+    "obs180": 17
    },
    "trend": [
     [
@@ -2014,7 +2016,7 @@
     ],
     [
      "2026-11-05",
-     4.2,
+     4.1,
      5.4
     ]
    ]
@@ -2044,20 +2046,22 @@
        "label": "Recent price trend",
        "score": 5.2,
        "assumed": true,
-       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.9% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
        "weight": 29,
        "prev": 5.2,
+       "prev_detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "detail": "About 6% a year, from 16 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
        "weight": 19,
        "prev": 0.2,
+       "prev_detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "moved": 0.0
       },
       {
@@ -2232,20 +2236,22 @@
        "label": "Recent price trend",
        "score": 5.2,
        "assumed": true,
-       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
+       "detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.9% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "key": "momentum",
        "weight": 12,
        "prev": 5.2,
+       "prev_detail": "TrendForce's latest EV cell move +2.5% · storage cell 3-month change −1.3% (EV cell readings are too sparse; storage cells used as a stand-in)",
        "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 0.2,
-       "detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
+       "detail": "About 6% a year, from 16 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "assumed": true,
        "key": "volatility",
        "weight": 18,
        "prev": 0.2,
+       "prev_detail": "About 6% a year, from 15 price moves in the last 6 months of storage cells (assumed to swing like EV cells)",
        "moved": 0.0
       },
       {
@@ -2541,27 +2547,26 @@
    },
    "h3": {
     "price": {
-     "score": 3.7,
+     "score": 3.8,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.5,
-       "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
+       "score": 4.7,
+       "detail": "1 month −2.1% · 3 months −0.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 5.5,
        "prev_detail": "1 month +0.2% · 3 months +4.9% (rising prices push the score up)",
-       "moved": -0.5
+       "moved": -0.4
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 2.6,
-       "prev_detail": "About 19% a year, from 125 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -2624,7 +2629,7 @@
       }
      ],
      "prev_date": "2026-10-29",
-     "change": -0.7
+     "change": -0.6
     },
     "supply": {
      "score": 1.6,
@@ -2665,31 +2670,30 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.4,
+     "score": 3.5,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.5,
-       "detail": "1 month −2.7% · 3 months −0.9% (rising prices push the score up)",
+       "score": 4.7,
+       "detail": "1 month −2.1% · 3 months −0.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 5.5,
        "prev_detail": "1 month +0.2% · 3 months +4.9% (rising prices push the score up)",
-       "moved": -0.33
+       "moved": -0.26
       },
       {
        "label": "How much the price swings",
        "score": 2.6,
-       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 2.6,
-       "prev_detail": "About 19% a year, from 125 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -2752,7 +2756,7 @@
       }
      ],
      "prev_date": "2026-10-29",
-     "change": -0.5
+     "change": -0.4
     },
     "supply": {
      "score": 1.4,
@@ -2793,7 +2797,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -2903,7 +2907,7 @@
     ],
     [
      "2026-11-05",
-     3.7,
+     3.8,
      1.6
     ]
    ]
@@ -2926,27 +2930,26 @@
    },
    "h3": {
     "price": {
-     "score": 3.7,
+     "score": 3.9,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.1,
-       "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
+       "score": 4.6,
+       "detail": "1 month +0.0% · 3 months −4.4% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 3.9,
        "prev_detail": "1 month −4.8% · 3 months −3.9% (rising prices push the score up)",
-       "moved": 0.1
+       "moved": 0.35
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 3.1,
-       "prev_detail": "About 22% a year, from 125 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -3009,7 +3012,7 @@
       }
      ],
      "prev_date": "2026-10-29",
-     "change": 0.0
+     "change": 0.2
     },
     "supply": {
      "score": 2.4,
@@ -3050,31 +3053,30 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.5,
+     "score": 3.7,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.1,
-       "detail": "1 month −1.7% · 3 months −6.0% (rising prices push the score up)",
+       "score": 4.6,
+       "detail": "1 month +0.0% · 3 months −4.4% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 3.9,
        "prev_detail": "1 month −4.8% · 3 months −3.9% (rising prices push the score up)",
-       "moved": 0.07
+       "moved": 0.23
       },
       {
        "label": "How much the price swings",
        "score": 3.1,
-       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 3.1,
-       "prev_detail": "About 22% a year, from 125 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -3137,7 +3139,7 @@
       }
      ],
      "prev_date": "2026-10-29",
-     "change": -0.1
+     "change": 0.1
     },
     "supply": {
      "score": 2.5,
@@ -3178,7 +3180,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -3288,7 +3290,7 @@
     ],
     [
      "2026-11-05",
-     3.7,
+     3.9,
      2.4
     ]
    ]
@@ -3330,7 +3332,7 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-11-03",
+   "to": "2026-11-04",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.1,
@@ -3361,7 +3363,7 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-11-03",
+   "to": "2026-11-04",
    "samples": 210,
    "step_days": 14,
    "cut_low": 4.2,

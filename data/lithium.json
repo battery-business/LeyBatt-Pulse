@@ -406,5 +406,13 @@
   "source": "InfoLink weekly",
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
   "note": "InfoLink battery-grade lithium carbonate average, range $13,280–$13,580; down 7.2% in a week"
+ },
+ {
+  "date": "2026-11-04",
+  "series": "Spot",
+  "usd_t": 13860,
+  "source": "Trading Economics",
+  "url": "https://tradingeconomics.com/commodity/lithium",
+  "note": "China battery-grade lithium carbonate, down 1.0% on the day (vs 3 Nov)"
  }
 ]

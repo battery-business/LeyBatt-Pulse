@@ -180,6 +180,15 @@
   "so": "India's first LFP cathode plant: a first step to local cell materials."
  },
  {
+  "date": "2026-12-02",
+  "what": "Honda Alpha electric SUV (built in Rajasthan, LFP packs): world premiere in India",
+  "kind": "Event",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/04/honda-announces-alpha-ev-in-india-effectively-scrapping-0-series/",
+  "short": "Honda Alpha EV premiere in India",
+  "weight": 1
+ },
+ {
   "date": "2026-12-09",
   "what": "Noida Power Company 80 MW / 320 MWh standalone battery tender: online bids due",
   "kind": "India tender",

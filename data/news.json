@@ -1,5 +1,213 @@
 [
  {
+  "id": "n167",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "India plans to make power distributors buy energy storage with their renewable power purchases; Power Secretary Pankaj Agarwal says the rules should be final by March, with the required share still under discussion, and an advisory for developers to add storage will become mandatory",
+  "seg": "BESS",
+  "so": "A storage purchase mandate for Indian distributors would turn today's tender-by-tender demand into a standing obligation: steadier BESS demand from 2027.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "Storage mandate planned",
+  "direction": "up",
+  "source": "Business Standard (Bloomberg)",
+  "url": "https://www.business-standard.com/amp/industry/news/govt-plans-mandatory-energy-storage-rules-for-power-distributors-by-march-126110500942_1.html",
+  "source2": "Bloomberg (headline)",
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-05/india-plans-mandatory-energy-storage-rules-for-power-retailers",
+  "sources": "Business Standard · Bloomberg",
+  "alert": true,
+  "alert_reason": "India storage mandate plan",
+  "short": "India plans to make distributors buy storage with renewables"
+ },
+ {
+  "id": "n168",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "SNE Research: outside China, CATL's EV battery installations rose 46.7% to 143.7 GWh in January–September (33.7% share) and BYD's 66.8% to 45.9 GWh, while LG Energy Solution, SK On and Samsung SDI together fell 13.5% to 113 GWh",
+  "seg": "Batteries",
+  "so": "Chinese cell makers keep gaining ground outside China as Korean makers shrink: buyers abroad lean further on Chinese cell supply.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Chinese share up",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/11/05/catl-byd-gain-ev-battery-share-outside-china/",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n169",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "SNE Research: global storage-battery shipments reached 779.9 GWh in January–September, up 73%, with a record 286.8 GWh in the third quarter; CATL leads with 198.3 GWh, ahead of Hithium (75.7 GWh) and EVE (71.6 GWh)",
+  "seg": "BESS",
+  "so": "Storage-cell demand is still growing fast worldwide, which keeps storage-cell factories busy and limits how far cell prices can fall.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "Energy storage",
+  "effect": "Storage demand strong",
+  "direction": "up",
+  "source": "ChinaEVHome",
+  "url": "https://chinaevhome.com/2026/11/05/catl-hithium-and-eve-lead-global-ess-battery-shipments-in-jan-sep/",
+  "sources": "ChinaEVHome",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   }
+  ]
+ },
+ {
+  "id": "n170",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "A study released by the Ministry of Heavy Industries (NETRA with ARCI, CSIR-NCL, IIT Madras and Deloitte) finds Indian cathode, anode, electrolyte, separator and foil makers face costs 18–61% above imports, and proposes capital subsidies or operating incentives to close part of the gap",
+  "seg": "Batteries",
+  "so": "Indian-made cell materials cost well above imports today: localising cells depends on new support for component makers.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   },
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Local cost gap",
+  "direction": "flat",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/04/indias-battery-component-manufacturers-face-up-to-61-cost-gap-against-global-imports-study-recommends-targeted-incentives-report/",
+  "sources": "SolarQuarter"
+ },
+ {
+  "id": "n171",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Tata's Agratas is installing equipment at its Sanand (Gujarat) and Somerset (UK) cell plants, with anchor demand from Tata Motors and JLR; its Bengaluru lab works on LFP for mass-market cars and Oxford on NMC, and assets more than doubled in FY26",
+  "seg": "Batteries",
+  "so": "India's largest planned cell plant is moving towards commissioning: Indian-made LFP cells for EVs come closer, initially for Tata vehicles.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Local cells closer",
+  "direction": "flat",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/bound-digital-scale-armed-inside-agratas-dual-continent-battery-blueprint-135720",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n172",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Honda will build its Alpha electric SUV at Tapukara, Rajasthan, with two LFP pack options and a world premiere in India on 2 December, for export to Japan and Southeast Asia; cells are reported to come from CATL's plant in Indonesia",
+  "seg": "EVs",
+  "so": "Another carmaker makes India an EV export base with LFP packs: more electric-car volume in India, with cells still imported.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "EV market",
+  "effect": "New India-built EV",
+  "direction": "up",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/04/honda-announces-alpha-ev-in-india-effectively-scrapping-0-series/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n173",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Mercedes is developing small converters on each cell or cell cluster that hold the pack output at a steady 800 V whatever the state of charge, can spare weaker cells and replace the separate on-board charger; no launch date given",
+  "seg": "Batteries",
+  "so": "Pack electronics that fix the output voltage could free pack designers from series cell counts and drop the on-board charger; still in development.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "New pack architecture",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/04/mercedes-power-converter-decouples-high-voltage-supply-from-battery-state/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n174",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "Two sodium-ion material projects are signed in Neijiang, Sichuan: Jiangxi Jinhui plans 30,000 t a year of sodium hexafluorophosphate and 100,000 t of sodium-ion electrolyte, and Yonghan Materials a battery-grade NFPP cathode line",
+  "seg": "Batteries",
+  "so": "China keeps building a sodium-ion materials supply chain: a sign that sodium-ion cells for storage and small EVs are heading to volume.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion supply chain",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104207150-na-ion-two-sodium-ion-battery-material-projects-signed-in-weiyuan-sichuan",
+  "sources": "SMM"
+ },
+ {
   "id": "n159",
   "date": "2026-11-04",
   "day": "4 Nov",

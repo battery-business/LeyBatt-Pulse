@@ -494,5 +494,32 @@
   "changed": "2026-11-05",
   "seg": "BESS",
   "so": "Funds 30 GWh more battery storage to 2031 with 40% local content: steady demand, tilted toward systems built in India."
+ },
+ {
+  "id": "in-storage-mandate",
+  "title": "Planned storage purchase obligation for distribution companies",
+  "short": "India plans storage mandate for discoms",
+  "region": "India",
+  "area": "Grid & storage rules",
+  "status": "Proposed",
+  "date": "2026-11-05",
+  "date_label": "Announced 5 Nov 2026; rules to be finalised by March",
+  "what": "The Power Secretary said distribution companies will have to buy some energy storage when they buy renewable power, and the existing advisory asking renewable developers to add storage will become mandatory. The required storage share is still being discussed.",
+  "impact": "A standing obligation would add steady demand for BESS (and the cells in it) on top of tenders backed by viability gap funding; the size depends on the share finally set.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "Business Standard (Bloomberg), 5 Nov 2026",
+  "url": "https://www.business-standard.com/amp/industry/news/govt-plans-mandatory-energy-storage-rules-for-power-distributors-by-march-126110500942_1.html",
+  "source2": "Briefs, 5 Nov 2026",
+  "url2": "https://www.briefs.co/news/india-to-require-storage-buys-with-renewables-to-cut-curtail/",
+  "checked": "2026-11-06",
+  "changed": "2026-11-06",
+  "seg": "BESS",
+  "so": "Distributors would have to buy storage with renewable power: steadier BESS demand in India once the share is set."
  }
 ]

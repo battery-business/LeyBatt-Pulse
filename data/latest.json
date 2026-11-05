@@ -27,13 +27,13 @@
   "id": "cell314",
   "layer": "Cell",
   "label": "314 Ah LFP storage cell",
-  "price": "$46.9",
+  "price": "$46.6",
   "unit": "per kWh",
-  "asof": "28 Oct",
-  "move": "−0.7% in a week",
+  "asof": "4 Nov",
+  "move": "−0.7% vs 28 Oct",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://www.infolink-group.com/spot-price-energy-storage/"
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104"
  },
  {
   "id": "cell587",

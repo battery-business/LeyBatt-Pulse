@@ -466,5 +466,33 @@
   "changed": "2026-11-01",
   "seg": "BESS",
   "so": "A large new source of four-hour storage demand in Tamil Nadu: more storage tenders and steady demand for storage systems."
+ },
+ {
+  "id": "in-vgf-2026",
+  "title": "VGF scheme for 92 GWh of grid storage, incl. 30 GWh of battery storage (₹14,500 crore)",
+  "short": "New VGF: 30 GWh BESS, 40% local content",
+  "region": "India",
+  "area": "Incentives",
+  "status": "In force",
+  "date": "2026-11-04",
+  "date_label": "Approved by Cabinet 4 Nov 2026; runs FY 2026-27 to FY 2030-31",
+  "what": "₹14,500 crore of viability gap funding for 92 GWh of new storage (30 GWh battery storage, 60 GWh pumped hydro, 2 GWh other technologies) from FY 2026-27 to FY 2030-31, allocated through tariff-based competitive bidding; public and private distribution companies are eligible for BESS and pumped-hydro support. Battery projects must meet at least 40% domestic content. Support per MWh has not been published.",
+  "impact": "A second wave of state and discom storage tenders to 2031, on top of the 2025 VGF. The 40% domestic content rule favours systems assembled in India with local content and may limit fully imported containers; details of how content is counted will matter.",
+  "effects": [
+   "Demand up",
+   "Compliance"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "PM India, 4 Nov 2026",
+  "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-rs-14500-crore-viability-gap-funding-scheme-for-development-of-92-gwh-grid-scale-energy-storage-systems/?comment=disable",
+  "source2": "Mercom India, 4 Nov 2026",
+  "url2": "https://www.mercomindia.com/cabinet-approves-%E2%82%B9145-billion-viability-gap-funding-for-92-gwh-energy-storage",
+  "checked": "2026-11-05",
+  "changed": "2026-11-05",
+  "seg": "BESS",
+  "so": "Funds 30 GWh more battery storage to 2031 with 40% local content: steady demand, tilted toward systems built in India."
  }
 ]

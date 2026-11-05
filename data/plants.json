@@ -184,6 +184,20 @@
    "note": "Varroc takes 45% and control; three-wheeler packs first, buses and trucks later",
    "source": "Autocar Professional",
    "url": "https://autocarpro.in/news/varroc-to-take-control-of-forsee-power-india-in-ev-battery-jv-135291"
+  },
+  {
+   "id": "p-agratas-sanand",
+   "date": "2026-11-03",
+   "company": "Agratas (Tata Group)",
+   "kind": "Cells",
+   "location": "Sanand, Gujarat",
+   "capacity": "20 GWh a year (initial)",
+   "gwh": 20,
+   "stage": "Building",
+   "start": "2027",
+   "note": "First process equipment arrived in Sep 2026, per Autocar Professional",
+   "source": "Autocar Professional",
+   "url": "https://www.autocarpro.in/news/indias-ev-battery-cells-could-be-localised-in-2-3-years-shailesh-chandra-135669"
   }
  ]
 }

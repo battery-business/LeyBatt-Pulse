@@ -1,5 +1,201 @@
 [
  {
+  "id": "n159",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "India's Cabinet approves a ₹14,500 crore viability gap funding scheme for 92 GWh of grid-scale storage between FY27 and FY31 (30 GWh of battery storage, 60 GWh pumped hydro, 2 GWh other technologies), allocated by tariff-based bidding, with at least 40% domestic content required for battery projects",
+  "category": "India BESS",
+  "effect": "Storage demand, local content",
+  "direction": "up",
+  "source": "PM India (Cabinet decision)",
+  "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-rs-14500-crore-viability-gap-funding-scheme-for-development-of-92-gwh-grid-scale-energy-storage-systems/?comment=disable",
+  "source2": "Mercom India",
+  "url2": "https://www.mercomindia.com/cabinet-approves-%E2%82%B9145-billion-viability-gap-funding-for-92-gwh-energy-storage",
+  "sources": "PM India · Mercom India · Bloomberg",
+  "alert": true,
+  "alert_reason": "30 GWh BESS VGF, 40% local",
+  "short": "India backs 30 GWh of battery storage with new VGF; 40% local content",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": -1
+   }
+  ],
+  "seg": "BESS",
+  "so": "New central funding for 30 GWh of battery storage to 2031, but with 40% local content: more demand, with pressure to source systems in India."
+ },
+ {
+  "id": "n160",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "NTPC Green Energy plans an international tender to buy 10 GW / 40 GWh of LFP battery containers and grid-forming power conversion systems for its projects, with supervision of installation and a 15-year service agreement; the bid documents are to follow on NTPC's portal",
+  "category": "India BESS",
+  "effect": "Huge equipment buy",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/04/ntpc-green-energy-plans-10-gw-40-gwh-bess-procurement-with-15-year-maintenance-contract/",
+  "sources": "SolarQuarter",
+  "alert": true,
+  "alert_reason": "40 GWh NTPC BESS buy",
+  "short": "NTPC Green to tender 40 GWh of battery containers and grid-forming PCS",
+  "weight": 3,
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "seg": "BESS",
+  "so": "A single 40 GWh equipment buy, open to foreign suppliers: one of the largest storage procurements yet and a strong pull on container suppliers."
+ },
+ {
+  "id": "n161",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "India's Cabinet also approves a ₹2,814 crore capital-subsidy scheme for domestic processing of lithium, nickel and other critical minerals, covering two lithium and two nickel processing plants",
+  "category": "Lithium & materials",
+  "effect": "Local refining push",
+  "direction": "flat",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/government-approves-%E2%82%B928-billion-program-for-lithium-and-nickel-processing",
+  "sources": "Mercom India",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "seg": "Batteries",
+  "so": "Subsidies for two lithium and two nickel refineries in India: a first step toward local cell materials, years from output."
+ },
+ {
+  "id": "n162",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Huawei Digital Power tells customers it will raise prices: 5–15% for inverters and residential and commercial storage, 5–10% for grid-forming utility storage and PCS, citing costlier commodities, circuit boards and memory; Sungrow, Growatt, Kehua and others raised prices earlier",
+  "category": "Energy storage",
+  "effect": "Equipment prices up",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/04/huawei-plans-price-increases-of-up-to-15-for-storage-equipment/",
+  "sources": "ESS News",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   }
+  ],
+  "seg": "BESS",
+  "so": "Chinese PCS and storage equipment makers are raising prices 5–15%: non-cell parts of BESS quotes are getting dearer even as cells soften."
+ },
+ {
+  "id": "n163",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Tata Motors' passenger EV chief Shailesh Chandra says Indian cell making should start within a year and cells and their materials could be localised in two to three years; Agratas' 20 GWh Sanand plant is due to start in 2027",
+  "category": "India EV & battery makers",
+  "effect": "Localisation timeline",
+  "direction": "flat",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/indias-ev-battery-cells-could-be-localised-in-2-3-years-shailesh-chandra-135669",
+  "sources": "Autocar Professional",
+  "weight": 2,
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "seg": "Batteries",
+  "so": "An Indian carmaker expects local EV cells within a year and local materials in two to three: imported cells stay the norm until then."
+ },
+ {
+  "id": "n164",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "InfoLink, 4 Nov: China lithium carbonate falls 7.2% in a week to about $13,430 a tonne, spodumene 10% to $1,215; the 314 Ah storage cell eases 0.7% to $46.6/kWh and 2-hour DC containers 1%",
+  "category": "Lithium & materials",
+  "effect": "Lithium still falling",
+  "direction": "down",
+  "source": "InfoLink",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
+  "sources": "InfoLink",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "seg": "Batteries",
+  "so": "Lithium down another 7% in a week while storage cells slip under 1%: cell prices are lagging the fall in raw materials."
+ },
+ {
+  "id": "n165",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Dongfeng's Voyah, M-hero and Epicland brands are expected to be first with CATL's third-generation Shenxing LFP battery (10–80% in under 4 minutes, 10C or more) after a group-level deal on 29 Oct, a Chinese report says",
+  "category": "R&D & new products",
+  "effect": "Ultra-fast charging",
+  "direction": "flat",
+  "source": "CarNewsChina (citing 21CBH)",
+  "url": "https://carnewschina.com/2026/11/03/dongfeng-eyes-debut-of-catls-6-minute-full-charge-shenxing-battery-report-says",
+  "sources": "CarNewsChina",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "seg": "Batteries",
+  "so": "10C fast-charge LFP cells are heading into more Chinese cars: raises the bar for charging speed in EV cell specifications."
+ },
+ {
+  "id": "n166",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "CATL, Octopus Energy and Ampace (the ATL–CATL joint venture) sign an MoU on home storage in Europe, starting in the UK, France and Spain; Ampace will make the cells, BMS and storage units",
+  "category": "Cell makers & competitors",
+  "effect": "Home storage push",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/11/04/catl-octopus-ampace-explore-european-home-energy-storage/",
+  "sources": "CnEVPost",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "seg": "BESS",
+  "so": "China's largest cell maker moves into European home storage with a utility partner: more competition for residential battery makers."
+ },
+ {
   "id": "n151",
   "date": "2026-11-03",
   "day": "3 Nov",

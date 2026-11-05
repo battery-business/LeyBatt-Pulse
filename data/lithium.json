@@ -398,5 +398,13 @@
   "source": "SMM daily lithium carbonate review",
   "url": "https://news.metal.com/newscontent/104202551-smm-lithium-carbonate-daily-review-on-november-3-spot-lithium-carbonate-edged-up-and-held-steady-while-futures-retreated-after-a-rapid-rise-closing-lower-on-reduced-positions",
   "note": "China battery-grade spot average, range $13,660–$14,340; up 0.3% on the day"
+ },
+ {
+  "date": "2026-11-04",
+  "series": "Spot",
+  "usd_t": 13430,
+  "source": "InfoLink weekly",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
+  "note": "InfoLink battery-grade lithium carbonate average, range $13,280–$13,580; down 7.2% in a week"
  }
 ]

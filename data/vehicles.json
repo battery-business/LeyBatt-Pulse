@@ -18,18 +18,18 @@
   },
   {
    "id": "v-eim-ashwa",
-   "date": "2026-04-01",
+   "date": "2026-10-14",
    "maker": "Energy In Motion",
    "model": "Ashwa 55-tonne tractor",
    "type": "E-truck (tractor)",
-   "pack_kwh": "282",
+   "pack_kwh": "282 (350 option); 400.5 'Luna' pack planned",
    "chemistry": "LFP",
-   "cell_supplier": null,
+   "cell_supplier": "CATL (CB7T0 cells, L324D06 pack platform; kits imported, packs assembled in Pune)",
    "charging": "Battery swap (under 7 minutes)",
-   "range_km": null,
-   "note": "Rebadged Foton eAuman; 66 trucks for Transvolt at Kandla and JNPA ports",
-   "source": "electrive, 1 Apr 2026",
-   "url": "https://www.electrive.com/2026/04/01/india-energy-in-motion-bags-order-for-66-electric-heavy-duty-trucks/"
+   "range_km": "About 150 (Luna pack: over 200)",
+   "note": "Rebadged Foton; pack line in Pune of 2.4 GWh a year; 66 trucks earlier for Transvolt at Kandla and JNPA ports",
+   "source": "Autocar Professional, 14 Oct 2026",
+   "url": "https://www.autocarpro.in/news/eim-to-launch-two-electric-trucks-in-15-months-as-pune-manufacturing-begins-135249"
   },
   {
    "id": "v-tata-ultrae7",

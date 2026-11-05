@@ -169,5 +169,14 @@
   "source": "InfoLink weekly",
   "url": "https://www.infolink-group.com/spot-price-energy-storage/",
   "note": "Lithium down 4.9%; cells down 0.7%; systems flat"
+ },
+ {
+  "date": "2026-11-04",
+  "usd_kwh": 46.6,
+  "lo": 42.9,
+  "hi": 50.2,
+  "source": "InfoLink weekly",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
+  "note": "Lithium down 7.2%; spodumene down 10%; cells down 0.7%; DC systems down 1%"
  }
 ]

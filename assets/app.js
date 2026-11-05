@@ -1761,27 +1761,52 @@
   }
   function whyMoved(ax, name) { // what changed since a week ago, and which drivers moved the score
     const box = el('div', 'rwhy-box');
-    const ch = ax.change; if (ch == null) return box;
-    const since = ax.prev_date ? d3.utcFormat('%-d %b')(parse(ax.prev_date)) : 'a week ago';
-    const ds = (ax.drivers || []).filter((d) => d.moved != null && Math.abs(d.moved) >= 0.05).sort((a, b) => Math.abs(b.moved) - Math.abs(a.moved));
+    const ch = ax.change; if (ch == null || ax.score == null) return box;
+    const fmtD = (iso) => d3.utcFormat('%-d %b')(parse(iso));
+    const since = ax.prev_date ? fmtD(ax.prev_date) : 'a week ago';
+    const prev = Math.round((ax.score - ch) * 10) / 10;
     const dir = ch <= -0.05 ? 'down' : ch >= 0.05 ? 'up' : 'flat';
     const head = el('div', 'rwhy-head ' + dir);
     head.append(el('b', null, dir === 'flat' ? `${name}: no change since ${since}` : `${name} ${dir === 'down' ? 'eased' : 'rose'} ${Math.abs(ch).toFixed(1)} since ${since}`));
+    if (dir !== 'flat') head.appendChild(el('span', 'rwhy-from', ` (${scoreTxt(prev)} → ${scoreTxt(ax.score)})`));
     box.appendChild(head);
-    if (!ds.length) { box.appendChild(el('p', 'rwhy-none', dir === 'flat' ? 'None of the drivers below moved enough to matter.' : 'Small moves across several drivers; none stands out.')); return box; }
-    const main = dir === 'flat' ? ds : ds.filter((d) => Math.sign(d.moved) === Math.sign(ch));
-    const against = dir === 'flat' ? [] : ds.filter((d) => Math.sign(d.moved) !== Math.sign(ch));
-    const line = (d) => {
+    // share the shown change out among the drivers in steps of 0.1, so the reasons add up to it
+    const ds = (ax.drivers || []).filter((d) => d.moved != null && Math.abs(d.moved) >= 0.005);
+    const N = Math.round(ch * 10), tot = ds.reduce((a, d) => a + d.moved, 0);
+    let units;
+    if (N !== 0 && tot !== 0 && Math.sign(tot) === Math.sign(N)) {
+      const q = ds.map((d) => (d.moved * N) / tot); units = q.map((x) => Math.round(x));
+      let diff = N - units.reduce((a, b) => a + b, 0);
+      while (diff !== 0) { const sg = Math.sign(diff); let bi = 0, bv = -Infinity; q.forEach((x, k) => { const v = (x - units[k]) * sg; if (v > bv) { bv = v; bi = k; } }); units[bi] += sg; diff -= sg; }
+    } else units = ds.map((d) => Math.round(d.moved * 10));
+    const rows = ds.map((d, k) => ({ d, u: units[k] })).filter((r) => r.u !== 0).sort((a, b) => Math.abs(b.u) - Math.abs(a.u));
+    if (!rows.length) {
+      box.appendChild(el('p', 'rwhy-none', dir === 'flat' ? 'None of the drivers below moved enough to matter.' : 'Small moves across several drivers, each under 0.1; the scores are rounded to one decimal.'));
+      return box;
+    }
+    const short = (t) => String(t || '').replace(/\s*\(([^()]|\([^()]*\))*\)\s*$/, (m) => (m.length > 28 ? '' : m)).replace(/\b1 recent stories/, '1 recent story').replace(/\b1 dated change\(s\)/, '1 dated change').replace(/change\(s\)/, 'changes').replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase());
+    const itemLine = (lab, it, extra) => { const w = el('div', 'rwhy-det'); w.appendChild(el('span', 'rwhy-k', lab + ' ')); w.appendChild(it.url ? link(it.text, it.url) : document.createTextNode(it.text)); w.appendChild(document.createTextNode(` · ${fmtD(it.date)}${extra || ''}`)); return w; };
+    const line = ({ d, u }) => {
       const li = el('li');
-      const eff = el('span', 'rwhy-eff ' + (d.moved < 0 ? 'down' : 'up'), `${d.moved < 0 ? '\u2212' : '+'}${Math.abs(d.moved).toFixed(1)}`);
-      eff.title = 'Points this driver added to or took off the overall score';
-      li.append(eff, el('b', null, d.label), document.createTextNode(` ${scoreTxt(d.prev)} \u2192 ${scoreTxt(d.score)}`));
-      const short = (t) => String(t || '').split(' (')[0].replace(/\b1 recent stories/, '1 recent story').replace(/\b1 dated change\(s\)/, '1 dated change').replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase());
-      if (d.detail) li.appendChild(el('div', 'rwhy-det', d.prev_detail && short(d.prev_detail) !== short(d.detail) ? `Was ${short(d.prev_detail)}; now ${short(d.detail)}` : short(d.detail)));
+      const eff = el('span', 'rwhy-eff ' + (u < 0 ? 'down' : 'up'), `${u < 0 ? '−' : '+'}${(Math.abs(u) / 10).toFixed(1)}`);
+      eff.title = `Points this driver took off or added to the score (exact: ${d.moved > 0 ? '+' : ''}${d.moved.toFixed(2)}; shared out in steps of 0.1 so the reasons add up to the change shown)`;
+      li.append(eff, el('b', null, d.label), document.createTextNode(` ${scoreTxt(d.prev)} → ${scoreTxt(d.score)}`));
+      const isNews = /news/.test(d.key), isDates = /dates/.test(d.key);
+      (d.new_items || []).forEach((it) => li.appendChild(itemLine(isNews ? 'New story:' : 'New date:', it, isNews ? (it.s < 0 ? ' (eases it)' : it.s > 0 ? ' (adds to it)' : '') : '')));
+      (d.gone_items || []).forEach((it) => li.appendChild(itemLine(isNews ? 'No longer counted (older than the window):' : 'Passed:', it)));
+      if (!(d.new_items || []).length && !(d.gone_items || []).length) {
+        if (isDates && (d.items || []).length) d.items.slice(0, 2).forEach((it) => li.appendChild(itemLine('Closer now:', it, ` (${Math.max(0, Math.round((+parse(it.date) - Date.now()) / 864e5))} days away)`)));
+        else if (d.key === 'rupee' && /₹([\d.,]+)/.test(d.detail || '') && /₹([\d.,]+)/.test(d.prev_detail || '')) {
+          const r = (t) => (t.match(/₹([\d.,]+)/) || [])[1]; const m = (d.detail.match(/rupee (stronger|weaker) by [\d.]+% in a month/) || [])[0];
+          li.appendChild(el('div', 'rwhy-det', `Was ₹${r(d.prev_detail)} per US$; now ₹${r(d.detail)}${m ? ` (${m})` : ''}`));
+        } else if (d.detail) li.appendChild(el('div', 'rwhy-det', d.prev_detail && short(d.prev_detail) !== short(d.detail) ? `Was ${short(d.prev_detail)}; now ${short(d.detail)}` : short(d.detail)));
+      }
       return li;
     };
-    if (main.length) { box.appendChild(el('p', 'rwhy-lab', dir === 'flat' ? 'Moves that cancelled out:' : 'Because of:')); const ul = el('ul', 'rwhy-list'); main.slice(0, 3).forEach((d) => ul.appendChild(line(d))); box.appendChild(ul); }
-    if (against.length) { box.appendChild(el('p', 'rwhy-lab', 'Partly offset by:')); const ul = el('ul', 'rwhy-list'); against.slice(0, 2).forEach((d) => ul.appendChild(line(d))); box.appendChild(ul); }
+    const main = dir === 'flat' ? rows : rows.filter((r) => Math.sign(r.u) === Math.sign(N));
+    const against = dir === 'flat' ? [] : rows.filter((r) => Math.sign(r.u) !== Math.sign(N));
+    if (main.length) { box.appendChild(el('p', 'rwhy-lab', dir === 'flat' ? 'Moves that cancelled out:' : 'Because of:')); const ul = el('ul', 'rwhy-list'); main.slice(0, 3).forEach((r) => ul.appendChild(line(r))); box.appendChild(ul); }
+    if (against.length) { box.appendChild(el('p', 'rwhy-lab', 'Partly offset by:')); const ul = el('ul', 'rwhy-list'); against.slice(0, 2).forEach((r) => ul.appendChild(line(r))); box.appendChild(ul); }
     return box;
   }
   function driverList(all, prevDate) {

@@ -596,6 +596,16 @@ def main():
                         dd["prev"] = o.get("score")
                         if o.get("detail") and o.get("detail") != dd.get("detail"):
                             dd["prev_detail"] = o["detail"]
+                        # which dated items (stories, rule dates) came in or dropped out since then
+                        ik = lambda it: it.get("id") or (it.get("date", ""), it.get("text", ""))
+                        was_k = {ik(it) for it in (o.get("items") or [])}
+                        now_k = {ik(it) for it in (dd.get("items") or [])}
+                        new = [it for it in (dd.get("items") or []) if ik(it) not in was_k]
+                        gone = [it for it in (o.get("items") or []) if ik(it) not in now_k]
+                        if new:
+                            dd["new_items"] = new[:3]
+                        if gone:
+                            dd["gone_items"] = gone[:3]
                         # points this driver added to the change in the overall score (weight x score)
                         now_c = (dd.get("score") or 0) * (dd.get("weight") or 0) / 100
                         old_c = (o.get("score") or 0) * (o.get("weight") or 0) / 100

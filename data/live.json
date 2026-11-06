@@ -1,15 +1,15 @@
 {
- "time_bj": "2026-11-05 15:00",
- "time_ist": "2026-11-05 12:30",
- "day": "2026-11-05",
- "cny_t": 91580.0,
- "usd_t": 13725,
- "rate": 6.6723,
- "rate_date": "2026-11-04",
+ "time_bj": "2026-11-06 10:05",
+ "time_ist": "2026-11-06 07:35",
+ "day": "2026-11-06",
+ "cny_t": 93260.0,
+ "usd_t": 13985,
+ "rate": 6.6684,
+ "rate_date": "2026-11-05",
  "source": "Guangzhou Futures Exchange LC0 main contract, latest 5-minute price (via Sina Finance), at the ECB rate",
  "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml",
- "checked": "2026-11-05T08:06Z",
- "prev_date": "2026-11-04",
- "prev_usd_t": 12958,
- "chg_pct": 5.92
+ "checked": "2026-11-06T02:02Z",
+ "prev_date": "2026-11-05",
+ "prev_usd_t": 13733,
+ "chg_pct": 1.83
 }

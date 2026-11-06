@@ -200,6 +200,17 @@
   "so": "A small storage tender in Uttar Pradesh."
  },
  {
+  "date": "2026-12-12",
+  "what": "NHPC 800 MW / 3.2–4.8 GWh battery storage at Jalaun solar park (Uttar Pradesh): bids due, opening 16 Dec (TaiyangNews lists 15 Dec)",
+  "kind": "India tender",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/daily-news-wrap-up-battery-storage-hybrid-projects-lead-q3-auctions",
+  "short": "NHPC Jalaun 4.8 GWh storage bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "Bids for up to 4.8 GWh of storage in Uttar Pradesh: a test of tariffs for solar-plus-storage."
+ },
+ {
   "date": "2027-01-01",
   "what": "China ends its 6% export VAT rebate on batteries",
   "kind": "Rule change",
@@ -308,5 +319,15 @@
   "weight": 1,
   "seg": "BESS",
   "so": "Deadline for SECI's 3.2 GWh storage projects: shows whether awarded projects get built."
+ },
+ {
+  "date": "2027-07-01",
+  "precision": "month",
+  "what": "Premier Energies 6 GWh BESS Phase I project due to be commissioned",
+  "kind": "India competitor",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/",
+  "short": "Premier Energies 6 GWh BESS plant due",
+  "weight": 1
  }
 ]

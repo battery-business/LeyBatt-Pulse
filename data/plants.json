@@ -198,6 +198,20 @@
    "note": "Equipment installation under way ahead of commissioning; first process equipment arrived in Sep 2026 (Autocar Professional)",
    "source": "Autocar Professional",
    "url": "https://www.autocarpro.in/news/bound-digital-scale-armed-inside-agratas-dual-continent-battery-blueprint-135720"
+  },
+  {
+   "id": "p-premier-bess",
+   "date": "2026-11-05",
+   "company": "Premier Energies",
+   "kind": "Storage systems",
+   "location": "India (site not stated)",
+   "capacity": "6 GWh BESS Phase I; 12 GWh of BESS containers listed as under construction",
+   "gwh": 6,
+   "stage": "Building",
+   "start": "July 2027",
+   "note": "RCT signed as technology and equity partner; site development and civil works in progress",
+   "source": "Powerpeak Digest",
+   "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/"
   }
  ]
 }

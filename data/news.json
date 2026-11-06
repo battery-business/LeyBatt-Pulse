@@ -1,5 +1,199 @@
 [
  {
+  "id": "n175",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "NHPC seeks developers for 800 MW of battery storage at the 1.2 GW Jalaun solar park in Uttar Pradesh, in two options (800 MW / 4.8 GWh or 800 MW / 3.2 GWh) on a build-own-operate basis; bids due mid-December, completion within 18 months",
+  "seg": "BESS",
+  "so": "Another multi-GWh solar-plus-storage tender in India: 3.2–4.8 GWh more battery demand for delivery around 2028.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "3.2–4.8 GWh tender",
+  "direction": "up",
+  "source": "TaiyangNews",
+  "url": "https://taiyangnews.info/tenders/nhpc-seeks-bids-12-gw-solar-plus-storage-project-up",
+  "source2": "Mercom India",
+  "url2": "https://www.mercomindia.com/daily-news-wrap-up-battery-storage-hybrid-projects-lead-q3-auctions",
+  "sources": "TaiyangNews · Mercom India",
+  "alert": true,
+  "alert_reason": "Up to 4.8 GWh India tender",
+  "short": "NHPC tenders 800 MW / up to 4.8 GWh of storage at Jalaun solar park"
+ },
+ {
+  "id": "n176",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "FADA: India's EV retail sales hit a record of about 3.55 lakh in October, up 44.9% on a year, lifting EV share of all vehicles to about 11.5%; EV share reached 62.6% in three-wheelers, 9.7% in two-wheelers, 7.3% in cars and 4.3% in commercial vehicles, with demand ahead of supply",
+  "seg": "EVs",
+  "so": "Record Indian EV sales with commercial-vehicle EV share above 4%: rising pack demand across segments, and supply rather than demand is the limit.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Record EV sales",
+  "direction": "up",
+  "source": "BioEnergy Times (FADA data)",
+  "url": "https://bioenergytimes.com/indias-ev-retail-sales-hit-all-time-high-of-3-55-lakh-units-in-october-up-44-88-fada/",
+  "sources": "BioEnergy Times · FADA"
+ },
+ {
+  "id": "n177",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Blackbuck EV shows the ELON 3X, a 15-metre three-axle electric sleeper coach with 42 berths and 425 kWh or 565 kWh battery options; reservations are open and commercial production is targeted for mid-2027",
+  "seg": "EVs",
+  "so": "A 15-metre electric sleeper coach with packs up to 565 kWh: long-distance e-buses in India would need some of the largest packs on the road.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India EV & battery makers",
+  "effect": "Intercity e-coach launch",
+  "direction": "up",
+  "source": "EVreporter",
+  "url": "https://evreporter.com/blackbuck-ev-unveils-15-metre-multi-axle-electric-sleeper-coach-elon-3x/",
+  "sources": "EVreporter",
+  "alert": true,
+  "alert_reason": "New Indian e-coach",
+  "short": "Blackbuck EV shows 15 m electric sleeper coach with up to 565 kWh"
+ },
+ {
+  "id": "n178",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "An International Solar Alliance report on India's energy storage cites CEA projections of 888 GWh of storage needed by 2035-36, of which 321 GWh battery storage, and urges revenue stacking, ancillary-service access, grid-forming inverters in new tenders and a second VGF tranche by 2027",
+  "seg": "BESS",
+  "so": "321 GWh of battery storage needed in India by 2035-36: a long runway for BESS demand if market rules let projects earn from several services.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "Long-term demand",
+  "direction": "up",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/india-energy-storage-requirement-888gwh-isa/",
+  "sources": "Powerpeak Digest"
+ },
+ {
+  "id": "n179",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "Premier Energies says its 6 GWh BESS Phase I project, with RCT as technology and equity partner, targets commissioning in July 2027, with site and civil work under way; it lists 12 GWh of BESS container capacity under construction",
+  "seg": "BESS",
+  "so": "A solar maker adds 6 GWh of storage-system capacity in India from mid-2027: more local BESS suppliers ahead of domestic-content rules.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "New BESS capacity",
+  "direction": "flat",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/",
+  "sources": "Powerpeak Digest"
+ },
+ {
+  "id": "n180",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Albemarle's third-quarter energy-storage sales rose 58% to $1.12 billion on a realised lithium price of about $20 per kg, but it expects fourth-quarter sales and margins to fall on lower prices, cuts 2026 capex to $300–350 million and says global lithium demand rose 48% to August",
+  "seg": "Batteries",
+  "so": "The largest Western lithium producer expects lower prices and spends less: near-term lithium stays soft, while capex cuts slow new supply later.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "Lithium & materials",
+  "effect": "Lower Q4 prices",
+  "direction": "down",
+  "source": "Albemarle (SEC filing)",
+  "url": "https://www.sec.gov/Archives/edgar/data/0000915913/000091591326000128/a3q26earningsreleaseex991.htm",
+  "source2": "The EV Report",
+  "url2": "https://theevreport.com/albemarle-q3-2026-results-energy-storage-lithium",
+  "sources": "Albemarle · The EV Report"
+ },
+ {
+  "id": "n181",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "SMM: China battery-grade lithium carbonate spot averaged about $13,690 a tonne on 5 Nov, down 4.6% in a week, while the Guangzhou most-traded contract closed near $13,670, up 3.6% on the week; social inventory fell by about 3,000 t to 125,391 t",
+  "seg": "Batteries",
+  "so": "Lithium spot keeps easing while futures rebound and stocks fall: a soft but stabilising price for LFP cathode and cells.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Spot eases",
+  "direction": "down",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates",
+  "sources": "SMM"
+ },
+ {
+  "id": "n182",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "SMM: bids in a 2026 energy-storage framework procurement by CHN Energy's renewables arm ranged from about $84.5 to $89.3 per kWh (excl. VAT), up from about $68.7 in CNNC's mid-October tender, while mainstream storage cell quotes held near $72.6 per kWh",
+  "seg": "BESS",
+  "so": "Chinese storage tender prices are rising again: higher BESS equipment costs for buyers ordering for 2027.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "Energy storage",
+  "effect": "Tender prices up",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/104208325-smm-cobalt-lithium-morning-meeting-summary-industry-chain-prices-consolidate-differentiated-demand-under-pressure-energy-storage-market-continues-to-improve",
+  "sources": "SMM"
+ },
+ {
   "id": "n167",
   "date": "2026-11-05",
   "day": "5 Nov",

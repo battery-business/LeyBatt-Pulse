@@ -414,5 +414,21 @@
   "source": "Trading Economics",
   "url": "https://tradingeconomics.com/commodity/lithium",
   "note": "China battery-grade lithium carbonate, down 1.0% on the day (vs 3 Nov)"
+ },
+ {
+  "date": "2026-11-05",
+  "series": "Futures",
+  "usd_t": 13670,
+  "source": "SMM weekly lithium carbonate analysis (GFEX most-traded)",
+  "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates",
+  "note": "Most-traded contract closed at about $13,670 on 5 Nov, 3.64% higher than a week earlier"
+ },
+ {
+  "date": "2026-11-05",
+  "series": "Spot",
+  "usd_t": 13690,
+  "source": "SMM weekly lithium carbonate analysis",
+  "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates",
+  "note": "SMM battery-grade spot average, down 4.6% from 29 Oct; social inventory fell 2,994 t to 125,391 t"
  }
 ]

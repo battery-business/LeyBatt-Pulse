@@ -75,6 +75,21 @@
    "note": "Reference from China: CATL targets 900 swap stations by end-2026",
    "source": "CarNewsChina",
    "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/"
+  },
+  {
+   "id": "v-blackbuck-elon3x",
+   "date": "2026-11-04",
+   "maker": "Blackbuck EV",
+   "model": "ELON 3X",
+   "type": "15 m three-axle electric sleeper coach (42 berths)",
+   "pack_kwh": "425 or 565",
+   "chemistry": null,
+   "cell_supplier": null,
+   "charging": null,
+   "range_km": null,
+   "note": "Reservations open; commercial production targeted for mid-2027",
+   "source": "EVreporter",
+   "url": "https://evreporter.com/blackbuck-ev-unveils-15-metre-multi-axle-electric-sleeper-coach-elon-3x/"
   }
  ]
 }

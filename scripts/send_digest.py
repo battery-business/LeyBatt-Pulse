@@ -513,6 +513,9 @@ def build(today):
   <td valign="middle" align="right"><span style="display:inline-block;background:{SOFT};color:{INK};font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;white-space:nowrap">{E(date_label)}</span></td>
  </tr></table></td></tr>
 <tr><td style="padding:0;font-size:0;line-height:0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>{strip}</tr></table></td></tr>
+{section("Key prices", "Latest reading, change on about a week earlier, and the base-scenario outlook.")}
+<tr><td style="padding:0 18px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{ktile_rows}</table></td></tr>
+<tr><td style="padding:8px 24px 0;font-size:12px;color:{MUTED};line-height:1.5" class="px">Lithium is a China price including 13% VAT; cells and systems exclude it. Outlook: middle of the simulated yearly average and the range 8 in 10 outcomes fall in, not a prediction. <a href="{SITE}#risk" style="color:{ACCENT};font-weight:600;text-decoration:none">How the outlook works ›</a></td></tr>
 {alert_html}
 <tr><td style="padding:26px 24px 4px" class="px">
  <div style="font-size:12px;font-weight:700;color:{ACCENT};letter-spacing:1.4px;text-transform:uppercase">What matters today</div>
@@ -521,9 +524,6 @@ def build(today):
 <tr><td style="padding:6px 24px 0;font-size:12.5px" class="px"><a href="{SITE}#news" style="color:{ACCENT};font-weight:600;text-decoration:none">All stories, most important first ›</a></td></tr>
 {section("Next 14 days") if soon_html else ""}
 {soon_html}
-{section("Key prices", "Latest reading, change on about a week earlier, and the base-scenario outlook.")}
-<tr><td style="padding:0 18px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{ktile_rows}</table></td></tr>
-<tr><td style="padding:8px 24px 0;font-size:12px;color:{MUTED};line-height:1.5" class="px">Lithium is a China price including 13% VAT; cells and systems exclude it. Outlook: middle of the simulated yearly average and the range 8 in 10 outcomes fall in, not a prediction. <a href="{SITE}#risk" style="color:{ACCENT};font-weight:600;text-decoration:none">How the outlook works ›</a></td></tr>
 {section("Risk navigator") if risk_html else ""}
 {risk_html}
 {section("More news") if top else ""}
@@ -538,6 +538,12 @@ def build(today):
 </table></td></tr></table><!--LP-BODY-END--></body></html>"""
     # plain-text version
     t = [f"LeyBatt Pulse | Daily | {date_label}", ""]
+    t += ["Key prices (change on about a week earlier):"]
+    for k in ("fut", "cell", "ev", "sys"):
+        if k in R:
+            r = R[k]
+            t.append(f"- {names[k]}: {r['wvalue']}{r['unit']} ({'–' if r['wchg'] is None else signed(r['wchg']) + ' ' + r['wvs']}) {r['wdate']}")
+    t.append("")
     if uniq:
         t += ["ALERT: " + "; ".join(uniq), ""]
     if bottom:
@@ -546,11 +552,6 @@ def build(today):
         t.append(f"- {SEG_LAB.get(n.get('seg'), '')}: {n['so']} ({n.get('short') or n['headline']}; {n['source']}: {n['url']})")
     if nextd:
         t += ["", "Next 14 days:"] + [f"- {e['date']}: {e.get('short') or e['what']}" for e in nextd]
-    t += ["", "Key prices (change on about a week earlier):"]
-    for k in ("fut", "cell", "ev", "sys"):
-        if k in R:
-            r = R[k]
-            t.append(f"- {names[k]}: {r['wvalue']}{r['unit']} ({'–' if r['wchg'] is None else signed(r['wchg']) + ' ' + r['wvs']}) {r['wdate']}")
     if note:
         t += ["", note]
     for r in []:

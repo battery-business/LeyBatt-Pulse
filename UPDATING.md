@@ -176,3 +176,5 @@ The search box in the header (also Ctrl K / ⌘K, or `/`) runs entirely in the v
 - A result jumps to the exact card or section (price cards `#pc-<key>`, chain sections `#sec-<title>`, `#news?story=`, `#rules?rule=`).
 - Industry synonyms and intent words live at the top of `search.js` (`SYN`, `INTENT`). Add a synonym there when people use a word the site does not (e.g. a new abbreviation).
 - The last row always offers "Search the web", which opens an ordinary Google search in a new tab.
+- Direct answers are worked out in the browser from the same data (never guessed): a price now, its change over a day / week / month / 3 or 6 months / year ("How much did lithium fall this month?"), a 2027–2029 outlook ("EV cell price 2028"), the landed cost in India from the Bidding desk ("landed cost of 314 Ah cell"), and a date ("When does the China export pause end?"). Matched words are highlighted, with a snippet when they matched only in the story's "What it means" text.
+- A "Didn't find what you needed?" link under the results opens an email to `profile.json` → `feedback_email` with the search filled in; it is hidden while that field is empty.

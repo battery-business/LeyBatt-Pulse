@@ -139,11 +139,11 @@
     T('standards', 'systems', 'Battery swapping and safety standards', (r) => ({ title: r.name, sub: [r.kind, r.status, r.body].filter(Boolean).join(' · '), keys: 'standard', text: `${r.scope || ''} ${r.applies || ''}` }));
     T('safety', 'systems', 'Battery fires and recalls', (r) => ({ title: `${r.kind || 'Incident'}: ${r.place}${r.country ? ', ' + r.country : ''}`, sub: [dShort(r.date), r.operator].filter(Boolean).join(' · '), keys: 'fire safety incident recall', text: `${r.what || ''} ${r.cause || ''} ${r.lesson || ''}` }));
     // regulations
-    (D.regulations || []).forEach((r) => add(out, { type: 'rule', title: r.short || r.title, sub: [r.status, r.date_label || dShort(r.date), r.region].filter(Boolean).join(' · '), keys: `${r.title} ${r.area || ''} ${(r.affects || []).join(' ')} ${r.id.replace(/-/g, ' ')}`, text: `${r.what || ''} ${r.impact || ''}`,
+    (D.regulations || []).forEach((r) => add(out, { type: 'rule', when: r.date, whenLabel: dShort(r.date), title: r.short || r.title, sub: [r.status, r.date_label || dShort(r.date), r.region].filter(Boolean).join(' · '), keys: `${r.title} ${r.area || ''} ${(r.affects || []).join(' ')} ${r.id.replace(/-/g, ' ')}`, text: `${r.what || ''} ${r.impact || ''}`,
       go: () => { location.hash = 'rules?rule=' + r.id; } }));
     // dated events
     const today = new Date().toISOString().slice(0, 10);
-    (D.events || []).filter((e) => (e.end || e.date) >= today).forEach((e) => add(out, { type: 'date', title: e.short || e.what, sub: `${dShort(e.date)}${e.end && e.end !== e.date ? ' – ' + dShort(e.end) : ''}`, keys: `${e.kind || ''} date deadline`, text: e.what,
+    (D.events || []).filter((e) => (e.end || e.date) >= today).forEach((e) => add(out, { type: 'date', when: e.date, whenLabel: dShort(e.date), title: e.short || e.what, sub: `${dShort(e.date)}${e.end && e.end !== e.date ? ' – ' + dShort(e.end) : ''}`, keys: `${e.kind || ''} date deadline`, text: e.what,
       go: () => { L.go('overview'); L.focusOn('#ov-coming'); }, src: e.url }));
     // news
     const news = Array.isArray(D.news) ? D.news : (D.news || {}).items || [];
@@ -169,43 +169,144 @@
     const qn = norm(q).trim();
     const res = [];
     for (const it of IDX) {
-      let sc = 0, hit = 0;
+      let sc = 0, hit = 0; const hits = [];
       for (const w of need) {
         const forms = [w, ...(SYN[w] || [])];
-        let best = 0;
+        let best = 0, bt = null;
+        const take = (v, t) => { if (v > best) { best = v; bt = t; } };
         for (const f of forms) {
           const syn = f === w ? 1 : 0.85;
-          if (it._t.has(f)) best = Math.max(best, 3 * syn);
-          else if (it._k.has(f)) best = Math.max(best, 2.2 * syn);
-          else if (it._x.has(f)) best = Math.max(best, 1.1 * syn);
+          if (it._t.has(f)) take(3 * syn, f);
+          else if (it._k.has(f)) take(2.2 * syn, f);
+          else if (it._x.has(f)) take(1.1 * syn, f);
           if (best >= 3 * syn) continue;
           if (f.length >= 3) for (const t of it._all) { // prefix: "lith", "regul", "calc"
-            if (t.length > f.length && t.startsWith(f)) { best = Math.max(best, (it._t.has(t) ? 2.4 : it._k.has(t) ? 1.8 : 0.9) * syn); break; }
+            if (t.length > f.length && t.startsWith(f)) { take((it._t.has(t) ? 2.4 : it._k.has(t) ? 1.8 : 0.9) * syn, t); break; }
           }
         }
-        if (!best && w.length >= 4) { // small typos: "lithum", "regulaton", "alumnium"
+        if (!best && w.length >= 5) { // small typos: "lithum", "regulaton", "alumnium" (not short names like CATL)
           const max = w.length >= 8 ? 2 : 1;
-          for (const t of it._all) { if (t.length >= 4 && lev(w, t, max) <= max) { best = Math.max(best, it._t.has(t) ? 2 : it._k.has(t) ? 1.5 : 0.7); if (best >= 2) break; } }
+          for (const t of it._all) { if (t.length >= 4 && lev(w, t, max) <= max) { take(it._t.has(t) ? 2 : it._k.has(t) ? 1.5 : 0.7, t); if (best >= 2) break; } }
         }
-        if (best) { hit++; sc += best; }
+        if (best) { hit++; sc += best; if (bt) hits.push(bt); }
       }
       if (!hit) continue;
       const cover = hit / need.length;
       if (need.length >= 2 && cover < 0.6) continue; // two words: both must match; three: two; four: three
       sc *= cover * cover * BASE[it.type];
-      if (qn.length >= 4 && it._title.includes(qn)) sc += 3;
+      if (qn.length >= 3 && it._title.includes(qn)) sc += 3;
+      if (qn.length >= 3 && it._title.startsWith(qn)) sc += 2; // "CATL" -> "CATL: cell sizes" before stories that mention CATL
       if (intents.has(it.type)) sc *= 1.6;
       if (intents.has('price') && it.type === 'outlook') sc *= 1.05;
       if (intents.has('date') && it.type === 'rule') sc *= 1.25;
       if (intents.has('term') && it.type === 'term') sc *= 2.2;
       if (it.type === 'news' && it.date) { const age = (Date.now() - Date.parse(it.date)) / 864e5; sc *= age < 14 ? 1.1 : age < 60 ? 1 : 0.9; }
-      res.push({ it, sc });
+      res.push({ it, sc, hits });
     }
     res.sort((a, b) => b.sc - a.sc);
     // keep the list readable: at most 4 news stories and 3 of any other kind beyond the top
     const cap = { news: 4, price: 4, risk: 3, outlook: 3, page: 4, rule: 4, track: 4, date: 3, term: 2 }; const n = {}; const out = [];
     for (const r of res) { const t = r.it.type; n[t] = (n[t] || 0) + 1; if (n[t] <= cap[t]) out.push(r); if (out.length >= 9) break; }
+    out.forEach((r) => { r.it._hits = r.hits; });
     return out;
+  }
+
+  // ---------- direct answers: worked out from the site's own data, never guessed ----------
+  const f0 = (v) => '$' + Math.round(v).toLocaleString('en-US'), f1 = (v) => '$' + v.toFixed(1);
+  const dd = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const inr0 = (v) => '₹' + Math.round(v).toLocaleString('en-IN');
+  function whichSeries(w, q) {
+    const L = W(), D = L.D; const has = (...xs) => xs.some((x) => w.includes(x));
+    const S = {
+      spot: { label: 'Lithium carbonate, China spot', pts: () => L.smmSpot(), f: f0, u: '/t', step: 'mining', key: 'lithium', ol: 'lithium' },
+      fut: { label: 'Lithium carbonate futures', pts: () => { const m = new Map(); [...(L.futHist() || []), ...(L.liFut() || [])].forEach((p) => { if (p && p.d) m.set(+p.d, p); }); return [...m.values()]; }, f: f0, u: '/t', step: 'mining', key: 'lithium', ol: 'lithium' },
+      ev: { label: 'EV prismatic LFP cell', pts: () => L.ptsOf((D.evcells || {}).series, 'usd_kwh'), f: f1, u: '/kWh', step: 'cells', key: 'evcell', ol: 'cell_ev', land: 'evcell' },
+      sys: { label: '4-hour AC storage system, China', pts: () => L.ptsOf(L.weekly(), 'ac_4h'), f: f1, u: '/kWh', step: 'systems', key: 'system', land: 'ac4h' },
+      cell: { label: '314 Ah storage cell', pts: () => L.ptsOf(D.cell314, 'usd_kwh'), f: f1, u: '/kWh', step: 'cells', key: 'cell314', ol: 'cell_ess', land: 'cell314' },
+    };
+    if (has('lithium', 'carbonate', 'li2co3', 'lce', 'gfex')) return S[has('spot') ? 'spot' : 'fut'];
+    if (has('ev', 'evs', 'vehicle', 'automotive', 'bus', 'truck') && has('cell', 'cells', 'battery')) return S.ev;
+    if (has('system', 'systems', 'container', 'bess', '4h', '4-hour', '4hour')) return S.sys;
+    if (has('cell', 'cells', '314', '314ah')) return S.cell;
+    return null;
+  }
+  const atOrBefore = (pts, t) => { let v = null; for (const p of pts) { if (+p.d <= t) v = p; else break; } return v; };
+  function answer(q) {
+    const L = W(); if (!L || !L.D) return null;
+    const KW = ['lithium', 'carbonate', 'system', 'systems', 'storage', 'battery', 'landed', 'vehicle', 'container'];
+    const w = toks(q).map((t) => (t.length >= 5 && !KW.includes(t) ? KW.find((k) => lev(t, k, 1) <= 1) || t : t)); // "lithum" -> lithium
+    const qs = ' ' + w.join(' ') + ' ' + norm(q) + ' ';
+    const ser = whichSeries(w, q);
+    // when is …?  -> the soonest matching date
+    if (/^\s*when\b/i.test(q) || /\b(deadline|due date|ends?|starts?)\b/i.test(q)) {
+      const res = search(q).filter((r) => r.it.type === 'date' || (r.it.type === 'rule' && r.it.when));
+      const r = res[0];
+      if (r && r.it.when) {
+        const days = Math.round((Date.parse(r.it.when) - Date.now()) / 864e5);
+        return { kind: 'date', big: `${r.it.whenLabel}${days >= 0 ? ` · in ${days === 0 ? 'less than a day' : days === 1 ? '1 day' : days + ' days'}` : ` · ${-days} days ago`}`, small: r.it.title, go: r.it.go, src: r.it.src };
+      }
+    }
+    if (!ser) return null;
+    const pts = [...ser.pts()].filter((p) => p && p.v > 0).sort((a, b) => a.d - b.d); if (!pts.length) return null;
+    const last = pts[pts.length - 1];
+    const go = () => { L.go('chain/' + ser.step); L.focusOn('#' + L.priceId(ser.key)); };
+    // a year -> the outlook
+    const yr = (qs.match(/ (2027|2028|2029) /) || [])[1];
+    if (yr && ser.ol && L.D.scen && L.D.scen.results) {
+      const res = L.D.scen.results.base[ser.ol]; const v = res && res.years && res.years[yr];
+      if (v) return { kind: 'outlook', big: `${ser.label}, ${yr}: about ${ser.f(v.p50)}${ser.u}`, small: `Base case, average for the year. 8 in 10 simulated outcomes: ${ser.f(v.p10)} to ${ser.f(v.p90)}. Today ${ser.f(last.v)}${ser.u} (${dd(last.d)}).`, go: () => { L.go('risk'); setTimeout(() => L.jumpOutlook(ser.ol), 60); }, cta: 'Open the 3-year outlook' };
+    }
+    // landed in India
+    if (ser.land && /\b(landed|land|import|imported|duty|customs|in india|india price|rupee|inr|₹)\b/.test(qs)) {
+      try {
+        const LAND = L.land(); const P = L.bidPrice(ser.land, 'now', 'base'); if (P) {
+          const c = L.landCalc(P.mid, ser.land === 'ac4h' ? 'B' : 'C', LAND.after, P.fx);
+          return { kind: 'landed', big: `${ser.label} landed in India: about ${inr0(c.inr)}/kWh`, small: `China price ${f1(P.mid)}/kWh, plus freight, insurance, customs duty and surcharge, at ₹${(P.fx || LAND.fx).toFixed(2)} per US$; IGST (reclaimable) not included${ser.land === 'evcell' ? '; the duty rate for EV cells is not confirmed' : ''}. Estimate from the Bidding desk's assumptions.`, go: () => L.go('bid'), cta: 'Open the Bidding desk' };
+        }
+      } catch (e) { /* the landed panel is not ready */ }
+    }
+    // how much did it move over a period?
+    const per = /\b(today|day|daily|yesterday)\b/.test(qs) ? [1, 'a day'] : /\b(week|weekly|7 days)\b/.test(qs) ? [7, 'the last week'] : /\b(3 months|three months|quarter|90 days)\b/.test(qs) ? [91, 'the last 3 months']
+      : /\b(6 months|six months|half year)\b/.test(qs) ? [182, 'the last 6 months'] : /\b(year|12 months|annual|yoy)\b/.test(qs) ? [365, 'the last year'] : /\b(month|monthly|30 days)\b/.test(qs) ? [30, 'the last month'] : null;
+    const moveQ = per || /\b(fall|fell|drop|dropped|rise|rose|up|down|change|changed|move|moved|how much|trend)\b/.test(qs);
+    if (moveQ) {
+      const [days, lab0] = per || [7, 'the last week'];
+      let then = atOrBefore(pts, +last.d - days * 864e5); let lab = lab0;
+      if (!then && pts.length > 1) { then = pts[0]; lab = `the readings on this site (since ${dd(then.d)})`; } // shorter history than asked: say so
+      if (then && then !== last) {
+        const pc = (last.v / then.v - 1) * 100;
+        const dy = (d) => (then.d.getUTCFullYear() !== last.d.getUTCFullYear() ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) : dd(d));
+        return { kind: 'move', big: `${ser.label}: ${pc > 0 ? 'up' : pc < 0 ? 'down' : 'flat'} ${Math.abs(pc).toFixed(1)}% over ${lab}`, small: `${ser.f(then.v)}${ser.u} on ${dy(then.d)} → ${ser.f(last.v)}${ser.u} on ${dy(last.d)}${last.source ? ` (${last.source})` : ''}.`, go, cta: 'Open the price' };
+      }
+    }
+    // otherwise: the price now
+    if (/\b(price|prices|cost|costs|rate|how much|now|today|current|latest)\b/.test(qs)) {
+      const prev = atOrBefore(pts, +last.d - 7 * 864e5);
+      const pc = prev && prev !== last ? (last.v / prev.v - 1) * 100 : null;
+      return { kind: 'price', big: `${ser.label}: ${ser.f(last.v)}${ser.u}`, small: `${dd(last.d)}${last.source ? ' · ' + last.source : ''}${pc != null ? ` · ${pc > 0 ? '▲' : pc < 0 ? '▼' : ''}${Math.abs(pc).toFixed(1)}% vs ${dd(prev.d)}` : ''}`, go, cta: 'Open the price' };
+    }
+    return null;
+  }
+
+  // highlight the words that matched; show a snippet when they matched only in the hidden text
+  const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function marked(text, hits) {
+    const span = mk('span'); const str = String(text || '');
+    const tk = [...new Set((hits || []).filter((h) => h && h.length >= 2))].sort((a, b) => b.length - a.length);
+    if (!tk.length) { span.textContent = str; return span; }
+    const re = new RegExp(`(^|[^\\p{L}\\p{N}])(${tk.map(esc).join('|')})`, 'giu');
+    let i = 0; let m;
+    while ((m = re.exec(str))) { const st = m.index + m[1].length; if (st > i) span.appendChild(document.createTextNode(str.slice(i, st))); const e = mk('mark', null, str.slice(st, st + m[2].length)); span.appendChild(e); i = st + m[2].length; if (re.lastIndex === m.index) re.lastIndex++; }
+    if (i < str.length) span.appendChild(document.createTextNode(str.slice(i)));
+    return span;
+  }
+  function snippet(it) {
+    const hs = (it._hits || []).filter((h) => !it._t.has(h) && !it._k.has(h) && it._x.has(h)); if (!hs.length || !it.text) return null;
+    const low = norm(it.text); let at = -1; let hw = '';
+    for (const h of hs) { const k = low.search(new RegExp(`(^|[^a-z0-9])${esc(h)}`)); if (k >= 0 && (at < 0 || k < at)) { at = k; hw = h; } }
+    if (at < 0) return null;
+    const a = Math.max(0, at - 50), b = Math.min(it.text.length, at + 90);
+    return (a > 0 ? '…' : '') + it.text.slice(a, b).trim() + (b < it.text.length ? '…' : '');
   }
 
   // ---------- interface ----------
@@ -249,17 +350,25 @@
       w.appendChild(chips); list.appendChild(w); return;
     }
     const res = search(q);
-    items = [...res.map((r) => r.it), webRow(q)];
-    if (!res.length) list.appendChild(mk('div', 'sx-empty', 'Nothing on the site matches that.'));
+    let ans = null; try { ans = answer(q); } catch (e) { ans = null; }
+    items = [...(ans ? [{ answer: ans, go: ans.go }] : []), ...res.map((r) => r.it), webRow(q)];
+    if (!res.length && !ans) list.appendChild(mk('div', 'sx-empty', 'Nothing on the site matches that.'));
     items.forEach((it, i) => {
       const row = mk('div', 'sx-row' + (it.web ? ' sx-web' : '') + (i === 0 && !it.web && (it.type === 'price' || it.type === 'term' || it.type === 'outlook' || it.type === 'risk') ? ' sx-top' : ''));
       row.setAttribute('role', 'option'); row.id = 'sx-o' + i; row.setAttribute('aria-selected', String(i === 0));
-      if (it.web) {
+      if (it.answer) {
+        row.className = 'sx-row sx-answer'; const a = it.answer;
+        const m = mk('div', 'sx-main'); m.append(mk('div', 'sx-alab', a.kind === 'date' ? 'Date' : a.kind === 'outlook' ? 'Outlook' : a.kind === 'landed' ? 'Estimate' : 'Answer'), mk('div', 'sx-abig', a.big), mk('div', 'sx-s', a.small));
+        row.append(m, mk('span', 'sx-go', (a.cta || 'Open') + ' →'));
+      } else if (it.web) {
         row.append(mk('span', 'sx-type', 'Web'), mk('div', 'sx-main'));
         row.lastChild.append(mk('div', 'sx-t', `Search the web for “${q.trim()}”`), mk('div', 'sx-s', 'Opens Google in a new tab'));
       } else {
         row.append(mk('span', 'sx-type t-' + it.type, TYPE[it.type]));
-        const m = mk('div', 'sx-main'); m.append(mk('div', 'sx-t', it.title)); if (it.sub) m.append(mk('div', 'sx-s', it.sub)); row.appendChild(m);
+        const m = mk('div', 'sx-main'); const t = mk('div', 'sx-t'); t.appendChild(marked(it.title, it._hits)); m.appendChild(t);
+        if (it.sub) { const sb = mk('div', 'sx-s'); sb.appendChild(marked(it.sub, it._hits)); m.appendChild(sb); }
+        const sn = snippet(it); if (sn) { const x = mk('div', 'sx-snip'); x.appendChild(marked(sn, it._hits)); m.appendChild(x); }
+        row.appendChild(m);
         if (it.alt) { const a = mk('button', 'sx-alt', it.alt.label + ' →'); a.type = 'button'; a.addEventListener('click', (e) => { e.stopPropagation(); hide(); it.alt.go(); }); row.appendChild(a); }
         else if (it.go) row.appendChild(mk('span', 'sx-go', '→'));
       }
@@ -267,6 +376,13 @@
       row.addEventListener('click', () => pick(it));
       list.appendChild(row);
     });
+    const fb = feedbackLink(q); if (fb) list.appendChild(fb);
+  }
+  function feedbackLink(q) { // "Didn't find it?" opens an email to the site owner with the search filled in
+    const L = W(); const to = L && L.D && L.D.profile && L.D.profile.feedback_email; if (!to || !q.trim()) return null;
+    const a = mk('a', 'sx-fb'); a.textContent = 'Didn’t find what you needed? Tell us what you were looking for';
+    a.href = `mailto:${to}?subject=${encodeURIComponent('LeyBatt Pulse search: ' + q.trim())}&body=${encodeURIComponent(`I searched for: ${q.trim()}\n\nI was looking for: \n`)}`;
+    return a;
   }
   function pick(it) {
     if (it.web) { window.open('https://www.google.com/search?q=' + encodeURIComponent(it.q.trim()), '_blank', 'noopener'); return; }
@@ -275,6 +391,7 @@
   }
   function show(prefill) {
     ui(); IDX = IDX || buildIndex(); opener = document.activeElement;
+    try { const L = W(); if (L && L.loadHistory) L.loadHistory(); } catch (e) { /* answers fall back to recent readings */ }
     box.hidden = false; document.documentElement.classList.add('sx-open');
     input.value = prefill != null ? prefill : lastQ; render(input.value);
     requestAnimationFrame(() => { input.focus(); input.select(); });

@@ -3511,7 +3511,8 @@
       pollLive();
     });
   // the header search (assets/search.js) reads the site's data and navigates through these
-  window.LBP = { D, S, CHAIN, FC_SERIES, OL_MATS, RISK, GLOSS, UNIT_SHORT, go, focusOn, priceId, secId, allPrices, renderRisk, jumpOutlook, reduced, el, css };
+  window.LBP = { D, S, CHAIN, FC_SERIES, OL_MATS, RISK, GLOSS, UNIT_SHORT, go, focusOn, priceId, secId, allPrices, renderRisk, jumpOutlook, reduced, el, css,
+    liFut: () => liFut(), futHist: () => futHist(), loadHistory: () => loadHistory(), smmSpot: () => smmSpot(), ptsOf, weekly, bidPrice: (...a) => bidPrice(...a), landCalc: (...a) => landCalc(...a), land: () => { landInit(); return LAND; } };
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
   function loadHistory() {
     if (loadHistory.started) return; loadHistory.started = true;

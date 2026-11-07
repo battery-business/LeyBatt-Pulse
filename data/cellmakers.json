@@ -1,5 +1,5 @@
 {
-  "about": "LFP cell sizes each Chinese maker has made public, by capacity, marked as storage (BESS) or vehicle (automotive) cells. Each size links to the launch note, spec sheet or tender result it comes from. Makers sell more variants than they announce; vehicle cells are often not marketed by Ah, so that side is thinner. Prices are shown only where a maker's own bid or list price has been published.",
+  "about": "LFP cell sizes each Chinese maker has made public, by capacity, marked as storage (BESS) or vehicle (automotive) cells. Each size links to the launch note, spec sheet or tender result it comes from. Makers sell more variants than they announce; vehicle cells are often not marketed by Ah, so that side is thinner. Each cell shows the maker's own published price (a public tender bid or list price) where there is one, otherwise the market average for that size, marked as such.",
   "updated": "2026-11-07",
   "rows": [
     {
@@ -70,7 +70,7 @@
     },
     {
       "maker": "Hithium",
-      "aliases": ["Hithium", "HiTHIUM"],
+      "aliases": ["Hithium", "HiTHIUM", "Xiamen Haichen"],
       "cells": [
         {"ah": 314, "use": "BESS", "status": "In production", "note": "Spec sheet: 1,004.8 Wh", "source": "Hithium spec sheet", "url": "https://en.hithium.com/bocupload/2025/08/26/1756184244726cwr6m.pdf"},
         {"ah": 587, "use": "BESS", "name": "∞Cell", "status": "Mass production", "note": "Mass production and first deliveries, Xiamen, August 2025", "source": "Hithium, 28 Aug 2025", "url": "https://www.hithium.com/newsroom/latest/details/81.html"},

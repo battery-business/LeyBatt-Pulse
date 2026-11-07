@@ -1590,3 +1590,36 @@ details.chp-ref > summary:hover .ref-go { color: var(--fg); }
 /* Today: prices first, then "What matters today" */
 .today-band + .ov-today { margin-top: 0; margin-bottom: clamp(20px, 3vw, 36px); }
 .today-band:has(+ .ov-today) { padding-bottom: clamp(16px, 2vw, 28px); }
+
+/* Chinese cell makers by size: every cell as a small tile with its price */
+.cmgrid { table-layout: fixed; min-width: 1000px; }
+.cmgrid col.cm-c0 { width: 124px; }
+.cmgrid th.num { text-align: left; padding-left: 6px; }
+.cmgrid td.cm-cell { text-align: left; padding: 8px 4px; min-width: 0; }
+.cmgrid td.cm-cell.empty::after { content: none; }
+.cm-tile { display: flex; flex-direction: column; gap: 3px; margin: 0 0 6px; padding: 7px 9px 8px; border-radius: 12px; border: 1px solid transparent; min-width: 0; }
+.cm-tile:last-child { margin-bottom: 0; }
+.cm-tile.bess.solid { background: color-mix(in srgb, var(--ok) 9%, var(--panel)); }
+.cm-tile.auto.solid { background: color-mix(in srgb, var(--accent) 9%, var(--panel)); }
+.cm-tile:not(.solid) { border: 1px dashed color-mix(in srgb, var(--muted) 50%, transparent); }
+.cm-ah { display: flex; align-items: baseline; gap: 5px; font-size: 13px; font-weight: 700; color: var(--fg); text-decoration: none; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cm-ah small { font-size: 9.5px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; color: var(--ok); }
+.cm-tile.auto .cm-ah small { color: var(--accent); }
+.cm-p { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 5px; text-decoration: none; font-variant-numeric: tabular-nums; line-height: 1.25; }
+.cm-p b { font-size: 15.5px; font-weight: 750; color: var(--fg); letter-spacing: -.01em; }
+.cm-p.avg b { font-weight: 600; color: var(--muted); }
+.cm-pk { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.cm-p.none { font-size: 11.5px; color: var(--muted); }
+a.cm-ah:hover, a.cm-p:hover b, a.cm-p:hover .cm-pk { text-decoration: underline; text-underline-offset: 2px; }
+a.cm-ah:focus-visible, a.cm-p:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.cm-key { gap: 6px 8px; }
+.cm-kp { display: inline-block; padding: 1px 8px; border-radius: 8px; font-weight: 750; font-variant-numeric: tabular-nums; background: var(--soft); color: var(--fg); }
+.cm-kp.avg { font-weight: 600; color: var(--muted); }
+.cm-kp.none { color: var(--muted); }
+.cm-kp + .cm-kp, .cm-key .cm-kp:not(:first-child) { margin-left: 8px; }
+@media (max-width: 760px) {
+  .cmgrid { min-width: 0; table-layout: auto; }
+  .cmgrid td.cm-cell { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; padding: 6px 0; }
+  .cmgrid td.cm-cell::before { flex: 0 0 100%; }
+  .cm-tile { margin: 0; flex: 0 1 auto; min-width: 120px; }
+}

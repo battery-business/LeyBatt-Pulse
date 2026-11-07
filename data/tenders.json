@@ -169,6 +169,39 @@
    "bidder": "CATL",
    "source": "CarNewsChina, 15 Sep 2026",
    "url": "https://carnewschina.com/2026/09/15/catl-begins-direct-online-sales-of-giant-587-ah-lfp-cells-at-65-usd-kwh/"
+  },
+  {
+   "date": "2026-09-21",
+   "when": "Sep 2026",
+   "buyer": "CATL online store (list price, not a tender)",
+   "size": "280 Ah",
+   "kind": "list",
+   "usd_kwh": 62.1,
+   "bidder": "CATL",
+   "source": "IT之家 via 10jqka (同花顺), 22 Sep 2026",
+   "url": "https://stock.10jqka.com.cn/20260922/c680148660.shtml"
+  },
+  {
+   "date": "2026-09-21",
+   "when": "Sep 2026",
+   "buyer": "CATL online store (list price, not a tender)",
+   "size": "314 Ah",
+   "kind": "list",
+   "usd_kwh": 53.2,
+   "bidder": "CATL",
+   "source": "IT之家 via 10jqka (同花顺), 22 Sep 2026",
+   "url": "https://stock.10jqka.com.cn/20260922/c680148660.shtml"
+  },
+  {
+   "date": "2026-09-21",
+   "when": "Sep 2026",
+   "buyer": "CATL online store (list price, not a tender)",
+   "size": "587 Ah",
+   "kind": "list",
+   "usd_kwh": 54.8,
+   "bidder": "CATL",
+   "source": "IT之家 via 10jqka (同花顺), 22 Sep 2026",
+   "url": "https://stock.10jqka.com.cn/20260922/c680148660.shtml"
   }
  ]
 }

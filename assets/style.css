@@ -1623,3 +1623,60 @@ a.cm-ah:focus-visible, a.cm-p:focus-visible { outline: 2px solid var(--accent); 
   .cmgrid td.cm-cell::before { flex: 0 0 100%; }
   .cm-tile { margin: 0; flex: 0 1 auto; min-width: 120px; }
 }
+
+/* e-bus and e-truck packs as cards */
+.vh-sum { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 4px 0 14px; }
+.vh-stat b { display: block; font-size: 22px; font-weight: 750; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--fg); }
+.vh-stat span { font-size: 12.5px; color: var(--muted); }
+.vh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.vh-card { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 12px; border-radius: 16px; background: var(--soft); border: 1px solid transparent; min-width: 0; }
+.vh-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.vh-tag { font-size: 10.5px; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.vh-card.truck .vh-tag { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.vh-card.reference .vh-tag { color: var(--muted); background: color-mix(in srgb, var(--muted) 14%, transparent); }
+.vh-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vh-name { margin: 2px 0 0; font-size: 15.5px; font-weight: 750; color: var(--fg); }
+.vh-model { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
+.vh-pack { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 2px; }
+.vh-pack b { font-size: 24px; font-weight: 800; letter-spacing: -.02em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.vh-pack span { font-size: 12.5px; color: var(--muted); }
+.vh-pack .vh-nd { font-size: 13.5px; font-weight: 600; }
+.vh-specs { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 2px 0 0; font-size: 13px; line-height: 1.4; }
+.vh-specs dt { color: var(--muted); }
+.vh-specs dd { margin: 0; color: var(--fg); min-width: 0; overflow-wrap: anywhere; }
+.vh-note { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.vh-foot { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-size: 12px; color: var(--muted); }
+.vh-foot a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.vh-foot a:hover { color: var(--fg); }
+.vh-gap { font-style: italic; }
+.vh-more { margin-top: 8px; }
+@media (max-width: 640px) { .vh-grid { grid-template-columns: 1fr; } .vh-stat b { font-size: 19px; } }
+
+/* Materials step: the bill of materials for 1 kWh of cell */
+.mb-top { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; margin: 6px 0 14px; }
+.mb-stat b { display: block; font-size: clamp(22px, 2.2vw, 28px); font-weight: 800; letter-spacing: -.02em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.mb-stat span { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; max-width: 32ch; }
+.mbill { margin-top: 12px; }
+.mbill td { vertical-align: top; }
+.mbill tr.mb-g td { padding-top: 14px; border-bottom: 0; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.mbill tr.mb-g b { color: var(--fg); font-weight: 750; }
+.mbill td.mb-name { font-weight: 600; color: var(--fg); white-space: nowrap; }
+.mb-sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+.mb-src { display: block; font-size: 12px; color: var(--muted); }
+.mb-src a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.mb-mv { font-size: 12.5px; color: var(--muted); }
+.mb-mv.down { color: var(--ok); } .mb-mv.up { color: var(--bad); }
+.mb-share { white-space: nowrap; }
+.mb-bar { display: inline-block; width: 64px; height: 6px; margin-right: 8px; border-radius: 999px; background: var(--soft); overflow: hidden; vertical-align: middle; }
+.mb-bar i { display: block; height: 100%; border-radius: 999px; }
+.mbill tr.mb-tot td { font-weight: 750; color: var(--fg); border-top: 1px solid var(--line); }
+.mb-foot { margin-top: 10px; }
+.mb-foot a { color: inherit; }
+@media (max-width: 760px) {
+  .mb-top { grid-template-columns: 1fr; gap: 10px; }
+  .mbill tr.mb-g td { display: block; }
+  .mbill td.mb-name { white-space: normal; }
+  .mbill tr.mb-tot td[colspan] { display: flex; }
+}
+.vh-grid { align-items: start; }
+.vh-pk2 { margin: -4px 0 2px; font-size: 12.5px; color: var(--muted); }

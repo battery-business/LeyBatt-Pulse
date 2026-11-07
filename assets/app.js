@@ -2910,6 +2910,53 @@
   const srcCell = (r) => { const f = document.createDocumentFragment(); f.appendChild(link(r.source, r.url)); return f; };
   const nameCell = (main, sub) => { const f = document.createDocumentFragment(); f.appendChild(el('b', null, main)); if (sub) f.appendChild(el('span', 'role', sub)); return f; };
   const dshort = (d) => (d ? d3.utcFormat('%-d %b %Y')(parse(d)) : '');
+  // ---------- e-bus and e-truck packs as cards: only what is published, plus pack kWh per km of claimed range ----------
+  const VEH = { g: '', all: false };
+  function vehicleCards(box) {
+    const rows = [...((D.vehicles || {}).rows || [])].sort((a, b) => (a.group === 'Reference') - (b.group === 'Reference') || d3.descending(a.date, b.date));
+    if (!rows.length) { box.appendChild(el('p', 'sub', 'Nothing yet.')); return; }
+    const nums = (s) => (String(s || '').match(/\d+(?:\.\d+)?/g) || []).map(Number).filter((n) => n >= 10);
+    const india = rows.filter((r) => r.group !== 'Reference');
+    const ks = india.flatMap((r) => nums(r.pack_kwh)); const chem = india.filter((r) => r.chemistry); const lfp = chem.filter((r) => /LFP/i.test(r.chemistry));
+    const sum = el('div', 'vh-sum');
+    const stat = (v, l) => { const d = el('div', 'vh-stat'); d.append(el('b', null, v), el('span', null, l)); sum.appendChild(d); };
+    stat(String(india.length), `vehicles in India (${india.filter((r) => r.group === 'Bus').length} buses, ${india.filter((r) => r.group === 'Truck').length} trucks)`);
+    if (ks.length) stat(`${d3.min(ks)}–${d3.max(ks)} kWh`, 'pack sizes published');
+    if (chem.length) stat(`${lfp.length} of ${chem.length}`, 'that name the chemistry use LFP');
+    box.appendChild(sum);
+    const bar = el('div', 'cm-bar'); const seg = el('div', 'seg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Vehicle type');
+    [['', 'All'], ['Bus', 'Buses'], ['Truck', 'Trucks']].forEach(([k, lab]) => {
+      const b = el('button', null, lab); b.type = 'button'; b.setAttribute('aria-pressed', String(VEH.g === k));
+      b.addEventListener('click', () => { VEH.g = k; [...seg.children].forEach((x) => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+      seg.appendChild(b);
+    });
+    bar.appendChild(seg); box.appendChild(bar);
+    const grid = el('div', 'vh-grid'); box.appendChild(grid); const more = el('div', 'vh-more'); box.appendChild(more);
+    const FIELDS = [['Chemistry', 'chemistry'], ['Cell supplier', 'cell_supplier'], ['Charging', 'charging'], ['Range, km', 'range_km']];
+    const card = (r) => {
+      const c = el('article', `vh-card ${String(r.group || '').toLowerCase()}`);
+      const top = el('div', 'vh-top'); top.append(el('span', 'vh-tag', r.group === 'Reference' ? 'China reference' : r.group === 'Bus' ? 'Bus' : 'Truck'), el('span', 'vh-date', dshort(r.date))); c.appendChild(top);
+      c.append(el('h4', 'vh-name', r.maker), el('p', 'vh-model', `${r.model}${r.type ? ' · ' + r.type : ''}`));
+      const pk = el('div', 'vh-pack'); const ptxt = String(r.pack_kwh || '');
+      if (!ptxt) pk.appendChild(el('span', 'vh-nd', 'Pack size not disclosed'));
+      else if (ptxt.length <= 14) pk.append(el('b', null, ptxt), el('span', null, 'kWh pack'));
+      else { const n0 = (ptxt.match(/\d+(?:\.\d+)?/) || [''])[0]; pk.append(el('b', null, n0), el('span', null, 'kWh pack')); c.appendChild(pk); c.appendChild(el('p', 'vh-pk2', `${ptxt} kWh`)); }
+      if (pk.parentNode !== c) c.appendChild(pk);
+      const dl = el('dl', 'vh-specs'); const gaps = [];
+      FIELDS.forEach(([lab, k]) => { if (r[k]) dl.append(el('dt', null, lab), el('dd', null, String(r[k]))); else gaps.push(lab.replace(', km', '').toLowerCase()); });
+      if (r.kwh && r.km) { const dt = el('dt', null, 'Pack per km'); const dd = el('dd', null, `${(r.kwh / r.km).toFixed(2)} kWh`); dd.title = `${r.kwh} kWh pack ÷ ${r.km} km claimed range (worked out here, not published)`; dl.append(dt, dd); }
+      if (dl.childElementCount) c.appendChild(dl);
+      if (r.note) c.appendChild(el('p', 'vh-note', r.note));
+      const ft = el('div', 'vh-foot'); if (gaps.length) ft.appendChild(el('span', 'vh-gap', `Not published: ${gaps.join(', ')}`)); ft.appendChild(link(r.source || 'Source', r.url)); c.appendChild(ft);
+      return c;
+    };
+    const draw = () => {
+      const rs = rows.filter((r) => !VEH.g || r.group === VEH.g); const n = VEH.all ? rs.length : Math.min(rs.length, 9);
+      grid.replaceChildren(...rs.slice(0, n).map(card)); more.replaceChildren();
+      if (rs.length > n) { const b = el('button', 'btn link small', `Show all ${rs.length}`); b.type = 'button'; b.addEventListener('click', () => { VEH.all = true; draw(); }); more.appendChild(b); }
+    };
+    draw();
+  }
   // ---------- Chinese cell makers × cell size (storage or vehicle), with each maker's published bids ----------
   const CM_BANDS = [['Up to 150 Ah', 0, 150], ['151–250 Ah', 150.01, 250], ['280 Ah', 250.01, 299.99], ['300–350 Ah', 300, 350], ['392 Ah', 350.01, 450], ['500–600 Ah', 450.01, 600], ['601–800 Ah', 600.01, 800], ['1,000 Ah+', 800.01, 1e9]];
   const CMK = { use: "" };
@@ -3035,6 +3082,57 @@
     box.appendChild(el('p', 'sub', 'Rupees per kWh landed in India (China price + freight, insurance and duty; IGST excluded). 2027–2029: yearly average in the base scenario, with the range 8 in 10 outcomes fall in, including China’s 6% export rebate ending on 1 Jan 2027 and the outlook for the rupee.'));
     const b = el('button', 'btn link', 'Change product, year, scenario or project size in the Bidding desk →'); b.type = 'button'; b.addEventListener('click', () => go('bid')); box.appendChild(b);
   }
+  // ---------- Materials step: what the materials in 1 kWh of LFP cell cost today (same cost model as the calculator) ----------
+  function materialsBill(box) {
+    const base = calcBase(); const cc = cellCost(base); const cm = CM(); const w = weekly(); const last = w[w.length - 1] || {};
+    const price = +last.cell314; const P = Object.fromEntries(cc.parts.map((p) => [p.k, p]));
+    const sp = spotPts(); const li = sp[sp.length - 1] || {};
+    const raw = (name) => { const r = rawRow(name); return { price: r.price ? `${r.price}${r.unit === 'per m²' ? '/m²' : '/t'}` : '', when: r.asof, src: r.source, url: r.url, move: r.move, dir: r.direction }; };
+    const note = (i) => (cm.notes || [])[i] || {};
+    const lines = [
+      { g: 'LFP cathode', k: 'li', name: 'Lithium carbonate', qty: `${(cm.cathode_kg * (cm.lc_per_t_lfp || 0.24)).toFixed(2)} kg`, ...{ price: `${fmtUsd0(li.v)}/t`, when: li.d ? shortDay(li.d) : '', src: li.source, url: li.url } },
+      { g: 'LFP cathode', k: 'fe', name: 'Iron phosphate', qty: `${(cm.cathode_kg * (cm.fepo4_per_t_lfp || 0.96)).toFixed(2)} kg`, ...raw('Iron phosphate') },
+      { g: 'LFP cathode', k: 'proc', name: 'Cathode processing', qty: `${cm.cathode_kg} kg of cathode`, price: `${fmtUsd0(base.proc)}/t`, when: '', src: 'site estimate from SMM prices', url: note(2).url },
+      { g: 'Anode', k: 'gr', name: 'Graphite anode', qty: `${cm.anode_kg} kg`, ...raw('Graphite anode') },
+      { g: 'Electrolyte', k: 'el', name: 'LFP electrolyte', qty: `${cm.electrolyte_kg} kg`, ...raw('LFP electrolyte') },
+      { g: 'Separator', k: 'sep', name: 'Coated separator film', qty: `${cm.separator_m2} m²`, ...raw('Separator') },
+      { g: 'Foils', k: 'cu', name: 'Copper foil (copper + rolling)', qty: `${cm.cu_foil_kg} kg`, ...raw('Copper') },
+      { g: 'Foils', k: 'al', name: 'Aluminium foil (aluminium + rolling)', qty: `${cm.al_foil_kg} kg`, ...raw('Aluminium') },
+      { g: 'Other', k: 'aux', name: 'Binders, carbon, solvent', qty: '', price: 'fixed estimate', src: 'SMM cell cost model', url: note(0).url },
+      { g: 'Other', k: 'struct', name: 'Cell case and parts', qty: '', price: 'fixed estimate', src: 'SMM cell cost model', url: note(0).url },
+    ].map((l) => ({ ...l, v: (P[l.k] || {}).v || 0, color: (P[l.k] || {}).color }));
+    const mat = d3.sum(lines, (l) => l.v); const cath = d3.sum(lines.filter((l) => l.g === 'LFP cathode'), (l) => l.v);
+    const pc = (v) => `${Math.round((v / price) * 100)}%`;
+    // headline numbers
+    const top = el('div', 'mb-top');
+    const big = (v, l) => { const d = el('div', 'mb-stat'); d.append(el('b', null, v), el('span', null, l)); top.appendChild(d); };
+    big(`${fmtUsd1(mat)}/kWh`, `materials in one kWh of LFP storage cell, ${pc(mat)} of its ${fmtUsd1(price)} price`);
+    big(`${fmtUsd1(cath)}/kWh`, `of that is the LFP cathode (${pc(cath)} of the cell price)`);
+    big(`${fmtUsd1(P.li.v)}/kWh`, `is the lithium carbonate inside it, at ${fmtUsd0(li.v)}/t`);
+    box.appendChild(top);
+    // stacked bar of the materials against the cell price
+    const bar = el('div', 'stackbar'); box.appendChild(bar);
+    const rest = price - mat; stackBar(bar, [...lines.map((l) => ({ label: l.name, color: l.color, v: l.v })), ...(rest > 0 ? [{ label: 'Making the cell, yield loss and margin', color: '--line', v: rest }] : [])], Math.max(price, mat));
+    // the bill
+    const wrap = el('div', 'table-wrap'); const t = el('table', 'rtable mbill stackable'); wrap.appendChild(t); box.appendChild(wrap);
+    const hr = el('tr'); ['Material', 'In 1 kWh', 'Price today', 'Latest move', 'Cost per kWh', 'Share of cell price'].forEach((h, i) => hr.appendChild(el('th', i >= 4 ? 'num' : null, h))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+    const tb = el('tbody'); t.appendChild(tb); let lastG = '';
+    lines.forEach((l) => {
+      if (l.g !== lastG) { lastG = l.g; const gs = lines.filter((x) => x.g === l.g); if (gs.length > 1) { const gr = el('tr', 'mb-g'); const td = el('td'); td.colSpan = 6; td.append(el('b', null, l.g), el('span', null, ` ${fmtUsd1(d3.sum(gs, (x) => x.v))}/kWh · ${pc(d3.sum(gs, (x) => x.v))}`)); gr.appendChild(td); tb.appendChild(gr); } }
+      const tr = el('tr'); const n = el('td', 'mb-name'); n.dataset.l = 'Material'; const sw = el('i', 'mb-sw'); sw.style.background = css(l.color); n.append(sw, document.createTextNode(l.name)); tr.appendChild(n);
+      const q = el('td', null, l.qty || '—'); q.dataset.l = 'In 1 kWh'; tr.appendChild(q);
+      const p = el('td'); p.dataset.l = 'Price today'; p.appendChild(el('b', null, l.price || '—')); if (l.src) { const m = el('span', 'mb-src'); m.append(document.createTextNode(l.when ? `${l.when} · ` : ''), l.url ? link(l.src, l.url) : document.createTextNode(l.src)); p.appendChild(m); } tr.appendChild(p);
+      const mv = el('td', 'mb-mv' + (l.dir === 'down' ? ' down' : l.dir === 'up' ? ' up' : ''), l.move || ''); mv.dataset.l = 'Latest move'; tr.appendChild(mv);
+      const v = el('td', 'num strong', fmt2(l.v)); v.dataset.l = 'Cost per kWh'; tr.appendChild(v);
+      const s = el('td', 'num mb-share'); s.dataset.l = 'Share of cell price'; const b = el('span', 'mb-bar'); const f = el('i'); f.style.width = `${Math.min(100, (l.v / price) * 100 * 3)}%`; f.style.background = css(l.color); b.appendChild(f); s.append(b, document.createTextNode(pc(l.v))); tr.appendChild(s);
+      tb.appendChild(tr);
+    });
+    const tr = el('tr', 'mb-tot'); const a = el('td', null, 'All materials'); a.colSpan = 4; const b2 = el('td', 'num strong', fmt2(mat)); const c2 = el('td', 'num', pc(mat)); tr.append(a, b2, c2); tb.appendChild(tr);
+    const foot = el('p', 'sub mb-foot');
+    foot.append(document.createTextNode(`US$ per kWh of cell, China prices with 13% VAT removed. Quantities are the site’s cost model for a 314 Ah LFP storage cell (`), link(note(0).source || 'SMM cost model', note(0).url), document.createTextNode(`); the cell price is InfoLink’s 314 Ah average (`), link(`${last.date ? shortDay(parse(last.date)) : ''}`, last.url), document.createTextNode('). '));
+    const lk = el('a', null, 'Change any price in the cost calculator →'); lk.href = '#calculator'; lk.addEventListener('click', (e) => { e.preventDefault(); go('calculator'); }); foot.appendChild(lk);
+    box.appendChild(foot);
+  }
   function teamSections(c, section) {
     const F = (rows) => ({ n: rows.length });
     const w = weekly(); const last = w[w.length - 1] || {};
@@ -3078,7 +3176,7 @@
       landedOutlook(section('Landed in India, now and 2027–2029', 'For the system, and for the EV cell a pack is built from.'), [['ac4h', '4-hour AC storage system'], ['cell314', '314 Ah storage cell'], ['evcell', 'EV prismatic LFP cell']]);
       // 3. vehicle packs
       const s3 = section('Battery packs in Indian e-buses and e-trucks', (D.vehicles || {}).about || '');
-      trackerTable(s3, [...((D.vehicles || {}).rows || [])].sort((a, b) => d3.descending(a.date, b.date)), [['Vehicle', (r) => nameCell(r.maker, `${r.model} · ${r.type}`)], ['Pack, kWh', (r) => r.pack_kwh || 'Not disclosed', 'num strong'], ['Chemistry', (r) => r.chemistry], ['Charging', (r) => r.charging], ['Range, km', (r) => r.range_km, 'num'], ['Notes', (r) => r.note, 'mk-note'], ['Source', (r) => { const f = srcCell(r); f.appendChild(el('span', 'role', dshort(r.date))); return f; }]], { limit: 8 });
+      vehicleCards(s3);
       { const b = el('button', 'btn link', 'The cells these packs are built from: Chinese cell makers by size, on the Cells page →'); b.type = 'button'; b.addEventListener('click', () => { CMK.use = 'Auto'; go('chain/cells'); focusOn('#' + secId('Chinese cell makers by size')); }); s3.appendChild(b); }
       // 4. plants
       const pp = ((D.plants || {}).rows || []).filter((r) => r.kind === 'Packs' || r.kind === 'Storage systems');
@@ -3154,6 +3252,7 @@
       }
       if (c.chart === 'tenders') { tenderChart(cb, stTenders()); const lg = el('div', 'tlegend'); [['--blue', '2-hour'], ['--orange', '4-hour']].forEach(([cc, t]) => { const x = el('span'); const i2 = el('i', 'dt'); i2.style.background = css(cc); x.append(i2, document.createTextNode(t)); lg.appendChild(x); }); s.appendChild(lg); }
     }
+    if (c.id === 'materials') { const s = section('What the materials in a cell cost today', 'One kWh of LFP storage cell, material by material, from today’s prices.'); try { materialsBill(s); } catch (e) { console.error(e); s.appendChild(el('p', 'sub', 'Cost model unavailable.')); } }
     const OUTSEC = { mining: ['lithium', 'Lithium carbonate: where the price could go', ['lithium']], materials: ['cathode', 'LFP cathode: where the price could go', ['cathode', 'lithium']], cells: ['cell_ess', '314 Ah storage cell: where the price could go', ['cell_ess', 'cell_ev']] }[c.id];
     if (OUTSEC) {
       const [mat, title, keys] = OUTSEC;

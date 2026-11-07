@@ -1,5 +1,5 @@
 {
- "about": "Battery packs in electric buses and trucks sold or ordered in India (plus one China reference): pack size, chemistry, cell supplier, charging and range, as published.",
+ "about": "Battery packs in electric buses and trucks sold, ordered or launched in India (plus one China reference): pack size, chemistry, cell supplier, charging and range, as published.",
  "rows": [
   {
    "id": "v-switch-eiv12",
@@ -14,7 +14,10 @@
    "range_km": "300+",
    "note": "235 kW motor; 25 coaches for Purple Bus on Mumbai–Pune; the EiV12m on Nagpur–Chandrapur is rated 350 km",
    "source": "electrive, 18 Apr 2026",
-   "url": "https://www.electrive.com/2026/04/18/india-switch-mobility-to-deploy-25-electric-intercity-coaches/"
+   "url": "https://www.electrive.com/2026/04/18/india-switch-mobility-to-deploy-25-electric-intercity-coaches/",
+   "group": "Bus",
+   "kwh": 423,
+   "km": 300
   },
   {
    "id": "v-eim-ashwa",
@@ -29,7 +32,10 @@
    "range_km": "About 150 (Luna pack: over 200)",
    "note": "Rebadged Foton; pack line in Pune of 2.4 GWh a year; 66 trucks earlier for Transvolt at Kandla and JNPA ports",
    "source": "Autocar Professional, 14 Oct 2026",
-   "url": "https://www.autocarpro.in/news/eim-to-launch-two-electric-trucks-in-15-months-as-pune-manufacturing-begins-135249"
+   "url": "https://www.autocarpro.in/news/eim-to-launch-two-electric-trucks-in-15-months-as-pune-manufacturing-begins-135249",
+   "group": "Truck",
+   "kwh": 282,
+   "km": 150
   },
   {
    "id": "v-tata-ultrae7",
@@ -44,7 +50,10 @@
    "range_km": "About 130",
    "note": "3,000 for Amazon in India, starting in Delhi",
    "source": "electrive",
-   "url": "https://www.electrive.com/2026/10/28/amazon-to-deploy-3000-electric-trucks-in-india/"
+   "url": "https://www.electrive.com/2026/10/28/amazon-to-deploy-3000-electric-trucks-in-india/",
+   "group": "Truck",
+   "kwh": 96,
+   "km": 130
   },
   {
    "id": "v-olectra-trucks",
@@ -59,7 +68,8 @@
    "range_km": null,
    "note": "Sitarampur plant sized for about 1,200 trucks a year; pack size not disclosed",
    "source": "Autocar Professional",
-   "url": "https://www.autocarpro.in/news/electric-trucks-next-big-ev-growth-opportunity-financing-key-to-adoption-olectra-md-135495"
+   "url": "https://www.autocarpro.in/news/electric-trucks-next-big-ev-growth-opportunity-financing-key-to-adoption-olectra-md-135495",
+   "group": "Truck"
   },
   {
    "id": "v-catl-truck",
@@ -74,7 +84,8 @@
    "range_km": null,
    "note": "Reference from China: CATL targets 900 swap stations by end-2026",
    "source": "CarNewsChina",
-   "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/"
+   "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/",
+   "group": "Reference"
   },
   {
    "id": "v-blackbuck-elon3x",
@@ -89,7 +100,178 @@
    "range_km": null,
    "note": "Reservations open; commercial production targeted for mid-2027",
    "source": "EVreporter",
-   "url": "https://evreporter.com/blackbuck-ev-unveils-15-metre-multi-axle-electric-sleeper-coach-elon-3x/"
+   "url": "https://evreporter.com/blackbuck-ev-unveils-15-metre-multi-axle-electric-sleeper-coach-elon-3x/",
+   "group": "Bus"
+  },
+  {
+   "id": "v-tata-prima-e55s",
+   "date": "2026-04-17",
+   "group": "Truck",
+   "maker": "Tata Motors",
+   "model": "Prima E.55S",
+   "type": "E-truck (55-tonne prime mover)",
+   "pack_kwh": "300 or 450",
+   "kwh": 450,
+   "km": 350,
+   "chemistry": "LFP",
+   "charging": "Plug-in, CCS2 dual gun (from about 1.5 hours)",
+   "range_km": "Up to 350 (450 kWh pack)",
+   "note": "250 ordered by BillionE Mobility; first deliveries on 10 Apr 2026; 470 kW motor",
+   "source": "electrive, 17 Apr 2026",
+   "url": "https://www.electrive.com/2026/04/17/india-tata-motors-to-supply-250-electric-trucks-to-billione-mobility/"
+  },
+  {
+   "id": "v-tata-prima-e28k",
+   "date": "2024-02-02",
+   "group": "Truck",
+   "maker": "Tata Motors",
+   "model": "Prima E.28K",
+   "type": "E-truck (28-tonne tipper)",
+   "pack_kwh": "453",
+   "range_km": "180–220",
+   "note": "Shown at Bharat Mobility Expo 2024, for tipper duty",
+   "source": "91trucks, 2 Feb 2024",
+   "url": "https://91trucks.com/news/unveiling-the-spectacular-tata-prima-range-at-bharat-mobility-global-expo-2024"
+  },
+  {
+   "id": "v-tata-ultra-e12",
+   "date": "2025-01-30",
+   "group": "Truck",
+   "maker": "Tata Motors",
+   "model": "Ultra E.12",
+   "type": "E-truck (12-tonne)",
+   "pack_kwh": "96 to 300",
+   "charging": "Plug-in, CCS2",
+   "range_km": "120–350, by pack",
+   "note": "250 kW motor; pack size chosen to suit the route",
+   "source": "electrive, 30 Jan 2025",
+   "url": "https://electrive.com/2025/01/30/tata-motors-unveils-six-electric-cvs-at-auto-expo-2025"
+  },
+  {
+   "id": "v-montra-rhino5538",
+   "date": "2025-09-28",
+   "group": "Truck",
+   "maker": "Montra Electric",
+   "model": "Rhino 5538 EV 4x2 TT",
+   "type": "E-truck (55-tonne tractor-trailer)",
+   "pack_kwh": "282",
+   "kwh": 282,
+   "km": 198,
+   "chemistry": "LFP",
+   "charging": "Plug-in (over an hour) or battery swap in under 6 minutes",
+   "range_km": "198",
+   "note": "₹1.15 crore ex-factory with a fixed battery; swap station handles over 160 swaps a day",
+   "source": "Autocar Professional, 28 Sep 2025",
+   "url": "https://www.autocarpro.in/news/montra-electric-launches-rhino-5538-ev-at-%e2%82%b965-lakh-128945"
+  },
+  {
+   "id": "v-montra-eviator",
+   "date": "2026-04-24",
+   "group": "Truck",
+   "maker": "Montra Electric",
+   "model": "EVIATOR 350 and 350L+",
+   "type": "E-truck (small, last mile)",
+   "pack_kwh": "32, 40 or 50",
+   "kwh": 32,
+   "km": 140,
+   "range_km": "Up to 140 (32 kWh, real world); over 300 certified (50 kWh)",
+   "note": "₹14.58 lakh (32 kWh) and ₹16.86 lakh (50 kWh)",
+   "source": "Autocar Professional, 25 Apr 2026",
+   "url": "https://www.autocarpro.in/news/montra-electric-launches-two-new-eviator-variants-for-urban-and-intercity-freight-132252"
+  },
+  {
+   "id": "v-eicher-prox",
+   "date": "2025-01-17",
+   "group": "Truck",
+   "maker": "Eicher (VECV)",
+   "model": "Pro X EV",
+   "type": "E-truck (2–3.5 tonne, last mile)",
+   "pack_kwh": "32 or 40",
+   "kwh": 40,
+   "km": 249,
+   "charging": "Fast charging in 75–85 minutes",
+   "range_km": "206–249, by pack",
+   "note": "Launched at Bharat Mobility Expo 2025",
+   "source": "91trucks",
+   "url": "https://www.91trucks.com/trucks/eicher/pro-x?amp=1"
+  },
+  {
+   "id": "v-eka-9m",
+   "date": "2026-01-12",
+   "group": "Bus",
+   "maker": "EKA Mobility",
+   "model": "EKA 9M",
+   "type": "E-bus (9 m city)",
+   "pack_kwh": "200",
+   "chemistry": "LFP",
+   "note": "213 kW motor; 100 buses for Odisha’s Capital Region Urban Transport",
+   "source": "Autocar Professional, 12 Jan 2026",
+   "url": "https://www.autocarpro.in/news/eka-mobility-deploys-100-electric-buses-for-odishas-capital-region-transport-network-130535"
+  },
+  {
+   "id": "v-eka-9m-school",
+   "date": "2026-07-09",
+   "group": "Bus",
+   "maker": "EKA Mobility",
+   "model": "EKA 9M school bus",
+   "type": "E-bus (9 m school)",
+   "pack_kwh": "100 or 200",
+   "kwh": 200,
+   "km": 180,
+   "chemistry": "LFP",
+   "charging": "Plug-in, CCS2 (full charge in under 1 h 45 min)",
+   "range_km": "Up to 180 (200 kWh pack)",
+   "note": "43 passengers plus driver; launched at Prawaas 5.0",
+   "source": "TrucksBuses",
+   "url": "https://www.trucksbuses.com/news/eka-mobility-launches-9-metre-electric-school-bus-at-prawaas-50"
+  },
+  {
+   "id": "v-switch-eiv22",
+   "date": "2022-08-18",
+   "group": "Bus",
+   "maker": "Switch Mobility",
+   "model": "EiV 22 double-decker",
+   "type": "E-bus (double-decker, city)",
+   "pack_kwh": "231",
+   "kwh": 231,
+   "km": 250,
+   "chemistry": "NMC",
+   "charging": "Plug-in, dual gun",
+   "range_km": "Up to 250",
+   "note": "Two liquid-cooled battery strings; 65 seats; 200 ordered for Mumbai",
+   "source": "Sustainable Bus, Aug 2022",
+   "url": "https://sustainable-bus.com/news/switch-mobility-unveils-indias-first-electric-double-decker-bus-switch-eiv-22"
+  },
+  {
+   "id": "v-jbm-galaxy",
+   "date": "2024-09-02",
+   "group": "Bus",
+   "maker": "JBM",
+   "model": "E12 Galaxy",
+   "type": "E-bus (12.4 m intercity coach)",
+   "pack_kwh": "200",
+   "chemistry": "Lithium-ion (type not given)",
+   "charging": "Plug-in, CCS2 (60–90 minutes)",
+   "note": "250 kW motor; version shown at Prawaas 4.0 in 2024",
+   "source": "Sustainable Bus, 2 Sep 2024",
+   "url": "https://www.sustainable-bus.com/alternative-drive-coach/jbm-e12-galaxy-electric-coach-prawaas-4-0-bangalore-2024"
+  },
+  {
+   "id": "v-tata-ultra-ev7m",
+   "date": "2024-09-03",
+   "group": "Bus",
+   "maker": "Tata Motors",
+   "model": "Ultra EV 7M",
+   "type": "E-bus (7 m staff and city)",
+   "pack_kwh": "200",
+   "kwh": 200,
+   "km": 160,
+   "chemistry": "Lithium-ion (type not given)",
+   "charging": "Full charge in about 2.5 hours",
+   "range_km": "Up to 160",
+   "note": "213 kW motor; IP67-rated pack",
+   "source": "Autocar Professional, 3 Sep 2024",
+   "url": "https://www.autocarpro.in/news/tata-motors-sees-smaller-firms-adopting-electric-commercial-vehicles-122311"
   }
  ]
 }

@@ -119,7 +119,7 @@
     ];
     CHAIN.forEach((c) => P.push([`${c.name}: ${c.title}`, `Value chain step ${Number(c.n)}`, `${c.say} ${c.id}`, () => L.go('chain/' + c.id)]));
     const SECS = [
-      ['cells', 'What’s inside a cell price', 'cell cost breakdown bom materials margin'], ['cells', 'Chinese cell makers by size', 'chinese cell makers sizes ah 100 314 324 392 588 bess automotive vehicle catl byd calb eve gotion svolt hithium rept envision cornex sunwoda'], ['cells', 'Who sells at what price', 'cell makers bids list prices suppliers catl byd eve hithium calb'],
+      ['cells', 'What’s inside a cell price', 'cell cost breakdown bom materials margin'], ['cells', 'Chinese cell makers by size', 'chinese cell makers sizes ah 100 314 324 392 588 bess automotive vehicle catl byd calb eve gotion svolt hithium rept envision cornex sunwoda'],
       ['cells', 'New cells', 'new cell launches models chemistry sodium'], ['cells', 'Cell factories in India', 'cell plants factories gigafactory capacity gwh india'],
       ['cells', 'Rules that hit cells', 'cell rules duties testing incentives'], ['cells', 'Landed in India, now and 2027–2029', 'cell landed import duty rupees'],
       ['systems', 'What’s inside a storage system price', 'system cost breakdown pcs container'], ['systems', 'Battery packs in Indian e-buses and e-trucks', 'pack bus truck ev vehicles kwh'],

@@ -65,7 +65,6 @@
   <section class="page" id="page-materials" data-page="materials" hidden>
     <div class="subnav" role="tablist" aria-label="Raw materials sections">
       <button type="button" role="tab" data-sub="all"><span class="dot" style="--dc:var(--plum)"></span>Price map</button>
-      <button type="button" role="tab" data-sub="lithium"><span class="dot" style="--dc:var(--amber)"></span>Lithium</button>
       <button type="button" role="tab" data-sub="cells"><span class="dot" style="--dc:var(--blue)"></span>Cells</button>
       <button type="button" role="tab" data-sub="systems"><span class="dot" style="--dc:var(--indigo)"></span>Storage systems</button>
     </div>
@@ -89,34 +88,6 @@
         </details>
       </div>
     </div>
-
-    <div class="subpage" data-sub="lithium" style="--sec:var(--amber)" hidden>
-    <div class="panel">
-      <div class="panel-head">
-        <h2>Lithium carbonate, US$ per tonne</h2>
-        <div class="controls">
-          <div class="seg" data-range-for="lithium"></div>
-          <button class="btn ghost small" type="button" data-csv="lithium">Download CSV</button>
-        </div>
-      </div>
-      <p class="sub">Click a series name to show or hide it. Hover the chart for exact values and sources.</p>
-      <div class="toggles" id="lithium-toggles"></div>
-      <div class="chart tall" id="lithium-chart"></div>
-      <p class="srcs" id="lithium-srcs"></p>
-    </div>
-    <div class="grid2">
-      <div class="panel">
-        <div class="panel-head"><h2>Week-on-week change in spot lithium</h2></div>
-        <p class="sub">InfoLink weekly spot. Hover a bar for the reason InfoLink gave.</p>
-        <div class="chart" id="lithium-wow"></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><h2>Where analysts see lithium going</h2></div>
-        <p class="sub">Forecasts, not facts. US$ per tonne, China spot.</p>
-        <div class="tablewrap"><table class="table" id="forecast-table"><thead><tr><th>Who</th><th>Period</th><th class="r">Forecast</th><th class="r">vs today</th><th>Source</th></tr></thead><tbody></tbody></table></div>
-      </div>
-    </div>
-      </div>
 
     <div class="subpage" data-sub="cells" style="--sec:var(--blue)" hidden>
     <div class="panel">
@@ -147,17 +118,6 @@
       <p class="sub" id="ev-note"></p>
       <p class="srcs" id="ev-srcs"></p>
     </div>
-    <div class="grid2">
-      <div class="panel">
-        <div class="panel-head"><h2>Lithium fall vs cell price move</h2></div>
-        <div class="controls row">
-          <label for="gap-from" class="lbl">Compare from</label>
-          <select id="gap-from" class="select"></select>
-          <span class="lbl" id="gap-to"></span>
-        </div>
-        <div class="chart" id="gap-chart"></div>
-        <p class="sub">Implied move uses <span id="gap-kg">0.53</span> kg of lithium carbonate per kWh of cell, the cost calculator's default.</p>
-      </div>
       <div class="panel">
         <div class="panel-head"><h2>What big buyers pay: cell tenders vs the market, US$ per kWh</h2><button class="btn ghost small" type="button" data-csv="tenders">Download CSV</button></div>
         <p class="sub">Each dot is one bid in a public Chinese storage-cell procurement; the line is InfoLink's weekly 314 Ah market average. All excluding VAT. Indian cell tender prices are not published.</p>
@@ -165,13 +125,6 @@
         <div class="legend" id="bids-legend"></div>
         <p class="srcs" id="bids-srcs"></p>
       </div>
-      <div class="panel">
-        <div class="panel-head"><h2>Who supplies China's EV batteries</h2></div>
-        <p class="sub" id="share-sub">Share of installations.</p>
-        <div class="chart" id="share-chart"></div>
-        <p class="srcs" id="share-srcs"></p>
-      </div>
-    </div>
     </div>
 
     <div class="subpage" data-sub="systems" style="--sec:var(--indigo)" hidden>

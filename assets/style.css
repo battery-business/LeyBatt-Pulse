@@ -1582,3 +1582,27 @@ a.cm-chip:hover { filter: brightness(1.1); text-decoration: underline; }
 .sx-fb { display: block; padding: 10px 12px 6px; font-size: 12.5px; color: var(--accent); text-decoration: none; }
 .sx-fb:hover { text-decoration: underline; }
 @media (max-width: 640px) { .sx-answer { flex-wrap: wrap; } .sx-answer .sx-go { margin-left: 0; } }
+
+/* analysts' lithium forecasts, one line under the outlook */
+.ol-analysts { margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.ol-analysts b { color: var(--fg); font-weight: 600; }
+.ol-analysts a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.ol-analysts a:hover { color: var(--fg); text-decoration-color: currentColor; }
+
+/* folded reference sections on the chain steps: a one-line heading with a count until opened */
+details.chp-ref { padding-block: 0; }
+details.chp-ref:not([open]) { margin-bottom: 10px; }
+details.chp-ref[open] { padding-bottom: clamp(22px, 3vw, 36px); }
+details.chp-ref > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding-block: clamp(15px, 1.8vw, 20px); border-radius: 18px; }
+details.chp-ref > summary::-webkit-details-marker { display: none; }
+details.chp-ref > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+details.chp-ref[open] > summary { padding-bottom: 8px; }
+details.chp-ref > summary .chp-h { margin: 0; flex: 1 1 auto; min-width: 0; font-size: clamp(18px, 1.7vw, 22px); }
+details.chp-ref .ref-n { flex: none; min-width: 28px; padding: 2px 9px; border-radius: 999px; background: var(--soft); color: var(--muted); font-size: 13px; font-weight: 650; text-align: center; font-variant-numeric: tabular-nums; }
+details.chp-ref .ref-n:empty { display: none; }
+details.chp-ref .ref-go { flex: none; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+details.chp-ref .ref-go::after { content: ''; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
+details.chp-ref[open] .ref-go::after { transform: translateY(2px) rotate(-135deg); }
+details.chp-ref > summary:hover .ref-go { color: var(--fg); }
+@media (prefers-reduced-motion: reduce) { details.chp-ref .ref-go::after { transition: none; } }
+@media (max-width: 640px) { details.chp-ref .ref-go { font-size: 0; gap: 0; } details.chp-ref .ref-go::after { width: 8px; height: 8px; } }

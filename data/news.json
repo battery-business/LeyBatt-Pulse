@@ -1,5 +1,72 @@
 [
  {
+  "id": "n183",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Gotion shareholders approve three LFP joint ventures with Volkswagen's PowerCo worth about €3.22 billion: 29.1 GWh a year of cells in Valencia (Spain), 8.4 GWh in Šurany (Slovakia) and 100,000 t a year of LFP cathode in Kenitra (Morocco); regulatory clearances and final supply terms are still pending",
+  "seg": "Batteries",
+  "so": "A Chinese cell maker and a carmaker plan 37.5 GWh of LFP cells in Europe: more LFP supply outside China, but not before clearances and construction.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Europe LFP JVs",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/04/gotion-shareholders-approve-e3-22-billion-battery-jv-plans-with-powerco-in-europe-morocco/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n184",
+  "date": "2026-11-04",
+  "day": "4 Nov",
+  "headline": "Fluence's CEO Julian Nebreda and CFO Ahmed Pasha step down with immediate effect; board member Axel Meier becomes interim CEO and Ricardo Roizen interim CFO, and a new board committee will oversee manufacturing and customer delivery; contracted backlog is $6.4 billion",
+  "seg": "BESS",
+  "so": "Top-level exit at a large Western storage integrator focused on fixing manufacturing and delivery: execution records matter when choosing integrators.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Energy storage",
+  "effect": "Leadership change",
+  "direction": "flat",
+  "source": "TaiyangNews",
+  "url": "https://taiyangnews.info/people/fluence-energy-interim-ceo-cfo",
+  "sources": "TaiyangNews"
+ },
+ {
+  "id": "n185",
+  "date": "2026-11-03",
+  "day": "3 Nov",
+  "headline": "Olectra puts 35 nine-metre air-conditioned electric buses with Blade batteries into service in Chhatrapati Sambhajinagar (Maharashtra), run by Evey Trans; it reports more than 4,500 buses deployed in over 55 cities and an order book above 7,950 vehicles",
+  "seg": "EVs",
+  "so": "Another city fleet from one of India's largest e-bus order books: close to 8,000 more buses still to deliver, each needing a battery pack.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "E-bus deliveries",
+  "direction": "up",
+  "source": "Business Standard (ANI press release)",
+  "url": "https://www.business-standard.com/amp/content/press-releases-ani/olectra-introduces-35-electric-buses-in-chhatrapati-sambhajinagar-strengthening-sustainable-public-transportation-in-maharashtra-126110301247_1.html",
+  "sources": "Business Standard"
+ },
+ {
   "id": "n175",
   "date": "2026-11-06",
   "day": "6 Nov",
@@ -1601,27 +1668,6 @@
   "so": "Haryana tenders solar with storage: more Indian storage demand; bids due 17 Nov."
  },
  {
-  "id": "n99",
-  "date": "2026-10-24",
-  "day": "24 Oct",
-  "headline": "CATL confirms the new 60 kWh pack in Nio's Firefly uses its Qilin battery with NCM cells (560 km CLTC range), while the original 42 kWh LFP pack comes from Sunwoda; both share the same casing and mounts, so existing cars can switch packs by battery swap",
-  "category": "Packs & BMS",
-  "effect": "Swappable pack design",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/24/catl-qilin-battery-nio-firefly-60-kwh/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Swappable car packs with mixed chemistries in China: a technology note."
- },
- {
   "id": "n93",
   "date": "2026-10-22",
   "day": "22 Oct",
@@ -1697,27 +1743,6 @@
   ],
   "seg": "EVs",
   "so": "CATL's standard swappable packs for heavy trucks: a model that could reach India's freight corridors."
- },
- {
-  "id": "n98",
-  "date": "2026-10-24",
-  "day": "24 Oct",
-  "headline": "Volkswagen Anhui launches the Xpeng-co-developed ID. UNYX 09 sedan from about $25,290 (limited offer) with a standard 92 kWh CATL 5C pack (250 km added in 5 minutes, up to 755 km CLTC)",
-  "category": "EV market",
-  "effect": "Bigger fast-charge packs",
-  "direction": "up",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/24/vw-anhui-launches-id-unyx-09/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Fast-charging LFP packs in Chinese cars: no direct effect on India."
  },
  {
   "id": "n85",
@@ -2921,5 +2946,26 @@
   ],
   "seg": "Batteries",
   "so": "Lithium holding near $13,000–14,000: cell costs stay low for current quotes."
+ },
+ {
+  "id": "n98",
+  "date": "2026-10-24",
+  "day": "24 Oct",
+  "headline": "Volkswagen Anhui launches the Xpeng-co-developed ID. UNYX 09 sedan from about $25,290 (limited offer) with a standard 92 kWh CATL 5C pack (250 km added in 5 minutes, up to 755 km CLTC)",
+  "category": "EV market",
+  "effect": "Bigger fast-charge packs",
+  "direction": "up",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/10/24/vw-anhui-launches-id-unyx-09/",
+  "sources": "CnEVPost",
+  "weight": 1,
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "seg": "EVs",
+  "so": "Fast-charging LFP packs in Chinese cars: no direct effect on India."
  }
 ]

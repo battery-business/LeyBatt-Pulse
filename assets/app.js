@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['cellmakers', 'cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'cellbids', 'systems', 'rawmats', 'news', 'weekly', 'marketshare', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'bid', 'calculator', 'storage', 'risk', 'brief', 'chain'];
@@ -3066,6 +3066,66 @@
   const srcCell = (r) => { const f = document.createDocumentFragment(); f.appendChild(link(r.source, r.url)); return f; };
   const nameCell = (main, sub) => { const f = document.createDocumentFragment(); f.appendChild(el('b', null, main)); if (sub) f.appendChild(el('span', 'role', sub)); return f; };
   const dshort = (d) => (d ? d3.utcFormat('%-d %b %Y')(parse(d)) : '');
+  // ---------- Chinese cell makers × cell size (storage or vehicle), with each maker's published bids ----------
+  const CM_BANDS = [['Up to 150 Ah', 0, 150], ['151–250 Ah', 150.01, 250], ['280 Ah', 250.01, 299.99], ['300–350 Ah', 300, 350], ['392 Ah', 350.01, 450], ['500–600 Ah', 450.01, 600], ['601–800 Ah', 600.01, 800], ['1,000 Ah+', 800.01, 1e9]];
+  const CMK = { use: "" };
+  function cellMakerGrid(box) {
+    const rows = ((D.cellmakers || {}).rows || []); if (!rows.length) { box.appendChild(el('p', 'sub', 'No data yet.')); return; }
+    const bar = el('div', 'cm-bar');
+    const seg = el('div', 'seg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Cell type');
+    [['', 'All cells'], ['BESS', 'Storage (BESS)'], ['Auto', 'Vehicle (automotive)']].forEach(([k, lab]) => {
+      const b = el('button', null, lab); b.type = 'button'; b.setAttribute('aria-pressed', String(CMK.use === k));
+      b.addEventListener('click', () => { CMK.use = k; [...seg.children].forEach((x) => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+      seg.appendChild(b);
+    });
+    const key = el('div', 'cm-key');
+    key.innerHTML = '<span class="cm-chip bess solid">314<small>BESS</small></span> storage <span class="cm-chip auto solid">230<small>Auto</small></span> vehicle <span class="cm-k2">Solid: in production · outlined: launched or shown, not yet confirmed in volume</span>';
+    bar.append(seg, key); box.appendChild(bar);
+    const wrap = el('div', 'table-wrap cm-wrap'); box.appendChild(wrap);
+    // each maker's latest published bid or list price per cell size (China tenders, list prices), from the cell tender tracker
+    const bids = ((D.tenders || {}).rows || []).filter((r) => r.usd_kwh);
+    const priceFor = (m) => { const al = (m.aliases || [m.maker]).map((x) => x.toLowerCase()); const by = new Map();
+      bids.filter((r) => al.includes(String(r.bidder).toLowerCase())).sort((a, b) => d3.ascending(a.date, b.date)).forEach((r) => by.set(r.size, r));
+      return [...by.values()]; };
+    const solid = (st) => /production/i.test(st || '');
+    const draw = () => {
+      const t = el('table', 'rtable cmgrid stackable'); const hr = el('tr'); hr.appendChild(el('th', null, 'Maker'));
+      CM_BANDS.forEach(([lab]) => hr.appendChild(el('th', 'num', lab))); hr.appendChild(el('th', null, 'Latest public price')); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
+      const tb = el('tbody');
+      rows.forEach((m) => {
+        const cells = m.cells.filter((c) => !CMK.use || c.use === CMK.use); if (!cells.length) return;
+        const tr = el('tr'); const nm = el('td', 'cm-maker'); nm.appendChild(el('b', null, m.maker));
+        const nB = cells.filter((c) => c.use === 'BESS').length, nA = cells.length - nB;
+        nm.appendChild(el('span', 'role', [nB ? `${nB} storage` : '', nA ? `${nA} vehicle` : ''].filter(Boolean).join(' · ')));
+        tr.appendChild(nm);
+        CM_BANDS.forEach(([lab, lo, hi]) => {
+          const td = el('td', 'cm-cell'); td.dataset.l = lab;
+          cells.filter((c) => c.ah >= lo && c.ah <= hi).sort((a, b) => a.ah - b.ah).forEach((c) => {
+            const a = el('a', `cm-chip ${c.use === 'BESS' ? 'bess' : 'auto'}${solid(c.status) ? ' solid' : ''}`); a.href = c.url; a.target = '_blank'; a.rel = 'noopener';
+            a.append(document.createTextNode(String(c.ah).replace(/\.0$/, '')), el('small', null, c.use));
+            a.title = `${m.maker} ${c.ah} Ah${c.name ? ' ' + c.name : ''} · ${c.use === 'BESS' ? 'storage cell' : 'vehicle cell'} · ${c.status}\n${c.note || ''}\nSource: ${c.source}`;
+            td.appendChild(a);
+          });
+          if (!td.childElementCount) td.classList.add('empty');
+          tr.appendChild(td);
+        });
+        const pc = el('td', 'cm-price'); pc.dataset.l = 'Latest public price';
+        const ps = CMK.use === 'Auto' ? [] : priceFor(m); // every published bid so far is for storage cells
+        if (ps.length) ps.forEach((r) => { const d = el('div'); d.append(el('b', null, fmtUsd1(r.usd_kwh) + '/kWh'), document.createTextNode(` ${r.size} ${r.kind === 'list' ? 'list price' : 'bid'} · `), link(dshort(r.date), r.url)); pc.appendChild(d); });
+        else pc.appendChild(el('span', 'muted', CMK.use === 'Auto' ? 'No public vehicle-cell price' : 'No public price'));
+        tr.appendChild(pc); tb.appendChild(tr);
+      });
+      t.appendChild(tb); wrap.replaceChildren(t);
+    };
+    draw();
+    const ref = el('p', 'sub cm-ref'); const L = (id) => (D.latest || []).find((r) => r.id === id);
+    const c3 = L('cell314'), ev = L('evcell');
+    ref.append(document.createTextNode('Market averages for comparison: '));
+    if (c3) ref.append(el('b', null, `${c3.price}/kWh`), document.createTextNode(' for 314 Ah storage cells ('), link(c3.source, c3.url), document.createTextNode(`, ${c3.asof})`));
+    if (ev) ref.append(document.createTextNode('; '), el('b', null, `${ev.price}/kWh`), document.createTextNode(' for EV prismatic LFP cells ('), link(ev.source, ev.url), document.createTextNode(`, ${ev.asof})`));
+    ref.append(document.createTextNode('. Bids are from public Chinese storage-cell tenders, VAT removed. Tap a size for its source.'));
+    box.appendChild(ref);
+  }
   function rulesFor(box, test) { // the rules that hit this team, nearest date first
     const today = istToday();
     const rs = (D.regulations || []).filter(test).sort((a, b) => { const fa = +parse(a.date) >= today, fb = +parse(b.date) >= today; return fa !== fb ? (fa ? -1 : 1) : fa ? d3.ascending(a.date, b.date) : d3.descending(a.date, b.date); });
@@ -3115,6 +3175,8 @@
       } catch (e) { console.error(e); s1.appendChild(el('p', 'sub', 'Cost model unavailable.')); }
       // 2. landed in India
       landedOutlook(section('Landed in India, now and 2027–2029', null), [['cell314', '314 Ah storage cell'], ['evcell', 'EV prismatic LFP cell']]);
+      // 2b. Chinese cell makers by size
+      cellMakerGrid(section('Chinese cell makers by size', (D.cellmakers || {}).about || ''));
       // 3. who sells at what price
       const s3 = section('Who sells at what price', 'Latest public bid or list price from each cell maker, against InfoLink’s 314 Ah market average on the same date. Bids include VAT as published, converted and with VAT removed.');
       const cm = cellMap(); const cmDates = [...cm.keys()].sort();

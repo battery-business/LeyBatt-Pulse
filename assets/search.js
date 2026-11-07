@@ -120,7 +120,7 @@
     ];
     CHAIN.forEach((c) => P.push([`${c.name}: ${c.title}`, `Value chain step ${Number(c.n)}`, `${c.say} ${c.id}`, () => L.go('chain/' + c.id)]));
     const SECS = [
-      ['cells', 'What’s inside a cell price', 'cell cost breakdown bom materials margin'], ['cells', 'Who sells at what price', 'cell makers bids list prices suppliers catl byd eve hithium calb'],
+      ['cells', 'What’s inside a cell price', 'cell cost breakdown bom materials margin'], ['cells', 'Chinese cell makers by size', 'chinese cell makers sizes ah 100 314 324 392 588 bess automotive vehicle catl byd calb eve gotion svolt hithium rept envision cornex sunwoda'], ['cells', 'Who sells at what price', 'cell makers bids list prices suppliers catl byd eve hithium calb'],
       ['cells', 'New cells', 'new cell launches models chemistry sodium'], ['cells', 'Cell factories in India', 'cell plants factories gigafactory capacity gwh india'],
       ['cells', 'Rules that hit cells', 'cell rules duties testing incentives'], ['cells', 'Landed in India, now and 2027–2029', 'cell landed import duty rupees'],
       ['systems', 'What’s inside a storage system price', 'system cost breakdown pcs container'], ['systems', 'Battery packs in Indian e-buses and e-trucks', 'pack bus truck ev vehicles kwh'],
@@ -132,6 +132,8 @@
     P.forEach(([title, sub, keys, go]) => add(out, { type: 'page', title, sub, keys, go }));
     // trackers
     const T = (file, step, sec, fn) => ((D[file] || {}).rows || []).forEach((r) => { const o = fn(r); if (o) add(out, { type: 'track', ...o, go: () => { L.go('chain/' + step); L.focusOn('#' + L.secId(sec)); } }); });
+    T('cellmakers', 'cells', 'Chinese cell makers by size', (r) => { const by = (u) => r.cells.filter((c) => c.use === u).map((c) => c.ah).sort((x, y) => x - y).join(', '); const bs = by('BESS'), au = by('Auto');
+      return { title: `${r.maker}: cell sizes`, sub: [bs ? 'Storage ' + bs + ' Ah' : '', au ? 'Vehicle ' + au + ' Ah' : ''].filter(Boolean).join(' · '), keys: `chinese cell maker sizes ah bess automotive vehicle storage ${(r.aliases || []).join(' ')}`, text: r.cells.map((c) => `${c.ah}ah ${c.ah} ${c.name || ''} ${c.note || ''}`).join(' ') }; });
     T('cellmodels', 'cells', 'New cells', (r) => ({ title: `${r.maker} ${r.cell || ''}`.trim(), sub: [r.chemistry, r.size, r.stage, r.when].filter(Boolean).join(' · '), keys: 'new cell launch', text: `${r.format || ''} ${r.spec || ''} ${r.use || ''}` }));
     T('plants', 'cells', 'Cell factories in India', (r) => ({ title: `${r.company}: ${r.location || r.kind || ''}`, sub: [r.capacity, r.stage, r.start].filter(Boolean).join(' · '), keys: `plant factory ${r.kind || ''}`, text: r.note || '' }));
     T('vehicles', 'systems', 'Battery packs in Indian e-buses and e-trucks', (r) => ({ title: `${r.maker} ${r.model}`, sub: [r.pack_kwh ? r.pack_kwh + ' kWh' : '', r.chemistry, r.type].filter(Boolean).join(' · '), keys: 'vehicle pack ev bus truck', text: `${r.cell_supplier || ''} ${r.charging || ''} ${r.note || ''}` }));

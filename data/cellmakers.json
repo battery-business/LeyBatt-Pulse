@@ -1,0 +1,136 @@
+{
+  "about": "LFP cell sizes each Chinese maker has made public, by capacity, marked as storage (BESS) or vehicle (automotive) cells. Each size links to the launch note, spec sheet or tender result it comes from. Makers sell more variants than they announce; vehicle cells are often not marketed by Ah, so that side is thinner. Prices are shown only where a maker's own bid or list price has been published.",
+  "updated": "2026-11-07",
+  "rows": [
+    {
+      "maker": "CATL",
+      "aliases": ["CATL"],
+      "cells": [
+        {"ah": 161, "use": "Auto", "name": "BTF0", "status": "In production", "note": "LFP cell in the Tesla Model 3 standard-range pack (teardown)", "source": "Battery Design", "url": "https://www.batterydesign.net/catl-btf0-161ah-lfp/"},
+        {"ah": 280, "use": "BESS", "status": "In production", "note": "Earlier storage generation", "source": "CnEVPost, 3 Dec 2025", "url": "https://cnevpost.com/2025/12/03/catl-large-scale-shipments-next-gen-energy-storage-cells/"},
+        {"ah": 314, "use": "BESS", "status": "In production", "note": "Previous storage generation; sold on CATL Mall", "source": "CnEVPost, 3 Dec 2025", "url": "https://cnevpost.com/2025/12/03/catl-large-scale-shipments-next-gen-energy-storage-cells/"},
+        {"ah": 587, "use": "BESS", "status": "Mass production", "note": "Mass production and delivery from June 2025, 434 Wh/L", "source": "CnEVPost, 11 Jun 2025", "url": "https://cnevpost.com/2025/06/11/catl-next-gen-energy-storage-cell/"}
+      ]
+    },
+    {
+      "maker": "BYD",
+      "aliases": ["BYD", "FinDreams"],
+      "cells": [
+        {"ah": 138.5, "use": "Auto", "name": "Blade", "status": "In production", "note": "Blade cell shown on a factory tour (440 Wh)", "source": "InsideEVs", "url": "https://insideevs.com/news/503445/byd-factory-tour-fully-charged/"},
+        {"ah": 202, "use": "Auto", "name": "Blade", "status": "In production", "note": "Blade cell figures from BYD patent data (646 Wh)", "source": "Electric Vehicle Web", "url": "https://electricvehicleweb.com/?p=4419"},
+        {"ah": 320, "use": "BESS", "status": "Shown", "note": "320 Ah and 335 Ah storage cells exhibited at CIBF 2026", "source": "EnergyTrend, 14 May 2026", "url": "https://m.energytrend.com/news/20260514-51386.html"},
+        {"ah": 335, "use": "BESS", "status": "Shown", "note": "Exhibited at CIBF 2026", "source": "EnergyTrend, 14 May 2026", "url": "https://m.energytrend.com/news/20260514-51386.html"},
+        {"ah": 1980, "use": "BESS", "name": "Blade", "status": "Launched", "note": "Blade storage cell in the MC Cube-XT system", "source": "TaiyangNews, 2026", "url": "https://taiyangnews.info/storage/byd-energy-storage-solar-storage-live-uk-2026"},
+        {"ah": 2710, "use": "BESS", "name": "Blade", "status": "Launched", "note": "Blade storage cell in the 14.5 MWh HaoHan system", "source": "ESS News, Sep 2025", "url": "https://www.ess-news.com/?p=6643"}
+      ]
+    },
+    {
+      "maker": "CALB",
+      "aliases": ["CALB"],
+      "cells": [
+        {"ah": 230, "use": "Auto", "name": "L173F230", "status": "In production", "note": "Power cell sold for vehicle conversions", "source": "Thunderstruck EV", "url": "https://www.thunderstruck-ev.com/calb-l173f230.html"},
+        {"ah": 314, "use": "BESS", "status": "Mass production", "note": "First batch deliveries September 2023", "source": "Electrive, 4 Oct 2023", "url": "https://www.electrive.com/2023/10/04/calb-reveals-high-density-battery-with-25-year-lifecycle"},
+        {"ah": 392, "use": "BESS", "status": "Mass production", "note": "Mass-production launch at ESIE 2025, with a 6.25 MWh system", "source": "Evlithium (ESIE 2025)", "url": "https://www.evlithium.com/lifepo4-battery-news/calb-392ah-625mwh-launch-esie-2025.html"},
+        {"ah": 588, "use": "BESS", "status": "Launched", "note": "Wound cell for grid and C&I projects, 10,000+ cycles", "source": "ESS News, 20 Nov 2025", "url": "https://www.ess-news.com/2025/11/20/calb-unveils-two-high-capacity-cells-aiming-at-long-duration-energy-storage/"},
+        {"ah": 661, "use": "BESS", "status": "Launched", "note": "Zhijiu series (392, 588, 661 Ah) launched at ESIE 2026", "source": "Evlithium (ESIE 2026)", "url": "https://evlithium.com/lifepo4-battery-news/calb-zhijiu-energy-storage-cells-esie-2026.html"},
+        {"ah": 684, "use": "BESS", "status": "Launched", "note": "Launched with a 588 Ah cell", "source": "Evlithium", "url": "https://www.evlithium.com/lifepo4-battery-news/calb-new-storage-cells-systems.html"}
+      ]
+    },
+    {
+      "maker": "EVE Energy",
+      "aliases": ["EVE Energy", "EVE"],
+      "cells": [
+        {"ah": 202, "use": "Auto", "name": "LF202", "status": "In production", "note": "For mid-size buses, light trucks and mobile storage", "source": "EVE (official store)", "url": "https://www.evemall.eu/power-battery/prismatic-lfp-cell/lf202"},
+        {"ah": 230, "use": "Auto", "name": "LF230", "status": "In production", "note": "Power cell for vehicles (also used in storage)", "source": "EVE spec sheet", "url": "https://www.imrbatteries.com/content/eve_LF230.pdf"},
+        {"ah": 314, "use": "BESS", "status": "In production", "note": "Bid in China's CEEC 7 GWh storage-cell tender", "source": "ESS News, 12 May 2026", "url": "https://www.ess-news.com/2026/05/12/ceecs-7-gwh-battery-storage-cell-procurement-sees-low-end-prices-at-47-kwh/"},
+        {"ah": 628, "use": "BESS", "name": "Mr Big", "status": "Mass production", "note": "First mass-produced 600 Ah+ cell; in a 400 MWh project", "source": "ESS News", "url": "https://www.ess-news.com/?p=8155"}
+      ]
+    },
+    {
+      "maker": "Gotion",
+      "aliases": ["Gotion", "Gotion High-Tech"],
+      "cells": [
+        {"ah": 314, "use": "BESS", "status": "In production", "note": "Used in 800 MWh of Tangshan projects", "source": "EnergyTrend, 12 Aug 2024", "url": "https://www.energytrend.com/news/20240812-48173.html"},
+        {"ah": 587, "use": "BESS", "status": "Launched", "note": "In Gotion's 7 MWh 20-foot container", "source": "ESS News", "url": "https://www.ess-news.com/?p=4876"},
+        {"ah": 650, "use": "BESS", "status": "Launched", "note": "Unveiled with a 688 Ah cell shown at the same event", "source": "pv magazine India, 5 Mar 2025", "url": "https://www.pv-magazine-india.com/2025/03/05/gotion-launches-7-mwh-bess-container-650-ah-cell"}
+      ]
+    },
+    {
+      "maker": "SVOLT",
+      "aliases": ["SVOLT"],
+      "cells": [
+        {"ah": 100, "use": "BESS", "status": "Shown", "note": "VDA-format storage cell", "source": "Evlithium", "url": "https://evlithium.com/lifepo4-battery-news/svolt-unveils-770ah-energy-storage-cell-european-p.html"},
+        {"ah": 222, "use": "BESS", "status": "In production", "note": "VDA-format storage cell, delivered in large quantities", "source": "Evlithium", "url": "https://evlithium.com/lifepo4-battery-news/svolt-unveils-770ah-energy-storage-cell-european-p.html"},
+        {"ah": 325, "use": "BESS", "name": "Short Blade L500", "status": "Mass production", "note": "Produced at the Chengdu base", "source": "Kallanish, 25 Oct 2023", "url": "https://kallanish.com/en/news/power-materials/market-reports/article-details/svolts-325ah-short-blade-energy-storage-cell-product-reaches-production-1023"},
+        {"ah": 350, "use": "BESS", "name": "Short Blade", "status": "Launched", "note": "Upgraded short-blade storage cell", "source": "Evlithium", "url": "https://evlithium.com/lifepo4-battery-news/svolt-unveils-770ah-energy-storage-cell-european-p.html"},
+        {"ah": 588, "use": "BESS", "status": "Launched", "note": "First stacked 588 Ah storage cell (SVOLT's own claim)", "source": "ees Europe exhibitor page", "url": "https://www.ees-europe.com/exhibitorlist/svolt-energy-technology-co-ltd"},
+        {"ah": 710, "use": "BESS", "name": "Short Blade", "status": "Launched", "note": "Thicker fly-stack short-blade cell", "source": "Pandaily", "url": "https://pandaily.com/?p=162619"},
+        {"ah": 770, "use": "BESS", "name": "Short Blade", "status": "Launched", "note": "435 Wh/L", "source": "Energy-Storage.News", "url": "https://www.energy-storage.news/500ah-cells-becoming-new-bess-industry-standard-as-chinese-firms-launch-large-cell-technology-race"}
+      ]
+    },
+    {
+      "maker": "Hithium",
+      "aliases": ["Hithium", "HiTHIUM"],
+      "cells": [
+        {"ah": 314, "use": "BESS", "status": "In production", "note": "Spec sheet: 1,004.8 Wh", "source": "Hithium spec sheet", "url": "https://en.hithium.com/bocupload/2025/08/26/1756184244726cwr6m.pdf"},
+        {"ah": 587, "use": "BESS", "name": "∞Cell", "status": "Mass production", "note": "Mass production and first deliveries, Xiamen, August 2025", "source": "Hithium, 28 Aug 2025", "url": "https://www.hithium.com/newsroom/latest/details/81.html"},
+        {"ah": 1175, "use": "BESS", "name": "∞Cell", "status": "Mass production", "note": "Mass production from June 2025, Chongqing; for 4-hour+ storage", "source": "Energy-Storage.News", "url": "https://www.energy-storage.news/hithium-starts-manufacturing-world-first-1175ah-cell-as-industry-enters-era-of-ldes/"}
+      ]
+    },
+    {
+      "maker": "REPT Battero",
+      "aliases": ["REPT", "REPT Battero", "REPT BATTERO"],
+      "cells": [
+        {"ah": 54, "use": "Auto", "name": "Wending", "status": "In production", "note": "Most widely used PHEV cell", "source": "CIBF 2026 report", "url": "https://www.lifepo4-battery.com/News/rept-battero-full-scenario-cibf2026-lfp-solid-sodium.html"},
+        {"ah": 100, "use": "BESS", "status": "Shown", "note": "Residential storage cell (also 72 Ah)", "source": "PR Newswire via ANP, Mar 2025", "url": "https://persportaal.anp.nl/artikel/CSN-070325070/-rept-battero-present-wending-energy-storage-products-at-the-key-energy-transition-expo-2025"},
+        {"ah": 120, "use": "Auto", "status": "Shown", "note": "Fast-charge passenger-car cell", "source": "CIBF 2026 report", "url": "https://www.lifepo4-battery.com/News/rept-battero-full-scenario-cibf2026-lfp-solid-sodium.html"},
+        {"ah": 314, "use": "BESS", "name": "Wending", "status": "In production", "note": "In the Powtrix 5 MWh system", "source": "PR Newswire via ANP, Mar 2025", "url": "https://persportaal.anp.nl/artikel/CSN-070325070/-rept-battero-present-wending-energy-storage-products-at-the-key-energy-transition-expo-2025"},
+        {"ah": 320, "use": "BESS", "name": "Wending", "status": "In production", "note": "12 GWh framework deal with Powin", "source": "Gasgoo, Apr 2024", "url": "https://autonews.gasgoo.com/articles/market-industry/rept-powin-ink-framework-agreement-on-12gwh-energy-storage-cell-project-70032762"},
+        {"ah": 324, "use": "Auto", "name": "Chenxing", "status": "Launched", "note": "Heavy-truck cell; packs up to 600 kWh", "source": "CIBF 2026 report", "url": "https://www.lifepo4-battery.com/News/rept-battero-full-scenario-cibf2026-lfp-solid-sodium.html"},
+        {"ah": 345, "use": "BESS", "name": "Wending", "status": "Launched", "note": "440 Wh/L", "source": "The London Economic (Intersolar 2024)", "url": "https://thelondoneconomic.com/?p=377633"},
+        {"ah": 392, "use": "BESS", "name": "Wending", "status": "Mass production", "note": "Fits 314 Ah lines; 1.25 kWh per cell", "source": "EnergyTrend, 14 May 2026", "url": "https://m.energytrend.com/news/20260514-51386.html"},
+        {"ah": 588, "use": "BESS", "name": "Wending", "status": "Launched", "note": "1.88 kWh per cell (earlier 587 Ah version shown in 2024)", "source": "Adnkronos (CIBF 2026)", "url": "https://www.adnkronos.com/immediapress/eng/rept-battero-showcases-energy-storage-hybrid-battery-technologies-and-megawatt-fast-charging-solutions-at-cibf-2026_4jCJWIOXYZXKiCcLVsElVx"},
+        {"ah": 625, "use": "BESS", "name": "Wending", "status": "Launched", "note": "2 kWh per cell", "source": "Evlithium (SNEC 2024)", "url": "https://evlithium.com/lifepo4-battery-news/rept-battero-wending-cells-snec-2024.html"}
+      ]
+    },
+    {
+      "maker": "Envision AESC",
+      "aliases": ["Envision AESC", "AESC", "Envision"],
+      "cells": [
+        {"ah": 315, "use": "BESS", "status": "In production", "note": "Core of 40 GWh+ supply deals with Chinese integrators", "source": "ESS News", "url": "https://www.ess-news.com/?p=6335"},
+        {"ah": 530, "use": "BESS", "status": "In production", "note": "Core of 40 GWh+ supply deals with Chinese integrators", "source": "ESS News", "url": "https://www.ess-news.com/?p=6335"},
+        {"ah": 700, "use": "BESS", "status": "Launched", "note": "In an 8 MWh 20-foot container", "source": "ESS News", "url": "https://www.ess-news.com/?p=2871"},
+        {"ah": 790, "use": "BESS", "status": "Launched", "note": "Wound prismatic storage cell, production from 2026", "source": "OneStopESG", "url": "https://onestopesg.com/esg-news/envision-aesc-yichang-battery-factory"}
+      ]
+    },
+    {
+      "maker": "CORNEX",
+      "aliases": ["CORNEX", "Cornex"],
+      "cells": [
+        {"ah": 100, "use": "BESS", "status": "In production", "note": "Residential cell supplied to Growatt (also 120 Ah)", "source": "PR Newswire, Jun 2026", "url": "https://tools.prnewswire.com/en-us/live/20813/release/20260625EN92238"},
+        {"ah": 314, "use": "BESS", "status": "Mass production", "note": "In the CORNEX M5 5 MWh container", "source": "PR Newswire, Feb 2024", "url": "https://prnewswire.com/news-releases/cornex-launches-mass-production-line-for-20-foot-5mwh-battery-energy-storage-container-cornex-m5-302051457.html"},
+        {"ah": 588, "use": "BESS", "status": "Launched", "note": "Specifications released; production ramping", "source": "ESS News", "url": "https://www.ess-news.com/?p=7962"},
+        {"ah": 625, "use": "BESS", "status": "Launched", "note": "\"Two Kilowatt Power\" cell", "source": "ESS News, Oct 2024", "url": "https://www.ess-news.com/2024/10/17/a-look-at-next-generation-battery-cells/"}
+      ]
+    },
+    {
+      "maker": "Sunwoda",
+      "aliases": ["Sunwoda"],
+      "cells": [
+        {"ah": 102, "use": "BESS", "status": "In production", "note": "Long-established storage cell", "source": "pv magazine (Sunwoda release)", "url": "https://www.pv-magazine.com/press-releases/sunwoda-launches-mass-production-of-684ah-energy-storage-cell"},
+        {"ah": 280, "use": "BESS", "status": "In production", "note": "Long-established storage cell", "source": "pv magazine (Sunwoda release)", "url": "https://www.pv-magazine.com/press-releases/sunwoda-launches-mass-production-of-684ah-energy-storage-cell"},
+        {"ah": 314, "use": "BESS", "status": "In production", "note": "First battery with an EPD International certificate", "source": "AAP (Sunwoda release), Dec 2025", "url": "https://www.aap.com.au/aapreleases/cision20251212ae45334"},
+        {"ah": 588, "use": "BESS", "status": "Mass production", "note": "Wound cell, production at the Deyang base", "source": "Gasgoo (H1 2026 results)", "url": "https://autonews.gasgoo.com/articles/news/sunwoda-h1-2026-results-ev-battery-and-energy-storage-growth-drives-record-performance-revenue-up-4148-yoy-2093233823885377536"},
+        {"ah": 684, "use": "BESS", "status": "Mass production", "note": "Stacked cell; over 2 million made by March 2026", "source": "Gasgoo (H1 2026 results)", "url": "https://autonews.gasgoo.com/articles/news/sunwoda-h1-2026-results-ev-battery-and-energy-storage-growth-drives-record-performance-revenue-up-4148-yoy-2093233823885377536"}
+      ]
+    },
+    {
+      "maker": "Pylontech",
+      "aliases": ["Pylontech"],
+      "cells": [
+        {"ah": 588, "use": "BESS", "status": "Mass production", "note": "Mass production at the Hefei plant", "source": "TaiyangNews", "url": "https://taiyangnews.info/technology/pylontech-begins-production-of-high-capacity-lfp-cells"},
+        {"ah": 601, "use": "BESS", "status": "Mass production", "note": "426 Wh/L, 12,000+ cycles", "source": "TaiyangNews", "url": "https://taiyangnews.info/technology/pylontech-begins-production-of-high-capacity-lfp-cells"}
+      ]
+    }
+  ]
+}

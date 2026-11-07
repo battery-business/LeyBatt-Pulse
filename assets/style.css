@@ -1541,3 +1541,32 @@ main [id] { scroll-margin-top: 84px; }
 @media (max-width: 1080px) and (min-width: 981px) { .sx-btn { width: 34px; padding: 0; justify-content: center; } .sx-btn-t { display: none; } .tab { font-size: 13px; padding: 7px 8px; } }
 @media (max-width: 980px) { .top-row { min-height: 56px; padding-top: 8px; } }
 @media (max-width: 640px) { .brand .logo { width: 38px; height: 38px; } .brand h1.wordmark { font-size: 22px; } }
+
+/* Chinese cell makers × size grid */
+.cm-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; margin: 4px 0 12px; }
+.cm-key { font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cm-k2 { margin-left: 6px; }
+.cmgrid th, .cmgrid td { vertical-align: top; }
+.cmgrid th.num { text-align: center; white-space: nowrap; font-size: 11.5px; }
+.cmgrid td.cm-cell { text-align: center; min-width: 64px; }
+.cmgrid td.cm-cell.empty::after { content: '–'; color: color-mix(in srgb, var(--muted) 45%, transparent); }
+.cmgrid td.cm-maker { white-space: nowrap; }
+.cmgrid td.cm-maker .role { display: block; font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.cmgrid td.cm-price { font-size: 12.5px; min-width: 190px; line-height: 1.45; }
+.cmgrid td.cm-price .muted { color: var(--muted); }
+.cm-chip { display: inline-flex; align-items: baseline; gap: 3px; margin: 2px; padding: 3px 7px; border-radius: 999px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; text-decoration: none; border: 1.5px solid; line-height: 1.2; white-space: nowrap; }
+.cm-chip small { font-size: 9.5px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; opacity: .85; }
+.cm-chip.bess { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 55%, transparent); }
+.cm-chip.auto { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.cm-chip.bess.solid { background: color-mix(in srgb, var(--ok) 14%, transparent); border-color: transparent; }
+.cm-chip.auto.solid { background: color-mix(in srgb, var(--accent) 14%, transparent); border-color: transparent; }
+a.cm-chip:hover { filter: brightness(1.1); text-decoration: underline; }
+.cm-ref { margin-top: 10px; }
+@media (max-width: 640px) {
+  .cmgrid td.cm-cell.empty { display: none; }
+  .cmgrid td.cm-cell { justify-content: flex-start; align-items: center; text-align: left; }
+  .cmgrid td.cm-cell::before, .cmgrid td.cm-price::before { flex: 0 0 96px; }
+  .cmgrid td.cm-price { display: block; text-align: left; }
+  .cmgrid td.cm-price::before { display: block; margin-bottom: 2px; }
+  .cm-key .cm-k2 { margin-left: 0; width: 100%; }
+}

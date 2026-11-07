@@ -1586,3 +1586,7 @@ details.chp-ref[open] .ref-go::after { transform: translateY(2px) rotate(-135deg
 details.chp-ref > summary:hover .ref-go { color: var(--fg); }
 @media (prefers-reduced-motion: reduce) { details.chp-ref .ref-go::after { transition: none; } }
 @media (max-width: 640px) { details.chp-ref .ref-go { font-size: 0; gap: 0; } details.chp-ref .ref-go::after { width: 8px; height: 8px; } }
+
+/* Today: prices first, then "What matters today" */
+.today-band + .ov-today { margin-top: 0; margin-bottom: clamp(20px, 3vw, 36px); }
+.today-band:has(+ .ov-today) { padding-bottom: clamp(16px, 2vw, 28px); }

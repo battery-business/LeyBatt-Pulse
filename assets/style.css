@@ -538,23 +538,11 @@ td.num.muted { color: var(--muted); }
 .landed-notes .lnote { font-size: 12.5px; color: var(--muted); margin: 6px 0; line-height: 1.5; max-width: 72rem; }
 .landed-notes .lnote.strong { color: var(--fg); font-weight: 600; }
 
-/* ---------- weekly brief ---------- */
-.hero-row { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 18px; }
-.brief-btn { flex: none; border-color: color-mix(in srgb, var(--volt-deep) 45%, var(--line)); background: color-mix(in srgb, var(--volt) 25%, var(--panel)); color: var(--fg); }
-.brief { gap: 14px; max-width: 60rem; margin-inline: auto; width: 100%; }
-.brief-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: flex-start; border-bottom: 3px solid var(--volt); padding-bottom: 12px; }
-.brief-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-.brief-title { font-family: var(--display); font-stretch: 112%; font-size: 26px; font-weight: 800; margin: 2px 0 4px; }
-.brief-actions { display: flex; gap: 8px; }
-.bsec h3 { font-size: 15px; margin: 4px 0 8px; padding-left: 10px; border-left: 4px solid var(--accent); }
-.btable td.up { color: var(--bad); font-weight: 700; } .btable td.down { color: var(--ok); font-weight: 700; }
-.blist { margin: 0; padding-left: 20px; font-size: 13.5px; line-height: 1.55; display: flex; flex-direction: column; gap: 4px; }
 .bnews { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.45; }
 .bnh { font-size: 12px; color: var(--muted); }
 .bcat { font-weight: 700; color: var(--fg); }
 .balert { margin-left: 8px; font-size: 12px; font-weight: 800; color: var(--ink); background: var(--volt); border-radius: 999px; padding: 0 7px; }
 .bsrc { font-size: 12px; } .bsrc a { color: var(--muted); }
-.brief-foot { border-top: 1px solid var(--line); padding-top: 8px; }
 /* ---------- making cells: China vs India ---------- */
 .csubnav { margin-bottom: 16px; }
 .kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 12px 0 6px; }
@@ -759,10 +747,6 @@ button.since-item:hover { text-decoration: underline; text-underline-offset: 3px
   body { background: #fff !important; }
   .top, .foot, .no-print, #tip { display: none !important; }
   main.wrap { max-width: none; padding: 0; }
-  .page:not(#page-brief) { display: none !important; }
-  #page-brief { display: block !important; }
-  .brief { border: 0; padding: 0; max-width: none; }
-  .bsec { break-inside: avoid; }
   a { color: inherit; }
 }
 
@@ -1195,9 +1179,6 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .rtable tbody tr { transition: background .15s; }
 .rtable tbody tr:hover td { background: var(--soft); }
 .rtable tr.sel td { background: color-mix(in srgb, var(--accent) 7%, transparent); }
-/* weekly brief: light polish, still print-friendly */
-.brief-head { border-bottom: 0; padding-bottom: 16px; box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--l3) 60%, transparent); }
-.brief-title { letter-spacing: -0.02em; }
 .pg-card .chp-key b .u { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: 0; margin-left: 3px; }
 
 /* News: sidebar fills the right-hand side on wide screens */
@@ -1377,7 +1358,6 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .tb-map { display: block; margin: 0 auto 14px; }
 .rules-more { display: block; margin: 16px auto 0; }
 abbr.gl { text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; }
-.bsec.bone .bone-line { font-family: var(--display); font-size: clamp(18px, 2vw, 22px); line-height: 1.35; font-weight: 700; margin: 0; }
 .bnews .bso { font-size: 13.5px; line-height: 1.45; background: var(--soft); border-radius: 8px; padding: 5px 9px; margin-top: 4px; }
 .rules-more { grid-column: 1 / -1; justify-self: center; }
 @media (max-width: 640px) {

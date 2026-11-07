@@ -2073,92 +2073,6 @@
     note(L.rebate_note || '', L.rebate_source, L.rebate_url);
   }
 
-  // ---------- weekly brief ----------
-  function briefChange(pts, end, days = 7) {
-    const now = pts.filter((p) => p.d <= end).pop(); if (!now) return null;
-    const ref = new Date(+now.d - (days - 1) * 864e5); // a week before the latest reading (weekly series move on Wednesdays)
-    const past = pts.filter((p) => p.d <= ref).pop();
-    if (!past || (ref - past.d) / 864e5 > 21) return { now, past: null, pct: null };
-    return { now, past, pct: now.v / past.v - 1 };
-  }
-  function renderBrief() {
-    const body = $('#brief-body'); if (!body) return; body.replaceChildren();
-    const m = D.meta || {}; const end = parse(m.updated || new Date().toISOString().slice(0, 10)); const start = new Date(+end - 7 * 864e5);
-    const f = d3.utcFormat('%a %-d %b %Y'), fs = d3.utcFormat('%-d %b');
-    $('#brief-title').textContent = `Week to ${f(end)}`;
-    $('#brief-sub').textContent = m.note || '';
-    $('#brief-print').onclick = () => window.print();
-    const sec = (title, cls) => { const s = el('section', 'bsec ' + (cls || '')); s.appendChild(el('h3', null, title)); body.appendChild(s); return s; };
-    // 0. the week in one line, then the stories that mattered most
-    const s0 = sec('The week in one line', 'bone'); s0.appendChild(el('p', 'bone-line', bottomLine() || m.note || ''));
-    // 1. prices
-    const w = weekly().map((r) => ({ ...r, d: parse(r.date) }));
-    const ser = (k) => w.filter((r) => r[k] != null).map((r) => ({ d: r.d, v: +r[k] }));
-    const ev = ((D.evcells || {}).series || []).map((r) => ({ d: parse(r.date), v: +r.usd_kwh })).sort((a, b) => a.d - b.d);
-    const spot = (D.lithium || []).filter((r) => r.series === 'Spot').map((r) => ({ d: parse(r.date), v: +r.usd_t })).sort((a, b) => a.d - b.d);
-    const fx = ((((D.risk || {}).india || {}).fx || {}).series || []).map(([d, v]) => ({ d: parse(d), v: +v }));
-    const rows = [
-      ['Lithium carbonate futures', liFut(), (v) => fmtUsd0(v) + '/t', 'lithium'], ['Lithium carbonate, China spot', smmSpot(), (v) => fmtUsd0(v) + '/t'],
-      ['314 Ah storage cell', ser('cell314'), (v) => fmtUsd1(v) + '/kWh', 'cell_ess'], ['EV cell (230 / 324 Ah)', ev, (v) => fmtUsd1(v) + '/kWh', 'cell_ev'],
-      ['2-hour DC block', ser('dc_2h'), (v) => fmtUsd1(v) + '/kWh'], ['4-hour AC system', ser('ac_4h'), (v) => fmtUsd1(v) + '/kWh'],
-      ['Rupee per US$', fx, (v) => '₹' + v.toFixed(2)],
-    ];
-    const s1 = sec('Prices this week'); const t = el('table', 'rtable btable');
-    const hr = el('tr'); ['', 'Latest', 'A week earlier', 'Change', `${OUT_YEAR} outlook`].forEach((x) => hr.appendChild(el('th', null, x))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
-    const tb = el('tbody');
-    rows.forEach(([name, pts, fmt, mat]) => {
-      const c = briefChange(pts, end); if (!c) return;
-      const tr = el('tr'); tr.append(el('td', null, name));
-      tr.append(el('td', 'num', `${fmt(c.now.v)} · ${fs(c.now.d)}`), el('td', 'num muted', c.past ? fmt(c.past.v) : '–'));
-      const ch = c.pct == null ? 'no comparable reading' : Math.abs(c.pct) < 0.0005 ? 'flat' : `${c.pct > 0 ? '▲' : '▼'} ${Math.abs(c.pct * 100).toFixed(1)}%`;
-      tr.appendChild(el('td', 'num ' + (c.pct > 0.0005 ? 'up' : c.pct < -0.0005 ? 'down' : 'muted'), ch));
-      const o = mat && outlookOf(mat); tr.appendChild(el('td', 'num muted', o ? `about ${mat.startsWith('cell') ? fmtUsd1(o.mid) : fmtUsd0(Math.round(o.mid / 10) * 10)}` : '–')); tb.appendChild(tr);
-    });
-    t.appendChild(tb); const tw = el('div', 'table-wrap'); tw.appendChild(t); s1.appendChild(tw);
-    s1.appendChild(el('p', 'sub', 'US$. Lithium is a China price including 13% VAT; cells and systems exclude it. ▲ means dearer for a buyer (for the rupee: weaker rupee). Each change compares the latest reading with the one about a week before it. Outlook: middle of the base scenario\u2019s yearly average.'));
-    // 2. risk
-    const R = D.risk; const s2 = sec('Risk Navigator (next 3 months)');
-    if (R && R.materials) {
-      const ul = el('ul', 'blist');
-      const moves = [];
-      R.materials.forEach((mm) => ['price', 'supply'].forEach((ax) => { const a = mm.h3[ax]; if (a && a.score != null) moves.push({ mm, ax, a }); }));
-      const high = moves.filter((x) => x.a.level === 'High');
-      const big = moves.filter((x) => x.a.change != null && Math.abs(x.a.change) >= 0.3).sort((a, b) => Math.abs(b.a.change) - Math.abs(a.a.change)).slice(0, 5);
-      high.forEach((x) => ul.appendChild(el('li', null, `High: ${x.mm.name} ${x.ax} risk ${x.a.score.toFixed(1)}/10`)));
-      big.forEach((x) => ul.appendChild(el('li', null, `${x.mm.name} ${x.ax} risk ${x.a.change > 0 ? 'up' : 'down'} ${Math.abs(x.a.change).toFixed(1)} to ${x.a.score.toFixed(1)} (${x.a.level})`)));
-      if (!ul.childElementCount) ul.appendChild(el('li', null, 'No material moved by more than 0.3 points, and none is High.'));
-      s2.appendChild(ul);
-    } else s2.appendChild(el('p', 'sub', 'Risk scores not available.'));
-    // 3. rules
-    const s3 = sec('Rules'); const ul3 = el('ul', 'blist');
-    const regs = D.regulations || [];
-    regs.filter((r) => r.changed && parse(r.changed) > start && parse(r.changed) <= end).forEach((r) => { const li = el('li'); li.append(el('b', null, 'Changed: '), document.createTextNode(`${r.title} (${r.status}; ${r.date_label}) `), link(r.source, r.url)); ul3.appendChild(li); });
-    regs.filter((r) => { const d = parse(r.date); return d > end && (d - end) / 864e5 <= 60; }).sort((a, b) => d3.ascending(a.date, b.date))
-      .forEach((r) => { const li = el('li'); li.append(el('b', null, `${fs(parse(r.date))}: `), document.createTextNode(`${r.short || r.title} (${r.region})`)); ul3.appendChild(li); });
-    if (!ul3.childElementCount) ul3.appendChild(el('li', null, 'No rule changes this week and none due in the next 60 days.'));
-    s3.appendChild(ul3);
-    // 4. stories
-    const s4 = sec('Top stories');
-    const wk = (D.news || []).filter((n) => { const d = parse(n.date); return d > start && d <= end; });
-    const pick = [...wk].sort((a, b) => (b.weight || 0) - (a.weight || 0) || d3.descending(a.date, b.date)).slice(0, 6); // the most important first
-    const ol = el('ol', 'bnews');
-    pick.forEach((n) => { const li = el('li'); const h = el('div', 'bnh'); h.append(el('span', 'bcat', n.category), document.createTextNode(` · ${n.day}`)); if (n.alert) h.appendChild(el('span', 'balert', 'Alert')); li.append(h, el('div', null, n.headline)); if (n.so) { const so = el('div', 'bso'); so.append(el('b', null, (SEG_LAB[n.seg] || 'What it means') + ': '), document.createTextNode(n.so)); li.appendChild(so); } const s = el('div', 'bsrc'); s.appendChild(link(n.source, n.url)); li.appendChild(s); ol.appendChild(li); });
-    if (!pick.length) ol.appendChild(el('li', null, 'No stories this week.'));
-    s4.appendChild(ol);
-    // 5. next 14 days
-    const s5 = sec('Next 14 days'); const ul5 = el('ul', 'blist');
-    (D.events || []).filter((e) => { const d = parse(e.date); return d > end && (d - end) / 864e5 <= 14; }).sort((a, b) => d3.ascending(a.date, b.date))
-      .forEach((e) => { const li = el('li'); li.append(el('b', null, `${fs(parse(e.date))}: `), document.createTextNode(e.what + ' ')); li.appendChild(link(e.source, e.url)); ul5.appendChild(li); });
-    if (!ul5.childElementCount) ul5.appendChild(el('li', null, 'Nothing dated in the next 14 days.'));
-    s5.appendChild(ul5);
-    // 6. landed
-    try {
-      landInit(); const s6 = sec('Landed in India today'); const ul6 = el('ul', 'blist');
-      landItems().forEach((it) => { const a = landCalc(it.usd, it.cls, false); ul6.appendChild(el('li', null, `${it.name}: ${fmtUsd1(a.landed)}/kWh, about ₹${d3.format(',.0f')(a.inr)}/kWh (China price ${fmtUsd1(it.usd)} + freight, insurance and duty; excluding IGST)`)); });
-      s6.appendChild(ul6);
-    } catch (e) { console.error(e); }
-  }
-
   // ---------- regulations ----------
   const RULES = { region: '', area: '', status: '', q: '', all: false };
   const STATUS_COL = { 'In force': '--accent', 'Starts later': '--amber', 'Paused': '--plum', 'Proposed': '--slate', 'Bids under evaluation': '--teal' };
@@ -3221,7 +3135,7 @@
       cb.addEventListener('click', () => openForecast(mat, eb));
       const lg = el('div', 'ol-legend'); s.appendChild(lg);
       if (mat === 'lithium' && (D.forecasts || []).length) { // outside forecasts, one line
-        const p = el('p', 'ol-analysts'); p.appendChild(el('b', null, 'What analysts expect (forecasts, not facts): '));
+        const p = el('p', 'ol-analysts'); p.id = 'ol-analysts'; p.appendChild(el('b', null, 'What analysts expect (forecasts, not facts): '));
         D.forecasts.forEach((f, i) => { if (i) p.appendChild(document.createTextNode(' · ')); const a = link(`${f.who}, ${f.period.replace(/\s*\(.*\)/, '')}: ${f.low === f.high ? fmtUsd0(f.low) : `${fmtUsd0(f.low)}–${fmtUsd0(f.high)}`}`, f.url); a.title = f.source; p.appendChild(a); });
         p.appendChild(document.createTextNode('. US$ per tonne, China spot.')); s.appendChild(p);
       }

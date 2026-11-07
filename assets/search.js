@@ -113,6 +113,7 @@
       ['Cost calculator', 'Bidding desk', 'calculator cost build up estimate bom bill of materials what if', () => L.go('calculator')],
       ['India storage tenders and EPC', 'Bidding desk', 'tenders tariff seci ntpc auction epc carry recover', () => L.go('storage')],
       ['Risk map and scores', 'Risk', 'risk map scores navigator supply price', () => { L.go('risk'); L.focusOn('#risk-map'); }],
+      ['What analysts expect for lithium', 'Mining', 'analyst analysts forecasts forecast banks goldman citi citic lithium price view', () => { L.go('chain/mining'); L.focusOn('#ol-analysts'); }],
       ['3-year outlook', 'Risk', 'forecast outlook scenarios 2027 2028 2029 future prices', () => { L.go('risk'); setTimeout(() => L.jumpOutlook(), 60); }],
       ['Rupee and India facts', 'Risk', 'rupee dollar exchange rate duties cell making capacity india', () => { L.go('risk'); L.focusOn('#risk-india'); }],
       ['How the risk scores work', 'Risk', 'method methodology how scores calculated weights', () => { L.go('risk'); L.focusOn('#risk-method'); }],

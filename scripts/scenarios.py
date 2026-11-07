@@ -443,6 +443,17 @@ def main():
     calib["margin"] = {"now_pct": round(100 * mg_now, 1), "average_pct": round(100 * mg_mean, 1), "monthly_swing_pct": round(100 * mg_sd, 1), "readings": len(mg_vals),
                        "half_life_months": 6, "how": "average and swings fitted on cell prices against the modelled cost since " + (min(mg).isoformat()[:7] if mg else "-") + "; half-life of 6 months assumed"}
 
+    def trim(v):  # 4 significant figures (whole numbers above 1,000): the charts and ranges need no more, and the file is a quarter smaller
+        if isinstance(v, float) and v and math.isfinite(v):
+            d = max(0, 3 - int(math.floor(math.log10(abs(v)))))
+            return round(v) if d == 0 else round(v, d)
+        if isinstance(v, list):
+            return [trim(x) for x in v]
+        if isinstance(v, dict):
+            return {k: trim(x) for k, x in v.items()}
+        return v
+    scen_out, history = trim(scen_out), trim(history)
+
     out = {"asof": today.isoformat(), "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "months": [m.isoformat() for m in months], "sims": N, "threshold": cfg["up_down_threshold"],
            "scenarios": cfg["scenarios"], "anchors": cfg["anchors"], "held_flat": cfg["held_flat"], "curbs": cfg["curbs"], "supply": cfg["supply"],

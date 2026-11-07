@@ -1680,3 +1680,17 @@ a.cm-ah:focus-visible, a.cm-p:focus-visible { outline: 2px solid var(--accent); 
 }
 .vh-grid { align-items: start; }
 .vh-pk2 { margin: -4px 0 2px; font-size: 12.5px; color: var(--muted); }
+
+/* headlines open the original source */
+a.hl { color: inherit; text-decoration: none; cursor: pointer; }
+a.hl:hover, a.hl:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.hl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+a.hl::after { content: ' ↗'; font-size: .78em; opacity: 0; transition: opacity .15s; }
+a.hl:hover::after, a.hl:focus-visible::after { opacity: .6; }
+@media (hover: none) { a.hl::after { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { a.hl::after { transition: none; } }
+a.ns-alert { color: inherit; text-decoration: none; }
+a.ns-alert:hover .t { text-decoration: underline; text-underline-offset: 3px; }
+a.ot-link { color: inherit; text-decoration: none; }
+a.ot-link:hover .ot-us, a.ot-link:focus-visible .ot-us { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.ot-link .ot-us, a.ot-link .ot-h { display: block; }

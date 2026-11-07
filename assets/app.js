@@ -516,10 +516,9 @@
     const c1 = el('section', 'ot-col'); c1.appendChild(el('h3', null, 'Top stories'));
     const ul = el('ul', 'ot-list'); c1.appendChild(ul);
     topForUs(4).forEach((n) => {
-      const li = el('li'); const b = el('button', 'ot-item seg-' + (n.seg || 'x')); b.type = 'button'; b.title = n.headline;
+      const li = el('li'); const b = el('a', 'ot-item ot-link seg-' + (n.seg || 'x')); b.href = n.url; b.target = '_blank'; b.rel = 'noopener'; b.title = `${n.headline} · open on ${n.source}`;
       const top = el('span', 'ot-meta'); top.append(el('span', 'ot-seg', SEG_LAB[n.seg] || ''), impactChips(n, 2), el('span', 'ot-day', n.day || shortDay(parse(n.date))));
-      b.append(top, el('span', 'ot-us', n.so), el('span', 'ot-h', n.short || clip(n.headline, 90)));
-      b.addEventListener('click', () => { location.hash = 'news?story=' + n.id; });
+      b.append(top, el('span', 'ot-us', n.so), el('span', 'ot-h', `${n.short || clip(n.headline, 90)} · ${n.source} ↗`));
       li.appendChild(b); ul.appendChild(li);
     });
     const more = el('button', 'btn link', 'All high-impact stories →'); more.type = 'button'; more.addEventListener('click', () => { S.news.effect = 'high'; const ne = $('#news-effect'); if (ne) ne.value = 'high'; go('news'); }); c1.appendChild(more);
@@ -533,7 +532,7 @@
       const n = Math.round((+parse(e.date) - istToday()) / 864e5);
       const li = el('li', 'ot-date' + (e.weight >= 3 ? ' key' : ''));
       const cd = el('div', 'cd'); cd.append(el('b', null, n <= 0 ? 'Today' : String(n)), el('span', null, n <= 0 ? '' : n === 1 ? 'day' : 'days')); if (n <= 0) cd.classList.add('now');
-      const body = el('div'); body.append(el('div', 'ot-dw', e.short || clip(e.what, 70)), el('div', 'ot-dm', `${d3.utcFormat('%-d %b')(parse(e.date))} · ${e.kind || ''}`));
+      const body = el('div'); body.append(hl('ot-dw', e.short || clip(e.what, 70), e.url), el('div', 'ot-dm', `${d3.utcFormat('%-d %b')(parse(e.date))} · ${e.kind || ''}`));
       if (e.so && e.weight >= 3) body.appendChild(el('p', 'ot-dus', e.so));
       li.append(cd, body); dl.appendChild(li);
     });
@@ -633,7 +632,7 @@
       const li = el('li');
       const db = el('div', 'dbox'); db.append(el('b', null, month ? d3.utcFormat('%b')(d) : d3.utcFormat('%-d %b')(d)), el('span', null, d3.utcFormat('%Y')(d)));
       const body = el('div', 'dbody'); const top = el('div', 'dmeta'); top.append(el('span', 'dwhen' + (days < 15 ? ' soon' : ''), when), el('span', 'dkind', e.kind || ''));
-      body.append(top, el('div', 'dwhat', e.short && e.short.length > 30 ? e.what : e.what)); const src = el('div', 'dsrc'); if (e.url) src.appendChild(link(e.source, e.url)); body.appendChild(src);
+      body.append(top, hl('dwhat', e.what, e.url)); const src = el('div', 'dsrc'); if (e.url) src.appendChild(link(e.source, e.url)); body.appendChild(src);
       li.append(db, body); dl.appendChild(li);
     });
   }
@@ -1278,7 +1277,7 @@
     else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
     if ((n.impact || []).length) meta.appendChild(impactChips(n, feed ? 3 : 1)); else meta.appendChild(el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
-    li.append(meta, el('div', 'h', n.headline)); if (n.so) li.appendChild(soLine(n)); li.appendChild(src);
+    li.append(meta, hl('h', n.headline, n.url)); if (n.so) li.appendChild(soLine(n)); li.appendChild(src);
     if (n.weight) li.classList.add('w' + n.weight);
     if (feed) src.appendChild(shareBtn('news?story=' + n.id, 'Link', 'Story link'));
     return li;
@@ -1345,13 +1344,8 @@
       const c2 = card('Alerts', 'Stories flagged as important in the last two weeks');
       const ul = el('ul', 'ns-list'); c2.appendChild(ul);
       al.forEach((n) => {
-        const li = el('li'); const b = el('button', 'ns-alert'); b.type = 'button';
+        const li = el('li'); const b = el('a', 'ns-alert'); b.href = n.url; b.target = '_blank'; b.rel = 'noopener'; b.title = `${n.headline} · open on ${n.source}`;
         b.append(el('span', 'd', n.day || d3.utcFormat('%-d %b')(parse(n.date))), el('span', 't', n.short || n.headline));
-        b.addEventListener('click', () => {
-          S.news.cat = ''; S.news.effect = ''; S.news.q = ''; $('#news-search').value = ''; $('#news-effect').value = '';
-          const idx = sortedNews().findIndex((x) => x.id === n.id); S.news.key = '||'; S.news.shown = Math.max(40, idx + 5); renderNews();
-          const t = document.getElementById('story-' + n.id); if (t) { t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); t.classList.add('flash'); setTimeout(() => t.classList.remove('flash'), 1600); }
-        });
         li.appendChild(b); ul.appendChild(li);
       });
     }
@@ -2084,7 +2078,7 @@
     if (isNewRule(r.id)) top.appendChild(newTag(r.changed ? `Changed: ${r.changed}` : 'New or changed since your last visit'));
     const st = el('span', 'rule-status', r.status); top.appendChild(st);
     c.appendChild(top);
-    c.appendChild(el('h3', 'rule-title', r.title));
+    c.appendChild(hl('rule-title', r.title, r.url, 'h3'));
     const d = parse(r.date); const days = Math.round((+d - today) / 864e5);
     const when = el('div', 'rule-date'); when.appendChild(document.createTextNode(r.date_label || d3.utcFormat('%-d %b %Y')(d)));
     if (days > 0 && days <= 120) when.appendChild(el('b', 'rule-soon', days === 1 ? ' · tomorrow' : ` · in ${days} days`));
@@ -2902,12 +2896,14 @@
     const wrap = el('div', 'table-wrap'); const t = el('table', 'rtable trk'); wrap.appendChild(t); box.appendChild(wrap);
     const hr = el('tr'); cols.forEach(([h]) => hr.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hr); t.appendChild(th);
     const tb = el('tbody'); t.appendChild(tb);
-    const draw = (n) => { tb.replaceChildren(); rows.slice(0, n).forEach((r) => { const tr = el('tr'); cols.forEach(([, f, cls]) => { const td = el('td', cls || null); const v = f(r); if (v instanceof Node) td.appendChild(v); else td.textContent = v == null || v === '' ? '–' : v; tr.appendChild(td); }); tb.appendChild(tr); }); stackLabels(t); };
+    const draw = (n) => { tb.replaceChildren(); rows.slice(0, n).forEach((r) => { const tr = el('tr'); cols.forEach(([, f, cls]) => { const td = el('td', cls || null); const v = f(r); if (v instanceof Node) td.appendChild(v); else td.textContent = v == null || v === '' ? '–' : v; tr.appendChild(td); }); linkName(tr, r.url); tb.appendChild(tr); }); stackLabels(t); };
     draw(limit);
     if (!rows.length) box.appendChild(el('p', 'sub', empty));
     if (rows.length > limit) { const b = el('button', 'btn link small', `Show all ${rows.length}`); b.type = 'button'; b.addEventListener('click', () => { draw(rows.length); b.remove(); }); box.appendChild(b); }
   }
   const srcCell = (r) => { const f = document.createDocumentFragment(); f.appendChild(link(r.source, r.url)); return f; };
+  const hl = (cls, text, url, tag = 'div') => { const w = el(tag, cls); if (url) { const a = el('a', 'hl', text); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.title = 'Open the original source'; w.appendChild(a); } else w.textContent = text; return w; };
+  const linkName = (tr, url) => { const b0 = url && tr.firstChild && tr.firstChild.querySelector('b'); if (!b0 || b0.querySelector('a')) return; const a2 = el('a', 'hl'); a2.href = url; a2.target = '_blank'; a2.rel = 'noopener'; a2.title = 'Open the original source'; a2.append(...b0.childNodes); b0.appendChild(a2); };
   const nameCell = (main, sub) => { const f = document.createDocumentFragment(); f.appendChild(el('b', null, main)); if (sub) f.appendChild(el('span', 'role', sub)); return f; };
   const dshort = (d) => (d ? d3.utcFormat('%-d %b %Y')(parse(d)) : '');
   // ---------- e-bus and e-truck packs as cards: only what is published, plus pack kWh per km of claimed range ----------
@@ -2936,7 +2932,7 @@
     const card = (r) => {
       const c = el('article', `vh-card ${String(r.group || '').toLowerCase()}`);
       const top = el('div', 'vh-top'); top.append(el('span', 'vh-tag', r.group === 'Reference' ? 'China reference' : r.group === 'Bus' ? 'Bus' : 'Truck'), el('span', 'vh-date', dshort(r.date))); c.appendChild(top);
-      c.append(el('h4', 'vh-name', r.maker), el('p', 'vh-model', `${r.model}${r.type ? ' · ' + r.type : ''}`));
+      c.append(hl('vh-name', r.maker, r.url, 'h4'), el('p', 'vh-model', `${r.model}${r.type ? ' · ' + r.type : ''}`));
       const pk = el('div', 'vh-pack'); const ptxt = String(r.pack_kwh || '');
       if (!ptxt) pk.appendChild(el('span', 'vh-nd', 'Pack size not disclosed'));
       else if (ptxt.length <= 14) pk.append(el('b', null, ptxt), el('span', null, 'kWh pack'));

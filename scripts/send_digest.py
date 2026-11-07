@@ -380,7 +380,7 @@ def build(today):
                           f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-left:3px solid {c};border-radius:14px">'
                           f'<tr><td style="padding:13px 16px">'
                           f'<div style="font-size:11.5px;font-weight:700;color:{c}">{E(n.get("category", ""))}{flag}<span style="color:{MUTED};font-weight:400"> · {E(n.get("day", ""))}</span></div>'
-                          f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px">{E(n["headline"])}</div>'
+                          f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px"><a href="{E(n["url"])}" style="color:{INK};text-decoration:none">{E(n["headline"])}</a></div>'
                           + (f'<div style="font-size:13.5px;line-height:1.45;color:{INK};margin-top:6px"><b>{E(SEG_LAB.get(n.get("seg"), "What it means"))}:</b> {E(n["so"])}</div>' if n.get("so") else "")
                           + f''
                           f'<div style="font-size:12.5px;margin-top:7px"><a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">Read on {E(n["source"])} ›</a></div>'
@@ -409,7 +409,7 @@ def build(today):
                     f'<td width="68" valign="top" style="padding:12px 0;{"" if i == 0 else f"border-top:1px solid {LINE};"}">{datebox(chip, yr)}</td>'
                     f'<td valign="top" style="padding:12px 0 12px 14px;{"" if i == 0 else f"border-top:1px solid {LINE};"}">'
                     f'<div style="font-size:12px;font-weight:700;color:{RED if soon else MUTED}">{E(when)} <span style="font-weight:400;color:{MUTED}">&nbsp;{E(e.get("kind", ""))}</span></div>'
-                    f'<div style="font-size:14.5px;color:{INK};line-height:1.45;margin-top:3px">{E(e["what"])}</div>'
+                    f'<div style="font-size:14.5px;color:{INK};line-height:1.45;margin-top:3px"><a href="{E(e["url"])}" style="color:{INK};text-decoration:none">{E(e["what"])}</a></div>'
                     f'<div style="font-size:12px;margin-top:4px"><a href="{E(e["url"])}" style="color:{MUTED}">{E(e["source"])}</a></div>'
                     f'</td></tr></table></td></tr>')
 
@@ -428,7 +428,7 @@ def build(today):
                        f'<td width="68" valign="top" style="padding:12px 0;{bt}">{datebox(rlab, str(rd.year))}</td>'
                        f'<td valign="top" style="padding:12px 0 12px 14px;{bt}">'
                        f'<div style="font-size:12px;font-weight:700;color:{RED if n_days <= 30 else MUTED}">{E(when)} <span style="display:inline-block;background:{SOFT};color:{c};font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;margin-left:4px">{E(r["status"])}</span></div>'
-                       f'<div style="font-size:14.5px;font-weight:700;color:{INK};line-height:1.4;margin-top:3px">{E(r.get("short") or r["title"])}</div>'
+                       f'<div style="font-size:14.5px;font-weight:700;color:{INK};line-height:1.4;margin-top:3px"><a href="{E(r["url"])}" style="color:{INK};text-decoration:none">{E(r.get("short") or r["title"])}</a></div>'
                        f'<div style="font-size:12px;color:{MUTED};margin-top:3px">{E(r["region"])} · <a href="{E(r["url"])}" style="color:{MUTED}">{E(r["source"])}</a></div>'
                        f'</td></tr></table></td></tr>')
     if rules_html:
@@ -468,7 +468,7 @@ def build(today):
                        f'<tr><td style="padding:12px 16px">'
                        f'<div><span style="font-size:11.5px;font-weight:800;color:{bc};margin-right:6px">{E(SEG_LAB.get(n.get("seg"), ""))}</span>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'
                        f'<div style="font-size:15px;font-weight:700;line-height:1.45;color:{INK};margin-top:2px">{E(n["so"])}</div>'
-                       f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px">{E(n.get("short") or n["headline"])} · <a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
+                       f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px"><a href="{E(n["url"])}" style="color:{MUTED};text-decoration:none">{E(n.get("short") or n["headline"])}</a> · <a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
                        f'</td></tr></table></td></tr>')
 
     soon_html = ""
@@ -482,7 +482,7 @@ def build(today):
         soon_html += (f'<tr><td style="padding:0 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
                       f'<td width="58" valign="top" align="center" style="padding:12px 0;{bt}"><div style="font-size:{22 if nd > 0 else 14}px;font-weight:800;color:{AMBER if hot else INK};line-height:1">{big}</div>'
                       f'<div style="font-size:11px;color:{MUTED};margin-top:2px">{unit_}</div></td>'
-                      f'<td valign="top" style="padding:12px 0 12px 12px;{bt}"><div style="font-size:14.5px;font-weight:700;color:{INK};line-height:1.4">{E(e.get("short") or e["what"])}</div>'
+                      f'<td valign="top" style="padding:12px 0 12px 12px;{bt}"><div style="font-size:14.5px;font-weight:700;color:{INK};line-height:1.4"><a href="{E(e.get("url", ""))}" style="color:{INK};text-decoration:none">{E(e.get("short") or e["what"])}</a></div>'
                       f'<div style="font-size:12px;color:{MUTED};margin-top:2px">{d(e["date"]).day} {d(e["date"]).strftime("%b")} · {E(e.get("kind", ""))} · <a href="{E(e.get("url", ""))}" style="color:{MUTED}">{E(e.get("source", ""))}</a></div>{us_line}'
                       f'</td></tr></table></td></tr>')
 

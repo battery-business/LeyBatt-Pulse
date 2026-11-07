@@ -94,7 +94,7 @@ Browsers and GitHub Pages keep `assets/app.js` and `assets/style.css` for a few 
 The Regulations tab lists rules that change the cost, supply or demand for batteries for an Indian buyer. One entry per rule:
 `id` (short, stable), `title`, `short` (≤ 55 characters, used in "Coming up"), `region` (India / China / EU / Other), `area` (Incentives / Trade & duty / Grid & storage rules / Standards & safety / Recycling & passports / Export controls & tax), `status` (In force / Starts later / Paused / Proposed / Bids under evaluation), `date` (YYYY-MM-DD: the next date that matters, otherwise the start date), `date_label` (plain words), `what` (what the rule says, own words), `impact` (what it means for an Indian buyer of cells, BESS or EVs), `effects` (from: Cost up, Cost down, Supply risk, Supply easier, Demand up, Compliance; "(long term)" allowed), `affects` (e.g. Cells, Storage cells, EV cells, EV packs, BESS, Cathode, Graphite, Lithium), `source`, `url`, optional `source2`/`url2`, `checked` (YYYY-MM-DD you last confirmed it on a source page).
 
-When a rule changes in substance (status, date, rate), also set `changed` to today's date: the Monday brief lists rules changed that week.
+When a rule changes in substance (status, date, rate), also set `changed` to today's date.
 
 Daily: when a news item you add changes a rule (new rule, new date, status change such as a pause ending, a proposal being notified, bids opened), update that entry from a page you opened, set `checked` to today, and also update the matching `events.json` date. Add a new entry for any important new rule. Mondays: re-check the entries whose `date` is within the next 60 days and refresh `checked`. Never change a status or date without a source; keep internal company details out.
 
@@ -109,10 +109,6 @@ The End use step of the value chain and the India storage page chart standalone 
 ## Landed in India (`landed.json`)
 
 Freight, insurance, duty and rebate assumptions for the "Landed in India" panels. The page reads today's cell and system prices and the ECB rupee rate by itself, so a routine update changes nothing here. Change a default only when a new public source justifies it (a customs notification, a new freight index reading), and update its note and source in the same edit.
-
-## Weekly brief
-
-The "This week" page (`#brief`, PDF button) is built automatically from the data files; Monday's email links to it. Nothing to update by hand.
 
 ## Risk Navigator (tags only)
 
@@ -140,6 +136,10 @@ The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` runnin
 - Write `meta.json` `note` as two short plain sentences (under 45 words in all): first the price picture, then the single most important story. It is the preview line people see in their inbox (the email itself opens with "What matters today", built from the `so` lines).
 - On a news item that meets an alert rule, add `"alert": true` and `"alert_reason"` (2–4 words, e.g. "1.6 GWh India tender"). Also add `"short"`: the story in at most 70 characters, own words, plain (e.g. "Andhra Pradesh tenders 5 GWh of standalone battery storage"). It runs in the moving strip under the site header, so it must make sense on its own. Alert rules: an Indian battery-storage tender or award of 1 GWh or more; a change to Indian customs duty, PLI, BIS or battery rules; a Chinese export rebate, export control or tariff change on batteries, cells or lithium; a new product, price cut or large order from a competitor in Indian electric buses, trucks or batteries. Price alerts are worked out by the script.
 
+### Price alerts (`alerts.json`)
+
+The email's price alerts come from `data/alerts.json`, Aniket's own settings: a `levels` list (for `fut` lithium futures, `cell` 314 Ah cell, `ev` EV cell, `sys` 4-hour system: an `above` and a `below` price, or null) and `moves` (the one-reading change, in %, that triggers an alert). A level alert fires on the morning a new reading crosses the level; while the price stays beyond it, that tile says so. Alerts sit at the top of "Key prices". Never change `alerts.json` in a routine update; only when Aniket asks.
+
 ## Dates to watch (`events.json`)
 
 When a news item you add names a future date that matters to a buyer — a tender bid deadline, a commissioning deadline, a rule or tariff that starts on a date, a big factory start, a trade show — also add it to `events.json`: `date` (YYYY-MM-DD; for a month only, use the 1st and add `"precision": "month"`), optional `end` for multi-day events, `what` (one line, own words), `kind` (India tender / Rule change / Supply / India competitor / Event), `source`, `url` (the same article). Also add `short` (at most 50 characters, written so a countdown can follow it, e.g. "SECI 3.2 GWh storage bids due" → the strip shows "… in 4 days"). Past dates drop off the page automatically; delete entries more than 60 days old.
@@ -165,7 +165,7 @@ Each daily run should aim for a spread: at most 3 lithium items, and at least on
 1. Check each source above. Record only new, verified figures.
 2. Append new rows to the series files (`lithium.json`, `cell314.json`, `systems.json`) with `date` (YYYY-MM-DD), value, `source`, `url`, `note`.
 3. Update the matching card in `latest.json`: `price` (formatted, e.g. "$15,010"), `asof` (e.g. "21 Oct"), `move` (signed %, e.g. "−2.1% in a week", using a real minus sign "−"), `direction` (`down`/`up`/`flat`), `source`, `url`.
-4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `seg`, `so`, `impact`, `weight` (see "What it means"), `category` = one of the categories listed below, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Keep about 60–80 items: never delete stories from the last 30 days; beyond that drop the oldest first, but keep at least 3 items in every category.
+4. Add up to 8 new news items to `news.json` (fields: `id` = next `nNN`, `date`, `day` e.g. "21 Oct", `headline`, `seg`, `so`, `impact`, `weight` (see "What it means"), `category` = one of the categories listed below, `effect` (2–3 words), `direction` (`down` = pushes prices or demand down, `up` = pushes them up, `flat` = neutral), `source`, `url`, `sources` = source names joined by " · ", optional `source2`/`url2`). Pruning: delete `weight` 1 stories once they are more than 14 days old, unless they carry `risk` tags (those stay until 90 days old, because they feed the Risk Navigator; the site already hides them after 14 days). Keep `weight` 2–3 stories for at least 30 days; beyond that drop the oldest first, but keep at least 3 items in every category.
 5. Update `data/meta.json`: `updated` (YYYY-MM-DD), `updated_label` (e.g. "21 Oct 2026"), `note` (one line on which prices moved).
 6. Validate: every file parses as JSON (`python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('data/*.json')]"`), and no displayed field (anything other than `url`/`url2`) contains "CNY", "RMB" or "yuan".
 7. Commit to `main` with a message like `Daily update 21 Oct 2026` and push. GitHub Pages republishes within a few minutes.

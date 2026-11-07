@@ -1,0 +1,10 @@
+{
+  "about": "Price alerts for the morning email. A level alert fires on the morning a new reading crosses the level (it does not repeat every day; while the price stays beyond the level, its tile says so). A move alert fires when a new reading changes by at least this much on the previous one. Change the numbers here to suit; leave a level null to switch it off.",
+  "levels": [
+    {"key": "fut", "name": "Lithium carbonate futures", "unit": "/t", "above": 15000, "below": 12000},
+    {"key": "cell", "name": "314 Ah storage cell", "unit": "/kWh", "above": 50, "below": 44},
+    {"key": "ev", "name": "EV prismatic LFP cell", "unit": "/kWh", "above": 58, "below": 50},
+    {"key": "sys", "name": "4-hour storage system, China", "unit": "/kWh", "above": 75, "below": 65}
+  ],
+  "moves": {"lithium_pct": 5, "other_pct": 3, "lithium_week_pct": 10}
+}

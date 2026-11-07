@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611071200">
+<link rel="stylesheet" href="assets/style.css?v=202611071240">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -45,7 +45,7 @@
     <div class="ov-grid">
       <div class="ov-col">
         <div class="panel rv">
-          <div class="panel-head"><h2>What moved this week</h2><button class="btn link" type="button" data-goto="brief">This week's brief →</button></div>
+          <div class="panel-head"><h2>What moved this week</h2></div>
           <p class="sub" id="wow-sub">Latest reading against the one about a week earlier, same source.</p>
           <ul class="changes" id="changes"></ul>
         </div>
@@ -224,24 +224,6 @@
   </section>
 
   <!-- WEEKLY BRIEF: one page for the week, printable -->
-  <section class="page" id="page-brief" data-page="brief" hidden>
-    <div class="panel brief">
-      <div class="brief-head">
-        <div>
-          <div class="brief-kicker">LeyBatt Pulse · weekly brief</div>
-          <h2 class="brief-title" id="brief-title">This week</h2>
-          <p class="sub" id="brief-sub"></p>
-        </div>
-        <div class="brief-actions no-print">
-          <button class="btn small" type="button" id="brief-print">Download PDF</button>
-          <button class="btn ghost small" type="button" data-goto="overview">Back to Today</button>
-        </div>
-      </div>
-      <div id="brief-body"></div>
-      <p class="sub brief-foot">Built from the public sources linked on LeyBatt Pulse. A market summary, not investment or purchasing advice.</p>
-    </div>
-  </section>
-
   <!-- REGULATIONS: rules that change cost, supply or demand -->
   <section class="page" id="page-rules" data-page="rules" hidden>
     <div class="panel rules-newbox" id="rules-newbox" hidden>
@@ -490,7 +472,7 @@
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
 <script src="assets/d3.min.js"></script>
-<script src="assets/app.js?v=202611071200"></script>
-<script src="assets/search.js?v=202611071200"></script>
+<script src="assets/app.js?v=202611071240"></script>
+<script src="assets/search.js?v=202611071240"></script>
 </body>
 </html>

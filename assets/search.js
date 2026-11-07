@@ -116,7 +116,6 @@
       ['3-year outlook', 'Risk', 'forecast outlook scenarios 2027 2028 2029 future prices', () => { L.go('risk'); setTimeout(() => L.jumpOutlook(), 60); }],
       ['Rupee and India facts', 'Risk', 'rupee dollar exchange rate duties cell making capacity india', () => { L.go('risk'); L.focusOn('#risk-india'); }],
       ['How the risk scores work', 'Risk', 'method methodology how scores calculated weights', () => { L.go('risk'); L.focusOn('#risk-method'); }],
-      ['Weekly brief', 'One page to print or share', 'brief weekly summary print share pdf', () => L.go('brief')],
     ];
     CHAIN.forEach((c) => P.push([`${c.name}: ${c.title}`, `Value chain step ${Number(c.n)}`, `${c.say} ${c.id}`, () => L.go('chain/' + c.id)]));
     const SECS = [

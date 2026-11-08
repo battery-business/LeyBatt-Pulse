@@ -1,6 +1,6 @@
 {
- "asof": "2026-11-08",
- "generated": "2026-11-07T23:51:25+00:00",
+ "asof": "2026-11-09",
+ "generated": "2026-11-08T22:43:13+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -104,10 +104,10 @@
     "Forecasts are the average of the bank and broker forecasts tracked on the Raw materials page, each taken at the middle of its range."
    ],
    "now": {
-    "value": 13670.0,
-    "date": "2026-11-05",
-    "source": "SMM (GFEX most-traded contract)",
-    "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates"
+    "value": 13820.0,
+    "date": "2026-11-06",
+    "source": "Sohu (GFEX lc2701 close)",
+    "url": "https://www.sohu.com/a/1098134942_122014422"
    },
    "h3": {
     "price": {
@@ -117,32 +117,32 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −20.4% · 3 months −35.9% (rising prices push the score up)",
+       "detail": "1 month −20.4% · 3 months −35.6% (rising prices push the score up)",
        "key": "momentum",
        "weight": 35,
        "prev": 0.0,
-       "prev_detail": "1 month −24.7% · 3 months −35.3% (rising prices push the score up)",
+       "prev_detail": "1 month −22.8% · 3 months −33.9% (rising prices push the score up)",
        "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 8.8,
-       "detail": "About 53% a year, from 121 price moves in the last 6 months",
+       "detail": "About 53% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24,
        "prev": 8.5,
-       "prev_detail": "About 52% a year, from 120 price moves in the last 6 months",
+       "prev_detail": "About 52% a year, from 121 price moves in the last 6 months",
        "moved": 0.07
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 12,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.16
       },
       {
@@ -152,9 +152,9 @@
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 18,
-       "prev": 6.5,
-       "prev_detail": "Average forecast +9.2% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
-       "moved": -0.14
+       "prev": 6.1,
+       "prev_detail": "Average forecast +6.5% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "moved": -0.07
       },
       {
        "label": "Room above the cost to make",
@@ -176,7 +176,7 @@
       },
       {
        "label": "Price news",
-       "score": 1.9,
+       "score": 2.0,
        "detail": "6 recent stories (pushing prices down)",
        "items": [
         {
@@ -224,7 +224,7 @@
        ],
        "key": "price_news",
        "weight": 12,
-       "prev": 2.4,
+       "prev": 2.5,
        "prev_detail": "5 recent stories (pushing prices down)",
        "new_items": [
         {
@@ -248,8 +248,8 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
-     "change": -0.3
+     "prev_date": "2026-11-02",
+     "change": -0.2
     },
     "supply": {
      "score": 4.1,
@@ -302,7 +302,7 @@
       },
       {
        "label": "Rule changes and deadlines ahead",
-       "score": 4.3,
+       "score": 4.4,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -315,14 +315,14 @@
        "key": "supply_dates",
        "weight": 30,
        "prev": 4.1,
-       "moved": 0.06
+       "moved": 0.09
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.3
     },
     "confidence": "High",
-    "obs180": 122
+    "obs180": 121
    },
    "h12": {
     "price": {
@@ -332,32 +332,32 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −20.4% · 3 months −35.9% (rising prices push the score up)",
+       "detail": "1 month −20.4% · 3 months −35.6% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17,
        "prev": 0.0,
-       "prev_detail": "1 month −24.7% · 3 months −35.3% (rising prices push the score up)",
+       "prev_detail": "1 month −22.8% · 3 months −33.9% (rising prices push the score up)",
        "moved": 0.0
       },
       {
        "label": "How much the price swings",
        "score": 8.8,
-       "detail": "About 53% a year, from 121 price moves in the last 6 months",
+       "detail": "About 53% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 8.5,
-       "prev_detail": "About 52% a year, from 120 price moves in the last 6 months",
+       "prev_detail": "About 52% a year, from 121 price moves in the last 6 months",
        "moved": 0.08
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 8,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.1
       },
       {
@@ -367,9 +367,9 @@
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 50,
-       "prev": 6.5,
-       "prev_detail": "Average forecast +9.2% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
-       "moved": -0.4
+       "prev": 6.1,
+       "prev_detail": "Average forecast +6.5% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "moved": -0.2
       },
       {
        "label": "Room above the cost to make",
@@ -391,7 +391,7 @@
       },
       {
        "label": "Price news",
-       "score": 1.9,
+       "score": 2.0,
        "detail": "6 recent stories (pushing prices down)",
        "items": [
         {
@@ -439,7 +439,7 @@
        ],
        "key": "price_news",
        "weight": 0,
-       "prev": 2.4,
+       "prev": 2.5,
        "prev_detail": "5 recent stories (pushing prices down)",
        "new_items": [
         {
@@ -463,8 +463,8 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
-     "change": -0.4
+     "prev_date": "2026-11-02",
+     "change": -0.2
     },
     "supply": {
      "score": 5.5,
@@ -533,11 +533,11 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.2
     },
     "confidence": "High",
-    "obs180": 122
+    "obs180": 121
    },
    "trend": [
     [
@@ -664,6 +664,11 @@
      "2026-11-08",
      3.6,
      4.1
+    ],
+    [
+     "2026-11-09",
+     3.6,
+     4.1
     ]
    ]
   },
@@ -691,32 +696,32 @@
       {
        "label": "Recent price trend",
        "score": 1.1,
-       "detail": "1 month −11.5% · 3 months −22.2% (rising prices push the score up)",
+       "detail": "1 month −11.5% · 3 months −22.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
-       "prev": 0.8,
-       "prev_detail": "1 month −14.0% · 3 months −21.4% (rising prices push the score up)",
-       "moved": 0.1
+       "prev": 1.0,
+       "prev_detail": "1 month −12.9% · 3 months −20.6% (rising prices push the score up)",
+       "moved": 0.03
       },
       {
        "label": "How much the price swings",
-       "score": 4.9,
-       "detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "score": 5.0,
+       "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22,
        "prev": 4.9,
-       "prev_detail": "About 32% a year, from 120 price moves in the last 6 months",
-       "moved": 0.0
+       "prev_detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "moved": 0.02
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 11,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.14
       },
       {
@@ -743,9 +748,9 @@
        "detail": "Lithium price risk 3.6/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 11,
-       "prev": 3.9,
-       "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": -0.03
+       "prev": 3.8,
+       "prev_detail": "Lithium price risk 3.8/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
@@ -762,8 +767,8 @@
        ],
        "key": "price_news",
        "weight": 11,
-       "prev": 5.9,
-       "moved": -0.02
+       "prev": 5.8,
+       "moved": -0.01
       },
       {
        "label": "Known cost changes ahead",
@@ -783,7 +788,7 @@
        "moved": 0.01
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.1
     },
     "supply": {
@@ -834,11 +839,11 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 122
+    "obs180": 121
    },
    "h12": {
     "price": {
@@ -848,32 +853,32 @@
       {
        "label": "Recent price trend",
        "score": 1.1,
-       "detail": "1 month −11.5% · 3 months −22.2% (rising prices push the score up)",
+       "detail": "1 month −11.5% · 3 months −22.0% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17,
-       "prev": 0.8,
-       "prev_detail": "1 month −14.0% · 3 months −21.4% (rising prices push the score up)",
-       "moved": 0.05
+       "prev": 1.0,
+       "prev_detail": "1 month −12.9% · 3 months −20.6% (rising prices push the score up)",
+       "moved": 0.02
       },
       {
        "label": "How much the price swings",
-       "score": 4.9,
-       "detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "score": 5.0,
+       "detail": "About 32% a year, from 120 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 4.9,
-       "prev_detail": "About 32% a year, from 120 price moves in the last 6 months",
-       "moved": 0.0
+       "prev_detail": "About 32% a year, from 121 price moves in the last 6 months",
+       "moved": 0.02
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 8,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.1
       },
       {
@@ -900,9 +905,9 @@
        "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 17,
-       "prev": 5.7,
-       "prev_detail": "Lithium price risk 5.7/10 feeds into this material's cost",
-       "moved": -0.07
+       "prev": 5.5,
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.03
       },
       {
        "label": "Price news",
@@ -919,7 +924,7 @@
        ],
        "key": "price_news",
        "weight": 0,
-       "prev": 5.9,
+       "prev": 5.8,
        "moved": 0.0
       },
       {
@@ -940,7 +945,7 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.1
     },
     "supply": {
@@ -991,11 +996,11 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 122
+    "obs180": 121
    },
    "trend": [
     [
@@ -1122,6 +1127,11 @@
      "2026-11-08",
      3.5,
      5.8
+    ],
+    [
+     "2026-11-09",
+     3.5,
+     5.8
     ]
    ]
   },
@@ -1169,13 +1179,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 14,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.18
       },
       {
@@ -1233,7 +1243,7 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.1
     },
     "supply": {
@@ -1262,7 +1272,7 @@
       },
       {
        "label": "Rule changes and deadlines ahead",
-       "score": 7.9,
+       "score": 8.0,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -1275,10 +1285,10 @@
        "key": "supply_dates",
        "weight": 30,
        "prev": 7.6,
-       "moved": 0.09
+       "moved": 0.12
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.1
     },
     "confidence": "Low",
@@ -1312,13 +1322,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.13
       },
       {
@@ -1372,11 +1382,11 @@
        ],
        "key": "price_dates",
        "weight": 40,
-       "prev": 7.9,
-       "moved": 0.04
+       "prev": 8.0,
+       "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.1
     },
     "supply": {
@@ -1421,7 +1431,7 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Low",
@@ -1552,6 +1562,11 @@
      "2026-11-08",
      4.2,
      6.8
+    ],
+    [
+     "2026-11-09",
+     4.2,
+     6.8
     ]
    ]
   },
@@ -1573,7 +1588,7 @@
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.1,
      "level": "Elevated",
      "drivers": [
       {
@@ -1598,13 +1613,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.13
       },
       {
@@ -1622,9 +1637,9 @@
        "detail": "Price $46.6/kWh vs modelled cost $41.8/kWh: margin 10% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14,
-       "prev": 6.1,
-       "prev_detail": "Price $46.9/kWh vs modelled cost $41.5/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": 0.06
+       "prev": 6.3,
+       "prev_detail": "Price $46.9/kWh vs modelled cost $41.6/kWh: margin 11% (thin margin = little room to fall)",
+       "moved": 0.03
       },
       {
        "label": "Lithium price risk passed through",
@@ -1632,13 +1647,13 @@
        "detail": "Lithium price risk 3.6/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10,
-       "prev": 3.9,
-       "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": -0.03
+       "prev": 3.8,
+       "prev_detail": "Lithium price risk 3.8/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
-       "score": 7.3,
+       "score": 7.2,
        "detail": "7 recent stories (pushing prices up)",
        "items": [
         {
@@ -1704,11 +1719,11 @@
          "s": 1
         }
        ],
-       "moved": 0.09
+       "moved": 0.08
       },
       {
        "label": "Known cost changes ahead",
-       "score": 6.7,
+       "score": 6.8,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -1721,11 +1736,11 @@
        "key": "price_dates",
        "weight": 10,
        "prev": 6.6,
-       "moved": 0.01
+       "moved": 0.02
       }
      ],
-     "prev_date": "2026-11-01",
-     "change": 0.0
+     "prev_date": "2026-11-02",
+     "change": -0.1
     },
     "supply": {
      "score": 5.4,
@@ -1770,8 +1785,8 @@
        ],
        "key": "supply_news",
        "weight": 30,
-       "prev": 3.5,
-       "moved": -0.09
+       "prev": 3.4,
+       "moved": -0.06
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -1791,7 +1806,7 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "High",
@@ -1824,13 +1839,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 6,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.08
       },
       {
@@ -1848,9 +1863,9 @@
        "detail": "Price $46.6/kWh vs modelled cost $41.8/kWh: margin 10% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29,
-       "prev": 6.1,
-       "prev_detail": "Price $46.9/kWh vs modelled cost $41.5/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": 0.12
+       "prev": 6.3,
+       "prev_detail": "Price $46.9/kWh vs modelled cost $41.6/kWh: margin 11% (thin margin = little room to fall)",
+       "moved": 0.06
       },
       {
        "label": "Lithium price risk passed through",
@@ -1858,13 +1873,13 @@
        "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12,
-       "prev": 5.7,
-       "prev_detail": "Lithium price risk 5.7/10 feeds into this material's cost",
-       "moved": -0.05
+       "prev": 5.5,
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
-       "score": 7.3,
+       "score": 7.2,
        "detail": "7 recent stories (pushing prices up)",
        "items": [
         {
@@ -1946,11 +1961,11 @@
        ],
        "key": "price_dates",
        "weight": 24,
-       "prev": 7.6,
-       "moved": 0.02
+       "prev": 7.7,
+       "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "supply": {
@@ -1996,8 +2011,8 @@
        ],
        "key": "supply_news",
        "weight": 15,
-       "prev": 3.5,
-       "moved": -0.05
+       "prev": 3.4,
+       "moved": -0.03
       },
       {
        "label": "Rule changes and deadlines ahead",
@@ -2017,7 +2032,7 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "High",
@@ -2148,6 +2163,11 @@
      "2026-11-08",
      4.2,
      5.4
+    ],
+    [
+     "2026-11-09",
+     4.1,
+     5.4
     ]
    ]
   },
@@ -2196,13 +2216,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 10,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.13
       },
       {
@@ -2220,9 +2240,9 @@
        "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 14,
-       "prev": 2.2,
-       "prev_detail": "Price $54.2/kWh vs modelled cost $41.5/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
-       "moved": 0.03
+       "prev": 2.3,
+       "prev_detail": "Price $54.2/kWh vs modelled cost $41.6/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "moved": 0.01
       },
       {
        "label": "Lithium price risk passed through",
@@ -2230,9 +2250,9 @@
        "detail": "Lithium price risk 3.6/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10,
-       "prev": 3.9,
-       "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": -0.03
+       "prev": 3.8,
+       "prev_detail": "Lithium price risk 3.8/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
@@ -2268,7 +2288,7 @@
       },
       {
        "label": "Known cost changes ahead",
-       "score": 6.7,
+       "score": 6.8,
        "detail": "1 dated change(s) within the horizon",
        "items": [
         {
@@ -2281,10 +2301,10 @@
        "key": "price_dates",
        "weight": 10,
        "prev": 6.6,
-       "moved": 0.01
+       "moved": 0.02
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.2
     },
     "supply": {
@@ -2351,7 +2371,7 @@
        "moved": 0.03
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Low",
@@ -2386,13 +2406,13 @@
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 6,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.08
       },
       {
@@ -2410,9 +2430,9 @@
        "detail": "Price $54.2/kWh vs modelled cost $41.8/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 29,
-       "prev": 2.2,
-       "prev_detail": "Price $54.2/kWh vs modelled cost $41.5/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
-       "moved": 0.06
+       "prev": 2.3,
+       "prev_detail": "Price $54.2/kWh vs modelled cost $41.6/kWh: margin 23% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "moved": 0.03
       },
       {
        "label": "Lithium price risk passed through",
@@ -2420,9 +2440,9 @@
        "detail": "Lithium price risk 5.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12,
-       "prev": 5.7,
-       "prev_detail": "Lithium price risk 5.7/10 feeds into this material's cost",
-       "moved": -0.05
+       "prev": 5.5,
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
@@ -2470,11 +2490,11 @@
        ],
        "key": "price_dates",
        "weight": 24,
-       "prev": 7.6,
-       "moved": 0.02
+       "prev": 7.7,
+       "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.1
     },
     "supply": {
@@ -2541,7 +2561,7 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Low",
@@ -2672,6 +2692,11 @@
      "2026-11-08",
      3.6,
      4.8
+    ],
+    [
+     "2026-11-09",
+     3.6,
+     4.8
     ]
    ]
   },
@@ -2692,38 +2717,38 @@
    },
    "h3": {
     "price": {
-     "score": 3.3,
+     "score": 3.2,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.0,
-       "detail": "1 month −5.0% · 3 months −2.3% (rising prices push the score up)",
+       "score": 3.9,
+       "detail": "1 month −5.0% · 3 months −3.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
-       "prev": 5.1,
-       "prev_detail": "1 month −0.8% · 3 months +2.1% (rising prices push the score up)",
-       "moved": -0.55
+       "prev": 5.2,
+       "prev_detail": "1 month +0.2% · 3 months +1.3% (rising prices push the score up)",
+       "moved": -0.65
       },
       {
        "label": "How much the price swings",
-       "score": 2.6,
-       "detail": "About 19% a year, from 126 price moves in the last 6 months",
+       "score": 2.5,
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
-       "prev": 2.6,
-       "prev_detail": "About 20% a year, from 126 price moves in the last 6 months",
+       "prev": 2.5,
+       "prev_detail": "About 19% a year, from 126 price moves in the last 6 months",
        "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.22
       },
       {
@@ -2774,8 +2799,8 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
-     "change": -0.8
+     "prev_date": "2026-11-02",
+     "change": -0.9
     },
     "supply": {
      "score": 1.6,
@@ -2812,46 +2837,46 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 127
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.1,
+     "score": 3.0,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.0,
-       "detail": "1 month −5.0% · 3 months −2.3% (rising prices push the score up)",
+       "score": 3.9,
+       "detail": "1 month −5.0% · 3 months −3.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
-       "prev": 5.1,
-       "prev_detail": "1 month −0.8% · 3 months +2.1% (rising prices push the score up)",
-       "moved": -0.36
+       "prev": 5.2,
+       "prev_detail": "1 month +0.2% · 3 months +1.3% (rising prices push the score up)",
+       "moved": -0.43
       },
       {
        "label": "How much the price swings",
-       "score": 2.6,
-       "detail": "About 19% a year, from 126 price moves in the last 6 months",
+       "score": 2.5,
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
-       "prev": 2.6,
-       "prev_detail": "About 20% a year, from 126 price moves in the last 6 months",
+       "prev": 2.5,
+       "prev_detail": "About 19% a year, from 126 price moves in the last 6 months",
        "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.22
       },
       {
@@ -2902,7 +2927,7 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.6
     },
     "supply": {
@@ -2940,11 +2965,11 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 127
+    "obs180": 126
    },
    "trend": [
     [
@@ -3071,6 +3096,11 @@
      "2026-11-08",
      3.3,
      1.6
+    ],
+    [
+     "2026-11-09",
+     3.2,
+     1.6
     ]
    ]
   },
@@ -3092,37 +3122,38 @@
    },
    "h3": {
     "price": {
-     "score": 3.8,
+     "score": 3.7,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month +2.0% · 3 months −6.3% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month +2.0% · 3 months −7.6% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
-       "prev": 4.6,
-       "prev_detail": "1 month +0.1% · 3 months −4.5% (rising prices push the score up)",
+       "prev": 4.4,
+       "prev_detail": "1 month −0.5% · 3 months −5.4% (rising prices push the score up)",
        "moved": 0.05
       },
       {
        "label": "How much the price swings",
-       "score": 3.1,
-       "detail": "About 22% a year, from 126 price moves in the last 6 months",
+       "score": 3.0,
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 3.1,
-       "moved": 0.0
+       "prev_detail": "About 22% a year, from 126 price moves in the last 6 months",
+       "moved": -0.03
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.22
       },
       {
@@ -3173,7 +3204,7 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": -0.2
     },
     "supply": {
@@ -3211,45 +3242,46 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 127
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.6,
+     "score": 3.4,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month +2.0% · 3 months −6.3% (rising prices push the score up)",
+       "score": 4.5,
+       "detail": "1 month +2.0% · 3 months −7.6% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
-       "prev": 4.6,
-       "prev_detail": "1 month +0.1% · 3 months −4.5% (rising prices push the score up)",
+       "prev": 4.4,
+       "prev_detail": "1 month −0.5% · 3 months −5.4% (rising prices push the score up)",
        "moved": 0.03
       },
       {
        "label": "How much the price swings",
-       "score": 3.1,
-       "detail": "About 22% a year, from 126 price moves in the last 6 months",
+       "score": 3.0,
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 3.1,
-       "moved": 0.0
+       "prev_detail": "About 22% a year, from 126 price moves in the last 6 months",
+       "moved": -0.05
       },
       {
        "label": "Rupee against the US$",
-       "score": 2.7,
-       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "score": 2.6,
+       "detail": "US$1 = ₹93.92; rupee stronger by 2.9% in a month, stronger by 1.6% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
        "key": "rupee",
        "weight": 17,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.96; rupee stronger by 1.4% in a month, stronger by 0.4% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "prev": 3.9,
+       "prev_detail": "US$1 = ₹94.91; rupee stronger by 1.5% in a month, stronger by 0.5% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
        "moved": -0.22
       },
       {
@@ -3300,8 +3332,8 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
-     "change": -0.2
+     "prev_date": "2026-11-02",
+     "change": -0.3
     },
     "supply": {
      "score": 2.5,
@@ -3338,11 +3370,11 @@
        "moved": 0.0
       }
      ],
-     "prev_date": "2026-11-01",
+     "prev_date": "2026-11-02",
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 127
+    "obs180": 126
    },
    "trend": [
     [
@@ -3468,6 +3500,11 @@
     [
      "2026-11-08",
      3.8,
+     2.4
+    ],
+    [
+     "2026-11-09",
+     3.7,
      2.4
     ]
    ]
@@ -3608,7 +3645,7 @@
    "usd_inr": 93.9225,
    "usd_cny": 6.6713,
    "m1": -0.029032118001712015,
-   "m3": -0.014487446381653557,
+   "m3": -0.01589797966885942,
    "y1": 0.0591684080306103,
    "series": [
     [

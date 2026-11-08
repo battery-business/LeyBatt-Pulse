@@ -138,5 +138,12 @@
   "v": 13670.0,
   "source": "SMM (GFEX most-traded contract)",
   "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-06",
+  "v": 13820.0,
+  "source": "Sohu (GFEX lc2701 close)",
+  "url": "https://www.sohu.com/a/1098134942_122014422"
  }
 ]

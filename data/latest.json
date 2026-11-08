@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$13,670",
+  "price": "$13,820",
   "unit": "per tonne",
-  "asof": "5 Nov",
-  "move": "+2.6% vs 3 Nov",
+  "asof": "6 Nov",
+  "move": "+1.1% vs 5 Nov",
   "direction": "up",
-  "source": "SMM (GFEX most-traded contract)",
-  "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates"
+  "source": "Sohu (GFEX lc2701 close)",
+  "url": "https://www.sohu.com/a/1098134942_122014422"
  },
  {
   "id": "cathode",

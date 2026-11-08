@@ -430,5 +430,21 @@
   "source": "SMM weekly lithium carbonate analysis",
   "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates",
   "note": "SMM battery-grade spot average, down 4.6% from 29 Oct; social inventory fell 2,994 t to 125,391 t"
+ },
+ {
+  "date": "2026-11-06",
+  "series": "Futures",
+  "usd_t": 13820,
+  "source": "Sohu (battery-industry column), GFEX lc2701",
+  "url": "https://www.sohu.com/a/1098134942_122014422",
+  "note": "Most-traded lc2701 contract closed at about $13,820 on 6 Nov, +1.1% vs 5 Nov"
+ },
+ {
+  "date": "2026-11-06",
+  "series": "Spot",
+  "usd_t": 13970,
+  "source": "SMM via 21st Century Business Herald",
+  "url": "https://m.21jingji.com/article/20261106/herald/c14f4b8807ce5a40916003dde17d8e59.html",
+  "note": "SMM battery-grade average, +2.1% vs 5 Nov, as traders restock and smelter stocks fall"
  }
 ]

@@ -212,6 +212,34 @@
    "note": "RCT signed as technology and equity partner; site development and civil works in progress",
    "source": "Powerpeak Digest",
    "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/"
+  },
+  {
+   "id": "p-exide-bengaluru",
+   "date": "2026-11-05",
+   "company": "Exide Energy Solutions (Exide Industries)",
+   "kind": "Cells",
+   "location": "Devanahalli, Bengaluru, Karnataka",
+   "capacity": "6 GWh (land and utilities in place for 12 GWh)",
+   "gwh": 6,
+   "stage": "Running",
+   "start": "Commissioned 23 Sep 2026",
+   "note": "LFP cells earning revenue (102 Ah cells in its e-rickshaw packs); a line for 300+ Ah prismatic storage cells is ready; NMC for small customers; phase 2 decision at about 80% use",
+   "source": "GuruFocus (Q2 FY27 earnings call)",
+   "url": "https://www.gurufocus.com/news/9175565/exide-industries-ltd-bom500086-q2-2027-earnings-call-highlights-revenue-tops-rs-10000-crore-as-lithiumion-ramp-begins"
+  },
+  {
+   "id": "p-trex-hyderabad",
+   "date": "2026-11-06",
+   "company": "TREX Energy",
+   "kind": "Packs",
+   "location": "E-City, Hyderabad, Telangana",
+   "capacity": "Automated module line, 12 parts a minute (GWh not stated)",
+   "gwh": null,
+   "stage": "Running",
+   "start": "Commissioned Nov 2026",
+   "note": "52S packs for its 261 kWh and 5 MWh BESS; second plant planned in Madhya Pradesh",
+   "source": "Mercom India",
+   "url": "https://www.mercomindia.com/trex-energy-commissions-lithium-battery-manufacturing-facility-in-hyderabad"
   }
  ]
 }

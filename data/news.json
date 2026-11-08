@@ -1,5 +1,120 @@
 [
  {
+  "id": "n186",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "Lithium rebounds for a second day on 6 Nov: the Guangzhou lc2701 contract closes near $13,820 a tonne and SMM's battery-grade spot average rises about 2% to $13,970, helped by restocking and falling smelter stocks; analysts stay split on whether the bottom is in",
+  "seg": "Batteries",
+  "so": "Lithium steadies after a near-halving since May: cell and cathode costs may stop falling, though views on the bottom still differ.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Lithium rebounds",
+  "direction": "up",
+  "source": "21st Century Business Herald",
+  "url": "https://m.21jingji.com/article/20261106/herald/c14f4b8807ce5a40916003dde17d8e59.html",
+  "source2": "Eastmoney (Shanghai Securities News)",
+  "url2": "https://finance.eastmoney.com/a/202611063923932416.html",
+  "sources": "21st Century Business Herald · Eastmoney"
+ },
+ {
+  "id": "n187",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "Wood Mackenzie: sodium-ion cells should reach cost parity with LFP at leading makers by late 2026, with more than 70 GWh already under supply agreements; at module and system level parity is not expected before 2030, and LFP stays the default for 2–4 hour storage",
+  "seg": "Batteries",
+  "so": "Sodium-ion is becoming a real second chemistry at cell level, but LFP keeps its lead in storage systems for several years.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion nears parity",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/06/sodium-ion-batteries-approach-cost-parity-with-lfp-says-woodmac/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n188",
+  "date": "2026-11-05",
+  "day": "5 Nov",
+  "headline": "Exide says its 6 GWh lithium-ion cell plant in Bengaluru was commissioned on 23 Sep: LFP cells already earn revenue, a line for 300+ Ah prismatic storage cells is ready, major carmakers should start buying from about February, and it puts its cost gap to imported Chinese cells at 5–10%",
+  "seg": "Batteries",
+  "so": "A second large Indian cell plant is running: local LFP cells for two-wheelers and storage, still a little dearer than Chinese imports.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Indian cell output",
+  "direction": "flat",
+  "source": "GuruFocus (Q2 FY27 earnings call)",
+  "url": "https://www.gurufocus.com/news/9175565/exide-industries-ltd-bom500086-q2-2027-earnings-call-highlights-revenue-tops-rs-10000-crore-as-lithiumion-ramp-begins",
+  "sources": "GuruFocus"
+ },
+ {
+  "id": "n189",
+  "date": "2026-11-06",
+  "day": "6 Nov",
+  "headline": "Hyderabad's TREX Energy commissions an automated battery module assembly line in E-City for 52S packs used in its 261 kWh and 5 MWh storage systems, and plans a second plant in Madhya Pradesh",
+  "seg": "BESS",
+  "so": "One more Indian BESS assembler adds pack lines: local container capacity keeps growing while cells are still imported.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "BESS pack assembly",
+  "direction": "flat",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/trex-energy-commissions-lithium-battery-manufacturing-facility-in-hyderabad",
+  "sources": "Mercom India"
+ },
+ {
+  "id": "n190",
+  "date": "2026-11-07",
+  "day": "7 Nov",
+  "headline": "CATL's chief scientist names lithium-air as a long-term research direction; CarNewsChina notes there is no product timeline and that the reported 2,000 km range is theoretical, with sodium-ion and solid-state cells remaining CATL's nearer priorities",
+  "seg": "Batteries",
+  "so": "Lithium-air is lab research only: no change to cell choices for years.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Long-term research",
+  "direction": "flat",
+  "source": "CarNewsChina",
+  "url": "https://carnewschina.com/2026/11/07/catl-is-exploring-an-air-breathing-battery-could-it-give-evs-2000-km-of-range",
+  "sources": "CarNewsChina"
+ },
+ {
   "id": "n183",
   "date": "2026-11-04",
   "day": "4 Nov",
@@ -2946,26 +3061,5 @@
   ],
   "seg": "Batteries",
   "so": "Lithium holding near $13,000–14,000: cell costs stay low for current quotes."
- },
- {
-  "id": "n98",
-  "date": "2026-10-24",
-  "day": "24 Oct",
-  "headline": "Volkswagen Anhui launches the Xpeng-co-developed ID. UNYX 09 sedan from about $25,290 (limited offer) with a standard 92 kWh CATL 5C pack (250 km added in 5 minutes, up to 755 km CLTC)",
-  "category": "EV market",
-  "effect": "Bigger fast-charge packs",
-  "direction": "up",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/24/vw-anhui-launches-id-unyx-09/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Fast-charging LFP packs in Chinese cars: no direct effect on India."
  }
 ]

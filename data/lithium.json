@@ -446,5 +446,13 @@
   "source": "SMM via 21st Century Business Herald",
   "url": "https://m.21jingji.com/article/20261106/herald/c14f4b8807ce5a40916003dde17d8e59.html",
   "note": "SMM battery-grade average, +2.1% vs 5 Nov, as traders restock and smelter stocks fall"
+ },
+ {
+  "date": "2026-11-09",
+  "series": "Futures",
+  "usd_t": 13060,
+  "source": "Sohu, GFEX lc2701",
+  "url": "https://www.sohu.com/a/1099278098_114984",
+  "note": "Most-traded lc2701 contract fell 4.85% to about $13,060 on 9 Nov as the rebound faded; weak November output plans and talk of the Jiaxiawo mine restarting weighed"
  }
 ]

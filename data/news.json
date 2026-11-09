@@ -1,5 +1,167 @@
 [
  {
+  "id": "n191",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "China extends its pause on export controls for lithium batteries, LFP cathode and artificial graphite anode (2025 Announcement No. 58) and five related notices from 11 Nov 2026 to 10 Jan 2027, in step with the US–China trade truce",
+  "seg": "Batteries",
+  "so": "Cell, cathode and graphite imports from China stay licence-free for two more months, but the risk returns on 10 Jan 2027.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "Regulation & trade",
+  "effect": "Pause extended",
+  "direction": "down",
+  "source": "Sina (MOFCOM/GAC notice)",
+  "url": "https://k.sina.cn/article_5953740931_162dee083067044xc4.html",
+  "source2": "The Star (Reuters)",
+  "url2": "https://www.thestar.com.my/aseanplus/aseanplus-news/2026/11/09/china-extends-suspension-of-rare-earth-export-controls-until-january",
+  "sources": "Sina · The Star (Reuters)",
+  "alert": true,
+  "alert_reason": "China export pause extended",
+  "short": "China extends battery and graphite export-control pause to 10 Jan 2027",
+  "risk": [
+   {
+    "m": "graphite",
+    "k": "supply",
+    "s": -2
+   },
+   {
+    "m": "cathode",
+    "k": "supply",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n192",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Olectra plans a new generation of more localised electric buses for India and export in January–March 2027; its order book tops 8,000 buses, and it delivered 401 vehicles in July–September (+7%) with revenue up 5% to ₹687 crore",
+  "seg": "EVs",
+  "so": "India's largest e-bus order book gets a new model range by early 2027: more competition and battery demand in Indian e-buses.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India EV & battery makers",
+  "effect": "New bus range",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/olectra-to-launch-new-generation-electric-buses-in-q4-fy27-md-mahesh-babu-confirms-135833",
+  "sources": "Autocar Professional",
+  "alert": true,
+  "alert_reason": "Competitor e-bus launch",
+  "short": "Olectra to launch new-generation e-buses by March 2027"
+ },
+ {
+  "id": "n193",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Lithium's rebound fades: the Guangzhou lc2701 contract falls 4.85% on 9 Nov to about $13,060 a tonne, as November cell output plans slip and a restart of the Jiaxiawo mine looks closer; exchange warehouse receipts rose to 23,700 lots",
+  "seg": "Batteries",
+  "so": "Lithium falls back toward its lows: cell and cathode costs keep easing, with a mine restart the next test.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Lithium falls",
+  "direction": "down",
+  "source": "Sohu",
+  "url": "https://www.sohu.com/a/1099278098_114984",
+  "source2": "Sohu (futures close)",
+  "url2": "https://www.sohu.com/a/1099310642_114984",
+  "sources": "Sohu"
+ },
+ {
+  "id": "n194",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "BMW adds Samsung SDI (Europe) and LG Energy Solution (North America) as suppliers of its sixth-generation cylindrical cells from near the end of the decade, alongside CATL and EVE, and is building five pack assembly plants near its car plants",
+  "seg": "Batteries",
+  "so": "A big carmaker spreads cell orders across Chinese and Korean makers and local plants: more regional sourcing in EV cells.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "Cell makers & competitors",
+  "effect": "Supplier added",
+  "direction": "flat",
+  "source": "BMWBLOG",
+  "url": "https://www.bmwblog.com/2026/11/09/bmw-adds-samsung-sdi-lg-battery-suppliers/",
+  "source2": "Bloomberg",
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-09/bmw-widens-battery-component-suppliers-with-samsung-lg-energy",
+  "sources": "BMWBLOG · Bloomberg"
+ },
+ {
+  "id": "n195",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Interview: a Turin Polytechnic battery professor says commercial sodium-ion cells reach about 175 Wh/kg against about 205 Wh/kg for advanced LFP and keep over 95% capacity after 5,000 cycles, narrowing the gap for stationary storage",
+  "seg": "BESS",
+  "so": "Sodium-ion is closing on LFP for grid storage, though output is still under 1% of lithium-ion and no cost figure is given.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion gains",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/09/sodium-ion-narrows-the-gap-with-lithium-ion-says-polytechnic-university-of-turin-professor/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n196",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Portugal opens its first grid-connection auctions since 2021 for up to 1,050 MVA: 750 MVA for standalone batteries and 300 MVA for renewables with storage, both needing at least four hours; applications close 22 Dec",
+  "seg": "BESS",
+  "so": "Another European market asks for four-hour batteries: more global demand for long-duration storage systems.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Energy storage",
+  "effect": "Storage auctions",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/09/portugal-opens-tenders-for-1050-mva-of-battery-storage-capacity/",
+  "sources": "ESS News"
+ },
+ {
   "id": "n186",
   "date": "2026-11-06",
   "day": "6 Nov",
@@ -985,27 +1147,6 @@
   "so": "A European pack maker is up for sale: consolidation among pack makers abroad."
  },
  {
-  "id": "n150",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Tesla says the Cybercab's modular pack (now 4680 cells in an 88S6P layout) was designed with spare room so it can switch to cheaper LFP cells later without a redesign; the pack is not structural, so sections can be replaced",
-  "category": "Packs & BMS",
-  "effect": "LFP pack flexibility",
-  "direction": "down",
-  "source": "Drive Tesla Canada",
-  "url": "https://driveteslacanada.ca/news/tesla-cybercab-battery-designed-future-lfp-cells",
-  "sources": "Drive Tesla Canada",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Even Tesla designs packs to switch to cheaper LFP cells: LFP confirmed as the low-cost default for vehicles."
- },
- {
   "id": "n149",
   "date": "2026-11-01",
   "day": "1 Nov",
@@ -1479,27 +1620,6 @@
   "so": "Olectra moves into electric heavy trucks (tippers and tractor-trailers): more makers in India's e-truck market."
  },
  {
-  "id": "n113",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Nio keeps developing its own large cylindrical cells, with EVE and Gotion reportedly making them and only a tiny batch due by year-end, while it buys more CATL prismatic cells for its Onvo and Firefly brands",
-  "category": "Cell makers & competitors",
-  "effect": "CATL share",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/26/nio-presses-ahead-cylindrical-cells-limited-output-year-end/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "supply",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Carmakers still buy CATL cells while their own designs mature: CATL's hold on supply stays strong."
- },
- {
   "id": "n114",
   "date": "2026-10-27",
   "day": "27 Oct",
@@ -1543,30 +1663,6 @@
   ],
   "seg": "BESS",
   "so": "Tamil Nadu buys solar plus six-hour storage: more storage demand in the state."
- },
- {
-  "id": "n104",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Water-purifier maker KENT RO sets up Kent New Energy with a ₹250-crore Noida plant for home and commercial lithium storage packs (5.1–16 kWh) and hybrid inverters: 3.5 GWh a year at start, aiming for 10 GWh within about six months, using EVE and REPT cells",
-  "category": "India EV & battery makers",
-  "effect": "New pack competitor",
-  "direction": "down",
-  "source": "Power Peak Digest",
-  "url": "https://powerpeakdigest.com/kent-ro-lithium-battery-inverter-plant-noida/",
-  "sources": "Power Peak Digest",
-  "alert": true,
-  "alert_reason": "New Indian battery maker",
-  "short": "KENT RO enters lithium storage packs with a 3.5 GWh Noida plant",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A consumer-goods company enters home storage packs: new entrants in small storage."
  },
  {
   "id": "n105",
@@ -1613,90 +1709,6 @@
   ],
   "seg": "EVs",
   "so": "Battery swapping for heavy e-trucks opens on the Mumbai–Pune corridor: swap infrastructure for freight is arriving."
- },
- {
-  "id": "n107",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Samsung SDI signs a further 1 GWh deal with US power producer Alpha Omega Power for its Battery Box 1.7 NCA containers, all made at the StarPlus plant in Indiana, for delivery before end-2026; the buyer's total with SDI reaches 1.5 GWh",
-  "category": "Cell makers & competitors",
-  "effect": "US-made storage supply",
-  "direction": "flat",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/26/samsung-sdi-signs-1-gwh-supply-agreement-for-us-made-nca-battery-storage/",
-  "sources": "ESS News",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Korean storage deals in the US: little effect on India."
- },
- {
-  "id": "n108",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Svolt starts mass production of its 100 kWh 'Dragon Armor' semi-solid pack in Changzhou: 900 V, 6C charging, liquid cooling on top and bottom, over 3,000 cycles claimed, at a cost it says matches liquid-electrolyte packs",
-  "category": "Packs & BMS",
-  "effect": "Semi-solid packs scale",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/26/svolt-begins-mass-production-100-kwh-semi-solid-packs/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Semi-solid packs in mass production in China: shows where pack technology is going."
- },
- {
-  "id": "n109",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Ronbay invests about $540 million in a 200,000 t-a-year sodium-ion cathode plant in Xiangyang, Hubei, taking its planned sodium-ion cathode capacity to 500,000 t a year; construction is expected to take about a year",
-  "category": "R&D & new products",
-  "effect": "Sodium-ion supply",
-  "direction": "down",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104179387-sodium-ion-ronbay-invests-rmb-36bn-in-xiangyang-cathode-project-total-planned-capacity-500kt",
-  "sources": "SMM",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Big sodium-ion cathode capacity in China: sodium-ion could become a cheap option later."
- },
- {
-  "id": "n110",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Giga Storage lines up €260 million of bank debt and a 380 kV grid connection for its 350 MW / 1.4 GWh battery near Neuenkirchen, Germany, with CATL supplying 264 containers; commissioning now slips to early 2029",
-  "category": "Energy storage",
-  "effect": "Storage demand",
-  "direction": "up",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/26/giga-storage-secures-financing-grid-connection-for-1-4-gwh-catl-bess-project-in-germany/",
-  "sources": "ESS News",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "European storage projects use CATL containers: global demand for the same systems stays strong."
  },
  {
   "id": "n102",

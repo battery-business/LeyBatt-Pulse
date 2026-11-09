@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$13,820",
+  "price": "$13,060",
   "unit": "per tonne",
-  "asof": "6 Nov",
-  "move": "+1.1% vs 5 Nov",
-  "direction": "up",
+  "asof": "9 Nov",
+  "move": "−5.5% vs 6 Nov",
+  "direction": "down",
   "source": "Sohu (GFEX lc2701 close)",
-  "url": "https://www.sohu.com/a/1098134942_122014422"
+  "url": "https://www.sohu.com/a/1099278098_114984"
  },
  {
   "id": "cathode",

@@ -256,14 +256,14 @@
  {
   "id": "cn-no58",
   "title": "China's export controls on lithium batteries, cathode and graphite anode: paused",
-  "short": "China's export-control pause on battery materials ends",
+  "short": "China's battery export-control pause ends",
   "region": "China",
   "area": "Export controls & tax",
   "status": "Paused",
-  "date": "2026-11-10",
-  "date_label": "Pause ends 10 Nov 2026 unless renewed",
-  "what": "MOFCOM/GAC Announcement No. 58 of 2025 put lithium batteries, cathode materials, artificial graphite anode and related equipment and technology under export licences. Announcement No. 70 paused it from 7 Nov 2025 to 10 Nov 2026. The US says a two-month extension to 10 Jan 2027 was agreed; China has not confirmed it.",
-  "impact": "If the controls come back, every shipment of these items to India needs a Chinese licence: expect delays, paperwork and possibly higher prices. It is the main reason graphite shows High supply risk in the Risk Navigator.",
+  "date": "2027-01-10",
+  "date_label": "Pause extended to 10 Jan 2027",
+  "what": "MOFCOM/GAC Announcement No. 58 of 2025 put lithium batteries (300 Wh/kg and above), LFP and other cathode materials, artificial graphite anode and related equipment and technology under export licences. Announcement No. 70 paused it from 7 Nov 2025; on 9 Nov 2026 China extended the pause, with five related notices, from 11 Nov 2026 to 10 Jan 2027.",
+  "impact": "Shipments of these items to India stay licence-free until 10 Jan 2027. If the controls return then, every shipment needs a Chinese licence: expect delays, paperwork and possibly higher prices. It is the main reason graphite shows high supply risk in the Risk Navigator.",
   "effects": [
    "Supply risk",
    "Cost up"
@@ -273,13 +273,14 @@
    "Cathode",
    "Cells"
   ],
-  "source": "CIRS Group",
-  "url": "https://www.cirs-group.com/en/chemicals/china-temporarily-suspends-export-controls-on-key-raw-materials-including-rare-earths-lithium-batteries-and-diamond",
-  "source2": "CMGM sourcing calendar, 30 Oct 2026 (no official extension notice found)",
-  "url2": "https://www.cmgm.net/china-sourcing-calendar-november-2026-march-2027-key-dates/",
-  "checked": "2026-11-09",
+  "source": "Sina (MOFCOM/GAC notice), 9 Nov 2026",
+  "url": "https://k.sina.cn/article_5953740931_162dee083067044xc4.html",
+  "source2": "MOFCOM Announcement No. 58 of 2025 (scope)",
+  "url2": "https://www.mofcom.gov.cn/zwgk/zcfb/art/2025/art_79646f0161564975a938fe00fee158d5.html",
+  "checked": "2026-11-10",
   "seg": "Batteries",
-  "so": "If the controls come back, every cell, pack and graphite shipment to India needs a Chinese licence: expect delays, paperwork and possibly higher prices. It is the main reason graphite shows high supply risk."
+  "so": "The pause now runs to 10 Jan 2027: cell, cathode and graphite imports from China stay licence-free for two more months.",
+  "changed": "2026-11-10"
  },
  {
   "id": "cn-graphite",

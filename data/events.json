@@ -52,11 +52,11 @@
   "so": "A 1.6 GWh storage tender in Maharashtra."
  },
  {
-  "date": "2026-11-10",
-  "what": "China's one-year pause on export licences for lithium-ion batteries, artificial graphite anode and related equipment (Decision No. 58) is due to end unless extended",
+  "date": "2027-01-10",
+  "what": "China's extended pause on export licences for lithium-ion batteries, LFP cathode, artificial graphite anode and related equipment (2025 Announcement No. 58) ends unless renewed again",
   "kind": "Rule change",
-  "source": "HSF Kramer",
-  "url": "https://www.hsfkramer.com/notes/energy/2025-posts/china-suspends-export-controls-on-lithium-batteries-and-artificial-graphite-anode-materials",
+  "source": "Sina (MOFCOM/GAC notice), 9 Nov 2026",
+  "url": "https://k.sina.cn/article_5953740931_162dee083067044xc4.html",
   "short": "China battery export-control pause ends",
   "risk": [
    {
@@ -92,7 +92,7 @@
   ],
   "weight": 3,
   "seg": "Batteries",
-  "so": "If China does not extend the pause, every cell, pack and graphite shipment to India needs a Chinese export licence again: expect delays and higher import prices."
+  "so": "Unless China extends the pause again, cell, cathode and graphite shipments to India need Chinese export licences from 10 Jan 2027: delays and higher import prices."
  },
  {
   "date": "2026-11-10",

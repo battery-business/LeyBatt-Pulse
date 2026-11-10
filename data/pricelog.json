@@ -152,5 +152,12 @@
   "v": 13060.0,
   "source": "Sohu (GFEX lc2701 close)",
   "url": "https://www.sohu.com/a/1099278098_114984"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-10",
+  "v": 13000.0,
+  "source": "21st Century Business Herald (GFEX main contract close)",
+  "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html"
  }
 ]

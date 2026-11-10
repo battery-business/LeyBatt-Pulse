@@ -309,6 +309,20 @@
   }
   const legend = (items) => `<div class="pw-legend">${items.map(([c, t]) => `<span><i style="background:var(${c})"></i>${t}</span>`).join('')}</div>`;
 
+  // electricity price per unit (kWh), built up from the bill
+  function unitParts(r) {
+    const b = r.bill, k = r.elSum, parts = [
+      ['Energy charge', b.energy + b.fac], ['Demand charge', b.demand], ['Time of day', b.tod], ['Wheeling', b.wheel],
+      ['Electricity duty', b.ed], ['Renewable power', b.re], ['Other levies', b.other],
+    ].map(([n, v]) => [n, v / k]).filter(([, v]) => Math.abs(v) >= 0.005);
+    return { parts, total: r.elecCost / k };
+  }
+  function unitLine(r) {
+    const u = unitParts(r);
+    return `<div class="pw-unit"><span class="pw-ul">Electricity price per unit (kWh):</span> ${u.parts.map(([n, v], i) => `<span class="pw-up">${i ? (v < 0 ? '− ' : '+ ') : ''}₹${fmt(Math.abs(v), 2)} <small>${n.toLowerCase()}</small></span>`).join(' ')} <span class="pw-ut">= ₹${fmt(u.total, 2)} per kWh</span></div>`;
+  }
+  const kpiHtml = (rows) => rows.map(([c, k, v, d]) => `<div class="kpi ${c}"><span class="k">${k}</span><span class="v">${v}</span><span class="d pw-dim">${d}</span></div>`).join('');
+
   // ===================== views =====================
   function seg(id, opts, cur, label) { return `<div class="seg" id="${id}" role="group" aria-label="${esc(label)}">${opts.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${String(String(v) === String(cur))}">${t}</button>`).join('')}</div>`; }
   function buildSimple() {
@@ -327,6 +341,7 @@
         <div class="panel" style="--sec:var(--blue)">
           <div class="panel-head"><h2>What it needs</h2><span class="sub">Estimate from public data</span></div>
           <div class="kpis big" id="pws-kpis"></div>
+          <div id="pws-unit"></div>
           <p class="pw-say" id="pws-say"></p>
         </div>
       </div>
@@ -368,9 +383,12 @@
     $('#pws-kpis').innerHTML = [
       ['main', 'Electricity per kWh of cells', `${fmt(r.elInt)}<span class="u"> kWh</span>`, r.thInt > 0.05 ? `plus ${fmt(r.thInt)} kWh of fuel heat` : `at ${P.util}% output`],
       ['', 'Electricity a year', `${fmt0(r.elSum / 1e6)}<span class="u"> million kWh</span>`, `${fmt(r.avgMW)} MW on average`],
+      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, `all-in: energy, demand charge${+P.edOn ? ', duty' : ''}`],
+      ['', 'Total electricity cost a year', `₹${fmt0(cr(r.elecCost))}<span class="u"> crore</span>`, `₹${fmt0(r.elecCost / out)} per kWh of cells`],
       ['', 'Grid connection', `${fmt0(r.cdMVA)}<span class="u"> MVA</span>`, `peak about ${fmt(r.mdMW)} MW`],
-      ['', 'Energy bill a year', `₹${fmt0(cr(tot))}<span class="u"> crore</span>`, `₹${fmt0(tot / out)} per kWh of cells`],
-    ].map(([c, k, v, d]) => `<div class="kpi ${c}"><span class="k">${k}</span><span class="v">${v}</span><span class="d pw-dim">${d}</span></div>`).join('');
+      ['', r.fuelCost > 0 ? 'Total energy cost a year' : 'Energy cost per kWh of cells', r.fuelCost > 0 ? `₹${fmt0(cr(tot))}<span class="u"> crore</span>` : `₹${fmt0(tot / out)}<span class="u"> per kWh</span>`, r.fuelCost > 0 ? `incl. ₹${fmt0(cr(r.fuelCost))} crore boiler fuel · ₹${fmt0(tot / out)} per kWh of cells` : `US$${fmt(tot / out / P.fx, 2)} per kWh of cells`],
+    ].map(([c, k, v, d]) => `<div class="kpi ${c}"><span class="k">${k}</span><span class="v">${v}</span><span class="d pw-dim">${d}</span></div>`).join('') ;
+    $('#pws-unit').innerHTML = unitLine(r);
     const groups = GROUPS.map(([name, keys, what]) => { const v = r.steps.filter((s) => keys.includes(s.key)).reduce((a, s) => a + s.el, 0) / out; return { name, v, what }; }).sort((a, b) => b.v - a.v);
     hstack($('#pws-groups'), groups.map((g) => ({ label: g.name, vals: [g.v], tip: `<b>${g.name}</b>` + row(css('--blue'), 'Per kWh of cells', fmt(g.v) + ' kWh') + row(null, 'Share', fmt0(100 * g.v / r.elInt) + '%') + `<div class='note'>${g.what}</div>` })),
       [css('--blue')], { valFmt: (t) => `${fmt(t)} · ${fmt0(100 * t / r.elInt)}%`, valW: 86, labW: 190, rowH: 34, aria: 'Electricity by plant area' });
@@ -392,6 +410,7 @@
         <aside class="pw-inputs" id="pwd-inputs" aria-label="Assumptions"></aside>
         <div class="pw-res">
           <div class="kpis pw-k6" id="pwd-kpis"></div>
+          <div id="pwd-unit"></div>
           <div class="panel" style="--sec:var(--blue)">
             <div class="panel-head"><h2>Where the electricity goes</h2></div>
             <p class="sub" id="pwd-bd-sub"></p>
@@ -490,11 +509,14 @@
     $('#pwd-kpis').innerHTML = [
       ['main', 'Electricity per kWh of cells', `${fmt(r.elInt)}<span class="u"> kWh</span>`, r.thInt > 0.05 ? `plus ${fmt(r.thInt)} kWh fuel heat` : `at ${P.util}% output`],
       ['', 'Electricity a year', `${fmt0(r.elSum / 1e6)}<span class="u"> MU</span>`, `${fmt(out / 1e6, 2)} GWh of cells`],
+      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, `energy charge ₹${fmt(P.ec, 2)}/kVAh + demand, ToD${+P.edOn ? ', duty' : ''}`],
+      ['', 'Total electricity cost a year', `₹${fmt(cr(r.elecCost), 1)}<span class="u"> cr</span>`, `₹${fmt0(r.elecCost / out)} per kWh of cells`],
       ['', 'Average and peak', `${fmt(r.avgMW)}<span class="u"> MW</span>`, `peak ${fmt(r.mdMW)} MW · ${fmt0(r.cdMVA)} MVA contract`],
-      ['', 'Energy bill a year', `₹${fmt0(cr(tot))}<span class="u"> cr</span>`, r.fuelCost > 0 ? `incl. ₹${fmt0(cr(r.fuelCost))} cr fuel` : `₹${fmt(r.elecCost / r.elSum, 2)} per kWh average`],
-      ['', 'Per kWh of cells', `₹${fmt0(tot / out)}`, `US$${fmt(tot / out / P.fx, 2)}`],
+      ['', 'Boiler fuel a year', r.fuelCost > 0 ? `₹${fmt(cr(r.fuelCost), 1)}<span class="u"> cr</span>` : '₹0', r.fuelCost > 0 ? `${fmt0(r.thSum / 1e6)} GWh of heat at ₹${P.fuelCost}/kWh` : 'all heat from electricity'],
+      ['', 'Total energy cost per kWh of cells', `₹${fmt0(tot / out)}`, `US$${fmt(tot / out / P.fx, 2)} · ₹${fmt(cr(tot), 1)} cr a year`],
       ['', 'CO₂ per kWh of cells', `${fmt(co2 * 1000 / out)}<span class="u"> kg</span>`, `${fmt0(co2)} t a year`],
     ].map(([c, k, v, d]) => `<div class="kpi ${c}"><span class="k">${k}</span><span class="v">${v}</span><span class="d pw-dim">${d}</span></div>`).join('');
+    $('#pwd-unit').innerHTML = unitLine(r);
     // breakdown
     const steps = r.steps.slice().sort((a, b) => b.el - a.el);
     const rows = steps.map((s) => {
@@ -515,8 +537,8 @@
     lineChart($('#pwd-util'), xs, ys, { x: P.util, y: r.elInt }, { aria: 'Electricity per kWh against output', extra: (i) => row(null, 'A year', fmt0(mu[i]) + ' MU') });
     // ramp
     const fo = document.activeElement && document.activeElement.dataset.ramp;
-    let rt = '<table class="rtable pw-num pw-ramp"><tr><th>Year</th><th>Output %</th><th>Cells GWh</th><th>MU</th><th>Avg MW</th><th>kWh per kWh</th><th>Bill ₹ cr</th><th>₹ per kWh</th></tr>';
-    P.ramp.forEach((v, i) => { const q = run(P, v), c = q.elecCost + q.fuelCost; rt += `<tr><td>Year ${i + 1}</td><td><input type="number" min="5" max="100" step="1" data-ramp="${i}" value="${v}"></td><td>${fmt(q.out / 1e6, 2)}</td><td>${fmt0(q.elSum / 1e6)}</td><td>${fmt(q.avgMW)}</td><td>${fmt(q.elInt)}</td><td>${fmt0(cr(c))}</td><td>${fmt0(c / q.out)}</td></tr>`; });
+    let rt = '<table class="rtable pw-num pw-ramp"><tr><th>Year</th><th>Output %</th><th>Cells GWh</th><th>MU</th><th>Avg MW</th><th>kWh per kWh</th><th>₹ per unit</th><th>Electricity ₹ cr</th><th>Total energy ₹ cr</th><th>₹ per kWh of cells</th></tr>';
+    P.ramp.forEach((v, i) => { const q = run(P, v), c = q.elecCost + q.fuelCost; rt += `<tr><td>Year ${i + 1}</td><td><input type="number" min="5" max="100" step="1" data-ramp="${i}" value="${v}"></td><td>${fmt(q.out / 1e6, 2)}</td><td>${fmt0(q.elSum / 1e6)}</td><td>${fmt(q.avgMW)}</td><td>${fmt(q.elInt)}</td><td>${fmt(q.elecCost / q.elSum, 2)}</td><td>${fmt0(cr(q.elecCost))}</td><td>${fmt0(cr(c))}</td><td>${fmt0(c / q.out)}</td></tr>`; });
     $('#pwd-ramp').innerHTML = rt + '</table>';
     if (fo != null) { const f = $(`#pwd-ramp [data-ramp="${fo}"]`); if (f) { f.focus(); try { f.setSelectionRange(f.value.length, f.value.length); } catch (e) { /* number inputs */ } } }
     // tornado
@@ -539,8 +561,8 @@
       .concat(M.benchmarks.map((b) => ({ label: b.label, vals: [b.el || 0, b.th || 0, b.total || 0], tip: `<b>${esc(b.label)}</b>` + (b.total ? row(css('--teal'), 'All energy', fmt(b.total) + ' kWh') : row(css('--blue'), 'Electricity', fmt(b.el) + ' kWh') + row(css('--orange'), 'Fuel heat', fmt(b.th) + ' kWh')) + `<div class='note'>${esc(b.note)} ${esc(b.source)}.</div>` })));
     hstack($('#pwd-bench'), bench, [css('--blue'), css('--orange'), css('--teal')], { valFmt: (t) => fmt(t), labW: 200, aria: 'Published figures' });
     // bill
-    const b = r.bill, line = (n, v, basis) => `<tr><td>${n}</td><td>${fmt(cr(v), 1)}</td><td>${fmt(100 * v / tot)}%</td><td>${fmt(v / out, 1)}</td><td class="pw-basis">${basis}</td></tr>`;
-    let bt = '<table class="rtable pw-num"><tr><th>Item</th><th>₹ crore</th><th>Share</th><th>₹ per kWh of cells</th><th>Basis</th></tr>';
+    const b = r.bill, line = (n, v, basis, cls = '', unit = true) => `<tr class="${cls}"><td>${n}</td><td>${fmt(cr(v), 1)}</td><td>${fmt(100 * v / tot)}%</td><td>${unit ? fmt(v / r.elSum, 2) : '–'}</td><td>${fmt(v / out, 1)}</td><td class="pw-basis">${basis}</td></tr>`;
+    let bt = '<table class="rtable pw-num"><tr><th>Item</th><th>₹ crore a year</th><th>Share</th><th>₹ per unit (kWh)</th><th>₹ per kWh of cells</th><th>Basis</th></tr>';
     bt += line('Energy charge', b.energy, `₹${P.ec} per kVAh`);
     bt += line('Time of day (peak surcharge less solar rebate)', b.tod, 'flat 24-hour load');
     bt += line('Demand charge', b.demand, `₹${P.dc} per kVA a month`);
@@ -549,9 +571,10 @@
     bt += line('Electricity duty', b.ed, +P.edOn ? `${P.ed}% of the charges` : 'exempt');
     if (b.re) bt += line('Renewable power', b.re, `${P.reShare}% at ₹${P.reCost} per kWh`);
     if (b.other) bt += line('Other levies', b.other, '');
-    if (r.fuelCost) bt += line('Boiler fuel', r.fuelCost, `${fmt0(r.thSum / 1e6)} GWh of heat at ₹${P.fuelCost}`);
-    $('#pwd-bill').innerHTML = bt + `<tr class="pw-tot"><td>Total</td><td>${fmt(cr(tot), 1)}</td><td>100%</td><td>${fmt(tot / out, 1)}</td><td class="pw-basis">US$${fmt(tot / out / P.fx, 2)} per kWh of cells</td></tr></table>`;
-    $('#pwd-bill-sub').textContent = `At ${P.util}% output, ${fmt(out / 1e6, 2)} GWh of good cells (${fmt(r.cells / 1e6, 2)} million ${P.cellAh} Ah cells). Average power price ₹${fmt(r.elecCost / r.elSum, 2)} per kWh including demand charge and duty.`;
+    bt += line('Total electricity cost', r.elecCost, `${fmt0(r.elSum / 1e6)} million kWh`, 'pw-tot');
+    if (r.fuelCost) { bt += line('Boiler fuel', r.fuelCost, `${fmt0(r.thSum / 1e6)} GWh of heat at ₹${P.fuelCost} per kWh`, '', false); bt += line('Total energy cost', tot, `US$${fmt(tot / out / P.fx, 2)} per kWh of cells`, 'pw-tot', false); }
+    $('#pwd-bill').innerHTML = bt + '</table>';
+    $('#pwd-bill-sub').textContent = `At ${P.util}% output, ${fmt(out / 1e6, 2)} GWh of good cells (${fmt(r.cells / 1e6, 2)} million ${P.cellAh} Ah cells). Electricity costs ₹${fmt(r.elecCost / r.elSum, 2)} per unit (kWh) all-in, ₹${fmt(cr(r.elecCost), 1)} crore a year.`;
     $('#pwd-co2').textContent = `CO₂: grid ${fmt0(r.co2Grid)} t${r.co2Fuel > 0 ? ` plus fuel ${fmt0(r.co2Fuel)} t` : ''} a year, ${fmt(co2 * 1000 / out)} kg per kWh of cells, at ${P.gridEf} t per MWh for grid power.`;
     // method
     const drm = r.dr.months, wet = drm[3].el / (MDAYS[3] * 24) * 1000, dryM = drm[10].el / (MDAYS[10] * 24) * 1000;
@@ -570,7 +593,8 @@
 Nameplate ${P.cap} GWh, output ${P.util}%, yield ${P.yield}% → ${fmt(out / 1e6, 2)} GWh of good cells a year
 Electricity: ${fmt(r.elInt)} kWh per kWh of cells${r.thInt > 0.05 ? ` (+ ${fmt(r.thInt)} kWh fuel heat)` : ''}
 A year: ${fmt0(r.elSum / 1e6)} million kWh; average ${fmt(r.avgMW)} MW, peak ${fmt(r.mdMW)} MW, contract demand about ${fmt0(r.cdMVA)} MVA
-Energy bill: ₹${fmt0(cr(tot))} crore a year, ₹${fmt0(tot / out)} per kWh of cells
+Electricity cost: ₹${fmt(r.elecCost / r.elSum, 2)} per unit (kWh) all-in; ₹${fmt(cr(r.elecCost), 1)} crore a year${r.fuelCost ? ` (+ ₹${fmt(cr(r.fuelCost), 1)} crore boiler fuel)` : ''}
+Total energy cost: ₹${fmt0(tot / out)} per kWh of cells
 Largest loads:
 ${top}
 Tariff: ₹${P.ec}/kVAh, ₹${P.dc}/kVA a month, wheeling ₹${P.wheel}/kVAh, electricity duty ${+P.edOn ? P.ed + '%' : 'exempt'}`;
@@ -602,7 +626,7 @@ Tariff: ₹${P.ec}/kVAh, ₹${P.dc}/kVA a month, wheeling ₹${P.wheel}/kVAh, el
   function headline() {
     if (!init()) return null;
     const r = run(P);
-    return { label: 'Electricity per kWh of LFP cells', value: fmt(r.elInt), unit: ' kWh', move: `${fmt0(r.elSum / 1e6)} million kWh a year at ${P.cap} GWh, ${P.util}% output` };
+    return { label: 'Electricity per kWh of LFP cells', value: fmt(r.elInt), unit: ' kWh', move: `${fmt0(r.elSum / 1e6)} million kWh a year · ₹${fmt(r.elecCost / r.elSum, 2)} per unit · ₹${fmt0(cr(r.elecCost))} crore a year` };
   }
   window.PowerTab = { render, headline, run };
 })();

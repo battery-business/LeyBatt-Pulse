@@ -110,10 +110,6 @@
  "lithium": {
   "recent": [
    [
-    "2026-10-23",
-    14584
-   ],
-   [
     "2026-10-26",
     14289
    ],
@@ -156,6 +152,10 @@
    [
     "2026-11-09",
     13110
+   ],
+   [
+    "2026-11-10",
+    13053
    ]
   ],
   "source": "Guangzhou futures close (via Sina Finance), at the ECB rate",

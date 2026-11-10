@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-10",
- "generated": "2026-11-10T08:49:16+00:00",
+ "generated": "2026-11-10T10:17:01+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -117,7 +117,7 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −25.0% · 3 months −40.9% (rising prices push the score up)",
+       "detail": "1 month −25.3% · 3 months −41.2% (rising prices push the score up)",
        "key": "momentum",
        "weight": 35,
        "prev": 0.0,
@@ -127,7 +127,7 @@
       {
        "label": "How much the price swings",
        "score": 8.7,
-       "detail": "About 53% a year, from 120 price moves in the last 6 months",
+       "detail": "About 53% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24,
        "prev": 8.5,
@@ -147,14 +147,14 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 6.8,
-       "detail": "Average forecast +10.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "score": 6.9,
+       "detail": "Average forecast +11.3% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 18,
        "prev": 6.4,
        "prev_detail": "Average forecast +8.6% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
-       "moved": 0.07
+       "moved": 0.09
       },
       {
        "label": "Room above the cost to make",
@@ -302,7 +302,7 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 121
+    "obs180": 122
    },
    "h12": {
     "price": {
@@ -312,7 +312,7 @@
       {
        "label": "Recent price trend",
        "score": 0.0,
-       "detail": "1 month −25.0% · 3 months −40.9% (rising prices push the score up)",
+       "detail": "1 month −25.3% · 3 months −41.2% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17,
        "prev": 0.0,
@@ -322,7 +322,7 @@
       {
        "label": "How much the price swings",
        "score": 8.7,
-       "detail": "About 53% a year, from 120 price moves in the last 6 months",
+       "detail": "About 53% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 8.5,
@@ -342,14 +342,14 @@
       },
       {
        "label": "What forecasters expect",
-       "score": 6.8,
-       "detail": "Average forecast +10.9% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
+       "score": 6.9,
+       "detail": "Average forecast +11.3% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
        "url": "https://finance.biggo.com/news/f7cf11d0-f978-4dda-8015-7d9217dabd65",
        "key": "expectations",
        "weight": 50,
        "prev": 6.4,
        "prev_detail": "Average forecast +8.6% vs today (CITIC Securities Q4 2026, Goldman Sachs 2027 average, Goldman Sachs 2028 average, Citi Next 3 months (target, cut from $20,000))",
-       "moved": 0.2
+       "moved": 0.25
       },
       {
        "label": "Room above the cost to make",
@@ -497,7 +497,7 @@
      "change": 0.0
     },
     "confidence": "High",
-    "obs180": 121
+    "obs180": 122
    },
    "trend": [
     [
@@ -656,7 +656,7 @@
       {
        "label": "Recent price trend",
        "score": 0.3,
-       "detail": "1 month −14.2% · 3 months −25.5% (rising prices push the score up)",
+       "detail": "1 month −14.4% · 3 months −25.7% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 0.7,
@@ -666,11 +666,10 @@
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 120 price moves in the last 6 months",
+       "detail": "About 32% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22,
        "prev": 4.9,
-       "prev_detail": "About 32% a year, from 121 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -821,7 +820,7 @@
      "change": -0.4
     },
     "confidence": "Medium",
-    "obs180": 121
+    "obs180": 122
    },
    "h12": {
     "price": {
@@ -831,7 +830,7 @@
       {
        "label": "Recent price trend",
        "score": 0.3,
-       "detail": "1 month −14.2% · 3 months −25.5% (rising prices push the score up)",
+       "detail": "1 month −14.4% · 3 months −25.7% (rising prices push the score up)",
        "key": "momentum",
        "weight": 17,
        "prev": 0.7,
@@ -841,11 +840,10 @@
       {
        "label": "How much the price swings",
        "score": 4.9,
-       "detail": "About 32% a year, from 120 price moves in the last 6 months",
+       "detail": "About 32% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 4.9,
-       "prev_detail": "About 32% a year, from 121 price moves in the last 6 months",
        "moved": 0.0
       },
       {
@@ -996,7 +994,7 @@
      "change": -0.3
     },
     "confidence": "Medium",
-    "obs180": 121
+    "obs180": 122
    },
    "trend": [
     [
@@ -1665,13 +1663,13 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.3,
-       "detail": "Price $46.6/kWh vs modelled cost $41.4/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.2,
+       "detail": "Price $46.6/kWh vs modelled cost $41.3/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 14,
        "prev": 6.2,
        "prev_detail": "Price $46.9/kWh vs modelled cost $41.5/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": 0.01
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
@@ -1846,7 +1844,7 @@
    },
    "h12": {
     "price": {
-     "score": 5.1,
+     "score": 5.0,
      "level": "Elevated",
      "drivers": [
       {
@@ -1891,13 +1889,13 @@
       },
       {
        "label": "Room above the cost to make",
-       "score": 6.3,
-       "detail": "Price $46.6/kWh vs modelled cost $41.4/kWh: margin 11% (thin margin = little room to fall)",
+       "score": 6.2,
+       "detail": "Price $46.6/kWh vs modelled cost $41.3/kWh: margin 11% (thin margin = little room to fall)",
        "key": "floor",
        "weight": 29,
        "prev": 6.2,
        "prev_detail": "Price $46.9/kWh vs modelled cost $41.5/kWh: margin 12% (thin margin = little room to fall)",
-       "moved": 0.03
+       "moved": 0.0
       },
       {
        "label": "Lithium price risk passed through",
@@ -1998,7 +1996,7 @@
       }
      ],
      "prev_date": "2026-11-03",
-     "change": 0.0
+     "change": -0.1
     },
     "supply": {
      "score": 6.0,
@@ -2269,7 +2267,7 @@
       {
        "label": "Room above the cost to make",
        "score": 2.1,
-       "detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "detail": "Price $54.2/kWh vs modelled cost $41.3/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 14,
        "prev": 2.2,
@@ -2459,7 +2457,7 @@
       {
        "label": "Room above the cost to make",
        "score": 2.1,
-       "detail": "Price $54.2/kWh vs modelled cost $41.4/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
+       "detail": "Price $54.2/kWh vs modelled cost $41.3/kWh: margin 24% (thin margin = little room to fall) · EV cells cost a little more to make than storage cells, so the real margin is thinner",
        "key": "floor",
        "weight": 29,
        "prev": 2.2,
@@ -3547,7 +3545,7 @@
    "material": "lithium",
    "name": "Lithium carbonate",
    "from": "2023-07-21",
-   "to": "2026-11-09",
+   "to": "2026-11-10",
    "samples": 66,
    "step_days": 14,
    "cut_low": 4.7,

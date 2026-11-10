@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-10",
- "generated": "2026-11-09T23:55:13+00:00",
+ "generated": "2026-11-10T08:49:16+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -2754,18 +2754,18 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.0,
-       "detail": "1 month −5.0% · 3 months −2.9% (rising prices push the score up)",
+       "score": 4.1,
+       "detail": "1 month −4.5% · 3 months −2.4% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 4.7,
        "prev_detail": "1 month −1.7% · 3 months −0.4% (rising prices push the score up)",
-       "moved": -0.35
+       "moved": -0.3
       },
       {
        "label": "How much the price swings",
        "score": 2.5,
-       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 2.6,
@@ -2873,27 +2873,27 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.0,
+     "score": 3.1,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.0,
-       "detail": "1 month −5.0% · 3 months −2.9% (rising prices push the score up)",
+       "score": 4.1,
+       "detail": "1 month −4.5% · 3 months −2.4% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 4.7,
        "prev_detail": "1 month −1.7% · 3 months −0.4% (rising prices push the score up)",
-       "moved": -0.23
+       "moved": -0.2
       },
       {
        "label": "How much the price swings",
        "score": 2.5,
-       "detail": "About 19% a year, from 124 price moves in the last 6 months",
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 2.6,
@@ -2960,7 +2960,7 @@
       }
      ],
      "prev_date": "2026-11-03",
-     "change": -0.5
+     "change": -0.4
     },
     "supply": {
      "score": 1.4,
@@ -3001,7 +3001,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -3154,23 +3154,23 @@
    },
    "h3": {
     "price": {
-     "score": 3.8,
-     "level": "Low",
+     "score": 4.0,
+     "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month +2.0% · 3 months −5.8% (rising prices push the score up)",
+       "score": 5.0,
+       "detail": "1 month +3.0% · 3 months −4.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 4.4,
        "prev_detail": "1 month −0.9% · 3 months −4.6% (rising prices push the score up)",
-       "moved": 0.15
+       "moved": 0.3
       },
       {
        "label": "How much the price swings",
        "score": 3.0,
-       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 3.1,
@@ -3237,7 +3237,7 @@
       }
      ],
      "prev_date": "2026-11-03",
-     "change": -0.1
+     "change": 0.1
     },
     "supply": {
      "score": 2.4,
@@ -3278,27 +3278,27 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 3.5,
+     "score": 3.6,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.7,
-       "detail": "1 month +2.0% · 3 months −5.8% (rising prices push the score up)",
+       "score": 5.0,
+       "detail": "1 month +3.0% · 3 months −4.9% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 4.4,
        "prev_detail": "1 month −0.9% · 3 months −4.6% (rising prices push the score up)",
-       "moved": 0.1
+       "moved": 0.2
       },
       {
        "label": "How much the price swings",
        "score": 3.0,
-       "detail": "About 22% a year, from 124 price moves in the last 6 months",
+       "detail": "About 22% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 3.1,
@@ -3365,7 +3365,7 @@
       }
      ],
      "prev_date": "2026-11-03",
-     "change": -0.2
+     "change": -0.1
     },
     "supply": {
      "score": 2.5,
@@ -3406,7 +3406,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -3536,7 +3536,7 @@
     ],
     [
      "2026-11-10",
-     3.8,
+     4.0,
      2.4
     ]
    ]
@@ -3578,15 +3578,15 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-11-06",
-   "samples": 210,
+   "to": "2026-11-09",
+   "samples": 211,
    "step_days": 14,
    "cut_low": 4.1,
    "cut_high": 4.9,
    "high": {
     "n": 70,
     "rise5": 50,
-    "fall5": 20,
+    "fall5": 19,
     "big10": 40,
     "avg": 4.9
    },
@@ -3598,7 +3598,7 @@
     "avg": 2.3
    },
    "all": {
-    "n": 210,
+    "n": 211,
     "rise5": 39,
     "fall5": 19,
     "big10": 30,
@@ -3609,8 +3609,8 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-11-06",
-   "samples": 210,
+   "to": "2026-11-09",
+   "samples": 211,
    "step_days": 14,
    "cut_low": 4.2,
    "cut_high": 5.0,
@@ -3629,8 +3629,8 @@
     "avg": 1.9
    },
    "all": {
-    "n": 210,
-    "rise5": 38,
+    "n": 211,
+    "rise5": 37,
     "fall5": 27,
     "big10": 33,
     "avg": 1.8

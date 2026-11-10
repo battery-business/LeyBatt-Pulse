@@ -1,9 +1,9 @@
 (() => {
   'use strict';
-  const FILES = ['cellmakers', 'cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'systems', 'rawmats', 'news', 'weekly', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['cellmakers', 'cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'systems', 'rawmats', 'news', 'weekly', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage', 'powermodel'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
-  const TABS = ['overview', 'materials', 'news', 'rules', 'bid', 'calculator', 'storage', 'risk', 'chain'];
+  const TABS = ['overview', 'materials', 'news', 'rules', 'bid', 'calculator', 'storage', 'risk', 'power', 'chain'];
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { brief: 'overview', lithium: 'chain/mining', cells: 'chain/cells', systems: 'chain/systems', 'materials/lithium': 'chain/mining', 'materials/cells': 'chain/cells', 'materials/systems': 'chain/systems', calculator: 'calculator', storage: 'storage' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo', system_award: '--indigo' };
@@ -2554,9 +2554,13 @@
     map: 'M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20V6.5zM9 4v13.5M15 6.5V20',
     link: 'M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2',
     chain: 'M4 6h4v4H4zM10 14h4v4h-4zM16 6h4v4h-4zM8 8h8M12 10v4',
+    bolt: 'M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8z',
   };
   // ---------- page headers: the value-chain step header, reused on every inner page ----------
   const HERO = {
+    power: { icon: 'bolt', color: '--l3', eyebrow: 'Plant power', title: 'Power to make a battery cell',
+      say: () => 'How much electricity an LFP cell factory needs for each kWh of cells it makes, what drives it, and what it costs on an MSEDCL industrial tariff. Simple view for the answer, detailed view for every assumption. Estimates from public data, not quotes.',
+      key: () => (window.PowerTab ? window.PowerTab.headline() : null) },
     news: { icon: 'news', color: '--l2', eyebrow: 'News', title: 'What moved the battery market',
       say: () => 'From lithium mines to India\u2019s storage tenders, summarised in our own words with a link to every source.',
       key: () => { const all = D.news || []; const r = S.news.recent || 0; return { label: 'Added today and yesterday', value: String(r), unit: r === 1 ? ' story' : ' stories', move: `${all.length} in the last few weeks` }; } },
@@ -3345,7 +3349,7 @@
   function refocus() { if (S.focusSel && Date.now() < S.focusUntil) requestAnimationFrame(() => { const e = $(S.focusSel); if (!e) return; const sec = e.closest('.rv'); if (sec) sec.classList.remove('pre'); e.scrollIntoView({ block: blockFor(e) }); e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 1800); }); }
 
   // ---------- tabs ----------
-  const RENDER = { bid: renderBid, overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules };
+  const RENDER = { bid: renderBid, overview: renderOverview, materials: renderMaterialsPage, news: renderNews, calculator: () => { renderCalc(); renderLanded(); }, storage: renderStorage, chain: renderChain, risk: renderRisk, rules: renderRules, power: () => { if (window.PowerTab) window.PowerTab.render(); } };
   const NAV = { cur: null };
   // jargon explained where it first appears on a page (dotted underline, hover or tap for the meaning)
   const GLOSS = [
@@ -3415,7 +3419,7 @@
     if (nav) applyParams(route);
     requestAnimationFrame(() => { try { glossify($(`#page-${tab}`)); } catch (e) { console.error(e); } });
   }
-  const TAB_ICON = { overview: 'chain', news: 'news', rules: 'rules', bid: 'calc', calculator: 'calc', risk: 'shield' };
+  const TAB_ICON = { overview: 'chain', news: 'news', rules: 'rules', bid: 'calc', calculator: 'calc', risk: 'shield', power: 'bolt' };
   { const br = $('.brand'); if (br) br.addEventListener('click', (e) => { e.preventDefault(); if (S.tab === 'overview') window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }); else go('overview'); }); }
   $$('.tab').forEach((b) => { const ic = el('span', 'tab-ic'); ic.appendChild(svgIcon(TAB_ICON[b.dataset.tab] || 'map', 22)); b.prepend(ic); b.addEventListener('click', () => go(b.dataset.tab)); });
   { const sk = $('#skip'); if (sk) sk.addEventListener('click', () => { const m = $('main'); m.setAttribute('tabindex', '-1'); m.focus(); window.scrollTo({ top: $('main').offsetTop - 10 }); }); }
@@ -3505,7 +3509,7 @@
       pollLive();
     });
   // the header search (assets/search.js) reads the site's data and navigates through these
-  window.LBP = { D, S, CHAIN, FC_SERIES, OL_MATS, RISK, GLOSS, UNIT_SHORT, go, focusOn, priceId, secId, allPrices, renderRisk, jumpOutlook, reduced, el, css,
+  window.LBP = { showTip, hideTip, onLeave, D, S, CHAIN, FC_SERIES, OL_MATS, RISK, GLOSS, UNIT_SHORT, go, focusOn, priceId, secId, allPrices, renderRisk, jumpOutlook, reduced, el, css,
     liFut: () => liFut(), futHist: () => futHist(), loadHistory: () => loadHistory(), smmSpot: () => smmSpot(), ptsOf, weekly, bidPrice: (...a) => bidPrice(...a), landCalc: (...a) => landCalc(...a), land: () => { landInit(); return LAND; } };
   // long price histories, refreshed nightly by GitHub: lithium futures (since Jul 2023), LME copper and aluminium (since 2018), ECB rates
   function loadHistory() {

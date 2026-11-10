@@ -1,0 +1,313 @@
+{
+ "updated": "2026-11-10",
+ "note": "Defaults for the cell-plant power estimator (Plant power tab). Engineering estimates for an LFP prismatic cell factory, calibrated to the published figures in benchmarks. Change only with a sourced reason.",
+ "defaults": {
+  "cap": 6,
+  "util": 85,
+  "yield": 93,
+  "cellAh": 324,
+  "vnom": 3.2,
+  "camKg": 2.3,
+  "camFrac": 96,
+  "cathSolids": 60,
+  "anoKg": 1.1,
+  "anoFrac": 95.5,
+  "anoSolids": 48,
+  "nmpHeat": 5,
+  "waterHeat": 2.8,
+  "dryerRecov": 20,
+  "coaterMech": 0.35,
+  "nmpChill": 0.35,
+  "nmpDistil": 0,
+  "mixing": 0.5,
+  "calender": 0.7,
+  "vacdry": 1.2,
+  "assembly": 1.1,
+  "filling": 0.3,
+  "ice": 90,
+  "shipSoc": 40,
+  "extraCycles": 0,
+  "convEff": 88,
+  "regen": 1,
+  "regenEff": 85,
+  "fixtures": 0.25,
+  "htDays": 2,
+  "rtDays": 14,
+  "dryArea": 2500,
+  "roomDp": -40,
+  "faFlow": 15,
+  "ach": 30,
+  "ceiling": 4,
+  "sfp": 0.5,
+  "coilDp": 9,
+  "intMoist": 3,
+  "intHeat": 120,
+  "purge": 0,
+  "carry": 35,
+  "copRef": 4.5,
+  "elev": 250,
+  "condArea": 6000,
+  "hallGain": 70,
+  "compAir": 0.9,
+  "procCool": 0.8,
+  "misc": 0.8,
+  "losses": 2,
+  "dryerHeat": "elec",
+  "hpCop": 2.8,
+  "regenHeat": "elec",
+  "boilerEff": 88,
+  "fuel": "ng",
+  "fuelCost": 5.6,
+  "fuelEf": 0.202,
+  "tariff": "rev",
+  "ec": 8.44,
+  "wheel": 0,
+  "dc": 650,
+  "pf": 99.5,
+  "lf": 85,
+  "cdMargin": 10,
+  "fac": 0,
+  "todPeak": 25,
+  "peakHrs": 7,
+  "solarHrs": 8,
+  "solarRebS": 15,
+  "solarRebW": 25,
+  "ed": 7.5,
+  "edOn": 1,
+  "other": 0,
+  "reShare": 0,
+  "reCost": 5.5,
+  "fx": 88,
+  "gridEf": 0.727
+ },
+ "ramp": [
+  25,
+  55,
+  75,
+  85,
+  90
+ ],
+ "climate": {
+  "place": "Bhandara / Nagpur, Vidarbha (Maharashtra)",
+  "months": [
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct",
+   "Nov",
+   "Dec",
+   "Jan",
+   "Feb",
+   "Mar"
+  ],
+  "temp_c": [
+   34,
+   35,
+   33,
+   27,
+   27,
+   27,
+   25,
+   23,
+   21,
+   22,
+   25,
+   30
+  ],
+  "dewpoint_c": [
+   10,
+   14,
+   21,
+   24,
+   24,
+   23,
+   18,
+   13,
+   11,
+   11,
+   10,
+   9
+  ],
+  "note": "Mean temperatures from weatherapi.com Bhandara monthly averages. Dew points are estimates for Vidarbha from Nagpur climatology with spot checks; replace with IMD or site data.",
+  "source": "weatherapi.com — Bhandara monthly averages",
+  "url": "https://www.weatherapi.com/history/q/bhandara-1108608"
+ },
+ "tariffs": {
+  "rev": {
+   "name": "FY26-27 revised, EHV supply",
+   "ec": 8.44,
+   "wheel": 0,
+   "dc": 650,
+   "source": "Grade Electricals summary of MERC order, Case 75 of 2025 (25 Mar 2026) — verify",
+   "url": "https://www.gradeelectricals.com/post/ht-vs-lt-connection-maharashtra"
+  },
+  "ht": {
+   "name": "FY26-27 revised, 11–33 kV supply",
+   "ec": 8.44,
+   "wheel": 0.81,
+   "dc": 650,
+   "source": "Grade Electricals summary of MERC order, Case 75 of 2025 (25 Mar 2026) — verify",
+   "url": "https://www.gradeelectricals.com/post/ht-vs-lt-connection-maharashtra"
+  },
+  "myt": {
+   "name": "MYT order Mar 2025, FY26-27, EHV",
+   "ec": 7.11,
+   "wheel": 0,
+   "dc": 565,
+   "source": "Sunwave summary of MERC MYT order (Case 217 of 2024)",
+   "url": "https://www.sunwavetech.com/blog/maharashtra-net-metering-industrial-guide"
+  }
+ },
+ "fuels": {
+  "ng": {
+   "name": "Natural gas (PNG)",
+   "cost": 5.6,
+   "ef": 0.202
+  },
+  "bio": {
+   "name": "Biomass briquettes",
+   "cost": 1.8,
+   "ef": 0
+  }
+ },
+ "presets": {
+  "base": {
+   "name": "Typical today",
+   "set": {}
+  },
+  "best": {
+   "name": "Best available",
+   "set": {
+    "dryerHeat": "hp",
+    "purge": 40,
+    "dryerRecov": 35,
+    "cathSolids": 65,
+    "convEff": 92,
+    "regenEff": 90,
+    "faFlow": 12
+   }
+  },
+  "boiler": {
+   "name": "Fuel-fired heat",
+   "set": {
+    "dryerHeat": "boiler",
+    "regenHeat": "boiler"
+   }
+  },
+  "ramp": {
+   "name": "Ramp-up year",
+   "set": {
+    "util": 35,
+    "yield": 85
+   }
+  }
+ },
+ "benchmarks": [
+  {
+   "label": "Degen et al. — LFP today",
+   "el": null,
+   "th": null,
+   "total": 37.5,
+   "note": "All energy, excluding materials; LFP is the highest of the chemistries studied.",
+   "source": "Degen et al., Nature Energy 2023",
+   "url": "https://doi.org/10.1038/s41560-023-01355-z"
+  },
+  {
+   "label": "Degen et al. — LFP 2040",
+   "el": null,
+   "th": null,
+   "total": 12.9,
+   "note": "With new technologies, heat pumps, learning and scale (range 8.2–20.1).",
+   "source": "Degen et al., Nature Energy 2023",
+   "url": "https://doi.org/10.1038/s41560-023-01355-z"
+  },
+  {
+   "label": "SVOLT Suining 20 GWh",
+   "el": 24.6,
+   "th": 27.6,
+   "total": null,
+   "note": "Design values: 491 GWh electricity and 55.2 million m³ gas a year. Mixed chemistries.",
+   "source": "Sichuan DRC energy review, 2022",
+   "url": "https://fgw.sc.gov.cn/sfgw/c106093/2022/6/6/d835cc247f284e2c9df142a998652773.shtml"
+  },
+  {
+   "label": "SVOLT Suining 9 GWh",
+   "el": 33,
+   "th": 17.9,
+   "total": null,
+   "note": "Design values: 297 GWh electricity and 16.2 million m³ gas a year.",
+   "source": "Sichuan DRC energy review, 2022",
+   "url": "https://fgw.sc.gov.cn/sfgw/c106093/2022/12/30/daf8d4826fef4fccb4e4702342185fde.shtml"
+  },
+  {
+   "label": "Tianjin 4 GWh cells + packs",
+   "el": 31.9,
+   "th": 26.3,
+   "total": null,
+   "note": "Design values: 127.7 GWh electricity and 10.5 million m³ gas a year.",
+   "source": "Sichuan DRC energy review, 2023",
+   "url": "https://fgw.sc.gov.cn/sfgw/c106093/2023/4/28/271b310df4eb4268a5dcf81efb0c91e1.shtml"
+  }
+ ],
+ "sources": [
+  {
+   "t": "Degen, Winter, Bendig, Tübke (2023). Energy consumption of current and future production of lithium-ion and post lithium-ion battery cells. Nature Energy 8, 1284–1295.",
+   "url": "https://doi.org/10.1038/s41560-023-01355-z"
+  },
+  {
+   "t": "Degen & Schütte (2022). Life cycle assessment of the energy consumption and GHG emissions of state-of-the-art automotive battery cell production. J. Cleaner Production 330 — coating and drying, formation and dry rooms use 76% of the energy.",
+   "url": "https://doi.org/10.1016/j.jclepro.2021.129798"
+  },
+  {
+   "t": "Batteries 10(2):64 (2024) — hot-air electrode drying ≈ 10.1 kWh gas + 0.9 kWh electricity per kWh of cells.",
+   "url": "https://www.mdpi.com/2313-0105/10/2/64"
+  },
+  {
+   "t": "Sichuan DRC energy-review approvals for 20 GWh, 9 GWh and 4 GWh lithium-ion cell plants (2022–23).",
+   "url": "https://fgw.sc.gov.cn/sfgw/c106093/2022/6/6/d835cc247f284e2c9df142a998652773.shtml"
+  },
+  {
+   "t": "LFP use of 2.2–2.5 t per GWh (industry estimate).",
+   "url": "https://www.xueqiu.com/5243796549/337274392/366743395"
+  },
+  {
+   "t": "MSEDCL HT-Industry tariff FY26-27, MYT order: ₹7.11/kVAh, ₹565/kVA/month (Sunwave summary).",
+   "url": "https://www.sunwavetech.com/blog/maharashtra-net-metering-industrial-guide"
+  },
+  {
+   "t": "MSEDCL HT-Industry FY26-27 revised: energy ₹8.44, wheeling ₹0.81, demand ₹650 (secondary source citing MERC order of 25 Mar 2026 — verify against the MERC schedule).",
+   "url": "https://www.gradeelectricals.com/post/ht-vs-lt-connection-maharashtra"
+  },
+  {
+   "t": "FY26-27 time-of-day: +25% from 17:00 to midnight; solar-hour rebate 15% (Apr–Sep) and 25% (Oct–Mar).",
+   "url": "https://www.nobroker.in/packers-and-movers/guides/commercial-electricity-rate-per-unit-in-pune/"
+  },
+  {
+   "t": "Maharashtra electricity duty on industrial use cut from 9.3% to 7.5% (August 2020).",
+   "url": "https://lexplosion.in/?p=125212"
+  },
+  {
+   "t": "Package Scheme of Incentives 2019 — electricity duty exemption for Mega and Ultra-Mega projects.",
+   "url": "https://old.wirc-icai.org/images/material/PSI-2019-MilindGG.pdf"
+  },
+  {
+   "t": "CEA CO₂ baseline database, FY2023-24 grid average 0.727 t CO₂/MWh.",
+   "url": "https://solarquarter.com/2025/01/06/co2-baseline-database-highlights-indias-progress-in-renewable-energy-and-emission-reduction-cea/"
+  },
+  {
+   "t": "Dry rooms at −40 °C dew point (≈ 0.08 g water per kg air); pre-cooling plus desiccant wheel (Munters).",
+   "url": "https://chargedevs.com/sponsored/how-to-choose-the-right-dry-room-dehumidification-solution-for-lithium-ion-battery-production/"
+  },
+  {
+   "t": "Energy-recovery purge saves 35–50% of desiccant reactivation energy (Munters).",
+   "url": "https://www.batterypoweronline.com/news/innovative-solutions-supercharge-design-of-world-class-battery-research-lab/"
+  },
+  {
+   "t": "Bhandara monthly average temperatures (weatherapi.com).",
+   "url": "https://www.weatherapi.com/history/q/bhandara-1108608"
+  }
+ ]
+}

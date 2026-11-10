@@ -76,7 +76,7 @@ Some company networks block Sina Finance in the browser, so a GitHub Action (`.g
 
 ## Site structure
 
-Tabs: **Today** (the value chain, what matters today, today's prices), **News**, **Regulations**, **Bidding desk** (landed cost and outlook, cost to make a cell, India tenders and EPC) and **Risk**. The detailed lithium, cell and storage-system price panels sit inside their value-chain steps (Mining, Cells, Packs & systems); old links to `#materials/lithium`, `#materials/cells` and `#materials/systems` open those steps. `#materials/all` is the table of every price.
+Tabs: **Today** (the value chain, what matters today, today's prices), **News**, **Regulations**, **Bidding desk** (landed cost and outlook, cost to make a cell, India tenders and EPC), **Risk** and **Plant power**. The detailed lithium, cell and storage-system price panels sit inside their value-chain steps (Mining, Cells, Packs & systems); old links to `#materials/lithium`, `#materials/cells` and `#materials/systems` open those steps. `#materials/all` is the table of every price.
 
 The Materials step opens with "What the materials in a cell cost today": the bill of materials for 1 kWh of 314 Ah LFP storage cell, worked out live from `rawmats.json`, the latest lithium spot in `lithium.json`, the quantities in `costmodel.json` and the 314 Ah price in `weekly.json` (the same model as the cost calculator). It needs no updating of its own; keep the material names in `rawmats.json` exactly as they are.
 
@@ -185,3 +185,7 @@ The search box in the header (also Ctrl K / ⌘K, or `/`) runs entirely in the v
 - The last row always offers "Search the web", which opens an ordinary Google search in a new tab.
 - Direct answers are worked out in the browser from the same data (never guessed): a price now, its change over a day / week / month / 3 or 6 months / year ("How much did lithium fall this month?"), a 2027–2029 outlook ("EV cell price 2028"), the landed cost in India from the Bidding desk ("landed cost of 314 Ah cell"), and a date ("When does the China export pause end?"). Matched words are highlighted, with a snippet when they matched only in the story's "What it means" text.
 - A "Didn't find what you needed?" link under the results opens an email to `profile.json` → `feedback_email` with the search filled in; it is hidden while that field is empty.
+
+## Plant power tab (`powermodel.json`)
+
+The Plant power tab estimates the electricity an LFP cell factory needs per kWh of cells (Simple and Detailed views, `assets/power.js`). Its assumptions, climate, MSEDCL tariff options, published benchmarks and sources are in `data/powermodel.json`. A daily update leaves this file alone. Change it only when a new tariff order, published plant figure or study gives a sourced reason, and update the matching `source`/`url` and `updated`.

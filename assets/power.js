@@ -6,7 +6,7 @@
   'use strict';
   const MONTHS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
   const MDAYS = [30, 31, 30, 31, 31, 30, 31, 30, 31, 31, 28, 31];
-  const STR = ['dryerHeat', 'regenHeat', 'fuel', 'tariff'];
+  const STR = ['dryerHeat', 'regenHeat', 'fuel', 'tariff', 'priceMode'];
   const SHORT = { dry: 'electrode drying', vac: 'vacuum drying', air: 'compressed air', form: 'formation', asm: 'assembly', pcw: 'process chilled water', cal: 'calendering', mix: 'mixing', nmp: 'NMP recovery', coat: 'coater drives', fill: 'filling', fix: 'formation fixtures', age: 'ageing', formcool: 'formation cooling', dryroom: 'dry rooms', hvac: 'air-conditioning of other halls', misc: 'lighting and offices', loss: 'losses' };
   const GROUPS = [
     ['Electrode making', ['mix', 'dry', 'coat', 'nmp', 'cal'], 'Mixing, coating and drying the electrodes, NMP solvent recovery, calendering'],
@@ -101,8 +101,10 @@
       Object.entries({ energy: e, tod: t, demand: d, wheel: w, fac: f, ed, re, other: o }).forEach(([k, v]) => { bill[k] += v; });
       x.cost = e + w + t + f + d + re + ed + o;
     });
+    const flat = p.priceMode === 'flat';
+    if (flat) { Object.keys(bill).forEach((k) => { bill[k] = 0; }); bill.flat = elSum * p.flatPrice; monthly.forEach((x) => { x.cost = x.total * p.flatPrice; }); }
     const elecCost = Object.values(bill).reduce((a, b) => a + b, 0), fuelCost = thSum * p.fuelCost;
-    const co2Grid = elSum * (1 - p.reShare / 100) * p.gridEf / 1000, co2Fuel = thSum * p.fuelEf / 1000;
+    const co2Grid = elSum * (flat ? 1 : 1 - p.reShare / 100) * p.gridEf / 1000, co2Fuel = thSum * p.fuelEf / 1000;
     return { u, out, steps, elSum, thSum, elInt: elSum / out, thInt: thSum / out, avgMW, mdMW, cdMVA, monthly, bill, elecCost, fuelCost, co2Grid, co2Fuel, nmp, water, dcIn, dcOut, acIn, acBack, dr, cells: out * 1000 / (p.cellAh * p.vnom) };
   }
 
@@ -177,6 +179,8 @@
       ['fuelEf', 'Fuel emissions', 'kg CO₂ per kWh', 0, 0.4, 0.001, 'M', ''],
     ] },
     { t: 'Tariff and cost', f: [
+      ['priceMode', 'How to price electricity', '', 0, 0, 0, 'M', 'One price per unit overrides the tariff build-up below.', [['tariff', 'MSEDCL tariff build-up'], ['flat', 'One price per unit']]],
+      ['flatPrice', 'Electricity price per unit (all-in)', '₹ per kWh', 4, 15, 0.05, 'M', 'Use a negotiated, open-access or blended price.'],
       ['tariff', 'MSEDCL HT-Industry tariff', '', 0, 0, 0, 'M', 'Check against the current MERC tariff schedule before relying on it.', [...Object.entries(M.tariffs).map(([k, v]) => [k, `${v.name} (₹${v.ec}, ₹${v.dc}/kVA)`]), ['custom', 'Custom']]],
       ['ec', 'Energy charge', '₹ per kVAh', 4, 12, 0.01, 'M', ''],
       ['wheel', 'Wheeling charge', '₹ per kVAh', 0, 2, 0.01, 'M', 'Nil for supply at 66 kV and above.'],
@@ -214,6 +218,7 @@
     if (['ec', 'wheel', 'dc'].includes(id)) P.tariff = 'custom';
     if (id === 'fuel' && M.fuels[v]) Object.assign(P, { fuelCost: M.fuels[v].cost, fuelEf: M.fuels[v].ef });
     if (['fuelCost', 'fuelEf'].includes(id)) P.fuel = 'custom';
+    if (id === 'flatPrice') P.priceMode = 'flat';
     preset = null;
   }
 
@@ -310,7 +315,9 @@
   const legend = (items) => `<div class="pw-legend">${items.map(([c, t]) => `<span><i style="background:var(${c})"></i>${t}</span>`).join('')}</div>`;
 
   // electricity price per unit (kWh), built up from the bill
+  const tariffPrice = () => { const q = run({ ...P, priceMode: 'tariff' }); return q.elecCost / q.elSum; };
   function unitParts(r) {
+    if (P.priceMode === 'flat') return { parts: [['Set by you', P.flatPrice]], total: P.flatPrice, flat: true };
     const b = r.bill, k = r.elSum, parts = [
       ['Energy charge', b.energy + b.fac], ['Demand charge', b.demand], ['Time of day', b.tod], ['Wheeling', b.wheel],
       ['Electricity duty', b.ed], ['Renewable power', b.re], ['Other levies', b.other],
@@ -319,6 +326,7 @@
   }
   function unitLine(r) {
     const u = unitParts(r);
+    if (u.flat) return `<div class="pw-unit"><span class="pw-ul">Electricity price per unit (kWh):</span> <span class="pw-ut">₹${fmt(u.total, 2)} per kWh, set by you</span> <span class="pw-ul">· the MSEDCL HT-Industry build-up gives ₹${fmt(tariffPrice(), 2)}</span></div>`;
     return `<div class="pw-unit"><span class="pw-ul">Electricity price per unit (kWh):</span> ${u.parts.map(([n, v], i) => `<span class="pw-up">${i ? (v < 0 ? '− ' : '+ ') : ''}₹${fmt(Math.abs(v), 2)} <small>${n.toLowerCase()}</small></span>`).join(' ')} <span class="pw-ut">= ₹${fmt(u.total, 2)} per kWh</span></div>`;
   }
   const kpiHtml = (rows) => rows.map(([c, k, v, d]) => `<div class="kpi ${c}"><span class="k">${k}</span><span class="v">${v}</span><span class="d pw-dim">${d}</span></div>`).join('');
@@ -333,6 +341,7 @@
           <div class="panel-head"><h2>The plant</h2></div>
           <label class="pw-sf"><span class="lbl">Nameplate capacity</span><span class="pw-sv"><input class="num-in" type="number" id="pws-cap" min="1" max="20" step="0.5"> <span class="lbl">GWh a year</span></span><input type="range" id="pws-capr" min="1" max="20" step="0.5"></label>
           <label class="pw-sf"><span class="lbl">Output this year</span><span class="pw-sv"><b id="pws-utilv"></b> <span class="lbl">% of nameplate</span></span><input type="range" id="pws-util" min="10" max="100" step="1"></label>
+          <label class="pw-sf"><span class="lbl">Electricity price per unit (all-in)</span><span class="pw-sv"><span class="lbl">₹</span><input class="num-in" type="number" id="pws-price" min="2" max="20" step="0.05"> <span class="lbl">per kWh</span> <span class="pw-src-tag" id="pws-price-tag"></span></span><input type="range" id="pws-pricer" min="4" max="15" step="0.05"><button class="btn link pw-reset-price" type="button" id="pws-price-reset" hidden>Use the MSEDCL tariff instead</button></label>
           <div class="pw-sf"><span class="lbl">Heat for electrode ovens and dry rooms</span><div id="pws-heat"></div></div>
           <div class="pw-sf"><span class="lbl">Equipment</span><div id="pws-tech"></div></div>
           <div class="pw-sf"><span class="lbl">Electricity duty</span><div id="pws-ed"></div></div>
@@ -361,12 +370,20 @@
     cap.addEventListener('input', () => { if (cap.value === '') return; setVal('cap', cap.value); capr.value = P.cap; update(); });
     capr.addEventListener('input', () => { setVal('cap', capr.value); cap.value = P.cap; update(); });
     $('#pws-util').addEventListener('input', (e) => { setVal('util', e.target.value); update(); });
+    const pr = $('#pws-price'), prr = $('#pws-pricer');
+    const setPrice = (v) => { if (v === '' || isNaN(+v) || +v <= 0) return; P.priceMode = 'flat'; P.flatPrice = Math.round(+v * 100) / 100; preset = null; update(); };
+    pr.addEventListener('input', () => setPrice(pr.value));
+    prr.addEventListener('input', () => { pr.value = prr.value; setPrice(prr.value); });
+    $('#pws-price-reset').addEventListener('click', () => { P.priceMode = 'tariff'; update(); });
     $('#pws-detail').addEventListener('click', () => setMode('detail', true));
     built.s = true;
   }
   function syncSimple() {
     const cap = $('#pws-cap'); if (cap !== document.activeElement) cap.value = P.cap; $('#pws-capr').value = P.cap;
     $('#pws-util').value = P.util; $('#pws-utilv').textContent = P.util;
+    { const flat = P.priceMode === 'flat', v = flat ? P.flatPrice : tariffPrice(), pr = $('#pws-price');
+      if (pr !== document.activeElement) pr.value = v.toFixed(2); $('#pws-pricer').value = v;
+      $('#pws-price-tag').textContent = flat ? 'set by you' : 'from MSEDCL tariff'; $('#pws-price-reset').hidden = !flat; }
     const heat = P.dryerHeat === 'boiler' && P.regenHeat === 'boiler' ? 'boiler' : P.dryerHeat !== 'boiler' && P.regenHeat === 'elec' ? 'elec' : 'mix';
     $('#pws-heat').innerHTML = seg('pws-heat-s', [['elec', 'Electric'], ['boiler', 'Gas or biomass boiler']], heat, 'Heat source');
     const best = M.presets.best.set, isBest = Object.keys(best).every((k) => String(P[k]) === String(best[k]));
@@ -383,7 +400,7 @@
     $('#pws-kpis').innerHTML = [
       ['main', 'Electricity per kWh of cells', `${fmt(r.elInt)}<span class="u"> kWh</span>`, r.thInt > 0.05 ? `plus ${fmt(r.thInt)} kWh of fuel heat` : `at ${P.util}% output`],
       ['', 'Electricity a year', `${fmt0(r.elSum / 1e6)}<span class="u"> million kWh</span>`, `${fmt(r.avgMW)} MW on average`],
-      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, `all-in: energy, demand charge${+P.edOn ? ', duty' : ''}`],
+      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, P.priceMode === 'flat' ? 'set by you' : `MSEDCL all-in: energy, demand charge${+P.edOn ? ', duty' : ''}`],
       ['', 'Total electricity cost a year', `₹${fmt0(cr(r.elecCost))}<span class="u"> crore</span>`, `₹${fmt0(r.elecCost / out)} per kWh of cells`],
       ['', 'Grid connection', `${fmt0(r.cdMVA)}<span class="u"> MVA</span>`, `peak about ${fmt(r.mdMW)} MW`],
       ['', r.fuelCost > 0 ? 'Total energy cost a year' : 'Energy cost per kWh of cells', r.fuelCost > 0 ? `₹${fmt0(cr(tot))}<span class="u"> crore</span>` : `₹${fmt0(tot / out)}<span class="u"> per kWh</span>`, r.fuelCost > 0 ? `incl. ₹${fmt0(cr(r.fuelCost))} crore boiler fuel · ₹${fmt0(tot / out)} per kWh of cells` : `US$${fmt(tot / out / P.fx, 2)} per kWh of cells`],
@@ -496,7 +513,9 @@
     $$('#pwd-inputs [data-id]').forEach((e) => { if (e === document.activeElement && e.dataset.id === skip) return; e.value = P[e.dataset.id]; });
     $$('#pwd-inputs [data-r]').forEach((e) => { e.value = P[e.dataset.r]; });
     const show = (id, on) => { const f = $('#pwf-' + id); if (f) f.hidden = !on; };
-    show('hpCop', P.dryerHeat === 'hp'); show('regenEff', +P.regen === 1); show('ed', +P.edOn === 1); show('reCost', P.reShare > 0);
+    show('hpCop', P.dryerHeat === 'hp'); show('regenEff', +P.regen === 1); const flat = P.priceMode === 'flat'; show('flatPrice', flat);
+    ['tariff', 'ec', 'wheel', 'dc', 'fac', 'todPeak', 'solarRebS', 'solarRebW', 'solarHrs', 'edOn', 'other', 'reShare'].forEach((i) => show(i, !flat));
+    show('ed', !flat && +P.edOn === 1); show('reCost', !flat && P.reShare > 0);
     const fuelOn = P.dryerHeat === 'boiler' || P.regenHeat === 'boiler'; ['boilerEff', 'fuel', 'fuelCost', 'fuelEf'].forEach((i) => show(i, fuelOn));
     $$('#pwd-clim input').forEach((e) => { if (e === document.activeElement) return; const [a, i] = e.dataset.c.split(':'); e.value = P[a][+i]; });
     const pr = $('#pwd-presets');
@@ -509,7 +528,7 @@
     $('#pwd-kpis').innerHTML = [
       ['main', 'Electricity per kWh of cells', `${fmt(r.elInt)}<span class="u"> kWh</span>`, r.thInt > 0.05 ? `plus ${fmt(r.thInt)} kWh fuel heat` : `at ${P.util}% output`],
       ['', 'Electricity a year', `${fmt0(r.elSum / 1e6)}<span class="u"> MU</span>`, `${fmt(out / 1e6, 2)} GWh of cells`],
-      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, `energy charge ₹${fmt(P.ec, 2)}/kVAh + demand, ToD${+P.edOn ? ', duty' : ''}`],
+      ['', 'Electricity cost per unit', `₹${fmt(r.elecCost / r.elSum, 2)}<span class="u"> per kWh</span>`, P.priceMode === 'flat' ? `set by you · MSEDCL build-up ₹${fmt(tariffPrice(), 2)}` : `energy charge ₹${fmt(P.ec, 2)}/kVAh + demand, ToD${+P.edOn ? ', duty' : ''}`],
       ['', 'Total electricity cost a year', `₹${fmt(cr(r.elecCost), 1)}<span class="u"> cr</span>`, `₹${fmt0(r.elecCost / out)} per kWh of cells`],
       ['', 'Average and peak', `${fmt(r.avgMW)}<span class="u"> MW</span>`, `peak ${fmt(r.mdMW)} MW · ${fmt0(r.cdMVA)} MVA contract`],
       ['', 'Boiler fuel a year', r.fuelCost > 0 ? `₹${fmt(cr(r.fuelCost), 1)}<span class="u"> cr</span>` : '₹0', r.fuelCost > 0 ? `${fmt0(r.thSum / 1e6)} GWh of heat at ₹${P.fuelCost}/kWh` : 'all heat from electricity'],
@@ -563,6 +582,8 @@
     // bill
     const b = r.bill, line = (n, v, basis, cls = '', unit = true) => `<tr class="${cls}"><td>${n}</td><td>${fmt(cr(v), 1)}</td><td>${fmt(100 * v / tot)}%</td><td>${unit ? fmt(v / r.elSum, 2) : '–'}</td><td>${fmt(v / out, 1)}</td><td class="pw-basis">${basis}</td></tr>`;
     let bt = '<table class="rtable pw-num"><tr><th>Item</th><th>₹ crore a year</th><th>Share</th><th>₹ per unit (kWh)</th><th>₹ per kWh of cells</th><th>Basis</th></tr>';
+    if (P.priceMode === 'flat') bt += line('Electricity', b.flat, `₹${fmt(P.flatPrice, 2)} per unit, set by you (MSEDCL build-up ₹${fmt(tariffPrice(), 2)})`);
+    else {
     bt += line('Energy charge', b.energy, `₹${P.ec} per kVAh`);
     bt += line('Time of day (peak surcharge less solar rebate)', b.tod, 'flat 24-hour load');
     bt += line('Demand charge', b.demand, `₹${P.dc} per kVA a month`);
@@ -571,6 +592,7 @@
     bt += line('Electricity duty', b.ed, +P.edOn ? `${P.ed}% of the charges` : 'exempt');
     if (b.re) bt += line('Renewable power', b.re, `${P.reShare}% at ₹${P.reCost} per kWh`);
     if (b.other) bt += line('Other levies', b.other, '');
+    }
     bt += line('Total electricity cost', r.elecCost, `${fmt0(r.elSum / 1e6)} million kWh`, 'pw-tot');
     if (r.fuelCost) { bt += line('Boiler fuel', r.fuelCost, `${fmt0(r.thSum / 1e6)} GWh of heat at ₹${P.fuelCost} per kWh`, '', false); bt += line('Total energy cost', tot, `US$${fmt(tot / out / P.fx, 2)} per kWh of cells`, 'pw-tot', false); }
     $('#pwd-bill').innerHTML = bt + '</table>';
@@ -597,7 +619,7 @@ Electricity cost: ₹${fmt(r.elecCost / r.elSum, 2)} per unit (kWh) all-in; ₹$
 Total energy cost: ₹${fmt0(tot / out)} per kWh of cells
 Largest loads:
 ${top}
-Tariff: ₹${P.ec}/kVAh, ₹${P.dc}/kVA a month, wheeling ₹${P.wheel}/kVAh, electricity duty ${+P.edOn ? P.ed + '%' : 'exempt'}`;
+${P.priceMode === 'flat' ? `Electricity priced at ₹${P.flatPrice} per unit (set by user)` : `Tariff: ₹${P.ec}/kVAh, ₹${P.dc}/kVA a month, wheeling ₹${P.wheel}/kVAh, electricity duty ${+P.edOn ? P.ed + '%' : 'exempt'}`}`;
   }
 
   // ===================== entry =====================

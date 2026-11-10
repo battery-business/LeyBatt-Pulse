@@ -78,7 +78,9 @@
   "reShare": 0,
   "reCost": 5.5,
   "fx": 88,
-  "gridEf": 0.727
+  "gridEf": 0.727,
+  "priceMode": "tariff",
+  "flatPrice": 10.31
  },
  "ramp": [
   25,

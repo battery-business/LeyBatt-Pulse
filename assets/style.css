@@ -1781,3 +1781,6 @@ a.ot-link .ot-us, a.ot-link .ot-h { display: block; }
 @media (max-width: 1250px) { .pw-k6 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pw-k6 .kpi:not(.main) { background: var(--panel); border-color: transparent; }
 #pwd-unit .pw-unit { background: var(--panel); }
+
+.pw-src-tag { font-size: 11.5px; font-weight: 600; color: var(--muted); background: var(--soft); border-radius: 999px; padding: 1px 8px; }
+.pw-reset-price { align-self: flex-start; font-size: 12.5px; }

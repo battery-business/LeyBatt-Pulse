@@ -454,5 +454,13 @@
   "source": "Sohu, GFEX lc2701",
   "url": "https://www.sohu.com/a/1099278098_114984",
   "note": "Most-traded lc2701 contract fell 4.85% to about $13,060 on 9 Nov as the rebound faded; weak November output plans and talk of the Jiaxiawo mine restarting weighed"
+ },
+ {
+  "date": "2026-11-10",
+  "series": "Futures",
+  "usd_t": 13000,
+  "source": "21st Century Business Herald (GFEX main contract)",
+  "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html",
+  "note": "Main contract closed at about $13,000 on 10 Nov, near its 4 Nov year low of about $12,890; the article says it fell nearly 3% on the day"
  }
 ]

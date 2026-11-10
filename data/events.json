@@ -52,49 +52,6 @@
   "so": "A 1.6 GWh storage tender in Maharashtra."
  },
  {
-  "date": "2027-01-10",
-  "what": "China's extended pause on export licences for lithium-ion batteries, LFP cathode, artificial graphite anode and related equipment (2025 Announcement No. 58) ends unless renewed again",
-  "kind": "Rule change",
-  "source": "Sina (MOFCOM/GAC notice), 9 Nov 2026",
-  "url": "https://k.sina.cn/article_5953740931_162dee083067044xc4.html",
-  "short": "China battery export-control pause ends",
-  "risk": [
-   {
-    "m": "graphite",
-    "k": "supply",
-    "s": 3
-   },
-   {
-    "m": "cathode",
-    "k": "supply",
-    "s": 2
-   },
-   {
-    "m": "cell_ev",
-    "k": "supply",
-    "s": 1
-   },
-   {
-    "m": "cell_ess",
-    "k": "supply",
-    "s": 1
-   },
-   {
-    "m": "graphite",
-    "k": "price",
-    "s": 2
-   },
-   {
-    "m": "cathode",
-    "k": "price",
-    "s": 1
-   }
-  ],
-  "weight": 3,
-  "seg": "Batteries",
-  "so": "Unless China extends the pause again, cell, cathode and graphite shipments to India need Chinese export licences from 10 Jan 2027: delays and higher import prices."
- },
- {
   "date": "2026-11-10",
   "what": "MHI ACC PLI round 3 (10 GWh grid-storage cells): bids due, extended from 13 Oct",
   "kind": "India tender",
@@ -253,6 +210,49 @@
   "so": "Less lithium ore from Zimbabwe for Chinese refiners: supports lithium prices next year."
  },
  {
+  "date": "2027-01-10",
+  "what": "China's extended pause on export licences for lithium-ion batteries, LFP cathode, artificial graphite anode and related equipment (2025 Announcement No. 58) ends unless renewed again",
+  "kind": "Rule change",
+  "source": "Sina (MOFCOM/GAC notice), 9 Nov 2026",
+  "url": "https://k.sina.cn/article_5953740931_162dee083067044xc4.html",
+  "short": "China battery export-control pause ends",
+  "risk": [
+   {
+    "m": "graphite",
+    "k": "supply",
+    "s": 3
+   },
+   {
+    "m": "cathode",
+    "k": "supply",
+    "s": 2
+   },
+   {
+    "m": "cell_ev",
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "m": "graphite",
+    "k": "price",
+    "s": 2
+   },
+   {
+    "m": "cathode",
+    "k": "price",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "seg": "Batteries",
+  "so": "Unless China extends the pause again, cell, cathode and graphite shipments to India need Chinese export licences from 10 Jan 2027: delays and higher import prices."
+ },
+ {
   "date": "2027-02-18",
   "what": "EU digital battery passports become mandatory for EV, light-transport and industrial batteries above 2 kWh",
   "kind": "Rule change",
@@ -262,6 +262,16 @@
   "weight": 1,
   "seg": "Batteries",
   "so": "Matters only for batteries or vehicles sold into Europe."
+ },
+ {
+  "date": "2027-03-01",
+  "precision": "month",
+  "what": "Energy in Motion aims to have 40 electric-truck charging and swap stations on Delhi–Pune, Mundra–Ahmedabad and Kandla–Jaipur corridors",
+  "kind": "India competitor",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/ravindra-energy-solar-assets-fund-ehcv/",
+  "short": "EIM target: 40 e-truck charging/swap stations",
+  "weight": 1
  },
  {
   "date": "2027-04-01",

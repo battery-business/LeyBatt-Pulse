@@ -1,5 +1,143 @@
 [
  {
+  "id": "n202",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "China's October NEV retail sales fall 13.7% on a year to 1.109 million (CPCA), but NEVs reach a record 67.5% of car sales as the overall market drops 27%; BYD leads with a 22.4% share, then Geely 11.8% and Leapmotor 7.5%",
+  "seg": "EVs",
+  "so": "China's car market shrinks while EV share hits a record: slower domestic EV battery demand, adding to spare cell capacity.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "EV market",
+  "effect": "Sales down, share up",
+  "direction": "down",
+  "source": "CnEVPost (CPCA)",
+  "url": "https://cnevpost.com/2026/11/10/china-nev-share-oct-2026/",
+  "sources": "CnEVPost · CPCA"
+ },
+ {
+  "id": "n201",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "Ravindra Energy plans to sell its solar plants to fund its electric heavy-truck unit Energy in Motion (EIM), whose quarterly sales rose to ₹130.8 crore from ₹44 crore; EIM runs at about 2,000 trucks a year and plans to grow its charging and swap stations from 8 to 15 by December and 40 by March 2027",
+  "seg": "EVs",
+  "so": "An Indian e-truck maker raises money for growth and a corridor swap network: more competition and charging cover for heavy e-trucks.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "E-truck expansion",
+  "direction": "up",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/ravindra-energy-solar-assets-fund-ehcv/",
+  "sources": "Powerpeak Digest"
+ },
+ {
+  "id": "n200",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Tinci Materials signs a long-term deal to supply EVE Energy with about 450,000 t of electrolyte (±20%) in 2027–2029, prices set by later orders; CATL also signs a strategic cooperation agreement with aluminium group Chinalco",
+  "seg": "Batteries",
+  "so": "A top cell maker locks in electrolyte for three years: big buyers securing materials ahead of a strong storage cell build-out.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Lithium & materials",
+  "effect": "Electrolyte locked in",
+  "direction": "flat",
+  "source": "EnergyTrend",
+  "url": "https://www.energytrend.com/news/20261109-52477.html",
+  "sources": "EnergyTrend"
+ },
+ {
+  "id": "n199",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "Bus fleets in Benxi, Changzhou, Guiyang and Lanzhou sign deals with CATL on the same day for replacement batteries, aftermarket service, city battery-swap networks, recycling and V2G, as China's 2015–2018 electric buses reach their battery replacement window",
+  "seg": "EVs",
+  "so": "China's first big e-bus fleets now need new packs: battery replacement and swapping become a business of their own for bus operators.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "Bus pack replacement",
+  "direction": "up",
+  "source": "Gasgoo",
+  "url": "https://autonews.gasgoo.com/articles/ev/bus-batteries-enter-replacement-window-four-cities-partner-with-catl-on-the-same-day-2120182338377654273",
+  "sources": "Gasgoo"
+ },
+ {
+  "id": "n198",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "CATL chairman Robin Zeng says its battery-swap network, aiming for more than 3,000 car swap stations in China by end-2026, will speed up sodium-ion adoption by covering longer trips; CATL expects 10,000–20,000 cars on its Naxtra sodium-ion cells (up to 175 Wh/kg) this year",
+  "seg": "Batteries",
+  "so": "Sodium-ion paired with swapping to cover its range gap: a route for sodium cells into cars that limits lithium price exposure.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion push",
+  "direction": "down",
+  "source": "CnEVPost (Bloomberg report)",
+  "url": "https://cnevpost.com/2026/11/10/catl-swap-network-help-sodium-ion-adoption",
+  "sources": "CnEVPost · Bloomberg"
+ },
+ {
+  "id": "n197",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "Lithium carbonate futures close at about $13,000 a tonne on 10 Nov, close to their 4 Nov low and almost 60% below the mid-May peak; Fubao puts battery-grade spot at about $13,630, and analysts see a possible floor in Nov–Dec as prices dip below some mining and recycling costs",
+  "seg": "Batteries",
+  "so": "Lithium stuck near its 2026 low: cell material costs stay at the bottom of the range for current quotes.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Near year low",
+  "direction": "down",
+  "source": "21st Century Business Herald",
+  "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html",
+  "sources": "21st Century Business Herald · Fubao"
+ },
+ {
   "id": "n191",
   "date": "2026-11-09",
   "day": "9 Nov",
@@ -1378,29 +1516,6 @@
   "so": "Sodium-ion is being built at scale for heavy vehicles in China: a possible cheaper chemistry later this decade."
  },
  {
-  "id": "n140",
-  "date": "2026-10-27",
-  "day": "27 Oct",
-  "headline": "LG Energy Solution signs a non-binding MoU to supply Energix with about 2 GWh of storage batteries over 24 months (1.5 GWh Europe, 0.5 GWh US) from its local plants, with talks to lift the total to 4.5 GWh",
-  "category": "Cell makers & competitors",
-  "effect": "Non-China supply",
-  "direction": "flat",
-  "source": "LG Energy Solution",
-  "url": "https://news.lgensol.com/company-news/press-releases/5499/",
-  "sources": "LG Energy Solution · Battery-Tech Network",
-  "source2": "Battery-Tech Network",
-  "url2": "https://battery-tech.net/battery-markets-news/lg-energy-solution-energix-bess/",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "supply",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Korean storage cells sold into Europe: little spare non-Chinese supply for India."
- },
- {
   "id": "n141",
   "date": "2026-10-31",
   "day": "31 Oct",
@@ -1618,27 +1733,6 @@
   ],
   "seg": "EVs",
   "so": "Olectra moves into electric heavy trucks (tippers and tractor-trailers): more makers in India's e-truck market."
- },
- {
-  "id": "n114",
-  "date": "2026-10-27",
-  "day": "27 Oct",
-  "headline": "Polish utility PGE starts building a 400 MW battery at Gryfino near Szczecin, with Fluence supplying 94 Smartstack units of 10 MWh each; operation is planned for 2028",
-  "category": "Energy storage",
-  "effect": "Storage demand",
-  "direction": "up",
-  "source": "ESS News",
-  "url": "https://ess-news.com/2026/10/27/pge-hosts-groundbreaking-for-400-mw-project-in-poland-fluence-supplying-smartstack-bess",
-  "sources": "ESS News",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Large storage builds in Europe compete for the same Chinese storage systems."
  },
  {
   "id": "n103",

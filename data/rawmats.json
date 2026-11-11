@@ -2,15 +2,15 @@
  {
   "material": "Spodumene SC6",
   "role": "Lithium ore",
-  "price": "$1,215",
-  "asof": "4 Nov",
-  "move": "−10.0% vs 28 Oct",
+  "price": "$1,150",
+  "asof": "11 Nov",
+  "move": "−5.3% vs 4 Nov",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
   "stage": "Ore & lithium chemicals",
   "unit": "per tonne",
-  "usd": 1215.0
+  "usd": 1150.0
  },
  {
   "material": "Lithium hydroxide",

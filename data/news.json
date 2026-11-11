@@ -1,5 +1,188 @@
 [
  {
+  "id": "n203",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "NTPC Green Energy seeks bidders for the balance of system of a 250 MW / 1,000 MWh battery storage project at Kayamkulam, Kerala; NTPC supplies the battery containers, BMS and grid-forming inverters itself, and bids close on 11 Dec",
+  "seg": "BESS",
+  "so": "A 1 GWh grid-forming storage build in Kerala with batteries bought separately by NTPC: another large cell and container order to come in India.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "1 GWh tender",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/11/ntpc-green-energy-invites-bids-for-250-mw-1000-mwh-battery-storage-project-at-kayamkulam/",
+  "sources": "SolarQuarter",
+  "alert": true,
+  "alert_reason": "1 GWh India tender",
+  "short": "NTPC Green tenders works for a 1 GWh battery project in Kerala"
+ },
+ {
+  "id": "n204",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "China awarded 53.6 GWh of energy storage in October, 7% less than in September, mostly EPC contracts; the average 4-hour system award rose 17% to about $81.9/kWh while 2-hour systems slipped 2%",
+  "seg": "BESS",
+  "so": "Chinese 4-hour system award prices jumped in October: the long fall in storage system prices may be bottoming out.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Energy storage",
+  "effect": "4h prices up",
+  "direction": "up",
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20261109-52475.html",
+  "sources": "EnergyTrend"
+ },
+ {
+  "id": "n205",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "InfoLink weekly: lithium carbonate stays near its lows at about $13,280 a tonne; the 314 Ah storage cell slips to $46.0/kWh as cheaper materials sharpen price competition, while system prices hold",
+  "seg": "Batteries",
+  "so": "Storage cell prices edge down again with lithium flat: cell buyers keep a slight price advantage this week.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Cells slip",
+  "direction": "down",
+  "source": "InfoLink",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
+  "sources": "InfoLink"
+ },
+ {
+  "id": "n206",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "Lithium futures recover 2.1% on 11 Nov to about $13,270 a tonne as traders cut positions, while the SMM spot price keeps slipping to about $13,500 on thin, need-only buying",
+  "seg": "Batteries",
+  "so": "Lithium bounces within a low range: no change yet to the low raw-material cost of LFP cells.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Futures bounce",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions",
+  "sources": "SMM"
+ },
+ {
+  "id": "n207",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "A Chinese lithium giant says lithium price swings have become more extreme (headline only, not verified)",
+  "seg": "Batteries",
+  "so": "A large producer flags sharper lithium price swings: cell costs could move faster than usual in both directions.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "More volatility",
+  "direction": "flat",
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-11/chinese-lithium-giant-says-price-swings-have-turned-more-extreme",
+  "sources": "Bloomberg"
+ },
+ {
+  "id": "n208",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "Geely chairman Li Shufu warns that EV batteries wearing out before the cars could become a big problem in China, as full pack replacement is too costly; Geely backs battery swapping by taking a 30% stake in Nio Power",
+  "seg": "EVs",
+  "so": "A major carmaker says sealed packs that outlive their cells hurt EV resale values: a push for repairable packs and swapping.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   },
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "Pack life worry",
+  "direction": "flat",
+  "source": "CarNewsChina",
+  "url": "https://carnewschina.com/2026/11/09/geely-boss-warns-of-ev-battery-lifespan-crisis-direct-pack-replacement-is-too-expensive",
+  "sources": "CarNewsChina"
+ },
+ {
+  "id": "n209",
+  "date": "2026-11-09",
+  "day": "9 Nov",
+  "headline": "BMW will use LFP cells in base versions of some Neue Klasse models, starting with the China-only iX3 long-wheelbase, alongside its cell-to-pack 800 V NMC packs with 46 mm round cells",
+  "seg": "Batteries",
+  "so": "A premium carmaker adds LFP to entry versions of its new EVs: LFP keeps winning share in car packs.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "More LFP in cars",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/09/bmw-to-partially-use-lfp-batteries-in-neue-klasse/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n210",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "BYD is reported to be considering a battery factory on the former Galp refinery site at Matosinhos, Portugal; no size, investment or timing given and BYD has not commented",
+  "seg": "Batteries",
+  "so": "A possible new BYD battery plant in Europe: more Chinese cell capacity close to European carmakers.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "Cell makers & competitors",
+  "effect": "Plant considered",
+  "direction": "flat",
+  "source": "electrive (Expresso)",
+  "url": "https://www.electrive.com/2026/11/10/byd-considers-building-a-battery-factory-in-portugal/",
+  "sources": "electrive · Expresso"
+ },
+ {
   "id": "n202",
   "date": "2026-11-10",
   "day": "10 Nov",
@@ -1579,27 +1762,6 @@
   "so": "Storage keeps growing in Europe: competes with India for the same Chinese storage cells."
  },
  {
-  "id": "n126",
-  "date": "2026-10-28",
-  "day": "28 Oct",
-  "headline": "Xpeng says solid-state batteries for its Iron humanoid robot are now coming off the line in small batches, ahead of the robot's planned mass production by end-2026; the cell maker and exact chemistry are not disclosed",
-  "category": "R&D & new products",
-  "effect": "Solid-state progress",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/28/solid-state-batteries-xpeng-iron-small-batch-production/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Solid-state cells for robots: early technology, no effect on vehicle or storage cells yet."
- },
- {
   "id": "n125",
   "date": "2026-10-26",
   "day": "26 Oct",
@@ -2862,50 +3024,6 @@
   "so": "CATL's larger storage containers cut site costs: pushes system prices and site costs down."
  },
  {
-  "id": "n116",
-  "date": "2026-10-28",
-  "day": "28 Oct",
-  "headline": "CATL and German integrator INTILION sign an MoU to deploy 3 GWh of CATL's Tener sodium-ion storage systems in Germany, Switzerland and Austria over five years, for grid and commercial sites",
-  "category": "Energy storage",
-  "effect": "Sodium-ion demand",
-  "direction": "up",
-  "source": "China EV Home",
-  "url": "https://chinaevhome.com/2026/10/28/catl-signs-five-year-european-deal-for-3-gwh-sodium-ion-energy-storage/",
-  "sources": "China EV Home · TaiyangNews",
-  "source2": "TaiyangNews",
-  "url2": "https://taiyangnews.info/storage/global-battery-storage-news-snippets-october-28-2026",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Sodium-ion storage is reaching commercial scale in Europe: a cheaper chemistry to watch."
- },
- {
-  "id": "n117",
-  "date": "2026-10-28",
-  "day": "28 Oct",
-  "headline": "CATL tells investors its sulphide all-solid-state cells should reach small-batch production in 2027 (20 Ah samples now in trial, about 500 Wh/kg target), with mass production around 2030",
-  "category": "R&D & new products",
-  "effect": "Long-term tech",
-  "direction": "flat",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104183588-catl-all-solid-state-battery-to-enter-small-batch-production-in-2027",
-  "sources": "SMM",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "CATL's solid-state cells are years away: no change before 2030."
- },
- {
   "id": "n118",
   "date": "2026-10-28",
   "day": "28 Oct",
@@ -2932,27 +3050,6 @@
   ],
   "seg": "EVs",
   "so": "Amazon's 3,000 Tata electric trucks: large fleets in India are switching to electric light trucks."
- },
- {
-  "id": "n119",
-  "date": "2026-10-28",
-  "day": "28 Oct",
-  "headline": "Li Auto's 2026 i6 SUV moves to a bigger 96 kWh in-house 'Lianshan' 5C LFP pack (from 87.3 kWh) at an unchanged starting price of about $37,190",
-  "category": "Packs & BMS",
-  "effect": "In-house packs",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/28/li-auto-launches-2026-i6/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Bigger LFP packs at the same car price in China: shows how fast pack costs are falling."
  },
  {
   "id": "n120",

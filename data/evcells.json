@@ -27,6 +27,13 @@
    "source": "TrendForce",
    "url": "https://www.trendforce.com/price/battery-price",
    "note": "Square LFP EV cell, up 2.5% from the previous reading"
+  },
+  {
+   "date": "2026-11-11",
+   "usd_kwh": 52.8,
+   "source": "TrendForce",
+   "url": "https://www.trendforce.com/price/battery-price",
+   "note": "Square LFP EV cell, down 2.44% from the previous reading (22 Oct)"
   }
  ],
  "formats": [
@@ -50,10 +57,10 @@
   }
  ],
  "ess_benchmark": {
-  "date": "2026-10-22",
+  "date": "2026-11-11",
   "usd_kwh": 50.2,
   "source": "TrendForce",
   "url": "https://www.trendforce.com/price/battery-price",
-  "note": "Square LFP storage cell, same TrendForce table"
+  "note": "Square LFP storage cell, same TrendForce table, unchanged"
  }
 }

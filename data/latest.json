@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$13,000",
+  "price": "$13,270",
   "unit": "per tonne",
-  "asof": "10 Nov",
-  "move": "−0.5% vs 9 Nov",
-  "direction": "down",
-  "source": "21st Century Business Herald (GFEX main contract close)",
-  "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html"
+  "asof": "11 Nov",
+  "move": "+2.1% vs 10 Nov",
+  "direction": "up",
+  "source": "SMM lithium carbonate daily review (GFEX most-traded close)",
+  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions"
  },
  {
   "id": "cathode",
@@ -27,13 +27,13 @@
   "id": "cell314",
   "layer": "Cell",
   "label": "314 Ah LFP storage cell",
-  "price": "$46.6",
+  "price": "$46.0",
   "unit": "per kWh",
-  "asof": "4 Nov",
-  "move": "−0.7% vs 28 Oct",
+  "asof": "11 Nov",
+  "move": "−1.3% vs 4 Nov",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104"
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111"
  },
  {
   "id": "cell587",
@@ -51,11 +51,11 @@
   "id": "evcell",
   "layer": "EV cell",
   "label": "EV prismatic LFP cell (230 / 324 Ah class)",
-  "price": "$54.2",
+  "price": "$52.8",
   "unit": "per kWh",
-  "asof": "22 Oct",
-  "move": "+2.5% vs previous",
-  "direction": "up",
+  "asof": "11 Nov",
+  "move": "−2.6% vs 22 Oct",
+  "direction": "down",
   "source": "TrendForce",
   "url": "https://www.trendforce.com/price/battery-price"
  },
@@ -75,12 +75,12 @@
   "id": "system",
   "layer": "Container",
   "label": "4-hour system, China awards",
-  "price": "$70.0",
+  "price": "$81.9",
   "unit": "per kWh",
-  "asof": "Sep",
-  "move": "−11.6% in a month",
-  "direction": "down",
+  "asof": "Oct",
+  "move": "+17.0% vs Sep",
+  "direction": "up",
   "source": "TrendForce via EnergyTrend",
-  "url": "https://www.energytrend.com/research/20261016-52306.html"
+  "url": "https://www.energytrend.com/research/20261109-52475.html"
  }
 ]

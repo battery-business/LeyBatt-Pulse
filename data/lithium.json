@@ -462,5 +462,29 @@
   "source": "21st Century Business Herald (GFEX main contract)",
   "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html",
   "note": "Main contract closed at about $13,000 on 10 Nov, near its 4 Nov year low of about $12,890; the article says it fell nearly 3% on the day"
+ },
+ {
+  "date": "2026-11-11",
+  "series": "Futures",
+  "usd_t": 13270,
+  "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
+  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions",
+  "note": "Most-traded LC2701 closed at about $13,270 on 11 Nov, +2.07% vs 10 Nov, as positions were cut"
+ },
+ {
+  "date": "2026-11-11",
+  "series": "Spot",
+  "usd_t": 13500,
+  "source": "SMM lithium carbonate daily review",
+  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions",
+  "note": "SMM battery-grade spot average about $13,500 on 11 Nov, down about $120 on the day, as buyers bought only what they needed"
+ },
+ {
+  "date": "2026-11-11",
+  "series": "Spot",
+  "usd_t": 13280,
+  "source": "InfoLink weekly",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
+  "note": "InfoLink weekly battery-grade lithium carbonate average"
  }
 ]

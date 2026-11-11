@@ -238,5 +238,21 @@
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
   "cell100": 53.9,
   "cell280": 46.6
+ },
+ {
+  "date": "2026-11-11",
+  "lithium_usd_t": 13280,
+  "cell314": 46.0,
+  "cell314_lo": 42.3,
+  "cell314_hi": 49.5,
+  "cell100": 53.2,
+  "cell280": 46.0,
+  "dc_2h": 64.7,
+  "ac_1h": 110.9,
+  "ac_2h": 76.6,
+  "ac_4h": 70.0,
+  "note": "Lithium stays low and swings in a narrow range; cheaper materials sharpen price competition among cell makers; system prices unchanged",
+  "source": "InfoLink weekly",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111"
  }
 ]

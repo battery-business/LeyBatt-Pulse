@@ -157,6 +157,17 @@
   "so": "A small storage tender in Uttar Pradesh."
  },
  {
+  "date": "2026-12-11",
+  "what": "NTPC Green Energy 250 MW / 1 GWh battery storage (Kayamkulam, Kerala) balance-of-system works: bids due",
+  "kind": "India tender",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/11/ntpc-green-energy-invites-bids-for-250-mw-1000-mwh-battery-storage-project-at-kayamkulam/",
+  "short": "NTPC Green 1 GWh Kerala storage bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "A 1 GWh grid-forming storage project in Kerala; NTPC buys the batteries separately."
+ },
+ {
   "date": "2026-12-12",
   "what": "NHPC 800 MW / 3.2–4.8 GWh battery storage at Jalaun solar park (Uttar Pradesh): bids due, opening 16 Dec (TaiyangNews lists 15 Dec)",
   "kind": "India tender",

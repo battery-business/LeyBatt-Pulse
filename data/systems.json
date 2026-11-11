@@ -26,5 +26,12 @@
   "source": "TrendForce via EnergyTrend",
   "url": "https://www.energytrend.com/research/20261016-52306.html",
   "note": "Range $68.7–$76.6"
+ },
+ {
+  "period": "Oct 2026",
+  "usd_kwh": 81.9,
+  "source": "TrendForce via EnergyTrend",
+  "url": "https://www.energytrend.com/research/20261109-52475.html",
+  "note": "Range $67.4–$109.6; 4-hour award average up 17% vs Sep, 2-hour down 2%"
  }
 ]

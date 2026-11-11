@@ -49,9 +49,23 @@
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104"
  },
  {
+  "m": "cell_ess",
+  "date": "2026-11-11",
+  "v": 46.0,
+  "source": "InfoLink weekly",
+  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111"
+ },
+ {
   "m": "cell_ev",
   "date": "2026-10-22",
   "v": 54.2,
+  "source": "TrendForce",
+  "url": "https://www.trendforce.com/price/battery-price"
+ },
+ {
+  "m": "cell_ev",
+  "date": "2026-11-11",
+  "v": 52.8,
   "source": "TrendForce",
   "url": "https://www.trendforce.com/price/battery-price"
  },
@@ -159,5 +173,12 @@
   "v": 13000.0,
   "source": "21st Century Business Herald (GFEX main contract close)",
   "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-11",
+  "v": 13270.0,
+  "source": "SMM lithium carbonate daily review (GFEX most-traded close)",
+  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions"
  }
 ]

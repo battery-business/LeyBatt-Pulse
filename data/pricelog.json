@@ -180,5 +180,12 @@
   "v": 13270.0,
   "source": "SMM lithium carbonate daily review (GFEX most-traded close)",
   "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-12",
+  "v": 13570.0,
+  "source": "JRJ futures close table (GFEX lithium carbonate)",
+  "url": "https://finance.jrj.com.cn/2026/11/12152859118289.shtml"
  }
 ]

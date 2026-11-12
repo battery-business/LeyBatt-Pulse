@@ -118,6 +118,28 @@
   "so": "16 GWh of four-hour storage with central support: one of India's largest storage tenders."
  },
  {
+  "date": "2026-11-23",
+  "what": "KPCL (Karnataka) 1 GW solar with 2 GWh battery storage tender: bids due",
+  "kind": "India tender",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/karnataka-power-corporation-tenders-solar-plus-storage-project",
+  "short": "Karnataka 2 GWh solar-storage bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "A 2 GWh solar-plus-storage tender in Karnataka closes."
+ },
+ {
+  "date": "2026-11-25",
+  "what": "Comments due on India's draft bidding-guideline changes (domestic content for storage, optional payment-security levy for BESS)",
+  "kind": "Rule change",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/power-ministry-solar-bess-bidding-amendments/",
+  "short": "Comments due on India storage local-content draft",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "Last day to comment on local-content rules for Indian storage tenders."
+ },
+ {
   "date": "2026-12-01",
   "precision": "month",
   "what": "Himadri Speciality Chemical's first 2,000 t LFP cathode plant in Kolkata due to start",

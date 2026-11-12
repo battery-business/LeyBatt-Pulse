@@ -5,11 +5,11 @@
   "short": "ACC PLI round 3 (10 GWh, grid storage)",
   "region": "India",
   "area": "Incentives",
-  "status": "Starts later",
-  "date": "2026-11-10",
-  "date_label": "Bids due 10 Nov 2026 (extended from 13 Oct)",
+  "status": "Bids under evaluation",
+  "date": "2026-11-11",
+  "date_label": "22 bids; technical bids opened 11 Nov 2026; financial-bid date not yet published",
   "what": "India's ₹18,100-crore programme (approved May 2021) supports 50 GWh of domestic cell making; 40 GWh was awarded in earlier rounds. Round 3 offers 10 GWh for grid-scale storage: each bidder commits 1–4 GWh within five years, with at least 25% domestic value addition in two years and 40% in five.",
-  "impact": "The first Indian-made storage cells from this round would arrive years from now; until then storage cells stay imported. Under the earlier rounds only Ola runs cell capacity (2.5 of its 20 GWh) and no incentive has been paid yet. ESS News reports the bid deadline moved to 10 Nov; check MHI for further addenda.",
+  "impact": "22 companies bid, including Reliance, Amara Raja, Exide, Waaree, JSW Neo, ACME, Avaada and MEIL, so the 10 GWh is well oversubscribed by number of bidders. The first Indian-made storage cells from this round would arrive years from now; until then storage cells stay imported. Financial bids open after technical evaluation (two-stage selection).",
   "effects": [
    "Supply easier (long term)"
   ],
@@ -18,10 +18,10 @@
   ],
   "source": "ESS News, 17 Jul 2026",
   "url": "https://www.ess-news.com/2026/07/17/india-launches-tender-for-10-gwh-battery-cell-manufacturing-capacity-for-grid-storage/",
-  "source2": "ESS News (InfoLink), 23 Oct 2026",
-  "url2": "https://www.ess-news.com/2026/10/23/where-are-the-batteries-localization-concerns-amid-indias-energy-storage-boom/",
-  "checked": "2026-11-04",
-  "changed": "2026-10-30"
+  "source2": "Millennium Post (PTI), 13 Nov 2026",
+  "url2": "https://www.millenniumpost.in/business/ril-vikram-solar-among-22-bidders-for-10-gwh-acc-mfg-capacity-under-pli-683007",
+  "checked": "2026-11-13",
+  "changed": "2026-11-13"
  },
  {
   "id": "in-materials-pli",
@@ -522,5 +522,34 @@
   "changed": "2026-11-06",
   "seg": "BESS",
   "so": "Distributors would have to buy storage with renewable power: steadier BESS demand in India once the share is set."
+ },
+ {
+  "id": "in-bess-dcr-draft",
+  "title": "Draft: domestic content requirements in storage tenders and optional payment-security levy",
+  "short": "Draft local-content rule for storage tenders",
+  "region": "India",
+  "area": "Grid & storage rules",
+  "status": "Proposed",
+  "date": "2026-11-25",
+  "date_label": "Draft circulated 10 Nov 2026; comments due 25 Nov",
+  "what": "The Ministry of Power proposes amending its tariff-based bidding guidelines for solar, hybrid, firm and dispatchable renewables and BESS: requests for selection must include domestic content provisions for storage in line with central government orders, storage becomes compulsory in wind-solar hybrid tenders, and the ₹5 lakh/MWh payment-security contribution from BESS developers becomes optional (capped at that level, payable in instalments). No local-content percentages are given in the draft as reported.",
+  "impact": "If adopted, every storage tender would carry local-content clauses, not only those under viability gap funding; buyers of imported cells and containers would need to plan for Indian-made content. Developers would save the up-front levy if they opt out.",
+  "effects": [
+   "Compliance",
+   "Demand up",
+   "Cost up (long term)"
+  ],
+  "affects": [
+   "BESS",
+   "Storage cells"
+  ],
+  "source": "Powerpeak Digest, 12 Nov 2026",
+  "url": "https://powerpeakdigest.com/power-ministry-solar-bess-bidding-amendments/",
+  "source2": "Mercom India, 12 Nov 2026",
+  "url2": "https://www.mercomindia.com/government-proposes-domestic-content-rules-for-battery-storage-projects",
+  "checked": "2026-11-13",
+  "changed": "2026-11-13",
+  "seg": "BESS",
+  "so": "Local-content clauses in all Indian storage tenders: more compliance work for imported systems, more storage in hybrid tenders."
  }
 ]

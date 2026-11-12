@@ -272,6 +272,19 @@
    "note": "213 kW motor; IP67-rated pack",
    "source": "Autocar Professional, 3 Sep 2024",
    "url": "https://www.autocarpro.in/news/tata-motors-sees-smaller-firms-adopting-electric-commercial-vehicles-122311"
+  },
+  {
+   "id": "v-olectra-ix",
+   "date": "2026-11-12",
+   "group": "Bus",
+   "maker": "Olectra",
+   "model": "iX (9.3 m)",
+   "type": "E-bus (9 m city, AC)",
+   "pack_kwh": "191",
+   "chemistry": "LFP",
+   "note": "260 kW peak motor; 32 seats; 35 in service in Chhatrapati Sambhajinagar, run by Evey Trans",
+   "source": "electrive, 12 Nov 2026",
+   "url": "https://www.electrive.com/2026/11/12/india-olectra-deploys-35-electric-buses-in-chhatrapati-sambhajinagar/"
   }
  ]
 }

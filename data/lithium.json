@@ -486,5 +486,21 @@
   "source": "InfoLink weekly",
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
   "note": "InfoLink weekly battery-grade lithium carbonate average"
+ },
+ {
+  "date": "2026-11-12",
+  "series": "Futures",
+  "usd_t": 13570,
+  "source": "JRJ futures close table (GFEX lithium carbonate)",
+  "url": "https://finance.jrj.com.cn/2026/11/12152859118289.shtml",
+  "note": "Guangzhou lithium carbonate closed at about $13,570 on 12 Nov, +2.76% vs the 11 Nov settlement, on volume of about 297,000 lots"
+ },
+ {
+  "date": "2026-11-12",
+  "series": "Spot",
+  "usd_t": 13530,
+  "source": "SMM lithium carbonate weekly review",
+  "url": "https://news.metal.com/newscontent/V75RJOKZWET4Z7CQV2J7AK243HXJOZBYAXEMHHA-lithium-carbonate-prices-rebound-after-dip-inventory-continues-to-decline",
+  "note": "SMM battery-grade spot average about $13,530 on 12 Nov, down 3.2% vs 6 Nov; futures traced a V shape over the week"
  }
 ]

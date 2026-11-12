@@ -1,5 +1,226 @@
 [
  {
+  "id": "n211",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "22 companies bid in India's ACC PLI round for 10 GWh of grid-storage cell making, including Reliance, Amara Raja, Exide, Waaree, JSW Neo, ACME, Avaada and MEIL; technical bids opened on 11 Nov, financial bids follow under a two-stage selection",
+  "seg": "Batteries",
+  "so": "Strong interest in India's 10 GWh storage-cell round: a wider field of future local storage-cell makers, though output is years away.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "Regulation & trade",
+  "effect": "22 PLI bids",
+  "direction": "flat",
+  "source": "Millennium Post (PTI)",
+  "url": "https://www.millenniumpost.in/business/ril-vikram-solar-among-22-bidders-for-10-gwh-acc-mfg-capacity-under-pli-683007",
+  "sources": "Millennium Post (PTI)",
+  "alert": true,
+  "alert_reason": "ACC PLI bids opened",
+  "short": "22 firms bid for India's 10 GWh storage-cell PLI round",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n212",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "India's power ministry circulates draft changes to its bidding guidelines: storage tenders must carry domestic content requirements, storage becomes compulsory in wind-solar hybrid tenders, and the ₹5 lakh/MWh payment-security levy on BESS developers becomes optional; comments due 25 Nov",
+  "seg": "BESS",
+  "so": "Local-content clauses would enter every Indian storage tender: higher compliance needs for imported cells and containers, more storage in hybrid projects.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "Regulation & trade",
+  "effect": "Local content rule",
+  "direction": "up",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/power-ministry-solar-bess-bidding-amendments/",
+  "sources": "Powerpeak Digest · Mercom India",
+  "source2": "Mercom India",
+  "url2": "https://www.mercomindia.com/government-proposes-domestic-content-rules-for-battery-storage-projects",
+  "alert": true,
+  "alert_reason": "India BESS rule draft",
+  "short": "India drafts local-content rules for all storage tenders"
+ },
+ {
+  "id": "n213",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Karnataka Power Corporation tenders 1 GW of solar with 2 GWh of two-hour LFP battery storage, built and owned by developers on 25-year contracts and awarded by e-reverse auction; Mercom gives 23 Nov as the bid deadline",
+  "seg": "BESS",
+  "so": "A 2 GWh solar-plus-storage tender in Karnataka: another large LFP storage order for India, with a short bidding window.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "2 GWh tender",
+  "direction": "up",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/kpcl-tenders-1gw-solar-2gwh-bess-karnataka/",
+  "sources": "Powerpeak Digest · Mercom India",
+  "source2": "Mercom India",
+  "url2": "https://www.mercomindia.com/karnataka-power-corporation-tenders-solar-plus-storage-project",
+  "alert": true,
+  "alert_reason": "2 GWh India tender",
+  "short": "Karnataka tenders 1 GW solar with 2 GWh of battery storage"
+ },
+ {
+  "id": "n214",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Mumbai's BEST signs for 1,500 nine-metre air-conditioned electric midi buses under PM E-DRIVE: 1,050 from EKA and 450 from Switch, on 12-year wet leases tendered by CESL; about 225 by March 2027 and the rest by March 2028",
+  "seg": "EVs",
+  "so": "One of India's largest single e-bus orders goes to EKA and Switch: steady demand for nine-metre bus packs over the next two years.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "India EV & battery makers",
+  "effect": "1,500 e-buses",
+  "direction": "up",
+  "source": "Free Press Journal",
+  "url": "https://www.freepressjournal.in/mumbai/mumbai-best-to-induct-1500-electric-midi-buses-under-pm-e-drive-scheme-first-225-by-march-2027-to-improve-last-mile-connectivity",
+  "sources": "Free Press Journal",
+  "alert": true,
+  "alert_reason": "1,500 e-bus order",
+  "short": "Mumbai's BEST orders 1,500 e-midi buses from EKA and Switch"
+ },
+ {
+  "id": "n215",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Pai Kane Energy signs an MoU with Shenzhen Gooree (part of BTR New Material Group) for 5 GW of battery storage systems for India by 2030: assembly in India first, a possible joint factory later",
+  "seg": "BESS",
+  "so": "Another Chinese storage maker enters India with a local partner: more competition among BESS integrators, starting with Indian assembly.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "New BESS entrant",
+  "direction": "down",
+  "source": "Powerpeak Digest",
+  "url": "https://powerpeakdigest.com/pai-kane-energy-gooree-5gw-bess-partnership/",
+  "sources": "Powerpeak Digest"
+ },
+ {
+  "id": "n216",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Lithium carbonate futures in Guangzhou climb about 2.8% to some $13,570 a tonne on 12 Nov, while SMM's battery-grade spot average of about $13,530 is 3.2% below last Friday",
+  "seg": "Batteries",
+  "so": "Lithium bounces for a second day but stays near its lows: no lift yet for cell prices.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Futures rebound",
+  "direction": "up",
+  "source": "JRJ",
+  "url": "https://finance.jrj.com.cn/2026/11/12152859118289.shtml",
+  "sources": "JRJ · SMM",
+  "source2": "SMM",
+  "url2": "https://news.metal.com/newscontent/V75RJOKZWET4Z7CQV2J7AK243HXJOZBYAXEMHHA-lithium-carbonate-prices-rebound-after-dip-inventory-continues-to-decline"
+ },
+ {
+  "id": "n217",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "Dalian Institute of Chemical Physics reports a low-cost iron-manganese phosphate cathode for sodium-ion cells (97% first-cycle efficiency, 93.6% capacity after 1,000 cycles in pouch cells) and has a 100-tonne pilot line running",
+  "seg": "Batteries",
+  "so": "A cheaper sodium-ion cathode moves to pilot scale: one more step toward sodium-ion cells as a low-cost option, not yet in mass production.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion cathode",
+  "direction": "down",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/QKNZAYBFOQ7GMMXSOJ3IOELMP67RAIKSQAAXJGY-sodium-ion-cas-dicp-achieves-breakthrough-in-low-cost-fe-mn-phosphate-cathode",
+  "sources": "SMM"
+ },
+ {
+  "id": "n218",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "CATL becomes the exclusive battery partner of EVT Aerotechnics for its passenger and cargo eVTOL aircraft, its second such deal this month; no specifications, value or timing were given",
+  "seg": "Batteries",
+  "so": "CATL widens into aviation batteries: a signal of where high-energy cell development is heading, with no near-term effect on vehicle or storage cells.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Cell makers & competitors",
+  "effect": "eVTOL deal",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/11/12/catl-evtol-battery-partnership-evt/",
+  "sources": "CnEVPost"
+ },
+ {
   "id": "n203",
   "date": "2026-11-11",
   "day": "11 Nov",
@@ -1720,48 +1941,6 @@
   "so": "Lithium processors are losing money at today's prices: prices are near the floor, so the next big move is more likely up."
  },
  {
-  "id": "n142",
-  "date": "2026-10-29",
-  "day": "29 Oct",
-  "headline": "Bloomberg: Hungary's post-Orbán political shake-up is hitting its EV battery industry (headline only, not verified)",
-  "category": "Cell makers & competitors",
-  "effect": "EU plant risk",
-  "direction": "flat",
-  "source": "Bloomberg",
-  "url": "https://www.bloomberg.com/news/articles/2026-10-29/hungary-s-post-orban-shakeout-hits-ev-battery-industry",
-  "sources": "Bloomberg",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "supply",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Political change in Hungary may slow Europe's battery plants (headline only)."
- },
- {
-  "id": "n127",
-  "date": "2026-10-29",
-  "day": "29 Oct",
-  "headline": "BW ESS raises bank debt for its 400 MW / 1.4 GWh Hams Hall battery in England (first 350 MW phase due online before end-2026) and enters France by buying two 100 MW / 400 MWh projects from Recurrent Energy",
-  "category": "Energy storage",
-  "effect": "Storage demand",
-  "direction": "up",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/29/bw-ess-enters-french-market-finances-europes-biggest-bess/",
-  "sources": "ESS News",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Storage keeps growing in Europe: competes with India for the same Chinese storage cells."
- },
- {
   "id": "n125",
   "date": "2026-10-26",
   "day": "26 Oct",
@@ -1805,29 +1984,6 @@
   ],
   "seg": "BESS",
   "so": "A new 5 GWh storage-system assembly plant in Gujarat from 2027: more Indian capacity, buying cells from abroad at first."
- },
- {
-  "id": "n123",
-  "date": "2026-10-29",
-  "day": "29 Oct",
-  "headline": "Samsung SDI's Q3 operating profit hits a 12-quarter high (about $285 million, revenue up 53%); it has booked over 60 GWh of storage-battery orders this year, filling its US and Ulsan lines to 2028, started prismatic LFP storage cells in Indiana and won its first European EV LFP order",
-  "category": "Cell makers & competitors",
-  "effect": "Storage cells sold out",
-  "direction": "up",
-  "source": "Seoul Economic Daily",
-  "url": "https://en.sedaily.com/finance/2026/10/29/samsung-sdi-books-60-gwh-of-ess-orders-wins-first-european",
-  "source2": "Bloomberg",
-  "url2": "https://www.bloomberg.com/news/articles/2026-10-29/samsung-sdi-eyes-energy-storage-battery-growth-after-profit-beat",
-  "sources": "Seoul Economic Daily · Bloomberg",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "supply",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Korean storage lines are booked to 2028: few non-Chinese storage cells free for Indian buyers soon."
  },
  {
   "id": "n122",
@@ -3155,27 +3311,6 @@
   ],
   "seg": "BESS",
   "so": "A solar EPC firm wins another storage build: Indian EPC players are moving into storage."
- },
- {
-  "id": "n131",
-  "date": "2026-10-29",
-  "day": "29 Oct",
-  "headline": "Hero MotoCorp has doubled its VIDA e-scooter capacity to 30,000 a month and plans 45,000 by Q4 FY27 and over 80,000 by Q2 FY28, saying the market is capacity-constrained; Bajaj, TVS and Ather are also expanding as India's e-two-wheeler registrations rose about 89% on a year in September",
-  "category": "India EV & battery makers",
-  "effect": "E2W cell demand",
-  "direction": "up",
-  "source": "Autocar Professional",
-  "url": "https://www.autocarpro.in/news/hero-motocorp-plans-to-expand-vida-capacity-to-80000-units-a-month-by-q2-fy28-135549",
-  "sources": "Autocar Professional",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "Two-wheeler makers are expanding fast: more demand for Indian cells."
  },
  {
   "id": "n132",

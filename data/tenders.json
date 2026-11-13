@@ -202,6 +202,30 @@
    "bidder": "CATL",
    "source": "IT之家 via 10jqka (同花顺), 22 Sep 2026",
    "url": "https://stock.10jqka.com.cn/20260922/c680148660.shtml"
+  },
+  {
+   "date": "2026-11-10",
+   "when": "Nov 2026",
+   "buyer": "Guoneng Xinkong 2026 storage cell tender",
+   "size": "314 Ah",
+   "kind": "bid",
+   "yuan_wh": 0.38,
+   "usd_kwh": 50.2,
+   "bidder": "CATL",
+   "source": "SMM morning meeting summary, 13 Nov 2026",
+   "url": "https://news.metal.com/newscontent/VKOMWTK3JW46E3PFJXTLASBIFAFJVGMCULDL62I-smm-cobalt-lithium-morning-meeting-summary-lithium-prices-stabilize-at-low-levels-cobalt-prices-retreat-after-rapid-rise-new-energy-demand-remains-under-pressure"
+  },
+  {
+   "date": "2026-11-10",
+   "when": "Nov 2026",
+   "buyer": "Guoneng Xinkong 2026 storage cell tender",
+   "size": "314 Ah",
+   "kind": "bid",
+   "yuan_wh": 0.3814,
+   "usd_kwh": 50.4,
+   "bidder": "EVE Energy",
+   "source": "SMM morning meeting summary, 13 Nov 2026",
+   "url": "https://news.metal.com/newscontent/VKOMWTK3JW46E3PFJXTLASBIFAFJVGMCULDL62I-smm-cobalt-lithium-morning-meeting-summary-lithium-prices-stabilize-at-low-levels-cobalt-prices-retreat-after-rapid-rise-new-energy-demand-remains-under-pressure"
   }
  ]
 }

@@ -15,13 +15,13 @@
   "id": "cathode",
   "layer": "LFP cathode",
   "label": "LFP cathode, China (compaction ≥2.5)",
-  "price": "$6,550",
+  "price": "$6,230",
   "unit": "per tonne",
-  "asof": "22 Oct",
-  "move": "−1.5% since 16 Oct",
+  "asof": "12 Nov",
+  "move": "−4.9% vs 22 Oct",
   "direction": "down",
   "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104176328-smm-cobalt-lithium-morning-meeting-summary-market-demand-remains-persistently-weak-supply-demand-imbalance-intensifies-raw-material-prices-fall-under-pressure"
+  "url": "https://news.metal.com/newscontent/VKOMWTK3JW46E3PFJXTLASBIFAFJVGMCULDL62I-smm-cobalt-lithium-morning-meeting-summary-lithium-prices-stabilize-at-low-levels-cobalt-prices-retreat-after-rapid-rise-new-energy-demand-remains-under-pressure"
  },
  {
   "id": "cell314",

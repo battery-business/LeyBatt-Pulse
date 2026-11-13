@@ -165,6 +165,21 @@
    "when": null,
    "source": "SMEStreet",
    "url": "https://smestreet.in/sectors/nash-energy-to-present-ev-batteries-and-bess-at-the-battery-show-india-2026-12736263"
+  },
+  {
+   "id": "c-grepow-na-pouch",
+   "date": "2026-11-12",
+   "maker": "Grepow",
+   "cell": "Sodium-ion pouch cell series (five cells)",
+   "chemistry": "sodium-ion",
+   "format": "Pouch",
+   "size": "2–7 Ah",
+   "spec": "3.0 V nominal; 45C for 30 s and 100C pulses (lab); 94% capacity after 2,000 internal cycles; >4,000 cycles projected",
+   "use": "Industrial, starting power, telecom backup, robots",
+   "stage": "Products launched",
+   "when": null,
+   "source": "ESS News",
+   "url": "https://www.ess-news.com/2026/11/13/sodium-ion-pouch-cells-target-cold-climate-industrial-niche/"
   }
  ]
 }

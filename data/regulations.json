@@ -551,5 +551,31 @@
   "changed": "2026-11-13",
   "seg": "BESS",
   "so": "Local-content clauses in all Indian storage tenders: more compliance work for imported systems, more storage in hybrid tenders."
+ },
+ {
+  "id": "in-blackmass",
+  "title": "India bans exports of battery waste and black mass",
+  "short": "Black mass exports banned (DGFT 49/2026-27)",
+  "region": "India",
+  "area": "Recycling & passports",
+  "status": "In force",
+  "date": "2026-11-10",
+  "date_label": "In force since 10 Nov 2026, until further orders",
+  "what": "DGFT Notification 49/2026-27 moves ITC-HS 8549 14 00 (unsorted waste and scrap of cells and batteries without lead, cadmium or mercury, including lithium-ion black mass) from 'free' to 'prohibited' for export, with immediate effect.",
+  "impact": "Spent lithium-ion material and black mass must be recycled in India, adding feedstock for Indian recyclers and future local supply of lithium, nickel and cobalt; exporters of scrap lose an overseas outlet. No direct change to cell import costs.",
+  "effects": [
+   "Supply easier (long term)",
+   "Compliance"
+  ],
+  "affects": [
+   "Lithium",
+   "Cells"
+  ],
+  "source": "World Trade Scanner (DGFT notification text)",
+  "url": "https://worldtradescanner.com/49-Ntfn-DGFT-10.11.2026.htm",
+  "source2": "SMM, 13 Nov 2026",
+  "url2": "https://news.metal.com/newscontent/2IOCU32RL55SQSDVB5SOJ3VP7O7HAWF6OTTMJEQ-smm-news-india-bans-black-mass-exports-retaining-secondary-lithium-feedstock",
+  "checked": "2026-11-14",
+  "changed": "2026-11-14"
  }
 ]

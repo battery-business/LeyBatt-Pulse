@@ -1,5 +1,200 @@
 [
  {
+  "id": "n219",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "India bans exports of unsorted battery waste and scrap, including lithium-ion black mass (ITC-HS 8549 14 00), moving it from 'free' to 'prohibited' with immediate effect under DGFT Notification 49/2026-27, to keep recycling feedstock at home",
+  "seg": "Batteries",
+  "so": "Black mass must now stay in India: more feedstock for Indian recyclers and a step toward local lithium, nickel and cobalt recovery.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "Regulation & trade",
+  "effect": "Black mass export ban",
+  "direction": "flat",
+  "source": "World Trade Scanner (DGFT notification text)",
+  "url": "https://worldtradescanner.com/49-Ntfn-DGFT-10.11.2026.htm",
+  "source2": "SMM",
+  "url2": "https://news.metal.com/newscontent/2IOCU32RL55SQSDVB5SOJ3VP7O7HAWF6OTTMJEQ-smm-news-india-bans-black-mass-exports-retaining-secondary-lithium-feedstock",
+  "sources": "World Trade Scanner · SMM",
+  "alert": true,
+  "alert_reason": "India battery-waste rule",
+  "short": "India bans exports of lithium-ion battery black mass"
+ },
+ {
+  "id": "n220",
+  "date": "2026-11-13",
+  "day": "13 Nov",
+  "headline": "Delhivery signs MoUs with Tata Motors, Euler Motors and Montra Electric for 1,500–2,000 electric four-wheel cargo vehicles over 12–18 months, starting in Delhi-NCR; it aims for over half its intra-city fleet to be electric within 2–3 years",
+  "seg": "EVs",
+  "so": "Up to 2,000 small electric cargo vehicles for one logistics fleet: steady volume for India's light e-truck makers and their battery suppliers.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Fleet e-CV order",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/delhivery-to-deploy-up-to-2000-electric-commercial-vehicles-with-tata-motors-euler-motors-montra-electric-135894",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n221",
+  "date": "2026-11-13",
+  "day": "13 Nov",
+  "headline": "CATL now targets 6,000 Choco-swap stations for passenger cars in China in 2027 (5,000 urban, 1,000 highway, 297 cities), up from 2,520 built by late September; Nio has 4,254",
+  "seg": "EVs",
+  "so": "CATL doubles its car swap-station goal: standard swappable packs gain ground in China against fixed packs and plug-in charging.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "Swap network push",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/11/13/catl-targets-6000-passenger-car-swap-stations-2027/",
+  "sources": "CnEVPost"
+ },
+ {
+  "id": "n222",
+  "date": "2026-11-10",
+  "day": "10 Nov",
+  "headline": "Mercedes-Benz's next eCitaro city bus moves to a dedicated electric platform in 2028 and switches from NMC to LFP packs of about 50 kWh each: about 300–600 kWh for solo buses and 400–700 kWh for articulated ones",
+  "seg": "EVs",
+  "so": "Europe's best-selling e-bus maker moves to LFP packs: LFP is becoming the default chemistry for city buses worldwide.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "E-bus goes LFP",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/10/mercedes-ecitaro-to-switch-to-a-dedicated-electric-platform-from-2028/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n223",
+  "date": "2026-11-13",
+  "day": "13 Nov",
+  "headline": "CATL details its Tener Sodium storage system: 15,000 cycles at 25°C, runs from −35°C to 55°C, 0.197 MWh per m² of site vs 0.125 for its LFP EnerX; already delivered in China, overseas deliveries expected mid-2027",
+  "seg": "BESS",
+  "so": "Sodium-ion grid storage from the largest cell maker reaches export markets in 2027: a second chemistry option for hot-climate storage.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion BESS",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/13/clarifying-the-catl-tener-sodium-with-new-specifications-and-availability/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n224",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "QuantumScape unveils Osprey, an all-solid-state version of its anode-free cell that replaces the liquid catholyte with a sulfide electrolyte, offered as an open licensing platform; it is lab-scale, with about 80% capacity after 1,000 cycles in small test cells",
+  "seg": "Batteries",
+  "so": "Another all-solid-state cell route, but still at lab scale: no effect on LFP cell supply or prices for years.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Solid-state platform",
+  "direction": "flat",
+  "source": "Electrek",
+  "url": "https://electrek.co/2026/11/11/quantumscape-osprey-all-solid-state-sulfide-battery/",
+  "source2": "electrive",
+  "url2": "https://www.electrive.com/2026/11/12/quantumscape-launches-open-platform-for-sulphide-based-solid-state-batteries/",
+  "sources": "Electrek · electrive"
+ },
+ {
+  "id": "n225",
+  "date": "2026-11-13",
+  "day": "13 Nov",
+  "headline": "Canadian Solar's e-Storage aims to supply at least 1 GW of battery storage for Brazil's first battery capacity auction on 2 Dec (local-content rules apply; a second, open auction follows on 4 Dec), with 15-year contracts",
+  "seg": "BESS",
+  "so": "Brazil opens a new grid-storage market with local-content rules: more global demand for storage systems from 2028.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Energy storage",
+  "effect": "New storage auction",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/13/canadian-solar-targets-1-gw-of-bess-supply-for-brazil-battery-auction/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n226",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Grepow launches five sodium-ion pouch cells (2–7 Ah, 3.0 V) for cold-weather industrial uses such as vehicle starting, telecom backup and robots; it reports high pulse power at −20°C and 94% capacity after 2,000 lab cycles",
+  "seg": "Batteries",
+  "so": "Sodium-ion moves into small cold-climate niches first: useful for backup and starter packs, not yet for EV or grid cells.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion pouch cells",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/13/sodium-ion-pouch-cells-target-cold-climate-industrial-niche/",
+  "sources": "ESS News"
+ },
+ {
   "id": "n211",
   "date": "2026-11-12",
   "day": "12 Nov",
@@ -1878,27 +2073,6 @@
   "so": "Record e-scooter sales in India: more local cell demand, helping Indian cell plants scale."
  },
  {
-  "id": "n138",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "Jaipur discom JVVNL and the Global Energy Alliance seek bids for India's first sodium-ion battery storage pilot, a 250 kW / 250 kWh unit at a Jaipur stadium to be compared side by side with lithium-ion",
-  "category": "R&D & new products",
-  "effect": "Sodium-ion trial",
-  "direction": "flat",
-  "source": "Powerpeak Digest",
-  "url": "https://powerpeakdigest.com/power-sector-news-roundup-for-october-30-2026/",
-  "sources": "Powerpeak Digest",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "India's first sodium-ion storage pilot: a small trial of an alternative chemistry for storage."
- },
- {
   "id": "n139",
   "date": "2026-11-01",
   "day": "1 Nov",
@@ -2891,52 +3065,6 @@
   "so": "Lithium slumped 14% in a week (headline only): cell costs easing."
  },
  {
-  "id": "n40",
-  "date": "2026-10-14",
-  "day": "14 Oct",
-  "headline": "CRISIL expects electric buses to reach about 17% of new bus registrations in India next fiscal year, up from 7% in FY26; public orders total about 29,000 e-buses",
-  "effect": "E-bus demand up",
-  "direction": "up",
-  "sources": "Autocar Professional",
-  "source": "Autocar Professional",
-  "url": "https://www.autocarpro.in/news/e-bus-share-in-new-indian-bus-registrations-projected-to-reach-17-percent-next-fiscal-crisil-135224",
-  "source2": "",
-  "url2": "",
-  "category": "India EV & battery makers",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "EVs",
-  "so": "CRISIL expects electric buses to reach 17% of new bus sales in India next year: a fast-growing market."
- },
- {
-  "id": "n30",
-  "date": "2026-10-12",
-  "day": "12 Oct",
-  "headline": "China will cut the export VAT rebate on EVs, e-buses and electric truck tractors from 13% to 9% from 1 April 2027; the separate battery export rebate (now 6%) is still due to end on 1 January 2027",
-  "effect": "Export cell costs up",
-  "direction": "up",
-  "sources": "CnEVPost · Battery-Tech Network",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/",
-  "source2": "Battery-Tech Network",
-  "url2": "https://battery-tech.net/battery-markets-news/nev-exports-rebate-cut/",
-  "category": "Regulation & trade",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "competition",
-    "s": 1
-   }
-  ],
-  "seg": "EVs",
-  "so": "China cuts its export rebate on e-buses and e-truck tractors from April 2027: Chinese e-buses and e-trucks get dearer abroad."
- },
- {
   "id": "n75",
   "date": "2026-10-23",
   "day": "23 Oct",
@@ -3010,59 +3138,6 @@
   ],
   "seg": "BESS",
   "so": "Telangana tenders 6 GWh of storage with solar: a large new market."
- },
- {
-  "id": "n78",
-  "date": "2026-10-12",
-  "day": "12 Oct",
-  "headline": "NTPC Green tenders a turnkey EPC contract for 3.3 GWh of battery storage at its Khavda solar park in Gujarat (three 300 MW/900 MWh blocks and one 200 MW/600 MWh), with 15 years of O&M",
-  "category": "India BESS",
-  "effect": "India demand up",
-  "direction": "up",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/12/ntpc-tenders-3-3-gwh-of-battery-storage-in-india/",
-  "source2": "",
-  "url2": "",
-  "sources": "ESS News",
-  "alert": true,
-  "alert_reason": "3.3 GWh NTPC storage tender",
-  "short": "NTPC Green tenders 3.3 GWh of battery storage at Khavda",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "NTPC tenders a 3.3 GWh turnkey storage build: a large contract for storage suppliers and EPC firms."
- },
- {
-  "id": "n79",
-  "date": "2026-10-13",
-  "day": "13 Oct",
-  "headline": "GreenCell Mobility raises equity from Impact Fund Denmark to grow its electric bus fleet to more than 5,000 buses across 105 Indian cities (about 4,500 now being rolled out)",
-  "category": "India EV & battery makers",
-  "effect": "E-bus demand up",
-  "direction": "up",
-  "source": "Energetica India",
-  "url": "https://www.energetica-india.net/news/greencell-mobility-to-expand-fleet-to-over-5000-electric-buses",
-  "source2": "",
-  "url2": "",
-  "sources": "Energetica India",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   },
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "An e-bus operator raises money for over 5,000 buses: more demand for electric buses."
  },
  {
   "id": "n81",
@@ -3290,114 +3365,5 @@
   ],
   "seg": "BESS",
   "so": "Tamil Nadu makes new solar plants add four-hour storage and plans to buy 10 GWh: a large new state market."
- },
- {
-  "id": "n130",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "Waaree Renewable Technologies wins a letter of award from an unnamed Indian power producer to build a 200 MW / 500 MWh battery storage project (EPC), due for completion in FY2027-28; the value was not disclosed",
-  "category": "India BESS",
-  "effect": "BESS EPC order",
-  "direction": "flat",
-  "source": "Powerpeak Digest",
-  "url": "https://powerpeakdigest.com/waaree-rtl-200-mw-500-mwh-bess-epc-order/",
-  "sources": "Powerpeak Digest",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A solar EPC firm wins another storage build: Indian EPC players are moving into storage."
- },
- {
-  "id": "n132",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "Xiaomi plans to invest about $253 million for a 5.34% stake in Sunwoda's EV battery unit, following Li Auto; Sunwoda will stop consolidating the unit and drops its Hong Kong listing plan",
-  "category": "Cell makers & competitors",
-  "effect": "Carmaker-cell ties",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/30/xiaomi-planned-sunwoda-evb-investment-battery-ties/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "supply",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Carmakers are buying into cell makers to secure supply: long-term cell access is at a premium."
- },
- {
-  "id": "n133",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "GAC's battery arm Inpow starts its first overseas pack plant in Chonburi, Thailand (first pack off the line on 29 Oct; about $1.6 billion total investment), and plans storage work with Thai utility EGAT",
-  "category": "Packs & BMS",
-  "effect": "Overseas pack capacity",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/30/gac-inpow-starts-production-thailand-plant/",
-  "source2": "electrive",
-  "url2": "https://www.electrive.com/2026/10/31/gac-launches-battery-production-in-thailand/",
-  "sources": "CnEVPost · electrive",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Chinese battery makers are building packs abroad: a pattern that could reach India as they localise."
- },
- {
-  "id": "n134",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "Group14 picks Sagunt, Spain, for a 10 GWh plant making its SCC55 silicon-carbon anode material (a graphite replacement), backed by a new €150 million investment; its planned capacity would reach 40 GWh",
-  "category": "R&D & new products",
-  "effect": "Silicon anode scale-up",
-  "direction": "flat",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/10/30/group14-to-build-battery-material-factory-in-sagunt/",
-  "sources": "electrive",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "seg": "Batteries",
-  "so": "A new anode material plant in Europe: long-term technology news, no near-term cost effect."
- },
- {
-  "id": "n135",
-  "date": "2026-10-30",
-  "day": "30 Oct",
-  "headline": "Lithium carbonate futures in Guangzhou steady at about $13,210 a tonne on 30 Oct after the previous day's 8.4% slump, while the China spot benchmark falls another 2.6% to about $13,970",
-  "category": "Lithium & materials",
-  "effect": "Lithium still weak",
-  "direction": "down",
-  "source": "SMM",
-  "url": "https://www.metal.com/gfex",
-  "source2": "Trading Economics",
-  "url2": "https://tradingeconomics.com/commodity/lithium",
-  "sources": "SMM · Trading Economics",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Lithium holding near $13,000–14,000: cell costs stay low for current quotes."
  }
 ]

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611101600">
+<link rel="stylesheet" href="assets/style.css?v=202611131350">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -25,7 +25,6 @@
         <button type="button" data-tab="rules" class="tab">Regulations <span class="count is-new" id="rules-new" hidden></span></button>
         <button type="button" data-tab="bid" class="tab">Bidding desk</button>
         <button type="button" data-tab="risk" class="tab">Risk</button>
-        <button type="button" data-tab="power" class="tab"><span class="tab-full">Plant power</span><span class="tab-short">Power</span></button>
       </nav>
       <div class="top-actions">
         <span class="updated" id="updated"></span>
@@ -256,22 +255,6 @@
     </details>
   </section>
 
-  <!-- PLANT POWER: electricity per kWh of LFP cells made, simple and detailed views (assets/power.js, data/powermodel.json) -->
-  <section class="page" id="page-power" data-page="power" hidden>
-    <div class="panel pw-head" style="--sec:var(--l3)">
-      <div class="panel-head">
-        <h2>Cell plant power estimator</h2>
-        <div class="seg mode" id="pw-mode" role="group" aria-label="View">
-          <button type="button" data-mode="simple" aria-pressed="true">Simple</button>
-          <button type="button" data-mode="detail" aria-pressed="false">Detailed</button>
-        </div>
-      </div>
-      <p class="sub">Electricity for an LFP prismatic cell factory, per kWh of good cells. Simple shows the answer and what drives it; Detailed lets you change every assumption. Engineering estimates checked against published plant figures, not quotes.</p>
-    </div>
-    <div class="pw-simple" id="pw-simple"></div>
-    <div class="pw-detail" id="pw-detail" hidden></div>
-  </section>
-
   <!-- CALCULATOR -->
   <!-- BIDDING DESK: landed cost now and at delivery, tenders and EPC on one rupee basis -->
   <section class="page" id="page-bid" data-page="bid" hidden>
@@ -441,9 +424,8 @@
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
-<script src="assets/d3.min.js?v=202611101600"></script>
-<script src="assets/app.js?v=202611101600"></script>
-<script src="assets/search.js?v=202611101600"></script>
-<script src="assets/power.js?v=202611101600"></script>
+<script src="assets/d3.min.js?v=202611131350"></script>
+<script src="assets/app.js?v=202611131350"></script>
+<script src="assets/search.js?v=202611131350"></script>
 </body>
 </html>

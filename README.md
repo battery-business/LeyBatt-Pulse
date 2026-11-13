@@ -4,7 +4,7 @@ LeyBatt Pulse is a daily battery market intelligence page for the LFP battery su
 
 - Live page: https://battery-business.github.io/LeyBatt-Pulse/
 - Data: `data/*.json` (the page reads only these files)
-- Tabs: Overview · Raw materials (every price, plus lithium, cell and storage-system charts) · News · Regulations · Cost calculator (builds cell and system cost from raw-material prices, and the landed cost in India; scenarios can be shared by link) · India storage (tender results and EPC contract values) · Risk navigator · Plant power (electricity per kWh of LFP cells made, Simple and Detailed views; model inputs and sources in `data/powermodel.json`) · Weekly brief
+- Tabs: Overview · Raw materials (every price, plus lithium, cell and storage-system charts) · News · Regulations · Cost calculator (builds cell and system cost from raw-material prices, and the landed cost in India; scenarios can be shared by link) · India storage (tender results and EPC contract values) · Risk navigator · Weekly brief
 - How it is updated: see `UPDATING.md`
 
 Compiled from public sources for internal information only.

@@ -19,17 +19,17 @@
   },
   {
    "id": "p-amararaja-cell",
-   "date": "2026-11-02",
+   "date": "2026-11-12",
    "company": "Amara Raja",
    "kind": "Cells",
    "location": "Telangana",
-   "capacity": "LFP cell plant (size not stated)",
-   "gwh": null,
+   "capacity": "Giga Corridor, Divitipally: planned 16 GWh of cells; first line 2 GWh",
+   "gwh": 16,
    "stage": "Announced",
-   "start": "Within 30 months",
-   "note": "Part of ₹2,320 crore of new capex",
-   "source": "Whalesbook",
-   "url": "https://www.whalesbook.com/corporate-news/English/auto/Amara-Raja-Q2-Profit-Falls-45percent-Announces-Rs-2320-Crore-Expansion/6ae88918c6c6dccbb90f5197"
+   "start": "First 2 GWh cell line targeted for Q2 FY28",
+   "note": "Pack plant (5 GWh) to start BESS output in Jan–Feb 2027 after December test runs; nearly 2,000 NMC cells made for internal testing",
+   "source": "TradingView (Moody's news)",
+   "url": "https://www.tradingview.com/news/moodys:029e2f684cf55:0-exide-amara-raja-rush-to-monetize-1-billion-li-ion-cell-lines-as-investor-questions-mount/"
   },
   {
    "id": "p-amararaja-pack",

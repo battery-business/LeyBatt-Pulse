@@ -382,5 +382,16 @@
   "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/",
   "short": "Premier Energies 6 GWh BESS plant due",
   "weight": 1
+ },
+ {
+  "date": "2026-12-08",
+  "what": "NTPC Green Energy tender for about 40.58 GWh of LFP battery containers and grid-forming PCS (seven blocks): bids due 3 pm, techno-commercial bids opened the same day; pre-bid meeting 24 Nov",
+  "kind": "India tender",
+  "source": "Indian PSU",
+  "url": "https://indianpsu.com/ntpc-green-energy-10-gw-40-gwh-battery-storage-tender/",
+  "short": "NTPC Green 40.6 GWh battery container bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "One of the largest single storage-equipment buys yet closes; block sizes of 4.6–6.8 GWh favour large container suppliers."
  }
 ]

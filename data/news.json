@@ -1,5 +1,104 @@
 [
  {
+  "id": "n227",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "NTPC Green Energy issues its international tender for about 40.58 GWh of LFP battery containers with grid-forming PCS in seven blocks over three phases (4.6–6.8 GWh each), with a 15-year service agreement; bidders must take at least one full block and bids are due on 8 Dec",
+  "seg": "BESS",
+  "so": "The 40 GWh equipment buy now has dates and block sizes: bids due 8 Dec, open to foreign suppliers, each block several GWh.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "40 GWh tender issued",
+  "direction": "up",
+  "source": "Indian PSU",
+  "url": "https://indianpsu.com/ntpc-green-energy-10-gw-40-gwh-battery-storage-tender/",
+  "sources": "Indian PSU",
+  "alert": true,
+  "alert_reason": "40.6 GWh NTPC tender",
+  "short": "NTPC Green opens bids for 40.6 GWh of battery containers, due 8 Dec"
+ },
+ {
+  "id": "n228",
+  "date": "2026-11-11",
+  "day": "11 Nov",
+  "headline": "India's power ministry drafts changes to its late-payment surcharge rules so that standalone battery storage providers are covered when distribution companies pay late",
+  "seg": "BESS",
+  "so": "Payment protection for standalone storage owners would lower the risk of selling capacity to state distribution companies.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": 1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Regulation & trade",
+  "effect": "Payment security",
+  "direction": "up",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/government-drafts-late-payment-fee-rules-for-standalone-battery-storage",
+  "sources": "Mercom India"
+ },
+ {
+  "id": "n229",
+  "date": "2026-11-12",
+  "day": "12 Nov",
+  "headline": "Exide and Amara Raja race to fill their new lithium-ion lines: Exide's 6 GWh Bengaluru cell plant sells LFP cells mainly into its own e-rickshaw packs, while Amara Raja plans BESS pack output from Jan–Feb and its first 2 GWh cell line by Q2 FY28; neither has a final carmaker supply order yet",
+  "seg": "Batteries",
+  "so": "India's first local cell lines are running below capacity and still lack firm vehicle-maker orders; storage is the first market they target.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India EV & battery makers",
+  "effect": "Slow cell ramp",
+  "direction": "flat",
+  "source": "TradingView (Moody's news)",
+  "url": "https://www.tradingview.com/news/moodys:029e2f684cf55:0-exide-amara-raja-rush-to-monetize-1-billion-li-ion-cell-lines-as-investor-questions-mount/",
+  "sources": "TradingView"
+ },
+ {
+  "id": "n230",
+  "date": "2026-11-13",
+  "day": "13 Nov",
+  "headline": "BMW opens its $700 million pack plant at Woodruff, South Carolina: it builds Gen6 cell-to-pack batteries from 46 mm-wide cylindrical cells (144 kWh usable in the US iX5), with AESC supplying cells for now and LG Energy Solution later from Arizona",
+  "seg": "Batteries",
+  "so": "Another carmaker moves to large cylindrical cells packed without modules, the cell-to-pack layout spreading across premium EVs.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "Cell-to-pack plant",
+  "direction": "flat",
+  "source": "BMWBLOG",
+  "url": "https://bmwblog.com/2026/11/13/bmw-woodruff-battery-plant-ix5",
+  "sources": "BMWBLOG"
+ },
+ {
   "id": "n219",
   "date": "2026-11-10",
   "day": "10 Nov",

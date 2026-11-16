@@ -502,5 +502,21 @@
   "source": "SMM lithium carbonate weekly review",
   "url": "https://news.metal.com/newscontent/V75RJOKZWET4Z7CQV2J7AK243HXJOZBYAXEMHHA-lithium-carbonate-prices-rebound-after-dip-inventory-continues-to-decline",
   "note": "SMM battery-grade spot average about $13,530 on 12 Nov, down 3.2% vs 6 Nov; futures traced a V shape over the week"
+ },
+ {
+  "date": "2026-11-16",
+  "series": "Futures",
+  "usd_t": 13170,
+  "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
+  "url": "https://news.metal.com/newscontent/HSTCWRK6G2IXCYI4F4FFYLVUPQS2NEGA3RMOHJQ-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-pulled-back-on-november-16-while-futures-opened-lower-moved-lower-and-closed-down-with-increased-open-interest",
+  "note": "Most-traded LC2701 closed at about $13,170 on 16 Nov, −3.65% vs the previous settlement, as open interest rose"
+ },
+ {
+  "date": "2026-11-16",
+  "series": "Spot",
+  "usd_t": 13370,
+  "source": "SMM lithium carbonate daily review",
+  "url": "https://news.metal.com/newscontent/HSTCWRK6G2IXCYI4F4FFYLVUPQS2NEGA3RMOHJQ-smm-lithium-carbonate-daily-review-spot-lithium-carbonate-prices-pulled-back-on-november-16-while-futures-opened-lower-moved-lower-and-closed-down-with-increased-open-interest",
+  "note": "SMM battery-grade spot average about $13,370 on 16 Nov, down about $420 on the day"
  }
 ]

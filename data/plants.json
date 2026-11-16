@@ -240,6 +240,20 @@
    "note": "52S packs for its 261 kWh and 5 MWh BESS; second plant planned in Madhya Pradesh",
    "source": "Mercom India",
    "url": "https://www.mercomindia.com/trex-energy-commissions-lithium-battery-manufacturing-facility-in-hyderabad"
+  },
+  {
+   "id": "p-waaree-valsad-packs",
+   "date": "2026-11-14",
+   "company": "Waaree Energy Storage Solutions (Waaree Energies)",
+   "kind": "Packs",
+   "location": "Rola, Valsad, Gujarat",
+   "capacity": "5.15 GWh a year (battery packs)",
+   "gwh": 5.15,
+   "stage": "Running",
+   "start": "Commercial production started (filing 14 Nov 2026)",
+   "note": "Battery pack line for energy storage; investment and cell source not stated",
+   "source": "Business Upturn (NSE filing)",
+   "url": "https://businessupturn.com/business/waaree-energies-subsidiary-commissions-new-5-15-gwh-battery-manufacturing-line/"
   }
  ]
 }

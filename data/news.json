@@ -1,5 +1,174 @@
 [
  {
+  "id": "n236",
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Guangzhou lithium carbonate futures rebound: the most-traded LC2701 contract closed about 5.2% higher at some $13,910 a tonne on 17 Nov after touching new lows, while SMM's battery-grade spot average slipped to about $13,290 as buyers held back",
+  "seg": "Batteries",
+  "so": "Futures bounced off their lows but spot kept easing: lithium costs for cells stay near the bottom of this year's range for now.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Futures rebound",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/2TCIJG5CHDXFTNB5RMI3KU3SYAZVRNYMULB5IUQ-smm-lithium-carbonate-daily-review-on-november-17-spot-lithium-carbonate-continued-to-pull-back-while-futures-bottomed-out-and-closed-higher-on-reduced-positions",
+  "sources": "SMM"
+ },
+ {
+  "id": "n237",
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Albemarle completes another spodumene concentrate auction: 16,785 dry tonnes sold at about $1,241.5 per tonne CIF on an SC6 basis",
+  "seg": "Batteries",
+  "so": "A fresh ore auction near $1,240 a tonne gives a market check on lithium raw-material costs while chemical prices sit near their lows.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Spodumene auction",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/4SEXBJTWRRP35FAB2H3FDXU7WO3MWP7JSIS6NXQ-smm-flash-albemarle-completed-a-new-round-of-spodumene-concentrate-bidding",
+  "sources": "SMM"
+ },
+ {
+  "id": "n238",
+  "date": "2026-11-16",
+  "day": "16 Nov",
+  "headline": "GUVNL names the winner of its Phase X auction for 1 GW / 4 GWh of standalone four-hour battery storage in Gujarat, floated in August (winner and tariff behind Mercom's paywall, not verified)",
+  "seg": "BESS",
+  "so": "Another 4 GWh of four-hour storage awarded in Gujarat: a large new order book for storage containers and cells to be built in India.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "4 GWh awarded",
+  "direction": "up",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/guvnl-announces-winner-of-1-gw-4-gwh-of-standalone-bess-auction",
+  "sources": "Mercom India",
+  "alert": true,
+  "alert_reason": "4 GWh Gujarat award",
+  "short": "GUVNL names winner of its 1 GW / 4 GWh Gujarat storage auction"
+ },
+ {
+  "id": "n239",
+  "date": "2026-11-16",
+  "day": "16 Nov",
+  "headline": "Pace Digitek wins a ₹2,691 crore EPC order from NTPC Green Energy for 600 MW / 1,800 MWh of battery storage at the Khavda solar park, Gujarat: supply, integration, installation, civil works and 15 years of O&M, in two 300 MW / 900 MWh blocks of a 3,300 MWh project",
+  "seg": "BESS",
+  "so": "Pace Digitek's largest storage order, about $287 million for turnkey work with 15 years of O&M: another sign Indian integrators are scaling up.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "1.8 GWh EPC order",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/17/pace-digitek-wins-600-mw-1800-mwh-bess-contract-in-india/",
+  "sources": "ESS News · Powerpeak Digest",
+  "source2": "Powerpeak Digest",
+  "url2": "https://powerpeakdigest.com/pace-digitek-wins-ntpc-2691-crore-bess-order/",
+  "alert": true,
+  "alert_reason": "1.8 GWh EPC award",
+  "short": "Pace Digitek wins ₹2,691 crore NTPC Green 1.8 GWh storage EPC order"
+ },
+ {
+  "id": "n240",
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Havells shows its first battery storage range at REI Expo 2026, built with Norway's Pixii: modular PowerShaper and PowerNode systems from 3 kW to 125 kW for homes, businesses and industry, a utility-scale MegaNode to follow, a 10-year warranty and plans to make batteries locally",
+  "seg": "BESS",
+  "so": "A large Indian electrical brand enters commercial and industrial storage: more competition and wider dealer reach for small BESS in India.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "New BESS entrant",
+  "direction": "flat",
+  "source": "IndexBox",
+  "url": "https://www.indexbox.io/blog/havells-india-unveils-battery-energy-storage-systems-at-rei-expo-2026/",
+  "sources": "IndexBox · pv magazine India",
+  "source2": "pv magazine India",
+  "url2": "https://www.pv-magazine-india.com/2026/11/17/havells-unveils-battery-energy-storage-systems/"
+ },
+ {
+  "id": "n241",
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Meghalaya's power regulator requires net-metered distributed renewable systems above 10 kW to use a hybrid inverter and carry battery storage of at least 20% of the system's daily generation",
+  "seg": "BESS",
+  "so": "A state rule putting batteries into every mid-size rooftop system: small but steady new demand for behind-the-meter storage.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Regulation & trade",
+  "effect": "Storage mandate",
+  "direction": "up",
+  "source": "Mercom India",
+  "url": "https://www.mercomindia.com/daily-news-wrap-up-guvnl-names-winner-of-1-gw-4-gwh-battery-storage-auction",
+  "sources": "Mercom India"
+ },
+ {
+  "id": "n242",
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Toyota recalls about 19,000 C-HR+ electric SUVs worldwide (and about 10,000 C-HR EVs in North America) over battery-control software that can overcharge the pack during regenerative braking at high charge; the EV control unit gets reprogrammed",
+  "seg": "Batteries",
+  "so": "A battery-management software fault, not a cell defect, forced a global recall: BMS charge limits in regenerative mode need careful validation.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "BMS recall",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/17/toyota-recalls-c-hr-worldwide-due-to-battery-control-unit-issue/",
+  "sources": "electrive"
+ },
+ {
   "id": "n231",
   "date": "2026-11-16",
   "day": "16 Nov",
@@ -1963,29 +2132,6 @@
   "so": "More lithium supply outside China from 2026–27: keeps raw-material costs down and widens sourcing options."
  },
  {
-  "id": "n153",
-  "date": "2026-11-03",
-  "day": "3 Nov",
-  "headline": "LG Energy Solution guides fourth-quarter revenue about 10% higher with storage shipments up some 40%, says most of its North American storage output through 2028 is sold, plans more than 50 GWh of storage capacity there by end-2026 and 70 GWh by end-2027, and will cut capex by over 40%",
-  "category": "Cell makers & competitors",
-  "effect": "Storage demand strong",
-  "direction": "up",
-  "source": "LG Energy Solution",
-  "url": "https://inside.lgensol.com/en/2026/11/lg-energy-solution-releases-2026-third-quarter-financial-results/",
-  "sources": "LG Energy Solution · SBS · Bloomberg (headline)",
-  "source2": "Bloomberg (headline only)",
-  "url2": "https://www.bloomberg.com/news/articles/2026-11-03/lg-energy-to-expand-north-america-battery-output-on-ai-demand",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "seg": "BESS",
-  "so": "Korean makers' US storage lines are sold out to 2028: little spare non-Chinese storage-cell supply in the near term."
- },
- {
   "id": "n154",
   "date": "2026-11-03",
   "day": "3 Nov",
@@ -2104,27 +2250,6 @@
   ],
   "seg": "BESS",
   "so": "Gujarat confirms storage tariffs near ₹2.32 lakh/MW/month: a benchmark for what Indian storage projects earn."
- },
- {
-  "id": "n147",
-  "date": "2026-11-03",
-  "day": "3 Nov",
-  "headline": "India's electric car registrations jumped about 75% on a year in October to some 36,600 (JATO), lifting EV share of car sales to 7.3% while the overall car market shrank; Tata Motors (14,560) and Mahindra (8,473) lead",
-  "category": "India EV & battery makers",
-  "effect": "EV demand up",
-  "direction": "up",
-  "source": "Business Standard",
-  "url": "https://www.business-standard.com/amp/industry/auto/ev-registrations-soar-75-in-october-even-as-pv-market-shrinks-14-6-126110300007_1.html",
-  "sources": "Business Standard",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "EVs",
-  "so": "Electric cars gain share in India: more local battery demand helps Indian cell plants reach scale."
  },
  {
   "id": "n136",
@@ -2939,29 +3064,6 @@
   ],
   "seg": "BESS",
   "so": "Maharashtra tenders 1.6 GWh of storage: more demand; bids due 5 Nov."
- },
- {
-  "id": "n52",
-  "date": "2026-10-18",
-  "day": "18 Oct",
-  "headline": "Varroc to buy 45% of Forsee Power India and take control, starting with battery packs for electric three-wheelers; Energy In Motion opens a 5,000-a-year electric heavy-truck plant with pack lines in Pune",
-  "category": "India EV & battery makers",
-  "effect": "Local pack capacity",
-  "direction": "up",
-  "source": "Autocar Professional",
-  "url": "https://www.autocarpro.in/news/weekly-news-wrap-bs7-norms-proposed-hyundai-commits-$155-billion-stellantis-plans-rs-4000-crore-investment-135319",
-  "source2": "",
-  "url2": "",
-  "sources": "Autocar Professional",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "EVs",
-  "so": "Energy In Motion opens a 5,000-a-year electric heavy-truck plant: new capacity in India's e-truck market."
  },
  {
   "id": "n04",

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-19",
- "generated": "2026-11-19T00:07:15+00:00",
+ "generated": "2026-11-19T12:10:17+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -126,13 +126,12 @@
       },
       {
        "label": "How much the price swings",
-       "score": 8.8,
-       "detail": "About 53% a year, from 120 price moves in the last 6 months",
+       "score": 8.7,
+       "detail": "About 53% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 24,
        "prev": 8.7,
-       "prev_detail": "About 53% a year, from 121 price moves in the last 6 months",
-       "moved": 0.02
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -302,11 +301,11 @@
      "change": 0.2
     },
     "confidence": "High",
-    "obs180": 121
+    "obs180": 122
    },
    "h12": {
     "price": {
-     "score": 5.5,
+     "score": 5.4,
      "level": "Elevated",
      "drivers": [
       {
@@ -321,13 +320,12 @@
       },
       {
        "label": "How much the price swings",
-       "score": 8.8,
-       "detail": "About 53% a year, from 120 price moves in the last 6 months",
+       "score": 8.7,
+       "detail": "About 53% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 8.7,
-       "prev_detail": "About 53% a year, from 121 price moves in the last 6 months",
-       "moved": 0.03
+       "moved": 0.0
       },
       {
        "label": "Rupee against the US$",
@@ -434,7 +432,7 @@
       }
      ],
      "prev_date": "2026-11-12",
-     "change": 0.0
+     "change": -0.1
     },
     "supply": {
      "score": 5.6,
@@ -497,7 +495,7 @@
      "change": 0.1
     },
     "confidence": "High",
-    "obs180": 121
+    "obs180": 122
    },
    "trend": [
     [
@@ -666,7 +664,7 @@
       {
        "label": "How much the price swings",
        "score": 4.8,
-       "detail": "About 32% a year, from 120 price moves in the last 6 months",
+       "detail": "About 31% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 22,
        "prev": 4.9,
@@ -810,7 +808,7 @@
      "change": 0.1
     },
     "confidence": "Medium",
-    "obs180": 121
+    "obs180": 122
    },
    "h12": {
     "price": {
@@ -830,7 +828,7 @@
       {
        "label": "How much the price swings",
        "score": 4.8,
-       "detail": "About 32% a year, from 120 price moves in the last 6 months",
+       "detail": "About 31% a year, from 121 price moves in the last 6 months",
        "key": "volatility",
        "weight": 25,
        "prev": 4.9,
@@ -868,12 +866,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.5,
-       "detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "score": 5.4,
+       "detail": "Lithium price risk 5.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 17,
        "prev": 5.5,
-       "moved": 0.0
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.02
       },
       {
        "label": "Price news",
@@ -974,7 +973,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 121
+    "obs180": 122
    },
    "trend": [
     [
@@ -1851,12 +1850,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.5,
-       "detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "score": 5.4,
+       "detail": "Lithium price risk 5.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12,
        "prev": 5.5,
-       "moved": 0.0
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.01
       },
       {
        "label": "Price news",
@@ -2353,7 +2353,7 @@
    },
    "h12": {
     "price": {
-     "score": 4.1,
+     "score": 4.0,
      "level": "Elevated",
      "drivers": [
       {
@@ -2407,12 +2407,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 5.5,
-       "detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "score": 5.4,
+       "detail": "Lithium price risk 5.4/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 12,
        "prev": 5.5,
-       "moved": 0.0
+       "prev_detail": "Lithium price risk 5.5/10 feeds into this material's cost",
+       "moved": -0.01
       },
       {
        "label": "Price news",
@@ -2465,7 +2466,7 @@
       }
      ],
      "prev_date": "2026-11-12",
-     "change": 0.0
+     "change": -0.1
     },
     "supply": {
      "score": 5.8,
@@ -2687,28 +2688,28 @@
    },
    "h3": {
     "price": {
-     "score": 2.8,
+     "score": 2.4,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 2.9,
-       "detail": "1 month −9.0% · 3 months −7.5% (rising prices push the score up)",
+       "score": 2.1,
+       "detail": "1 month −12.3% · 3 months −10.8% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 3.4,
        "prev_detail": "1 month −7.0% · 3 months −5.7% (rising prices push the score up)",
-       "moved": -0.25
+       "moved": -0.65
       },
       {
        "label": "How much the price swings",
-       "score": 2.4,
-       "detail": "About 18% a year, from 124 price moves in the last 6 months",
+       "score": 2.6,
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 2.4,
        "prev_detail": "About 18% a year, from 126 price moves in the last 6 months",
-       "moved": 0.0
+       "moved": 0.07
       },
       {
        "label": "Rupee against the US$",
@@ -2770,7 +2771,7 @@
       }
      ],
      "prev_date": "2026-11-12",
-     "change": -0.3
+     "change": -0.7
     },
     "supply": {
      "score": 1.6,
@@ -2811,32 +2812,32 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
-     "score": 2.7,
+     "score": 2.5,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 2.9,
-       "detail": "1 month −9.0% · 3 months −7.5% (rising prices push the score up)",
+       "score": 2.1,
+       "detail": "1 month −12.3% · 3 months −10.8% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 3.4,
        "prev_detail": "1 month −7.0% · 3 months −5.7% (rising prices push the score up)",
-       "moved": -0.17
+       "moved": -0.43
       },
       {
        "label": "How much the price swings",
-       "score": 2.4,
-       "detail": "About 18% a year, from 124 price moves in the last 6 months",
+       "score": 2.6,
+       "detail": "About 19% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 2.4,
        "prev_detail": "About 18% a year, from 126 price moves in the last 6 months",
-       "moved": 0.0
+       "moved": 0.1
       },
       {
        "label": "Rupee against the US$",
@@ -2898,7 +2899,7 @@
       }
      ],
      "prev_date": "2026-11-12",
-     "change": -0.2
+     "change": -0.4
     },
     "supply": {
      "score": 1.4,
@@ -2939,7 +2940,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -3069,7 +3070,7 @@
     ],
     [
      "2026-11-19",
-     2.8,
+     2.4,
      1.6
     ]
    ]
@@ -3092,23 +3093,23 @@
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.3,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.8,
-       "detail": "1 month +1.9% · 3 months −5.2% (rising prices push the score up)",
+       "score": 5.0,
+       "detail": "1 month +3.0% · 3 months −4.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 5.3,
        "prev_detail": "1 month +3.9% · 3 months −2.8% (rising prices push the score up)",
-       "moved": -0.25
+       "moved": -0.15
       },
       {
        "label": "How much the price swings",
        "score": 3.9,
-       "detail": "About 26% a year, from 124 price moves in the last 6 months",
+       "detail": "About 26% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 3.0,
@@ -3175,7 +3176,7 @@
       }
      ],
      "prev_date": "2026-11-12",
-     "change": 0.0
+     "change": 0.1
     },
     "supply": {
      "score": 2.4,
@@ -3216,7 +3217,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "h12": {
     "price": {
@@ -3225,18 +3226,18 @@
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 4.8,
-       "detail": "1 month +1.9% · 3 months −5.2% (rising prices push the score up)",
+       "score": 5.0,
+       "detail": "1 month +3.0% · 3 months −4.1% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 5.3,
        "prev_detail": "1 month +3.9% · 3 months −2.8% (rising prices push the score up)",
-       "moved": -0.17
+       "moved": -0.1
       },
       {
        "label": "How much the price swings",
        "score": 3.9,
-       "detail": "About 26% a year, from 124 price moves in the last 6 months",
+       "detail": "About 26% a year, from 125 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 3.0,
@@ -3344,7 +3345,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 125
+    "obs180": 126
    },
    "trend": [
     [
@@ -3474,7 +3475,7 @@
     ],
     [
      "2026-11-19",
-     4.2,
+     4.3,
      2.4
     ]
    ]
@@ -3485,7 +3486,7 @@
    "material": "lithium",
    "name": "Lithium carbonate",
    "from": "2023-07-21",
-   "to": "2026-11-18",
+   "to": "2026-11-19",
    "samples": 67,
    "step_days": 14,
    "cut_low": 4.7,
@@ -3516,7 +3517,7 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-11-17",
+   "to": "2026-11-18",
    "samples": 211,
    "step_days": 14,
    "cut_low": 4.1,
@@ -3547,7 +3548,7 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-11-17",
+   "to": "2026-11-18",
    "samples": 211,
    "step_days": 14,
    "cut_low": 4.2,

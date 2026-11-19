@@ -110,10 +110,6 @@
  "lithium": {
   "recent": [
    [
-    "2026-11-02",
-    13643
-   ],
-   [
     "2026-11-03",
     13384
    ],
@@ -156,15 +152,19 @@
    [
     "2026-11-17",
     13978
+   ],
+   [
+    "2026-11-18",
+    13727
    ]
   ],
   "source": "Guangzhou futures close (via Sina Finance), at the ECB rate",
   "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml"
  },
  "fx": {
-  "date": "2026-11-17",
-  "usd_inr": 93.4753,
-  "usd_cny": 6.6661,
+  "date": "2026-11-18",
+  "usd_inr": 93.445,
+  "usd_cny": 6.6672,
   "source": "ECB euro reference rates (cross rates)"
  }
 }

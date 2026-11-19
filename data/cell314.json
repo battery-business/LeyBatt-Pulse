@@ -187,5 +187,14 @@
   "source": "InfoLink weekly",
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
   "note": "Lithium near its lows; cells down about 1.3% vs 4 Nov as cheaper materials sharpen competition; systems unchanged"
+ },
+ {
+  "date": "2026-11-18",
+  "usd_kwh": 45.6,
+  "lo": 42.3,
+  "hi": 48.9,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261118",
+  "note": "314 Ah cell down about 0.7% vs 11 Nov as cheaper materials restart price competition; DC systems down 1%"
  }
 ]

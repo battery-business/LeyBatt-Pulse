@@ -2,15 +2,15 @@
  {
   "material": "Spodumene SC6",
   "role": "Lithium ore",
-  "price": "$1,150",
-  "asof": "11 Nov",
-  "move": "−5.3% vs 4 Nov",
+  "price": "$1,140",
+  "asof": "18 Nov",
+  "move": "−0.9% vs 11 Nov",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261118",
   "stage": "Ore & lithium chemicals",
   "unit": "per tonne",
-  "usd": 1150.0
+  "usd": 1140.0
  },
  {
   "material": "Lithium hydroxide",
@@ -41,15 +41,15 @@
  {
   "material": "LFP electrolyte",
   "role": "Electrolyte for LFP cells",
-  "price": "$4,740",
-  "asof": "12 Nov",
-  "move": "−2.7% vs 29 Oct",
+  "price": "$4,610",
+  "asof": "19 Nov",
+  "move": "−2.7% vs 12 Nov",
   "direction": "down",
   "source": "SMM weekly review",
-  "url": "https://news.metal.com/newscontent/DWAYD4Y6S6EE2XKWOFYXHDLF6YBUCYCG4RHJQ6Q-electrolyte-prices-remained-stable-this-week-2026119-1112-smm-lithium-battery-electrolyte-market-weekly-review",
+  "url": "https://news.metal.com/newscontent/IZUQ3AIWTLD6IG5JLX5L5BWC7NEASSLC76TJ6KQ-electrolyte-prices-declined-this-week-20261116-1119-smm-lithium-battery-electrolyte-market-weekly-review",
   "stage": "Other cell materials",
   "unit": "per tonne",
-  "usd": 4740.0
+  "usd": 4610.0
  },
  {
   "material": "Copper",

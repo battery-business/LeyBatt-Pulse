@@ -1,5 +1,207 @@
 [
  {
+  "date": "2026-11-18",
+  "day": "18 Nov",
+  "headline": "Adani Cement flags off its first heavy electric trucks at its Sanghi plant in Gujarat to haul clinker and cement, the start of a planned 410-truck fleet it says will save about 11 million litres of diesel a year (truck maker and battery size not given)",
+  "seg": "CVs",
+  "so": "A 410-truck electric fleet plan from one cement maker: heavy e-truck demand in India is moving from pilots to fleet-scale orders.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "E-buses & e-trucks",
+  "effect": "410 e-trucks planned",
+  "direction": "up",
+  "source": "India Blooms",
+  "url": "https://indiablooms.com/finance/adani-cement-goes-electric-410-heavy-duty-ev-trucks-to-replace-diesel-guzzlers/details",
+  "sources": "India Blooms · IANS",
+  "source2": "IANS via Social News XYZ",
+  "url2": "https://www.socialnews.xyz/2026/11/18/adani-cement-deploys-heavy-duty-electric-trucks-at-gujarats-sanghi-plant/",
+  "id": "n243"
+ },
+ {
+  "date": "2026-11-17",
+  "day": "17 Nov",
+  "headline": "Atria Mobility runs megawatt charging for intercity e-buses on the 600 km Bengaluru–Hyderabad route: two stations with a 1.5 MW and a 360 kW charger each fill a 13.5 m bus in about 15 minutes; Fresh Bus's sleepers there carry 420 kWh packs, and about 20 sites are planned within two years",
+  "seg": "CVs",
+  "so": "Megawatt charging in about 15 minutes makes 400 kWh-plus intercity e-buses practical on long routes without oversized packs.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "MW bus charging",
+  "direction": "up",
+  "source": "EMobility+",
+  "url": "https://emobilityplus.com/2026/11/17/atria-mobility-commissions-worlds-first-megawatt-scale-ev-charging-corridor-for-600-km-intercity-bus-travel/",
+  "sources": "EMobility+",
+  "id": "n244"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "Delhi's DTC is about to add 100 low-floor AC electric buses (50 nine-metre, 50 twelve-metre), taking its electric fleet to about 5,338 of some 7,088 buses, towards a target of about 14,000 buses by 2028-29",
+  "seg": "CVs",
+  "so": "Delhi keeps adding e-buses towards a 14,000-bus fleet: steady city e-bus demand in both 9 m and 12 m sizes.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "100 e-buses added",
+  "direction": "up",
+  "source": "IANS via Social News XYZ",
+  "url": "https://www.socialnews.xyz/2026/11/19/dtc-preparing-to-induct-100-e-buses-delhi-minister/",
+  "sources": "IANS",
+  "id": "n245"
+ },
+ {
+  "date": "2026-11-18",
+  "day": "18 Nov",
+  "headline": "POWERGRID tenders 100 MW / 400 MWh build-own-operate battery storage packages at Rayalaseema and NP Kunta in Andhra Pradesh, part of the state's 1,250 MW / 5,000 MWh four-hour programme; bids for the five Rayalaseema packages are due 20 Nov and for NP Kunta (AP BESS 06) on 23 Nov",
+  "seg": "BESS",
+  "so": "Andhra Pradesh's 5 GWh four-hour storage programme reaches bidding: more Indian demand for storage containers and cells in 2027-28.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "5 GWh tendered",
+  "direction": "up",
+  "source": "Power Peak Digest",
+  "url": "https://powerpeakdigest.com/powergrid-tenders-rayalaseema-bess-project/",
+  "sources": "Power Peak Digest · SolarQuarter",
+  "source2": "SolarQuarter",
+  "url2": "https://solarquarter.com/2026/11/18/powergrid-invites-bids-for-100-mw-400-mwh-battery-energy-storage-project-in-andhra-pradesh/",
+  "alert": true,
+  "alert_reason": "5 GWh Andhra tender",
+  "short": "POWERGRID tenders Andhra storage packages in a 5 GWh programme",
+  "id": "n246"
+ },
+ {
+  "date": "2026-11-18",
+  "day": "18 Nov",
+  "headline": "SECI opens a rolling empanelment of battery-storage makers, suppliers and integrators in four tiers by project size (up to 100 MWh to 600–1,000 MWh); empanelled firms then bid project by project in reverse auctions, with applications opened monthly for a year",
+  "seg": "BESS",
+  "so": "SECI moves to a standing list of storage suppliers: faster, repeated reverse auctions that should keep storage system prices under pressure.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "Supplier empanelment",
+  "direction": "down",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/18/seci-launches-rolling-empanelment-tender-for-grid-scale-bess-suppliers-across-india/",
+  "sources": "SolarQuarter",
+  "id": "n247"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "China's NDRC and NEA set a target of 300 GW of new-type energy storage by 2030 (about three hours on average) in their 15th Five-Year Plan for storage, up from about 136 GW installed now, and tell lithium battery makers to avoid blind expansion",
+  "seg": "BESS",
+  "so": "China's own storage target more than doubles installed capacity by 2030: firm home demand for storage cells, with Beijing also leaning on overcapacity.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "Energy storage",
+  "effect": "300 GW by 2030",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/19/china-targets-300-gw-of-energy-storage-capacity-by-2030-under-new-five-year-plan/",
+  "sources": "SolarQuarter · SMM",
+  "source2": "SMM",
+  "url2": "https://news.metal.com/newscontent/RKTX7RZNAWM2XDH5E2MBRA4T3UHE2KZDW55V75Q-ndrc-and-nea-release-15th-five-year-plan-for-new-type-energy-storage-guiding-rational-project-expansion",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": 1
+   }
+  ],
+  "id": "n248"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "China's EV battery installations hit a record 99.4 GWh in October (+18% on a year), with LFP at a record 86.9%; battery output including storage reached 245 GWh and exports a record 46.1 GWh; CATL held 40% of installations and BYD 21%",
+  "seg": "Batteries",
+  "so": "Record output and exports with LFP near 87% of EV installs: Chinese LFP supply is plentiful and keeps dominating cell choices.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Record LFP share",
+  "direction": "flat",
+  "source": "CnEVPost",
+  "url": "https://cnevpost.com/2026/11/19/china-oct-2026-power-battery-installations/",
+  "sources": "CnEVPost",
+  "source2": "CnEVPost (maker shares)",
+  "url2": "https://cnevpost.com/2026/11/19/top-battery-makers-share-china-oct-2026/",
+  "id": "n249"
+ },
+ {
+  "date": "2026-11-18",
+  "day": "18 Nov",
+  "headline": "Ola Electric says its own cells could cost about 20% less than bought-in 2170 cells at scale, but only 10–15% less at 85% yield and no saving at 70%; NMC yields are in the mid-70s%, and in-house LFP cells should go into its vehicles by March 2027",
+  "seg": "Batteries",
+  "so": "India's first ACC PLI cell maker still runs below break-even yields: Indian-made cells stay costlier than imports until yields pass about 85%.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 0
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Indian cell & pack makers",
+  "effect": "Yield ramp",
+  "direction": "flat",
+  "source": "Business Today",
+  "url": "https://www.businesstoday.in/auto/story/ola-electric-expects-20-cost-advantage-from-in-house-battery-cells-bhavish-aggarwal-568232-2026-11-18",
+  "sources": "Business Today",
+  "id": "n250"
+ },
+ {
   "id": "n236",
   "date": "2026-11-17",
   "day": "17 Nov",
@@ -1430,27 +1632,6 @@
   "sources": "ESS News"
  },
  {
-  "id": "n184",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "Fluence's CEO Julian Nebreda and CFO Ahmed Pasha step down with immediate effect; board member Axel Meier becomes interim CEO and Ricardo Roizen interim CFO, and a new board committee will oversee manufacturing and customer delivery; contracted backlog is $6.4 billion",
-  "seg": "BESS",
-  "so": "Top-level exit at a large Western storage integrator focused on fixing manufacturing and delivery: execution records matter when choosing integrators.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Energy storage",
-  "effect": "Leadership change",
-  "direction": "flat",
-  "source": "TaiyangNews",
-  "url": "https://taiyangnews.info/people/fluence-energy-interim-ceo-cfo",
-  "sources": "TaiyangNews"
- },
- {
   "id": "n185",
   "date": "2026-11-03",
   "day": "3 Nov",
@@ -1624,27 +1805,6 @@
   "sources": "Albemarle · The EV Report"
  },
  {
-  "id": "n181",
-  "date": "2026-11-05",
-  "day": "5 Nov",
-  "headline": "SMM: China battery-grade lithium carbonate spot averaged about $13,690 a tonne on 5 Nov, down 4.6% in a week, while the Guangzhou most-traded contract closed near $13,670, up 3.6% on the week; social inventory fell by about 3,000 t to 125,391 t",
-  "seg": "Batteries",
-  "so": "Lithium spot keeps easing while futures rebound and stocks fall: a soft but stabilising price for LFP cathode and cells.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Spot eases",
-  "direction": "down",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104207608-smm-analysis-market-sentiment-marginally-recovers-lithium-carbonate-destocking-accelerates",
-  "sources": "SMM"
- },
- {
   "id": "n182",
   "date": "2026-11-06",
   "day": "6 Nov",
@@ -1803,77 +1963,6 @@
   "sources": "Autocar Professional"
  },
  {
-  "id": "n172",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "Honda will build its Alpha electric SUV at Tapukara, Rajasthan, with two LFP pack options and a world premiere in India on 2 December, for export to Japan and Southeast Asia; cells are reported to come from CATL's plant in Indonesia",
-  "seg": "EVs",
-  "so": "Another carmaker makes India an EV export base with LFP packs: more electric-car volume in India, with cells still imported.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   },
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "EV market",
-  "effect": "New India-built EV",
-  "direction": "up",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/11/04/honda-announces-alpha-ev-in-india-effectively-scrapping-0-series/",
-  "sources": "electrive"
- },
- {
-  "id": "n173",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "Mercedes is developing small converters on each cell or cell cluster that hold the pack output at a steady 800 V whatever the state of charge, can spare weaker cells and replace the separate on-board charger; no launch date given",
-  "seg": "Batteries",
-  "so": "Pack electronics that fix the output voltage could free pack designers from series cell counts and drop the on-board charger; still in development.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "New pack architecture",
-  "direction": "flat",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/11/04/mercedes-power-converter-decouples-high-voltage-supply-from-battery-state/",
-  "sources": "electrive"
- },
- {
-  "id": "n174",
-  "date": "2026-11-05",
-  "day": "5 Nov",
-  "headline": "Two sodium-ion material projects are signed in Neijiang, Sichuan: Jiangxi Jinhui plans 30,000 t a year of sodium hexafluorophosphate and 100,000 t of sodium-ion electrolyte, and Yonghan Materials a battery-grade NFPP cathode line",
-  "seg": "Batteries",
-  "so": "China keeps building a sodium-ion materials supply chain: a sign that sodium-ion cells for storage and small EVs are heading to volume.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "R&D & new products",
-  "effect": "Sodium-ion supply chain",
-  "direction": "flat",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104207150-na-ion-two-sodium-ion-battery-material-projects-signed-in-weiyuan-sichuan",
-  "sources": "SMM"
- },
- {
   "id": "n159",
   "date": "2026-11-04",
   "day": "4 Nov",
@@ -2005,69 +2094,6 @@
   ],
   "seg": "Batteries",
   "so": "An Indian carmaker expects local EV cells within a year and local materials in two to three: imported cells stay the norm until then."
- },
- {
-  "id": "n164",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "InfoLink, 4 Nov: China lithium carbonate falls 7.2% in a week to about $13,430 a tonne, spodumene 10% to $1,215; the 314 Ah storage cell eases 0.7% to $46.6/kWh and 2-hour DC containers 1%",
-  "category": "Lithium & materials",
-  "effect": "Lithium still falling",
-  "direction": "down",
-  "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261104",
-  "sources": "InfoLink",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Lithium down another 7% in a week while storage cells slip under 1%: cell prices are lagging the fall in raw materials."
- },
- {
-  "id": "n165",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "Dongfeng's Voyah, M-hero and Epicland brands are expected to be first with CATL's third-generation Shenxing LFP battery (10–80% in under 4 minutes, 10C or more) after a group-level deal on 29 Oct, a Chinese report says",
-  "category": "R&D & new products",
-  "effect": "Ultra-fast charging",
-  "direction": "flat",
-  "source": "CarNewsChina (citing 21CBH)",
-  "url": "https://carnewschina.com/2026/11/03/dongfeng-eyes-debut-of-catls-6-minute-full-charge-shenxing-battery-report-says",
-  "sources": "CarNewsChina",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "10C fast-charge LFP cells are heading into more Chinese cars: raises the bar for charging speed in EV cell specifications."
- },
- {
-  "id": "n166",
-  "date": "2026-11-04",
-  "day": "4 Nov",
-  "headline": "CATL, Octopus Energy and Ampace (the ATL–CATL joint venture) sign an MoU on home storage in Europe, starting in the UK, France and Spain; Ampace will make the cells, BMS and storage units",
-  "category": "Cell makers & competitors",
-  "effect": "Home storage push",
-  "direction": "flat",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/11/04/catl-octopus-ampace-explore-european-home-energy-storage/",
-  "sources": "CnEVPost",
-  "weight": 1,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "China's largest cell maker moves into European home storage with a utility partner: more competition for residential battery makers."
  },
  {
   "id": "n151",

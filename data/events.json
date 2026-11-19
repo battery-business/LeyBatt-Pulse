@@ -96,6 +96,17 @@
   "so": "1 GWh of four-hour storage with solar in Haryana."
  },
  {
+  "date": "2026-11-20",
+  "what": "POWERGRID Rayalaseema battery storage packages (5 × 100 MW / 400 MWh, Andhra Pradesh): bids due and technical bids opened",
+  "kind": "India tender",
+  "source": "Power Peak Digest",
+  "url": "https://powerpeakdigest.com/powergrid-tenders-rayalaseema-bess-project/",
+  "short": "POWERGRID Rayalaseema 2 GWh storage bids due",
+  "weight": 2,
+  "seg": "BESS",
+  "so": "Bids for 2 GWh of four-hour storage in Andhra Pradesh: shows who is competing for Indian storage awards."
+ },
+ {
   "date": "2026-11-23",
   "what": "Andhra Pradesh (APPCC) 1.25 GW / 5 GWh standalone storage tender: online bids due",
   "kind": "India tender",
@@ -129,6 +140,15 @@
   "so": "A 2 GWh solar-plus-storage tender in Karnataka closes."
  },
  {
+  "date": "2026-11-23",
+  "what": "POWERGRID AP BESS 06, 100 MW / 400 MWh at NP Kunta, Andhra Pradesh: bids due",
+  "kind": "India tender",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/18/powergrid-invites-bids-for-100-mw-400-mwh-battery-energy-storage-project-in-andhra-pradesh/",
+  "short": "POWERGRID NP Kunta 400 MWh storage bids due",
+  "weight": 1
+ },
+ {
   "date": "2026-11-25",
   "what": "Comments due on India's draft bidding-guideline changes (domestic content for storage, optional payment-security levy for BESS)",
   "kind": "Rule change",
@@ -149,6 +169,17 @@
   "weight": 2,
   "seg": "CVs",
   "so": "A port-run swap and fast-charge network for heavy e-trucks: a test of swapping as an alternative to carrying bigger packs."
+ },
+ {
+  "date": "2026-11-26",
+  "what": "CESL tender for a battery-swapping and charging operator at JNPA, Navi Mumbai, including e-truck battery swapping with high-capacity charging: tender sale closes",
+  "kind": "India tender",
+  "source": "CESL tenders page",
+  "url": "https://convergence.co.in/tender",
+  "short": "CESL JNPA e-truck swapping tender closes",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "A port e-truck swapping tender: a test of swapping for heavy trucks at India's busiest container port."
  },
  {
   "date": "2026-12-01",
@@ -231,6 +262,15 @@
   "weight": 3,
   "seg": "BESS",
   "so": "Bids for up to 4.8 GWh of storage in Uttar Pradesh: a test of tariffs for solar-plus-storage."
+ },
+ {
+  "date": "2026-12-21",
+  "what": "RRVUNL standalone four-hour battery storage tender in Rajasthan (build-own-operate with VGF, 20% local content): bids due",
+  "kind": "India tender",
+  "source": "Power Peak Digest",
+  "url": "https://powerpeakdigest.com/rrvunl-tenders-1000mwh-bess-rajasthan/",
+  "short": "RRVUNL Rajasthan storage bids due",
+  "weight": 1
  },
  {
   "date": "2027-01-01",
@@ -337,6 +377,18 @@
   "url": "https://powerpeakdigest.com/ravindra-energy-solar-assets-fund-ehcv/",
   "short": "EIM target: 40 e-truck charging/swap stations",
   "weight": 1
+ },
+ {
+  "date": "2027-03-01",
+  "precision": "month",
+  "what": "Ola Electric aims to start fitting its own LFP cells in its vehicles by the end of Q4 FY27",
+  "kind": "India competitor",
+  "source": "Business Today",
+  "url": "https://www.businesstoday.in/auto/story/ola-electric-expects-20-cost-advantage-from-in-house-battery-cells-bhavish-aggarwal-568232-2026-11-18",
+  "short": "Ola's in-house LFP cells due in its vehicles",
+  "weight": 2,
+  "seg": "Batteries",
+  "so": "First Indian-made LFP cells in production vehicles: a check on whether local cells reach import cost."
  },
  {
   "date": "2027-03-31",

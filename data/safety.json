@@ -65,6 +65,19 @@
    "lesson": null,
    "source": "Autocar Professional",
    "url": "https://www.autocarpro.in/news/switch-mobility-double-decker-bus-catches-fire-in-mumbai-127536"
+  },
+  {
+   "id": "f-dtc-shastripark",
+   "date": "2026-11-11",
+   "kind": "E-bus fire",
+   "place": "Near Shastri Park underpass, north-east Delhi",
+   "country": "India",
+   "operator": "DTC",
+   "what": "Electric bus caught fire at night; no passengers on board, no injuries",
+   "cause": "Not determined (early reports mention a possible short circuit; battery involvement not stated)",
+   "lesson": null,
+   "source": "The Logical Indian",
+   "url": "https://thelogicalindian.com/delhi-dtc-electric-bus-catches-fire-133598/"
   }
  ]
 }

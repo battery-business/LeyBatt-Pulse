@@ -3,13 +3,13 @@
   "id": "lithium",
   "layer": "Raw material",
   "label": "Lithium carbonate futures",
-  "price": "$13,910",
+  "price": "$13,660",
   "unit": "per tonne",
-  "asof": "17 Nov",
-  "move": "+5.6% vs 16 Nov",
-  "direction": "up",
-  "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
-  "url": "https://news.metal.com/newscontent/2TCIJG5CHDXFTNB5RMI3KU3SYAZVRNYMULB5IUQ-smm-lithium-carbonate-daily-review-on-november-17-spot-lithium-carbonate-continued-to-pull-back-while-futures-bottomed-out-and-closed-higher-on-reduced-positions"
+  "asof": "19 Nov",
+  "move": "−1.8% vs 17 Nov",
+  "direction": "down",
+  "source": "SMM lithium carbonate weekly analysis (GFEX most-traded contract)",
+  "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued"
  },
  {
   "id": "cathode",
@@ -27,13 +27,13 @@
   "id": "cell314",
   "layer": "Cell",
   "label": "314 Ah LFP storage cell",
-  "price": "$46.0",
+  "price": "$45.6",
   "unit": "per kWh",
-  "asof": "11 Nov",
-  "move": "−1.3% vs 4 Nov",
+  "asof": "18 Nov",
+  "move": "−0.7% vs 11 Nov",
   "direction": "down",
   "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111"
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261118"
  },
  {
   "id": "cell587",

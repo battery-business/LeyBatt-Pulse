@@ -285,6 +285,20 @@
    "note": "260 kW peak motor; 32 seats; 35 in service in Chhatrapati Sambhajinagar, run by Evey Trans",
    "source": "electrive, 12 Nov 2026",
    "url": "https://www.electrive.com/2026/11/12/india-olectra-deploys-35-electric-buses-in-chhatrapati-sambhajinagar/"
+  },
+  {
+   "id": "v-vvv-mahasamrat",
+   "date": "2026-11-17",
+   "group": "Bus",
+   "maker": "Veera Vidyut Vahana",
+   "model": "MAHAsamrat (13.5 m)",
+   "type": "E-bus (13.5 m intercity AC sleeper)",
+   "pack_kwh": "420",
+   "kwh": 420,
+   "charging": "Megawatt charging, full charge in about 15 minutes on a 1.5 MW charger",
+   "note": "12 run by Fresh Bus on Bengaluru–Hyderabad, financed by Atria; 8 more coming",
+   "source": "EMobility+, 17 Nov 2026",
+   "url": "https://emobilityplus.com/2026/11/17/atria-mobility-commissions-worlds-first-megawatt-scale-ev-charging-corridor-for-600-km-intercity-bus-travel/"
   }
  ]
 }

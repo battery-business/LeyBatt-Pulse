@@ -534,5 +534,29 @@
   "source": "SMM lithium carbonate daily review",
   "url": "https://news.metal.com/newscontent/2TCIJG5CHDXFTNB5RMI3KU3SYAZVRNYMULB5IUQ-smm-lithium-carbonate-daily-review-on-november-17-spot-lithium-carbonate-continued-to-pull-back-while-futures-bottomed-out-and-closed-higher-on-reduced-positions",
   "note": "SMM battery-grade spot average about $13,290 on 17 Nov, down about $70 on the day; buyers ordered sparingly at low target prices"
+ },
+ {
+  "date": "2026-11-18",
+  "series": "Spot",
+  "usd_t": 13130,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261118",
+  "note": "InfoLink battery-grade spot average about $13,130 on 18 Nov, down 1.4% on the week"
+ },
+ {
+  "date": "2026-11-19",
+  "series": "Futures",
+  "usd_t": 13660,
+  "source": "SMM lithium carbonate weekly analysis (GFEX most-traded contract)",
+  "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued",
+  "note": "Most-traded contract closed at about $13,660 on 19 Nov, +1.0% on the week, after a short-covering rally on 17 Nov (contract month not stated)"
+ },
+ {
+  "date": "2026-11-19",
+  "series": "Spot",
+  "usd_t": 13630,
+  "source": "SMM lithium carbonate weekly analysis",
+  "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued",
+  "note": "SMM battery-grade spot average about $13,630 on 19 Nov, down 1.1% vs 13 Nov; supply rose but stocks fell for a seventh week"
  }
 ]

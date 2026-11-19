@@ -155,16 +155,16 @@
    ],
    [
     "2026-11-19",
-    13724
+    13725
    ]
   ],
   "source": "Guangzhou futures close (via Sina Finance), at the ECB rate",
   "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml"
  },
  "fx": {
-  "date": "2026-11-18",
-  "usd_inr": 93.445,
-  "usd_cny": 6.6672,
+  "date": "2026-11-19",
+  "usd_inr": 93.2951,
+  "usd_cny": 6.6667,
   "source": "ECB euro reference rates (cross rates)"
  }
 }

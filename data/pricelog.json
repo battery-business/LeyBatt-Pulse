@@ -63,6 +63,13 @@
   "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111"
  },
  {
+  "m": "cell_ess",
+  "date": "2026-11-18",
+  "v": 45.6,
+  "source": "InfoLink weekly",
+  "url": "https://www.infolink-group.com/energy-article/ess-spot-price-20261118"
+ },
+ {
   "m": "cell_ev",
   "date": "2026-10-22",
   "v": 54.2,
@@ -208,5 +215,12 @@
   "v": 13910.0,
   "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
   "url": "https://news.metal.com/newscontent/2TCIJG5CHDXFTNB5RMI3KU3SYAZVRNYMULB5IUQ-smm-lithium-carbonate-daily-review-on-november-17-spot-lithium-carbonate-continued-to-pull-back-while-futures-bottomed-out-and-closed-higher-on-reduced-positions"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-19",
+  "v": 13660.0,
+  "source": "SMM lithium carbonate weekly analysis (GFEX most-traded contract)",
+  "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued"
  }
 ]

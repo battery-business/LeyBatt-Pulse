@@ -7,7 +7,7 @@
   const SUBS = ['all', 'lithium', 'cells', 'systems'];
   const LEGACY = { power: 'overview', brief: 'overview', lithium: 'chain/mining', cells: 'chain/cells', systems: 'chain/systems', 'materials/lithium': 'chain/mining', 'materials/cells': 'chain/cells', 'materials/systems': 'chain/systems', calculator: 'calculator', storage: 'storage' };
   const LAYER_COLOR = { lithium: '--amber', cathode: '--plum', cell314: '--blue', cell587: '--teal', evcell: '--magenta', pack: '--green', system: '--indigo', system_award: '--indigo' };
-  const CAT_COLOR = { 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
+  const CAT_COLOR = { 'E-buses & e-trucks': '--teal', 'Indian cell & pack makers': '--magenta', 'Lithium & materials': '--amber', 'Cell makers & competitors': '--blue', 'Packs & BMS': '--orange', 'R&D & new products': '--teal', 'Energy storage': '--indigo', 'EV market': '--green', 'India BESS': '--rose', 'India EV & battery makers': '--magenta', 'Regulation & trade': '--plum' };
   const catColor = (c) => css(CAT_COLOR[c] || '--slate');
   const CARD_TAB = { lithium: 'chain/mining', cathode: 'chain/materials', cell314: 'chain/cells', cell587: 'chain/cells', evcell: 'chain/cells', pack: 'chain/systems', system: 'chain/systems', system_award: 'chain/systems' };
 
@@ -1252,8 +1252,8 @@
   // ---------- what it means, by segment ----------
   // news, dates and rules carry "seg" (EVs | Batteries | BESS), "so" (one plain line on what it means for that segment),
   // "impact" [{k: cost|demand|competition|supply|policy, s: 1 / -1 / 0}] and "weight" (3 = high, 2 = relevant, 1 = background)
-  const SEG_LAB = { EVs: 'For EVs', Batteries: 'For batteries', BESS: 'For BESS' };
-  const SEG_WORD = { EVs: 'EV', Batteries: 'battery', BESS: 'storage' };
+  const SEG_LAB = { CVs: 'For CVs', EVs: 'For EVs', Batteries: 'For batteries', BESS: 'For BESS' };
+  const SEG_WORD = { CVs: 'CV', EVs: 'EV', Batteries: 'battery', BESS: 'storage' };
   const IMPACT_LAB = {
     cost: { 1: 'Lower battery costs', '-1': 'Higher battery costs', 0: 'Battery costs: watch' },
     demand: { 1: 'More {w} demand', '-1': 'Less {w} demand', 0: 'Demand: watch' },
@@ -1328,7 +1328,7 @@
     const c1 = card('This week', `${week.length} stories in the last 7 days, ${week.filter((n) => n.weight >= 3).length} of them high impact`);
     const cnt = (d) => week.filter((n) => n.seg === d).length;
     const g = el('div', 'ns-split');
-    [['EVs', 'EVs', '--l1'], ['Batteries', 'Batteries', '--l3'], ['BESS', 'BESS', '--l5']].forEach(([d, lab, col]) => {
+    [['CVs', 'CVs', '--teal'], ['EVs', 'EVs', '--l1'], ['Batteries', 'Batteries', '--l3'], ['BESS', 'BESS', '--l5']].forEach(([d, lab, col]) => {
       const b = el('button', 'ns-stat'); b.type = 'button'; b.style.setProperty('--c', css(col)); b.setAttribute('aria-pressed', String(S.news.effect === d));
       b.append(el('b', null, String(cnt(d))), el('span', null, lab));
       b.addEventListener('click', () => { S.news.effect = S.news.effect === d ? '' : d; $('#news-effect').value = S.news.effect; renderNews(); });
@@ -1337,7 +1337,7 @@
     c1.appendChild(g);
     const hi = el('button', 'btn link small', S.news.effect === 'high' ? 'Show all stories' : 'High impact only →'); hi.type = 'button';
     hi.addEventListener('click', () => { S.news.effect = S.news.effect === 'high' ? '' : 'high'; $('#news-effect').value = S.news.effect; renderNews(); }); c1.appendChild(hi);
-    if ((D.profile || {}).about) { const ab = el('details', 'ns-about'); ab.append(el('summary', null, 'How the "For EVs / batteries / BESS" lines work')); ab.appendChild(el('p', null, D.profile.about)); const ul = el('ul'); Object.values(D.profile.keys || {}).forEach((t) => ul.appendChild(el('li', null, t))); ab.appendChild(ul); c1.appendChild(ab); }
+    if ((D.profile || {}).about) { const ab = el('details', 'ns-about'); ab.append(el('summary', null, 'How the "For CVs / EVs / batteries / BESS" lines work')); ab.appendChild(el('p', null, D.profile.about)); const ul = el('ul'); Object.values(D.profile.keys || {}).forEach((t) => ul.appendChild(el('li', null, t))); ab.appendChild(ul); c1.appendChild(ab); }
     // 2. alerts
     const al = all.filter((n) => n.alert && n.date >= new Date(+ist - 14 * 864e5).toISOString().slice(0, 10)).slice(0, 5);
     if (al.length) {
@@ -2555,6 +2555,8 @@
     link: 'M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2',
     chain: 'M4 6h4v4H4zM10 14h4v4h-4zM16 6h4v4h-4zM8 8h8M12 10v4',
     bolt: 'M13 2.5 4.5 13.5H11l-1 8 8.5-11H12l1-8z',
+    bus: 'M5.5 3.5h13A2 2 0 0 1 20.5 5.5V17h-17V5.5a2 2 0 0 1 2-2zM3.5 11.5h17M3.5 7h17M7 17v2.5M17 17v2.5M7 14.3h.01M17 14.3h.01',
+    truck: 'M2.5 6h11v10.5h-11zM13.5 9h4.2l2.8 3.6v3.9h-7M6.2 18.4a1.5 1.5 0 1 0 0-.01M16.8 18.4a1.5 1.5 0 1 0 0-.01',
   };
   // ---------- page headers: the value-chain step header, reused on every inner page ----------
   const HERO = {
@@ -2599,15 +2601,32 @@
       say: 'Where the chain starts: lithium ore and salts.' },
     { id: 'materials', n: '02', name: 'Materials', title: 'Cathode, anode and cell materials', icon: 'flask', color: '--l2', flow: [1, 2], key: ['latest', 'cathode'], cats: ['R&D & new products', 'Regulation & trade'], risk: ['cathode', 'graphite'], words: /graphite|cathode|anode/i,
       say: 'Lithium becomes LFP cathode; graphite becomes the anode; electrolyte, separator and foils complete the cell.' },
-    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--l3', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'], words: /cell/i, chart: 'cells',
+    { id: 'cells', n: '03', name: 'Cells', title: 'Battery cells', icon: 'cell', color: '--l3', flow: [3], key: ['latest', 'cell314'], cats: ['Cell makers & competitors', 'Indian cell & pack makers', 'India EV & battery makers'], risk: ['cell_ess', 'cell_ev'], words: /cell/i, chart: 'cells',
       say: 'Storage and EV cells: what they sell for and what the makers are doing.' },
     { id: 'systems', n: '04', name: 'Packs & systems', title: 'Packs and storage systems', icon: 'pack', color: '--l4', flow: [4], key: ['latest', 'system'], cats: ['Packs & BMS', 'Energy storage'], risk: [], words: /BESS|pack/i, chart: 'systems',
       say: 'Cells built into battery packs and containerised storage systems.' },
-    { id: 'enduse', n: '05', name: 'End use', title: 'Grid storage and EVs in India', icon: 'grid', color: '--l5', flow: [], key: ['tender'], cats: ['India BESS', 'EV market'], risk: [], kinds: ['India tender'], words: /^EV$|\bEV\b(?! (cells|packs))/, chart: 'tenders',
-      say: 'Who is buying: Indian storage tenders and the EV market.' },
+    { id: 'enduse', n: '05', name: 'End use', title: 'On the road and on the grid', icon: 'bus', color: '--l5', flow: [], key: ['road'], cats: ['E-buses & e-trucks', 'India BESS', 'EV market'], risk: [], kinds: ['India tender'], words: /^EV$|\bEV\b(?! (cells|packs))|\b(e-?bus|e-?truck|bus|truck|coach)/i, chart: 'tenders',
+      say: 'Who is buying: electric buses and trucks on Indian roads, and storage on the grid.' },
   ];
   const svgIcon = (k, size = 28) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('width', size); s.setAttribute('height', size); s.setAttribute('aria-hidden', 'true'); const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', ICON[k]); p.setAttribute('fill', 'none'); p.setAttribute('stroke', 'currentColor'); p.setAttribute('stroke-width', '1.6'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); s.appendChild(p); return s; };
+  // the cells in a published e-bus or e-truck pack, at today's EV cell price (China, excl. VAT) and today's rupee rate
+  function cvCells(kwh) {
+    const ev = [...((D.evcells || {}).series || [])].sort((a, b) => d3.ascending(a.date, b.date)).pop(); const fx = (D.markets || {}).fx || {};
+    if (!ev || !fx.usd_inr) return null;
+    return { lakh: (ev.usd_kwh * kwh * fx.usd_inr) / 1e5, usd: ev.usd_kwh, evDate: ev.date, evSrc: ev.source, evUrl: ev.url, fx: fx.usd_inr, fxDate: fx.date, fxSrc: fx.source };
+  }
+  const CV_REF = 450; // kWh: the larger pack of Tata's Prima E.55S 55-tonne e-truck, as published
+  const lakhFmt = (v) => `₹${v >= 10 ? Math.round(v) : v.toFixed(1)} lakh`;
+  function roadKey() {
+    const r = cvCells(CV_REF); if (!r) return null;
+    return { label: `On the road: EV cells for a ${CV_REF} kWh heavy e-truck pack, at today's China price`, value: lakhFmt(r.lakh).replace(' lakh', ''), unit: ' lakh', move: `Cells for a ${CV_REF} kWh e-truck pack`, dir: 'flat', row: { date: r.evDate, asof: d3.utcFormat('%-d %b')(parse(r.evDate)) } };
+  }
+  function gridKey() {
+    const t = stTenders(); const l = t[t.length - 1]; if (!l) return null;
+    return { label: 'Latest India storage tender, lowest winning bid', value: `₹${l.low}`, unit: ' lakh/MW/month', move: `${l.agency}, ${l.hours}-hour`, dir: 'flat', row: { date: l.date, asof: d3.utcFormat('%-d %b')(parse(l.date)) } };
+  }
   function chainKey(c) {
+    if (c.key[0] === 'road') return roadKey();
     if (c.key[0] === 'tender') {
       const t = stTenders(); const l = t[t.length - 1]; if (!l) return null;
       return { label: 'Latest India storage tender, lowest winning bid', value: `₹${l.low}`, unit: ' lakh/MW/month', move: `${l.agency}, ${l.hours}-hour`, dir: 'flat', row: { date: l.date, asof: d3.utcFormat('%-d %b')(parse(l.date)) } };
@@ -2619,12 +2638,26 @@
     const box = $('#chain-hero'); if (!box) return; box.replaceChildren();
     const head = el('div', 'ch-head rv');
     head.classList.add('compact');
-    head.append(el('p', 'ch-eyebrow', 'The battery value chain'), el('h2', 'ch-title', 'Five steps, from the mine to the grid'), el('p', 'ch-sub', 'Click a step for its prices, outlook, news, risks and dates.'));
+    head.append(el('p', 'ch-eyebrow', 'The battery value chain'), el('h2', 'ch-title', 'From the mine to the road and the grid'), el('p', 'ch-sub', 'Click a step for its prices, outlook, news, risks and dates.'));
     box.appendChild(head);
     const row = el('ol', 'ch-row');
     CHAIN.forEach((c) => {
       const k = chainKey(c);
       const li = el('li', 'ch-step rv'); li.style.setProperty('--cc', css(c.color));
+      if (c.id === 'enduse') { // the chain ends in two places: vehicles on the road and storage on the grid
+        li.classList.add('ch-fork');
+        const wrap = el('div', 'ch-node ch-forknode');
+        const orbs = el('span', 'ch-orbs'); [['bus', 'On the road'], ['grid', 'On the grid']].forEach(([ic]) => { const o = el('span', 'ch-orb'); o.appendChild(svgIcon(ic, 26)); orbs.appendChild(o); });
+        const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
+        [['On the road', roadKey(), '#sec-on-the-road-electric-buses-and-trucks'], ['On the grid', gridKey(), '#sec-on-the-grid-india-storage-tenders-over-time']].forEach(([lab, kk, sel]) => {
+          const b = el('button', 'ch-branch'); b.type = 'button'; b.setAttribute('aria-label', `${lab}: open`);
+          b.appendChild(el('span', 'ch-bl', lab));
+          if (kk) { const kv = el('span', 'ch-key'); kv.append(el('b', null, kk.value), el('small', null, kk.unit)); b.append(kv, el('span', 'ch-move', kk.move)); }
+          b.addEventListener('click', () => { go('chain/enduse'); focusOn(sel); });
+          txt.appendChild(b);
+        });
+        wrap.append(orbs, txt); li.appendChild(wrap); row.appendChild(li); return;
+      }
       const b = el('button', 'ch-node'); b.type = 'button'; b.setAttribute('aria-label', `${c.name}: open prices, news and risks`);
       const orb = el('span', 'ch-orb'); orb.appendChild(svgIcon(c.icon, 30));
       const txt = el('span', 'ch-txt'); txt.append(el('span', 'ch-n', c.n), el('span', 'ch-name', c.name));
@@ -2640,7 +2673,7 @@
   function renderToday() { // today's prices: the cards with small charts, under the hero; rarely published prices below them
     const box = $('#today-band'); if (!box) return; box.replaceChildren();
     const pm = el('button', 'btn link tb-map', 'Every price in one table →'); pm.type = 'button'; pm.addEventListener('click', () => go('materials/all'));
-    box.append(el('h2', 'tb-title rv', "Today's prices."), el('p', 'tb-sub rv', 'From lithium to a finished storage system. Each change compares the latest reading with the one about a week earlier. Raw materials are China prices including 13% VAT; cells and systems exclude it. Click a card for its full history.'));
+    box.append(el('h2', 'tb-title rv', "Today's prices."), el('p', 'tb-sub rv', 'From lithium to the cells in e-buses, e-trucks and storage systems. Each change compares the latest reading with the one about a week earlier. Raw materials are China prices including 13% VAT; cells and systems exclude it. Click a card for its full history.'));
     const mon = d3.utcFormat('%b %Y');
     const evs = ((D.evcells || {}).series || []), fut = futPts(), wk = weekly();
     const sparks = {
@@ -2650,7 +2683,8 @@
       system: [wk.map((w) => +w.ac_4h).filter((v) => v > 0), wk[0] && mon(parse(wk[0].date))],
     };
     const all = D.latest || [];
-    const head = all.filter((r) => !REF_IDS.has(r.id) && (ageOf(r) || {}).cls !== 'old');
+    const ORD = ['lithium', 'evcell', 'cathode', 'cell314', 'system'];
+    const head = all.filter((r) => !REF_IDS.has(r.id) && (ageOf(r) || {}).cls !== 'old').sort((a, b) => (ORD.indexOf(a.id) + 99) % 99 - (ORD.indexOf(b.id) + 99) % 99);
     const ref = all.filter((r) => !head.includes(r));
     box.appendChild(pm);
     const cards = el('div', 'cards tb-cards'); cards.id = 'cards'; cards.style.setProperty('--n', head.length); box.appendChild(cards);
@@ -2661,6 +2695,7 @@
       c.append(el('span', 'layer', r.layer), el('span', 'label', r.label), el('span', 'price', r.price), un, el('span', 'move' + dirClass(r.direction), r.move));
       if (r.live) { const lb = el('span', 'live-tag', 'Live'); lb.title = 'Market open: updated about every 15 minutes'; c.querySelector('.layer').appendChild(lb); }
       if (r.id === 'lithium') { const sp = smmSpot(); const l = sp[sp.length - 1]; if (l) c.appendChild(el('span', 'alt', `Spot ${fmtUsd0(l.v)} (${shortDay(l.d)})`)); }
+      if (r.id === 'evcell') { const x = cvCells(CV_REF); if (x) { const a = el('span', 'alt', `≈ ${lakhFmt(x.lakh)} of cells for a ${CV_REF} kWh e-truck pack`); a.title = `${fmtUsd1(x.usd)}/kWh × ${CV_REF} kWh × ₹${x.fx.toFixed(2)} per US$ (ECB). Cells only, China price excluding VAT; before freight, duty and pack assembly.`; c.appendChild(a); } }
       { const o = OUT_MAT[r.id] && outlookEl(OUT_MAT[r.id], 'olk'); if (o) c.appendChild(o); }
       const sp = el('div', 'sparkbox');
       if (sparks[r.id] && sparks[r.id][0].length > 1) { spark(sp, sparks[r.id][0], css(LAYER_COLOR[r.id] || '--slate'), 64); sp.appendChild(el('span', 'since', 'Since ' + sparks[r.id][1])); }
@@ -3130,6 +3165,23 @@
     const lk = el('a', null, 'Change any price in the cost calculator →'); lk.href = '#calculator'; lk.addEventListener('click', (e) => { e.preventDefault(); go('calculator'); }); foot.appendChild(lk);
     box.appendChild(foot);
   }
+  function roadSection(box) {
+    const rows = ((D.vehicles || {}).rows || []).filter((r) => r.kwh > 0 && r.group !== 'Reference').sort((a, b) => b.kwh - a.kwh);
+    const pick = []; const seen = new Set(); rows.forEach((r) => { const k = r.kwh + r.maker; if (!seen.has(k) && pick.length < 6) { seen.add(k); pick.push(r); } });
+    const g = el('div', 'chp-prices'); box.appendChild(g); let ref = null;
+    pick.forEach((r) => {
+      const x = cvCells(r.kwh); if (!x) return; ref = x;
+      const card = el('div', 'chp-card');
+      const pr = el('div', 'pp'); pr.append(el('span', 'v', lakhFmt(x.lakh).replace(' lakh', '')), el('span', 'u', ' lakh of cells'));
+      card.append(hl('pn', `${r.maker} ${r.model}`, r.url), pr, el('span', 'chip', `${r.kwh} kWh · ${String(r.type || '').replace(/^E-(bus|truck) \(|\)$/g, '')}`));
+      g.appendChild(card);
+    });
+    if (ref) {
+      const n = el('p', 'sub'); n.append(document.createTextNode(`EV cell ${fmtUsd1(ref.usd)}/kWh (`), link(ref.evSrc, ref.evUrl), document.createTextNode(`, ${d3.utcFormat('%-d %b')(parse(ref.evDate))}, China, excluding VAT) × pack size × US$1 = ₹${ref.fx.toFixed(2)} (ECB, ${d3.utcFormat('%-d %b')(parse(ref.fxDate))}). Pack sizes as each maker published them.`));
+      box.appendChild(n);
+    }
+    const b = el('button', 'btn link', 'All e-bus and e-truck packs →'); b.type = 'button'; b.addEventListener('click', () => { go('chain/systems'); focusOn('#sec-battery-packs-in-indian-e-buses-and-e-trucks'); }); box.appendChild(b);
+  }
   function teamSections(c, section) {
     const F = (rows) => ({ n: rows.length });
     const w = weekly(); const last = w[w.length - 1] || {};
@@ -3214,6 +3266,7 @@
     const ht = el('div'); ht.append(el('p', 'ch-eyebrow', `Step ${c.n} · ${c.name}`), el('h2', 'chp-title', c.title), el('p', 'chp-say', c.say));
     hero.append(orb, ht);
     if (k) { const kv = el('div', 'chp-key'); kv.append(el('span', 'l', k.label), el('b', null, k.value + (k.unit || '')), el('span', 'm' + dirClass(k.dir), k.move)); if (k.row) kv.appendChild(el('span', 'k-age', k.row.asof)); const om = OUT_MAT[c.key[1]]; const o = om && outlookEl(om, 'k-out'); if (o) { const b = el('button', 'k-outb'); b.type = 'button'; b.append(o, el('span', 'go', ' See the forecast ›')); b.addEventListener('click', () => openForecast(om, `Step ${c.n} · ${c.name}`)); kv.appendChild(b); } hero.appendChild(kv); }
+    if (c.id === 'enduse') { const g2 = gridKey(); if (g2) { hero.classList.add('two'); const kv = el('div', 'chp-key chp-key2'); kv.append(el('span', 'l', 'On the grid: ' + g2.label.charAt(0).toLowerCase() + g2.label.slice(1)), el('b', null, g2.value + g2.unit), el('span', 'm', g2.move)); hero.appendChild(kv); } }
     box.appendChild(hero);
     const section = (t, sub, fold) => {
       if (!fold) { const s = el('section', 'chp-sec rv'); s.id = secId(t); s.appendChild(el('h3', 'chp-h', t)); if (sub) s.appendChild(el('p', 'sub', sub)); box.appendChild(s); return s; }
@@ -3224,11 +3277,12 @@
       s.addEventListener('toggle', () => { sm.lastChild.textContent = s.open ? 'Hide' : 'Show'; if (s.open) { OPEN_REF.add(s.id); if (s._fill) s._fill(); } else OPEN_REF.delete(s.id); });
       box.appendChild(s); return s;
     };
+    if (c.id === 'enduse') { try { roadSection(section('On the road: electric buses and trucks', 'What the cells in published e-bus and e-truck packs cost at today’s EV cell price. Cells only: the pack adds the BMS, cooling and casing, and importing adds freight and duty.')); } catch (e) { console.error(e); } }
     if (c.chart) {
       const CT = { lithium: ['Lithium carbonate price, US$ per tonne', 'China battery-grade lithium carbonate: Guangzhou futures (most-traded contract) and spot, including 13% VAT. Hover for each reading and its source.'],
         cells: ['Battery cell prices, US$ per kWh', '314 Ah LFP storage cell (InfoLink China average) and prismatic LFP EV cell (TrendForce average), excluding VAT. Hover for each reading and its source.'],
         systems: ['Storage system prices, US$ per kWh', 'China liquid-cooled storage containers (InfoLink weekly), excluding VAT. Hover for each reading and its source.'],
-        tenders: ['India storage tenders over time', 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.'] }[c.chart];
+        tenders: ['On the grid: India storage tenders over time', 'Lowest winning bid of each tender, ₹ lakh per MW per month. Click a dot to open its source.'] }[c.chart];
       const s = section(CT[0], CT[1]);
       const cb = el('div', 'chart');
       const pts = (rows, key) => rows.map((r) => ({ d: parse(r.date), v: +r[key], source: r.source || 'InfoLink' })).filter((p) => p.v > 0);
@@ -3297,7 +3351,7 @@
       if (s.open) s._fill();
     }
     if (c.id === 'enduse') {
-      const s = section('India storage tenders', 'What state utilities pay the project owner each month for every MW of storage, for 12–15 years. Lowest winning bid of the latest tenders.');
+      const s = section('On the grid: latest India storage tenders', 'What state utilities pay the project owner each month for every MW of storage, for 12–15 years. Lowest winning bid of the latest tenders.');
       const g = el('div', 'chp-prices');
       stTenders().slice(-4).reverse().forEach((t) => {
         const card = el('div', 'chp-card');

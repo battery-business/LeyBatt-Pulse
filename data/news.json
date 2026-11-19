@@ -362,7 +362,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Slow cell ramp",
   "direction": "flat",
   "source": "TradingView (Moody's news)",
@@ -425,7 +425,7 @@
   "date": "2026-11-13",
   "day": "13 Nov",
   "headline": "Delhivery signs MoUs with Tata Motors, Euler Motors and Montra Electric for 1,500–2,000 electric four-wheel cargo vehicles over 12–18 months, starting in Delhi-NCR; it aims for over half its intra-city fleet to be electric within 2–3 years",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Up to 2,000 small electric cargo vehicles for one logistics fleet: steady volume for India's light e-truck makers and their battery suppliers.",
   "impact": [
    {
@@ -438,7 +438,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "Fleet e-CV order",
   "direction": "up",
   "source": "Autocar Professional",
@@ -475,7 +475,7 @@
   "date": "2026-11-10",
   "day": "10 Nov",
   "headline": "Mercedes-Benz's next eCitaro city bus moves to a dedicated electric platform in 2028 and switches from NMC to LFP packs of about 50 kWh each: about 300–600 kWh for solo buses and 400–700 kWh for articulated ones",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Europe's best-selling e-bus maker moves to LFP packs: LFP is becoming the default chemistry for city buses worldwide.",
   "impact": [
    {
@@ -689,7 +689,7 @@
   "date": "2026-11-12",
   "day": "12 Nov",
   "headline": "Mumbai's BEST signs for 1,500 nine-metre air-conditioned electric midi buses under PM E-DRIVE: 1,050 from EKA and 450 from Switch, on 12-year wet leases tendered by CESL; about 225 by March 2027 and the rest by March 2028",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "One of India's largest single e-bus orders goes to EKA and Switch: steady demand for nine-metre bus packs over the next two years.",
   "impact": [
    {
@@ -702,7 +702,7 @@
    }
   ],
   "weight": 3,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "1,500 e-buses",
   "direction": "up",
   "source": "Free Press Journal",
@@ -1015,7 +1015,7 @@
   "date": "2026-11-10",
   "day": "10 Nov",
   "headline": "Ravindra Energy plans to sell its solar plants to fund its electric heavy-truck unit Energy in Motion (EIM), whose quarterly sales rose to ₹130.8 crore from ₹44 crore; EIM runs at about 2,000 trucks a year and plans to grow its charging and swap stations from 8 to 15 by December and 40 by March 2027",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "An Indian e-truck maker raises money for growth and a corridor swap network: more competition and charging cover for heavy e-trucks.",
   "impact": [
    {
@@ -1028,7 +1028,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck expansion",
   "direction": "up",
   "source": "Powerpeak Digest",
@@ -1065,7 +1065,7 @@
   "date": "2026-11-10",
   "day": "10 Nov",
   "headline": "Bus fleets in Benxi, Changzhou, Guiyang and Lanzhou sign deals with CATL on the same day for replacement batteries, aftermarket service, city battery-swap networks, recycling and V2G, as China's 2015–2018 electric buses reach their battery replacement window",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "China's first big e-bus fleets now need new packs: battery replacement and swapping become a business of their own for bus operators.",
   "impact": [
    {
@@ -1174,7 +1174,7 @@
   "date": "2026-11-09",
   "day": "9 Nov",
   "headline": "Olectra plans a new generation of more localised electric buses for India and export in January–March 2027; its order book tops 8,000 buses, and it delivered 401 vehicles in July–September (+7%) with revenue up 5% to ₹687 crore",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "India's largest e-bus order book gets a new model range by early 2027: more competition and battery demand in Indian e-buses.",
   "impact": [
    {
@@ -1187,7 +1187,7 @@
    }
   ],
   "weight": 3,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "New bus range",
   "direction": "up",
   "source": "Autocar Professional",
@@ -1355,7 +1355,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Indian cell output",
   "direction": "flat",
   "source": "GuruFocus (Q2 FY27 earnings call)",
@@ -1455,7 +1455,7 @@
   "date": "2026-11-03",
   "day": "3 Nov",
   "headline": "Olectra puts 35 nine-metre air-conditioned electric buses with Blade batteries into service in Chhatrapati Sambhajinagar (Maharashtra), run by Evey Trans; it reports more than 4,500 buses deployed in over 55 cities and an order book above 7,950 vehicles",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Another city fleet from one of India's largest e-bus order books: close to 8,000 more buses still to deliver, each needing a battery pack.",
   "impact": [
    {
@@ -1464,7 +1464,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-bus deliveries",
   "direction": "up",
   "source": "Business Standard (ANI press release)",
@@ -1511,7 +1511,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "EV market",
   "effect": "Record EV sales",
   "direction": "up",
   "source": "BioEnergy Times (FADA data)",
@@ -1523,7 +1523,7 @@
   "date": "2026-11-04",
   "day": "4 Nov",
   "headline": "Blackbuck EV shows the ELON 3X, a 15-metre three-axle electric sleeper coach with 42 berths and 425 kWh or 565 kWh battery options; reservations are open and commercial production is targeted for mid-2027",
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "A 15-metre electric sleeper coach with packs up to 565 kWh: long-distance e-buses in India would need some of the largest packs on the road.",
   "impact": [
    {
@@ -1536,7 +1536,7 @@
    }
   ],
   "weight": 3,
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "Intercity e-coach launch",
   "direction": "up",
   "source": "EVreporter",
@@ -1770,7 +1770,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Local cost gap",
   "direction": "flat",
   "source": "SolarQuarter",
@@ -1795,7 +1795,7 @@
    }
   ],
   "weight": 2,
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Local cells closer",
   "direction": "flat",
   "source": "Autocar Professional",
@@ -1986,7 +1986,7 @@
   "date": "2026-11-04",
   "day": "4 Nov",
   "headline": "Tata Motors' passenger EV chief Shailesh Chandra says Indian cell making should start within a year and cells and their materials could be localised in two to three years; Agratas' 20 GWh Sanand plant is due to start in 2027",
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Localisation timeline",
   "direction": "flat",
   "source": "Autocar Professional",
@@ -2180,7 +2180,7 @@
   "date": "2026-11-02",
   "day": "2 Nov",
   "headline": "Amara Raja's Q2 profit falls about 45% on revenue up 18.5%; its cell unit gets ₹2,320 crore of new capex over 30 months to lift pack capacity from 4 to 9 GWh and build an LFP cell plant in Telangana",
-  "category": "India EV & battery makers",
+  "category": "Indian cell & pack makers",
   "effect": "Indian cell capacity",
   "direction": "flat",
   "source": "Whalesbook",
@@ -2207,7 +2207,7 @@
   "date": "2026-11-03",
   "day": "3 Nov",
   "headline": "Energy In Motion and Sorigin Green Mobility agree to deploy 500 electric heavy trucks (EIM's 55-tonne Ashwa tractors) over two years on freight corridors, starting with 18 at JNPA port with battery swapping and pay-per-freight pricing",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck competition",
   "direction": "up",
   "source": "Autocar Professional",
@@ -2227,7 +2227,7 @@
     "s": 1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "500 battery-swap heavy e-trucks on Indian freight corridors: a large test of swapping against plug-in charging for heavy trucks."
  },
  {
@@ -2298,7 +2298,7 @@
   "date": "2026-10-26",
   "day": "26 Oct",
   "headline": "Jakson Green E-Mobility wins a PM-eBus Sewa tender for 220 nine-metre AC electric buses in Vadodara, Gandhidham and Navsari (Gujarat) on a 12-year gross-cost contract, including the charging depots",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-bus competition",
   "direction": "up",
   "source": "Autocar Professional",
@@ -2314,7 +2314,7 @@
     "s": -1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "220 e-buses won in Gujarat under PM e-Bus Sewa: these gross-cost tenders drive India's e-bus market."
  },
  {
@@ -2389,7 +2389,7 @@
   "date": "2026-10-27",
   "day": "27 Oct",
   "headline": "Olectra's MD calls electric trucks a bigger opportunity than buses: its first trucks cover 28–55 tonne tippers and tractor-trailers, the Sitarampur plant is sized for about 1,200 trucks a year, and he says about 74% of state bus purchases in Q1 were electric",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck demand",
   "direction": "up",
   "source": "Autocar Professional",
@@ -2402,7 +2402,7 @@
     "s": -1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Olectra moves into electric heavy trucks (tippers and tractor-trailers): more makers in India's e-truck market."
  },
  {
@@ -2455,7 +2455,7 @@
   "date": "2026-10-26",
   "day": "26 Oct",
   "headline": "Blue Energy Motors and HPCL open a heavy e-truck battery-swap station at an HPCL outlet in Bhiwandi on the Mumbai–Pune electric freight corridor; a swap takes under five minutes",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck adoption",
   "direction": "up",
   "source": "Autocar Professional",
@@ -2472,7 +2472,7 @@
     "s": 1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Battery swapping for heavy e-trucks opens on the Mumbai–Pune corridor: swap infrastructure for freight is arriving."
  },
  {
@@ -2480,7 +2480,7 @@
   "date": "2026-10-24",
   "day": "24 Oct",
   "headline": "Paradeep Parivahan signs a 10-year deal with JSW Cement and JSW Eco-Mobility to run 100 electric heavy trucks hauling about 125,000 t of clinker and slag a month from Nandyal (Andhra Pradesh) to Vijayanagar (Karnataka)",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck demand",
   "direction": "up",
   "source": "Autocar Professional",
@@ -2497,7 +2497,7 @@
     "s": 1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "100 electric heavy trucks on a 10-year industrial haul contract: long fleet deals are making e-trucks bankable."
  },
  {
@@ -2829,7 +2829,7 @@
   "url": "https://www.electrive.com/2026/10/22/india-switch-mobility-starts-fulfilling-50-unit-intercity-electric-bus-order/",
   "source2": "",
   "url2": "",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "weight": 3,
   "impact": [
    {
@@ -2837,7 +2837,7 @@
     "s": 1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "First electric intercity coaches delivered for the Nagpur–Chandrapur route: e-buses are moving beyond city service."
  },
  {
@@ -2982,7 +2982,7 @@
     "s": 0
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "CATL's swappable heavy-truck batteries: a model for e-truck freight that could reach India."
  },
  {
@@ -3225,7 +3225,7 @@
   "date": "2026-10-23",
   "day": "23 Oct",
   "headline": "Tata Motors (commercial vehicles) Q2: wholesale volumes up 42% to about 135,100, revenue up 36% and back in profit; exports up 177%. Its Iveco takeover offer closes 26 Oct, with settlement planned for 30 Oct",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "Rival scaling up",
   "direction": "flat",
   "source": "Business Today",
@@ -3240,7 +3240,7 @@
     "s": -1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Tata Motors' truck volumes up 42% and profitable again: India's truck market is strong."
  },
  {
@@ -3415,7 +3415,7 @@
   "date": "2026-10-28",
   "day": "28 Oct",
   "headline": "Amazon will put 3,000 Tata Motors electric trucks on Indian roads, starting with Ultra E.7 light trucks (96 kWh LFP pack, about 130 km range) in Delhi; the first 20 were flagged off and the Delhi–Chennai NH48 corridor comes next",
-  "category": "India EV & battery makers",
+  "category": "E-buses & e-trucks",
   "effect": "E-truck demand",
   "direction": "up",
   "source": "electrive",
@@ -3435,7 +3435,7 @@
     "s": 1
    }
   ],
-  "seg": "EVs",
+  "seg": "CVs",
   "so": "Amazon's 3,000 Tata electric trucks: large fleets in India are switching to electric light trucks."
  },
  {

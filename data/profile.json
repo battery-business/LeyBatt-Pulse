@@ -1,14 +1,15 @@
 {
- "about": "Each story carries a one-line read of what it means for one of three segments: EVs (electric buses, trucks, cars and two-wheelers), batteries (cells, packs, lithium and cell materials) or BESS (battery energy storage systems). Tags show the direction: lower or higher battery costs, more or less demand, competition, supply and policy. Written each morning with the news; a quick first read, not analysis.",
+ "about": "Each story carries a one-line read of what it means for one of four segments: CVs (electric buses, trucks and light commercial vehicles), EVs (electric cars, two- and three-wheelers), batteries (cells, packs, lithium and cell materials) or BESS (battery energy storage systems). Tags show the direction: lower or higher battery costs, more or less demand, competition, supply and policy. Written each morning with the news; a quick first read, not analysis.",
  "segments": {
-  "EVs": "Electric buses, trucks, cars and two-wheelers, and their makers and charging or swapping.",
+  "CVs": "Electric buses, trucks and light commercial vehicles, their makers, fleet orders, tenders, charging and swapping.",
+  "EVs": "Electric cars, two- and three-wheelers and their makers.",
   "Batteries": "Cells, packs and BMS, lithium and cell materials, and the companies that make them.",
   "BESS": "Battery energy storage systems: tenders, projects, prices and makers."
  },
  "focus": "India first, then China (the main source of cells and materials), then the rest of the world. Commercial vehicles (e-buses, e-trucks) and grid storage matter most.",
  "keys": {
   "cost": "Battery costs: cells and the lithium and materials inside them.",
-  "demand": "Demand for EVs, batteries or storage systems.",
+  "demand": "Demand for CVs, EVs, batteries or storage systems.",
   "competition": "New makers, capacity or products entering a market.",
   "supply": "How easily cells and materials can be obtained.",
   "policy": "Rules and incentives."

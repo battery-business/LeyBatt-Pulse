@@ -58,8 +58,8 @@ IMPACT_LAB = {
     "supply": {1: "Easier supply", -1: "Supply risk", 0: "Supply: watch"},
     "policy": {1: "Supportive policy", -1: "Tighter rules", 0: "Policy change"},
 }
-SEG_LAB = {"EVs": "For EVs", "Batteries": "For batteries", "BESS": "For BESS"}
-SEG_WORD = {"EVs": "EV", "Batteries": "battery", "BESS": "storage"}
+SEG_LAB = {"CVs": "For CVs", "EVs": "For EVs", "Batteries": "For batteries", "BESS": "For BESS"}
+SEG_WORD = {"CVs": "CV", "EVs": "EV", "Batteries": "battery", "BESS": "storage"}
 
 
 def week_move(pts):
@@ -201,6 +201,11 @@ def build(today):
                    key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))[:4]
     if len(forus) < 3:
         forus = sorted([n for n in news if n.get("so") and (n.get("weight") or 0) >= 2], key=lambda n: n.get("date", ""), reverse=True)[:4]
+    # an e-bus or e-truck story always makes the top four when one ran in the last three days
+    if forus and not any(n.get("seg") == "CVs" for n in forus):
+        cv = sorted([n for n in news if n.get("so") and n.get("seg") == "CVs" and n.get("date", "") >= cut3], key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))
+        if cv:
+            forus = forus[:3] + [cv[0]] if len(forus) >= 4 else forus + [cv[0]]
     shown_ids = {n["id"] for n in forus}
     recent = sorted([n for n in recent if n["id"] not in shown_ids], key=lambda n: (-(n.get("weight") or 0), "".join(chr(255 - ord(c)) for c in n.get("date", ""))))
     top = recent[:4]
@@ -240,7 +245,7 @@ def build(today):
     L = ["#1f5b9e", "#1f698e", "#1a8a8f", "#159d7f", "#1cab7c"]  # logo colours, one per step
     FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
     CAT = {"Lithium & materials": "#c27c02", "Cell makers & competitors": "#1f5bd8", "Packs & BMS": "#c8571b", "R&D & new products": "#0f8a80",
-           "Energy storage": "#4a55c4", "EV market": "#2f8a4f", "India BESS": "#c2415d", "India EV & battery makers": "#a8388a", "Regulation & trade": "#8a4fb8"}
+           "Energy storage": "#4a55c4", "EV market": "#2f8a4f", "India BESS": "#c2415d", "India EV & battery makers": "#a8388a", "E-buses & e-trucks": "#0f8a80", "Indian cell & pack makers": "#a8388a", "Regulation & trade": "#8a4fb8"}
 
     def pill(chg, vs=""):
         if chg is None:
@@ -463,7 +468,7 @@ def build(today):
 
     forus_html = ""
     for n in forus:
-        bc = {"EVs": L[0], "Batteries": L[2], "BESS": L[4]}.get(n.get("seg"), LINE)
+        bc = {"CVs": TEAL, "EVs": L[0], "Batteries": L[2], "BESS": L[4]}.get(n.get("seg"), LINE)
         forus_html += (f'<tr><td style="padding:5px 24px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-left:3px solid {bc};border-radius:14px">'
                        f'<tr><td style="padding:12px 16px">'
                        f'<div><span style="font-size:11.5px;font-weight:800;color:{bc};margin-right:6px">{E(SEG_LAB.get(n.get("seg"), ""))}</span>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'

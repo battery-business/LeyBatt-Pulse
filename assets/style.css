@@ -1706,3 +1706,35 @@ a.ot-link .ot-us, a.ot-link .ot-h { display: block; }
 @media (max-width: 640px) { .tab-full { display: none; } .tab-short { display: inline; } .tab { font-size: 10.5px; } }
 
 
+
+/* the value chain ends on the road and on the grid */
+.ch-forknode { cursor: default; }
+.ch-orbs { display: flex; align-items: center; justify-content: center; gap: 10px; height: var(--orb, 112px); }
+.ch-orbs .ch-orb { width: calc(var(--orb, 112px) * .7); height: calc(var(--orb, 112px) * .7); }
+.ch-orbs .ch-orb svg { width: calc(var(--orb, 112px) * .26); height: calc(var(--orb, 112px) * .26); }
+.ch-branch { appearance: none; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0; padding: 4px 8px; border-radius: 12px; }
+.ch-branch + .ch-branch { margin-top: clamp(4px, 1vh, 10px); }
+.ch-branch .ch-bl { font-size: 11.5px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; color: var(--cc); }
+.ch-fork .ch-key { margin-top: 0; }
+.ch-fork .ch-key b { font-size: clamp(18px, 3vh, 26px); }
+.ch-fork .ch-move { font-size: clamp(12px, 1.7vh, 13.5px); }
+.ch-branch:hover .ch-bl, .ch-branch:focus-visible .ch-bl { text-decoration: underline; text-underline-offset: 3px; }
+.ch-branch:focus-visible { outline: 2px solid var(--cc); outline-offset: 2px; }
+@media (max-width: 860px) {
+  .ch-forknode { flex-direction: row; align-items: flex-start; }
+  .ch-orbs { height: auto; flex-direction: column; gap: 6px; margin-left: 14px; flex: none; }
+  .ch-orbs .ch-orb { width: 46px; height: 46px; margin-left: 0; }
+  .ch-orbs .ch-orb svg { width: 20px; height: 20px; }
+  .ch-branch { align-items: flex-start; text-align: left; padding: 2px 0; }
+  .ch-fork .ch-move { text-align: left; }
+}
+.chp-hero.two { grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); row-gap: clamp(18px, 2.4vw, 30px); }
+.chp-hero.two > div:nth-child(2) { grid-column: 2 / 4; }
+.chp-hero.two > .chp-key { grid-row: 2; grid-column: 2; align-items: flex-start; text-align: left; }
+.chp-hero.two > .chp-key2 { grid-column: 3; padding-left: clamp(16px, 2vw, 28px); border-left: 1px solid var(--line); }
+.chp-hero.two .chp-key .k-age { justify-content: flex-start; }
+.chp-hero.two .chp-key b { font-size: clamp(28px, 3vw, 40px); }
+@media (max-width: 760px) { .chp-hero.two { grid-template-columns: 1fr; } .chp-hero.two > div:nth-child(2), .chp-hero.two > .chp-key, .chp-hero.two > .chp-key2 { grid-column: auto; grid-row: auto; } .chp-hero.two > .chp-key2 { padding-left: 0; border-left: 0; padding-top: 14px; border-top: 1px solid var(--line); } }
+/* "For CVs" stories */
+.ot-item.seg-CVs { border-left-color: var(--teal); } .ot-item.seg-CVs .ot-seg { color: var(--teal); }
+.ns-split { grid-template-columns: repeat(4, 1fr); }

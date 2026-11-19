@@ -577,5 +577,77 @@
   "url2": "https://news.metal.com/newscontent/2IOCU32RL55SQSDVB5SOJ3VP7O7HAWF6OTTMJEQ-smm-news-india-bans-black-mass-exports-retaining-secondary-lithium-feedstock",
   "checked": "2026-11-14",
   "changed": "2026-11-14"
+ },
+ {
+  "id": "in-pmedrive-etruck",
+  "title": "PM E-DRIVE e-truck incentive: ₹5,000/kWh, capped by weight",
+  "short": "E-truck incentive: ₹5,000/kWh, up to ₹9.6 lakh",
+  "region": "India",
+  "area": "Incentives",
+  "status": "In force",
+  "date": "2025-07-10",
+  "date_label": "Notified 10 Jul 2025; runs with PM E-DRIVE",
+  "what": "Each e-truck earns the lowest of ₹5,000 per kWh of battery, 10% of the ex-factory price (excluding trailer) or a cap by gross weight: ₹2.7 lakh (3.5–7.5 t), ₹3.6 lakh (7.5–12 t), ₹7.8 lakh (12–18.5 t), ₹9.6 lakh (18.5–35 t) and ₹9.3 lakh (35–55 t, tractor only). The buyer must scrap a diesel truck of equal or higher weight. The battery needs a 5-year or 5 lakh km warranty. About 5,643 e-trucks are supported, 1,100 of them reserved for Delhi.",
+  "impact": "For heavy trucks the weight cap binds first: at ₹5,000/kWh a 450 kWh pack would qualify for ₹22.5 lakh, but the 35–55 t cap is ₹9.3 lakh (arithmetic from the published rates). Bigger packs earn no more support, so pack size stays a cost decision for the buyer.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "EV cells",
+   "EV packs"
+  ],
+  "source": "Ministry of Heavy Industries (operational guidelines)",
+  "url": "https://heavyindustries.gov.in/sites/default/files/2025-07/operational-guidelines_e-trucks.pdf",
+  "checked": "2026-11-19",
+  "seg": "CVs",
+  "so": "Up to ₹9.6 lakh per heavy e-truck, but capped by weight, not by pack size: a 450 kWh pack earns no more than a smaller one."
+ },
+ {
+  "id": "in-psm",
+  "title": "PM e-Bus Sewa payment security mechanism (PSM)",
+  "short": "E-bus payment security (PSM), 12 years per bus",
+  "region": "India",
+  "area": "Incentives",
+  "status": "In force",
+  "date": "2024-10-28",
+  "date_label": "Notified 28 Oct 2024; 19 states and UTs signed up by 12 Mar 2026",
+  "what": "Guarantees payments to e-bus operators on gross cost contracts for up to 12 years per bus: if a transport authority pays late, CESL pays the operator from a payment security fund and the state repays within 90 days. Covers 23,800 sanctioned buses (13,800 under PM E-DRIVE, 10,000 under PM e-Bus Sewa). ₹500 crore went into the fund in FY 2025-26. Buses are usually due within two years of the concession agreement.",
+  "impact": "Takes away the main reason makers avoided state e-bus tenders (late payment), so supports e-bus orders and the bus battery demand behind them.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "EV cells",
+   "EV packs"
+  ],
+  "source": "Ministry of Heavy Industries (Lok Sabha answer, 17 Mar 2026)",
+  "url": "https://www.heavyindustries.gov.in/sites/default/files/2026-03/lsauq_4004.pdf",
+  "checked": "2026-11-19",
+  "seg": "CVs",
+  "so": "State bus payments are guaranteed for 12 years per bus, so e-bus tenders draw more bidders and more orders."
+ },
+ {
+  "id": "in-hdv-cafe",
+  "title": "Draft fleet fuel-efficiency (CAFE) norms for trucks and buses, 2027–2032",
+  "short": "Draft CAFE norms for trucks and buses",
+  "region": "India",
+  "area": "Standards & safety",
+  "status": "Proposed",
+  "date": "2025-07-28",
+  "date_label": "BEE draft 28 Jul 2025, to run 2027–2032; final notification for trucks and buses not yet found",
+  "what": "The Bureau of Energy Efficiency's draft moves trucks and buses from per-model limits to fleet-average targets, covers light, medium and heavy commercial vehicles of all fuels, and aims at a 30% fleet-wide improvement on 2022–23 levels. Each battery-electric vehicle sold would count three times, falling to twice over the period; fuel-cell vehicles four times. (The separate CAFE-3 norms for passenger vehicles were notified on 30 Sep 2026.)",
+  "impact": "If notified, every electric bus or truck sold helps a maker meet its fleet target: a compliance reason to sell e-CVs on top of the economics.",
+  "effects": [
+   "Demand up"
+  ],
+  "affects": [
+   "EV cells",
+   "EV packs"
+  ],
+  "source": "ITDP India",
+  "url": "https://itdp.in/what-do-the-new-proposed-cafe-norms-for-heavy-duty-vehicles-mean-for-buses/",
+  "checked": "2026-11-19",
+  "seg": "CVs",
+  "so": "Each e-bus or e-truck sold would count up to three times toward a maker's fleet fuel target."
  }
 ]

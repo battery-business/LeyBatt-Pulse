@@ -39,14 +39,14 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 The site, the News page and the morning email lead with a one-line read of what each item means for one of three segments. Read `data/profile.json` first. Keep the wording neutral: no "we", "us", "our" and no company names other than those in the story itself.
 
 On **every news item you add**, write:
-- `seg`: the segment it matters most to: `EVs` (electric buses, trucks, cars, two-wheelers, charging and swapping), `Batteries` (cells, packs, BMS, lithium and cell materials, cell makers) or `BESS` (battery energy storage: tenders, projects, prices, makers).
-- `so`: one plain sentence, at most about 25 words: what happened in a few words, then what it means for that segment, e.g. "500 battery-swap heavy e-trucks on Indian freight corridors: a large test of swapping against plug-in charging for heavy trucks." Shown as "For EVs: …", "For batteries: …" or "For BESS: …".
+- `seg`: the segment it matters most to: `CVs` (electric buses, trucks and light commercial vehicles: makers, fleet orders, e-bus and e-truck tenders, CV charging and swapping, CV rules), `EVs` (electric cars, two- and three-wheelers; keep these only when they move battery prices or supply), `Batteries` (cells, packs, BMS, lithium and cell materials, cell makers) or `BESS` (battery energy storage: tenders, projects, prices, makers).
+- `so`: one plain sentence, at most about 25 words: what happened in a few words, then what it means for that segment, e.g. "500 battery-swap heavy e-trucks on Indian freight corridors: a large test of swapping against plug-in charging for heavy trucks." Shown as "For CVs: …", "For EVs: …", "For batteries: …" or "For BESS: …".
 - `impact`: one to three tags, most important first, each `{"k": <key>, "s": <1, -1 or 0>}`. Keys: `cost` (battery costs: lower = 1, higher = -1), `demand` (demand in that segment: more = 1), `competition` (new makers, capacity or products: more = -1), `supply` (cells and materials easier to get = 1; risk = -1), `policy` (supportive = 1, tighter rules = -1). `0` means unclear direction.
 - `weight`: 3 = high impact (Indian e-bus and e-truck orders, launches and results; Indian storage tenders of 1 GWh or more and storage policy; Chinese export controls, rebates or taxes on batteries; a big shift in the lithium or cell price outlook), 2 = relevant (storage and cell markets, Indian pack and cell makers, smaller Indian tenders), 1 = background (car models in China, research far from market, events outside India's markets). Plain daily price recaps get weight 1.
 
 On **every date you add to `events.json`**, also write `weight` (same scale) and, for weight 2–3, `seg` and `so`. The overview's "Next 14 days" and the email's countdown show dates of weight 2–3 and every rule change.
 
-On **regulations**, `seg` and `so` (optional) replace `impact` in the "What it means" box: write them when a rule matters mainly for EV or storage demand rather than for cell buyers.
+On **regulations**, `seg` and `so` (optional) replace `impact` in the "What it means" box: write them when a rule matters mainly for CV, EV or storage demand rather than for cell buyers.
 
 ## Raw-materials table and cost calculator
 
@@ -153,7 +153,7 @@ When a news item you add names a future date that matters to a buyer — a tende
 
 ## News categories (cover every one each week)
 
-Each daily run should aim for a spread: at most 3 lithium items, and at least one item from the India categories and one from Packs & BMS or R&D whenever something new is published.
+Each daily run should aim for a spread: **at least 2–3 `CVs` stories** (e-buses, e-trucks, e-LCVs: India first, then global bus and truck makers and pack news), **at most 3 BESS stories**, at most 3 lithium items, and one from Packs & BMS or R&D whenever something new is published. If fewer than 2 CV stories are new that day, say so in the run summary rather than padding.
 
 | Category | What goes in it | Where to look |
 |---|---|---|
@@ -162,9 +162,10 @@ Each daily run should aim for a spread: at most 3 lithium items, and at least on
 | Packs & BMS | Battery packs, cell-to-pack, swappable packs, thermal design, battery management systems (BMS) and BMS chips (NXP, TI, Infineon, ADI), pack makers | electrive, Charged EVs, Battery-Tech Network, CnEVPost, EVreporter |
 | R&D & new products | New cells and chemistries (sodium-ion, solid-state, LMFP), new storage products, research results, patents | Battery-Tech Network, CarNewsChina, The Driven, Energy-Storage.News |
 | Energy storage | Global storage tenders, prices, deployments, forecasts | ESS News, Energy-Storage.News, TrendForce/EnergyTrend, Wood Mackenzie |
-| EV market | Global EV and NEV sales, new models, pack sizes | CnEVPost (CPCA/CAAM), electrive |
+| EV market | Global and Indian passenger EV sales (cars, two- and three-wheelers), new models, pack sizes | CnEVPost (CPCA/CAAM), electrive |
 | India BESS | Indian storage tenders and awards (SECI, NTPC, NHPC, SJVN, state utilities), BESS factories and integrators (Tata Power, JSW, Waaree, Reliance, Trontek, GoodEnough) | Mercom India, Saur Energy, pv magazine India, ET EnergyWorld |
-| India EV & battery makers | Indian EV sales (FADA/Vahan), e-bus and e-truck orders and launches (Tata Motors, Olectra, JBM, PMI, EKA, Switch, Eicher), Indian cell, pack and BMS makers (Tata Agratas, Amara Raja, Exide, Ola, Lohum, Log9, TVS Indeon, Exponent) | Autocar Professional, ETAuto, EVreporter, The Machine Maker, electrive |
+| E-buses & e-trucks | Indian e-bus, e-truck and e-LCV orders, launches, monthly sales (Vahan) and tenders (CESL, PM e-Bus Sewa, PM E-DRIVE, BEST, BMTC, DTC, state transport undertakings); makers such as Tata Motors, Olectra, JBM, PMI, EKA, Eicher, Switch, Montra, Blue Energy, IPLT, Euler; global e-bus and e-truck makers when they change pack sizes or chemistry | Autocar Professional, ETAuto, EVreporter, CV Magazine, Sustainable Bus, electrive, CESL tenders page |
+| Indian cell & pack makers | Indian cell, pack and BMS makers and their plants (Tata Agratas, Amara Raja, Exide, Ola, Lohum, Log9, TVS Indeon, Exponent, Reliance) | Autocar Professional, ETAuto, EVreporter, The Machine Maker |
 | Regulation & trade | Tariffs, export rebates, PLI/MHI, BIS/CEA rules, EU Battery Regulation and passports, US FEOC rules | CnEVPost, Mercom, PIB, EU sources |
 
 ## Steps

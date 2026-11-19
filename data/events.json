@@ -140,6 +140,17 @@
   "so": "Last day to comment on local-content rules for Indian storage tenders."
  },
  {
+  "date": "2026-11-26",
+  "what": "CESL tender for e-truck battery swapping with high-capacity charging (plus charging for two-, three- and four-wheelers) at JNPA port, Navi Mumbai, on a build-own-operate model: bids due 2:30 pm",
+  "kind": "India tender",
+  "source": "CESL",
+  "url": "https://convergence.co.in/tender",
+  "short": "CESL JNPA e-truck swapping bids due",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "A port-run swap and fast-charge network for heavy e-trucks: a test of swapping as an alternative to carrying bigger packs."
+ },
+ {
   "date": "2026-12-01",
   "precision": "month",
   "what": "Himadri Speciality Chemical's first 2,000 t LFP cathode plant in Kolkata due to start",
@@ -176,6 +187,17 @@
   "url": "https://www.ess-news.com/2026/11/13/canadian-solar-targets-1-gw-of-bess-supply-for-brazil-battery-auction/",
   "short": "Brazil battery storage auctions open",
   "weight": 1
+ },
+ {
+  "date": "2026-12-08",
+  "what": "NTPC Green Energy tender for about 40.58 GWh of LFP battery containers and grid-forming PCS (seven blocks): bids due 3 pm, techno-commercial bids opened the same day; pre-bid meeting 24 Nov",
+  "kind": "India tender",
+  "source": "Indian PSU",
+  "url": "https://indianpsu.com/ntpc-green-energy-10-gw-40-gwh-battery-storage-tender/",
+  "short": "NTPC Green 40.6 GWh battery container bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "One of the largest single storage-equipment buys yet closes; block sizes of 4.6–6.8 GWh favour large container suppliers."
  },
  {
   "date": "2026-12-09",
@@ -317,6 +339,17 @@
   "weight": 1
  },
  {
+  "date": "2027-03-31",
+  "what": "Mumbai BEST: first of 1,500 nine-metre electric midi buses from EKA and Switch due (about 225 by March 2027, the rest by March 2028)",
+  "kind": "Event",
+  "source": "Free Press Journal",
+  "url": "https://www.freepressjournal.in/mumbai/mumbai-best-to-induct-1500-electric-midi-buses-under-pm-e-drive-scheme-first-225-by-march-2027-to-improve-last-mile-connectivity",
+  "short": "BEST's first ~225 e-midi buses due",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "First deliveries of one of India's largest e-bus orders: shows whether makers hit the PM E-DRIVE timetable."
+ },
+ {
   "date": "2027-04-01",
   "what": "China cuts the export VAT rebate on EVs, e-buses and e-truck tractors from 13% to 9%",
   "kind": "Rule change",
@@ -382,16 +415,5 @@
   "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/",
   "short": "Premier Energies 6 GWh BESS plant due",
   "weight": 1
- },
- {
-  "date": "2026-12-08",
-  "what": "NTPC Green Energy tender for about 40.58 GWh of LFP battery containers and grid-forming PCS (seven blocks): bids due 3 pm, techno-commercial bids opened the same day; pre-bid meeting 24 Nov",
-  "kind": "India tender",
-  "source": "Indian PSU",
-  "url": "https://indianpsu.com/ntpc-green-energy-10-gw-40-gwh-battery-storage-tender/",
-  "short": "NTPC Green 40.6 GWh battery container bids due",
-  "weight": 3,
-  "seg": "BESS",
-  "so": "One of the largest single storage-equipment buys yet closes; block sizes of 4.6–6.8 GWh favour large container suppliers."
  }
 ]

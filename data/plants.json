@@ -254,6 +254,20 @@
    "note": "Battery pack line for energy storage; investment and cell source not stated",
    "source": "Business Upturn (NSE filing)",
    "url": "https://businessupturn.com/business/waaree-energies-subsidiary-commissions-new-5-15-gwh-battery-manufacturing-line/"
+  },
+  {
+   "id": "p-ashokleyland-pillaipakkam-packs",
+   "date": "2026-11-20",
+   "company": "Ashok Leyland (with Switch Mobility)",
+   "kind": "Packs",
+   "location": "Pillaipakkam, near Chennai, Tamil Nadu",
+   "capacity": "About 4 GW captive to start, expandable to 8–12 GW (as stated)",
+   "gwh": null,
+   "stage": "Planned",
+   "start": "Production from Q3 2027",
+   "note": "Captive pack plant for Ashok Leyland and Switch; own cell making to be decided in FY28",
+   "source": "Autocar Professional",
+   "url": "https://www.autocarpro.in/news/ashok-leyland-to-weigh-ev-cell-investment-next-fiscal-plans-new-lcv-platforms-136056"
   }
  ]
 }

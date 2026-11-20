@@ -180,6 +180,36 @@
    "when": null,
    "source": "ESS News",
    "url": "https://www.ess-news.com/2026/11/13/sodium-ion-pouch-cells-target-cold-climate-industrial-niche/"
+  },
+  {
+   "id": "c-hithium-1300ah",
+   "date": "2026-11-19",
+   "maker": "Hithium",
+   "cell": "1,300+ Ah storage cell (in a 6.9+ MWh 8-hour 20-ft system)",
+   "chemistry": null,
+   "format": null,
+   "size": "1,300+ Ah",
+   "spec": "Used in a 6.9+ MWh, 8-hour system in a 20-ft container",
+   "use": "Storage",
+   "stage": "Products launched",
+   "when": null,
+   "source": "PR Newswire via Manila Times",
+   "url": "https://www.manilatimes.net/2026/11/19/tmt-newswire/pr-newswire/from-2-to-8-hours-hithium-showcases-full-duration-portfolio-and-sodium-ion-solution-at-re-2026/2473717"
+  },
+  {
+   "id": "c-hithium-n785",
+   "date": "2026-11-19",
+   "maker": "Hithium",
+   "cell": "N785 Ah sodium-ion cell (in a 4.0 MWh system)",
+   "chemistry": "sodium-ion",
+   "format": null,
+   "size": "785 Ah",
+   "spec": "Up to 20,000 cycles; 30-year design life (system, as claimed)",
+   "use": "Storage",
+   "stage": "Products launched",
+   "when": null,
+   "source": "PR Newswire via Manila Times",
+   "url": "https://www.manilatimes.net/2026/11/19/tmt-newswire/pr-newswire/from-2-to-8-hours-hithium-showcases-full-duration-portfolio-and-sodium-ion-solution-at-re-2026/2473717"
   }
  ]
 }

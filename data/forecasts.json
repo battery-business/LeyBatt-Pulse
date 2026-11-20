@@ -1,5 +1,13 @@
 [
  {
+  "who": "Cochilco (FOB South America)",
+  "period": "2027 average",
+  "low": 18500,
+  "high": 18500,
+  "source": "Discovery Alert, 12 Nov 2026 (citing Cochilco)",
+  "url": "https://discoveryalert.com/analysis/lithium-price-outlook-cochilco-soft-landing-november-2026/"
+ },
+ {
   "who": "CITIC Securities",
   "period": "Q4 2026",
   "low": 14930,

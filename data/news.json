@@ -1,5 +1,204 @@
 [
  {
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Ashok Leyland says its Pillaipakkam pack plant near Chennai will start production in Q3 2027 with about 4 GW of captive capacity for itself and Switch, expandable to 8–12 GW; a decision on making its own cells comes in FY28. Switch delivered 439 e-buses and 732 e-LCVs in H1 FY27",
+  "seg": "CVs",
+  "so": "A large Indian bus and truck maker moves pack assembly in-house from 2027: more captive pack capacity for Indian e-buses and e-LCVs.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "Indian cell & pack makers",
+  "effect": "Captive pack plant 2027",
+  "direction": "flat",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/ashok-leyland-to-weigh-ev-cell-investment-next-fiscal-plans-new-lcv-platforms-136056",
+  "sources": "Autocar Professional",
+  "id": "n251"
+ },
+ {
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Montra Electric rolls out its 1,000th Rhino heavy electric truck from Manesar; the company says its fleet has run over 36 million km, and the Rhino 5538 EV qualifies for up to ₹9.6 lakh per truck under PM E-DRIVE (pack size not given)",
+  "seg": "CVs",
+  "so": "1,000 heavy e-trucks from one Indian maker: heavy e-truck volumes in India are now in the thousands, helped by the PM E-DRIVE incentive.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "1,000 e-trucks built",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/montra-electric-rolls-out-1000th-rhino-electric-truck-136059",
+  "sources": "Autocar Professional",
+  "id": "n252"
+ },
+ {
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Ford Otosan works with Circulor on the EU battery passport for its F-Line E electric trucks, which use NMC packs: 294 kWh for about 250 km in the 19-tonne model and 392 kWh (gross) for about 300 km in the 26-tonne model",
+  "seg": "CVs",
+  "so": "European e-trucks of 19–26 tonnes carry 294–392 kWh NMC packs, and battery passports become mandatory in the EU from 18 Feb 2027.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "Truck battery passport",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/20/ford-trucks-partners-with-circulor-for-battery-passport/",
+  "sources": "electrive",
+  "id": "n253"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "Samsung SDI adds AI early-warning software to its battery storage systems for Korea's 1,180 MW third storage tender, claiming it flags overheating at least three days before possible thermal runaway; it also reports a 16 GWh, three-year supply deal with Jupiter Power from 2029",
+  "seg": "BESS",
+  "so": "Storage makers now compete on predictive safety software, not only cell price: fire-warning features are becoming a tender selling point.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Packs & BMS",
+  "effect": "AI fire warning",
+  "direction": "flat",
+  "source": "Börse Express",
+  "url": "https://boerse-express.com/news/articles/samsung-sdi-aktie-ki-fruehwarnsoftware-fuer-batteriespeicher-geplant-964561",
+  "sources": "Börse Express",
+  "id": "n254"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "Hithium shows a 6.9+ MWh eight-hour storage system in a 20-foot container built on its 1,300+ Ah cell, and a 4 MWh sodium-ion system using its N785 Ah cell rated for up to 20,000 cycles, at RE+ 2026 (no production dates given)",
+  "seg": "BESS",
+  "so": "Cells above 1,000 Ah and long-life sodium-ion push storage containers towards eight hours and more energy per container.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "R&D & new products",
+  "effect": "1,300 Ah cell shown",
+  "direction": "down",
+  "source": "PR Newswire via Manila Times",
+  "url": "https://www.manilatimes.net/2026/11/19/tmt-newswire/pr-newswire/from-2-to-8-hours-hithium-showcases-full-duration-portfolio-and-sodium-ion-solution-at-re-2026/2473717",
+  "sources": "PR Newswire",
+  "id": "n255"
+ },
+ {
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "ACME Solar commissions a 57.69 MW phase of its 250 MW firm-and-dispatchable (FDRE) project for NHPC at Chittorgarh, Rajasthan, with 265.38 MWh of battery storage and about 100 MW of solar",
+  "seg": "BESS",
+  "so": "Battery-backed renewable projects in India are now reaching commissioning, not just tender stage: real operating storage demand is building.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "265 MWh commissioned",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/20/acme-solar-commissions-57-69-mw-fdre-capacity-with-265-38-mwh-bess-in-rajasthan/",
+  "sources": "SolarQuarter",
+  "id": "n256"
+ },
+ {
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "Ford starts making LFP prismatic cells under a CATL licence at its Marshall, Michigan plant, now aiming for 20 GWh instead of 35 GWh; pack assembly there is next",
+  "seg": "Batteries",
+  "so": "LFP cell making under a CATL licence starts in the United States, but at a smaller planned scale: licensed Chinese LFP technology keeps spreading.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "US LFP output starts",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/19/ford-delivers-first-lfp-batteries-for-test-fitting-in-fathom-prototypes/",
+  "sources": "electrive",
+  "id": "n257"
+ },
+ {
+  "date": "2026-11-18",
+  "day": "18 Nov",
+  "headline": "SQM is expanding into a lithium glut on a price-recovery bet (headline only, not verified)",
+  "seg": "Batteries",
+  "so": "A major lithium producer adds capacity while prices are low: more supply later keeps the lithium cost outlook soft.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "More lithium supply",
+  "direction": "down",
+  "source": "Bloomberg",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-18/sqm-sees-positive-lithium-demand-outlook-even-as-prices-slide",
+  "sources": "Bloomberg",
+  "id": "n258",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "supply",
+    "s": -1
+   }
+  ]
+ },
+ {
   "date": "2026-11-18",
   "day": "18 Nov",
   "headline": "Adani Cement flags off its first heavy electric trucks at its Sanghi plant in Gujarat to haul clinker and cement, the start of a planned 410-truck fleet it says will save about 11 million litres of diesel a year (truck maker and battery size not given)",
@@ -1490,29 +1689,6 @@
   "source": "ESS News",
   "url": "https://www.ess-news.com/2026/11/09/portugal-opens-tenders-for-1050-mva-of-battery-storage-capacity/",
   "sources": "ESS News"
- },
- {
-  "id": "n186",
-  "date": "2026-11-06",
-  "day": "6 Nov",
-  "headline": "Lithium rebounds for a second day on 6 Nov: the Guangzhou lc2701 contract closes near $13,820 a tonne and SMM's battery-grade spot average rises about 2% to $13,970, helped by restocking and falling smelter stocks; analysts stay split on whether the bottom is in",
-  "seg": "Batteries",
-  "so": "Lithium steadies after a near-halving since May: cell and cathode costs may stop falling, though views on the bottom still differ.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Lithium rebounds",
-  "direction": "up",
-  "source": "21st Century Business Herald",
-  "url": "https://m.21jingji.com/article/20261106/herald/c14f4b8807ce5a40916003dde17d8e59.html",
-  "source2": "Eastmoney (Shanghai Securities News)",
-  "url2": "https://finance.eastmoney.com/a/202611063923932416.html",
-  "sources": "21st Century Business Herald · Eastmoney"
  },
  {
   "id": "n187",

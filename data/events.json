@@ -467,5 +467,17 @@
   "url": "https://powerpeakdigest.com/premier-energies-q2-fy27-results-order-book/",
   "short": "Premier Energies 6 GWh BESS plant due",
   "weight": 1
+ },
+ {
+  "date": "2027-07-01",
+  "precision": "month",
+  "what": "Ashok Leyland's Pillaipakkam captive battery pack plant (about 4 GW to start) due to begin production in Q3 2027",
+  "kind": "India competitor",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/ashok-leyland-to-weigh-ev-cell-investment-next-fiscal-plans-new-lcv-platforms-136056",
+  "short": "Ashok Leyland pack plant due to start",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "An Indian bus and truck maker's own pack plant starts: more captive pack supply for e-buses and e-LCVs."
  }
 ]

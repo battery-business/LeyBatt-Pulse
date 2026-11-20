@@ -299,6 +299,42 @@
    "note": "12 run by Fresh Bus on Bengaluru–Hyderabad, financed by Atria; 8 more coming",
    "source": "EMobility+, 17 Nov 2026",
    "url": "https://emobilityplus.com/2026/11/17/atria-mobility-commissions-worlds-first-megawatt-scale-ev-charging-corridor-for-600-km-intercity-bus-travel/"
+  },
+  {
+   "id": "v-ford-fline-e-19",
+   "date": "2026-11-20",
+   "group": "Reference",
+   "maker": "Ford Trucks / Ford Otosan (Türkiye)",
+   "model": "F-Line E 19 t",
+   "type": "19-tonne electric truck",
+   "pack_kwh": "294",
+   "kwh": 294,
+   "km": 250,
+   "chemistry": "NMC",
+   "cell_supplier": null,
+   "charging": null,
+   "range_km": 250,
+   "note": "Reference from Europe: EU battery passport being prepared with Circulor",
+   "source": "electrive",
+   "url": "https://www.electrive.com/2026/11/20/ford-trucks-partners-with-circulor-for-battery-passport/"
+  },
+  {
+   "id": "v-ford-fline-e-26",
+   "date": "2026-11-20",
+   "group": "Reference",
+   "maker": "Ford Trucks / Ford Otosan (Türkiye)",
+   "model": "F-Line E 26 t",
+   "type": "26-tonne electric truck",
+   "pack_kwh": "392 (gross)",
+   "kwh": 392,
+   "km": 300,
+   "chemistry": "NMC",
+   "cell_supplier": null,
+   "charging": null,
+   "range_km": 300,
+   "note": "Reference from Europe: EU battery passport being prepared with Circulor",
+   "source": "electrive",
+   "url": "https://www.electrive.com/2026/11/20/ford-trucks-partners-with-circulor-for-battery-passport/"
   }
  ]
 }

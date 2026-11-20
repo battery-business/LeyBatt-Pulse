@@ -2,10 +2,6 @@
  "copper": {
   "recent": [
    [
-    "2026-11-03",
-    14110.5
-   ],
-   [
     "2026-11-04",
     14201.0
    ],
@@ -48,6 +44,10 @@
    [
     "2026-11-18",
     12750.0
+   ],
+   [
+    "2026-11-19",
+    12570.0
    ]
   ],
   "source": "LME cash settlement via Westmetall",
@@ -55,10 +55,6 @@
  },
  "aluminium": {
   "recent": [
-   [
-    "2026-11-03",
-    3082.0
-   ],
    [
     "2026-11-04",
     3135.0
@@ -102,6 +98,10 @@
    [
     "2026-11-18",
     3095.0
+   ],
+   [
+    "2026-11-19",
+    3105.0
    ]
   ],
   "source": "LME cash settlement via Westmetall",
@@ -109,10 +109,6 @@
  },
  "lithium": {
   "recent": [
-   [
-    "2026-11-04",
-    12958
-   ],
    [
     "2026-11-05",
     13733
@@ -156,15 +152,19 @@
    [
     "2026-11-19",
     13725
+   ],
+   [
+    "2026-11-20",
+    13484
    ]
   ],
   "source": "Guangzhou futures close (via Sina Finance), at the ECB rate",
   "url": "https://finance.sina.com.cn/futures/quotes/LC0.shtml"
  },
  "fx": {
-  "date": "2026-11-19",
-  "usd_inr": 93.2951,
-  "usd_cny": 6.6667,
+  "date": "2026-11-20",
+  "usd_inr": 92.6752,
+  "usd_cny": 6.6777,
   "source": "ECB euro reference rates (cross rates)"
  }
 }

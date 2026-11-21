@@ -428,7 +428,7 @@
   "status": "Starts later",
   "date": "2027-01-01",
   "date_label": "From 1 Jan 2027",
-  "what": "Zimbabwe says there is no reason to delay its ban on exporting lithium concentrate, pushing miners to refine locally (headline only, not verified).",
+  "what": "Zimbabwe plans to ban exports of lithium concentrate from January 2027 to push miners to refine locally (Bloomberg headline, 9 Oct). On 20 Nov it changed the export tax: concentrate is now taxed on the value of the lithium sulphate it could yield, sulphate exports stay tax-free, and large miners must source 15% of inputs locally; the ban date is still unconfirmed and miners want July 2027.",
   "impact": "Could tighten lithium raw-material supply to Chinese refiners for a while, supporting lithium prices.",
   "effects": [
    "Supply risk",
@@ -439,7 +439,10 @@
   ],
   "source": "Bloomberg, 9 Oct 2026 (headline)",
   "url": "https://www.bloomberg.com/news/articles/2026-10-09/zimbabwe-says-no-justification-to-delay-lithium-export-ban",
-  "checked": "2026-10-28"
+  "checked": "2026-11-22",
+  "source2": "CNBC Africa (Reuters), 20 Nov 2026",
+  "url2": "https://www.cnbcafrica.com/2026/zimbabwe-tweaks-lithium-export-tax-rule-mandates-local-sourcing-by-miners",
+  "changed": "2026-11-22"
  },
  {
   "id": "in-tn-bess",

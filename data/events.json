@@ -119,17 +119,6 @@
  },
  {
   "date": "2026-11-23",
-  "what": "SECI 4 GW / 16 GWh standalone storage tender (Rajasthan, Gujarat): bids due (TaiyangNews; Powerpeak Digest gives 14 Dec for online bids)",
-  "kind": "India tender",
-  "source": "TaiyangNews",
-  "url": "https://taiyangnews.info/tenders/seci-4-gw-16-gwh-standalone-bess-tender",
-  "short": "SECI 16 GWh storage bids due",
-  "weight": 3,
-  "seg": "BESS",
-  "so": "16 GWh of four-hour storage with central support: one of India's largest storage tenders."
- },
- {
-  "date": "2026-11-23",
   "what": "KPCL (Karnataka) 1 GW solar with 2 GWh battery storage tender: bids due",
   "kind": "India tender",
   "source": "Mercom India",
@@ -180,6 +169,26 @@
   "weight": 2,
   "seg": "CVs",
   "so": "A port e-truck swapping tender: a test of swapping for heavy trucks at India's busiest container port."
+ },
+ {
+  "date": "2026-11-26",
+  "what": "Solaris unveils a new intercity bus in battery-electric and hydrogen versions (pack size not yet disclosed)",
+  "kind": "Event",
+  "source": "Sustainable Bus",
+  "url": "https://www.sustainable-bus.com/news/solaris-new-intercity-bus-teaser/",
+  "short": "Solaris new intercity e-bus unveiled",
+  "weight": 1
+ },
+ {
+  "date": "2026-11-27",
+  "what": "SECI 4 GW / 16 GWh standalone storage tender (Rajasthan, Gujarat): online bids due 27 Nov, offline documents by 1 Dec; stakeholder meeting on 23 Nov",
+  "kind": "India tender",
+  "source": "Solarbytes",
+  "url": "https://solarbytes.info/battery-and-energy-storage-system/seci-november-23-stakeholder-meeting-4gw-16gwh-bess-tender-rajasthan-gujarat-12827493",
+  "short": "SECI 16 GWh storage bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "16 GWh of four-hour storage with central support: one of India's largest storage tenders."
  },
  {
   "date": "2026-12-01",
@@ -446,6 +455,18 @@
   "weight": 3,
   "seg": "BESS",
   "so": "New solar plants in Tamil Nadu must add four-hour storage: steady storage demand from April 2027."
+ },
+ {
+  "date": "2027-04-01",
+  "precision": "month",
+  "what": "Olectra Greentech aims to launch its own electric trucks commercially around the end of Q4 FY27 or early Q1 FY28, after testing about 12 prototypes",
+  "kind": "India competitor",
+  "source": "CMV360",
+  "url": "https://www.cmv360.com/news/olectra-greentech-plans-12-electric-truck-prototypes-ahead-of-fy28-launch",
+  "short": "Olectra e-truck launch due",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "India's biggest e-bus maker enters electric trucks: one more domestic e-truck competitor."
  },
  {
   "date": "2027-04-30",

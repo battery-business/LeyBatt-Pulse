@@ -1,5 +1,209 @@
 [
  {
+  "id": "n259",
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "Olectra Greentech is developing its own electric truck platform and will build about 12 prototypes for testing, aiming for a commercial launch around the end of Q4 FY27 or early Q1 FY28; no tonnage, pack size or chemistry given yet",
+  "seg": "CVs",
+  "so": "India's largest e-bus maker moves into electric trucks: another domestic e-truck maker competing for fleet orders from 2027.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "E-buses & e-trucks",
+  "effect": "New e-truck entrant",
+  "direction": "flat",
+  "source": "CMV360",
+  "url": "https://www.cmv360.com/news/olectra-greentech-plans-12-electric-truck-prototypes-ahead-of-fy28-launch",
+  "sources": "CMV360",
+  "alert": true,
+  "alert_reason": "Olectra e-truck platform",
+  "short": "Olectra builds 12 e-truck prototypes for an early FY28 launch"
+ },
+ {
+  "id": "n260",
+  "date": "2026-11-21",
+  "day": "21 Nov",
+  "headline": "Olectra is developing a 13.5 m electric bus for private fleets alongside its 9 m and 12 m models; it delivered a record 401 e-buses in Q2 FY27 (759 in H1, up from 536) and holds orders for about 1,500 nine-metre and over 3,000 twelve-metre buses. India registered 3,747 e-buses in H1 FY27, about 9% of all buses",
+  "seg": "CVs",
+  "so": "A longer e-bus aimed at private operators and a 4,500-bus order book: e-bus demand widens beyond state tenders into private intercity fleets.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "E-buses & e-trucks",
+  "effect": "Record e-bus deliveries",
+  "direction": "up",
+  "source": "CMV360",
+  "url": "https://www.cmv360.com/news/olectra-greentech-develops-new-13-5-metre-electric-bus-for-private-fleets",
+  "sources": "CMV360",
+  "alert": true,
+  "alert_reason": "Olectra 13.5 m e-bus",
+  "short": "Olectra readies a 13.5 m e-bus for private fleets; record 401 deliveries"
+ },
+ {
+  "id": "n261",
+  "date": "2026-11-21",
+  "day": "21 Nov",
+  "headline": "The Prime Minister flags off 100 electric buses for the Bihar State Road Transport Corporation in Patna under PM e-Bus Sewa, along with behind-the-meter power infrastructure at its Phulwari Sharif depot; the maker was not named",
+  "seg": "CVs",
+  "so": "PM e-Bus Sewa buses start reaching Bihar: the scheme's deliveries spread to smaller state fleets beyond the big metros.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "E-bus deliveries",
+  "direction": "up",
+  "source": "Indian Masterminds",
+  "url": "https://indianmasterminds.com/news/bihar-100-electric-buses-pm-e-bus-sewa-scheme-252161/",
+  "sources": "Indian Masterminds"
+ },
+ {
+  "id": "n262",
+  "date": "2026-11-21",
+  "day": "21 Nov",
+  "headline": "Waaree Forever Energies, a Waaree Energies unit, signs a power purchase agreement with SECI for 700 MW of solar with 700 MW / 2,800 MWh of four-hour battery storage in Solapur, Maharashtra; tariff, tenure and schedule were not disclosed",
+  "seg": "BESS",
+  "so": "A 2.8 GWh four-hour storage block moves from award to signed contract: firmer demand for Indian storage containers and cells.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "2.8 GWh PPA signed",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/21/waaree-energies-signs-ppa-with-seci-for-700-mw-solar-and-2800-mwh-storage-project-in-maharashtra/",
+  "sources": "SolarQuarter",
+  "alert": true,
+  "alert_reason": "2.8 GWh India storage PPA",
+  "short": "Waaree signs SECI PPA for 700 MW solar with 2.8 GWh of storage"
+ },
+ {
+  "id": "n263",
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Korean cell makers' plants run fuller on US storage demand: LG Energy Solution's utilisation rose to 57.1% in Jan–Sep (from 47.6%) with a storage order backlog of about 160 GWh, Samsung SDI's small-cell lines reached 78% after LFP output started in Indiana, and SK On stayed at 36.4%",
+  "seg": "Batteries",
+  "so": "Korean makers fill idle lines with American storage LFP orders: more non-Chinese LFP capacity, but mostly tied up by American buyers.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Korean LFP ramp-up",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/VRY334H7LZBQ4PPDR4CAEG2YGI3KQ5IRVSU3VGY-us-energy-storage-demand-boosts-korean-battery-makers-factory-utilization",
+  "sources": "SMM"
+ },
+ {
+  "id": "n264",
+  "date": "2026-11-19",
+  "day": "19 Nov",
+  "headline": "POSCO Group signs a three-year lithium supply contract with CATL for 2026–2028, with first deliveries already under way; volume, product and value were not disclosed (POSCO's lithium capacity is about 48,000 t a year)",
+  "seg": "Batteries",
+  "so": "The largest cell maker locks in non-Chinese lithium chemicals for three years: a sign big buyers are securing supply while prices are low.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Lithium supply deal",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://electrive.com/2026/11/19/posco-expands-lithium-business-with-major-order-from-catl",
+  "sources": "electrive"
+ },
+ {
+  "id": "n265",
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Zimbabwe changes how it taxes lithium exports: concentrate will be taxed on the value of the lithium sulphate it could yield (5 t of 6% concentrate per tonne of sulphate), sulphate exports stay tax-free, and large miners must source at least 15% of inputs locally; the January 2027 concentrate export ban is still unconfirmed, with miners asking for July 2027",
+  "seg": "Batteries",
+  "so": "Higher tax on exported concentrate pushes Zimbabwe's lithium towards local processing: some cost and timing risk for lithium supply to Chinese refiners.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": -1
+   },
+   {
+    "k": "cost",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "Lithium & materials",
+  "effect": "Export tax change",
+  "direction": "up",
+  "source": "CNBC Africa (Reuters)",
+  "url": "https://www.cnbcafrica.com/2026/zimbabwe-tweaks-lithium-export-tax-rule-mandates-local-sourcing-by-miners",
+  "sources": "CNBC Africa · Reuters",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": 1
+   }
+  ]
+ },
+ {
+  "id": "n266",
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Proper Voltage and Unigrid launch Salt Vault High Power, a sodium-ion UPS cabinet for data centres: 73.1 kWh, 333 kW at 522 V DC, rated for 10,000 cycles, with deliveries from April 2027; price and independent test data were not disclosed",
+  "seg": "BESS",
+  "so": "Sodium-ion moves into data-centre backup power: an early commercial use for a lithium-free storage chemistry.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Sodium-ion UPS product",
+  "direction": "flat",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/20/new-sodium-ion-energy-storage-solution-for-data-centers-from-californias-proper-voltage-and-unigrid/",
+  "sources": "ESS News"
+ },
+ {
   "date": "2026-11-20",
   "day": "20 Nov",
   "headline": "Ashok Leyland says its Pillaipakkam pack plant near Chennai will start production in Q3 2027 with about 4 GW of captive capacity for itself and Switch, expandable to 8–12 GW; a decision on making its own cells comes in FY28. Switch delivered 439 e-buses and 732 e-LCVs in H1 FY27",
@@ -1760,27 +1964,6 @@
   "source": "Mercom India",
   "url": "https://www.mercomindia.com/trex-energy-commissions-lithium-battery-manufacturing-facility-in-hyderabad",
   "sources": "Mercom India"
- },
- {
-  "id": "n190",
-  "date": "2026-11-07",
-  "day": "7 Nov",
-  "headline": "CATL's chief scientist names lithium-air as a long-term research direction; CarNewsChina notes there is no product timeline and that the reported 2,000 km range is theoretical, with sodium-ion and solid-state cells remaining CATL's nearer priorities",
-  "seg": "Batteries",
-  "so": "Lithium-air is lab research only: no change to cell choices for years.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "R&D & new products",
-  "effect": "Long-term research",
-  "direction": "flat",
-  "source": "CarNewsChina",
-  "url": "https://carnewschina.com/2026/11/07/catl-is-exploring-an-air-breathing-battery-could-it-give-evs-2000-km-of-range",
-  "sources": "CarNewsChina"
  },
  {
   "id": "n183",

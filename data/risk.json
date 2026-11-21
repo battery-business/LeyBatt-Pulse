@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-21",
- "generated": "2026-11-20T22:41:41+00:00",
+ "generated": "2026-11-21T00:04:16+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -2765,153 +2765,25 @@
    },
    "h3": {
     "price": {
-     "score": 2.3,
+     "score": 2.0,
      "level": "Low",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 2.1,
-       "detail": "1 month −11.6% · 3 months −12.0% (rising prices push the score up)",
+       "score": 1.5,
+       "detail": "1 month −14.0% · 3 months −14.4% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 3.4,
        "prev_detail": "1 month −6.4% · 3 months −6.4% (rising prices push the score up)",
-       "moved": -0.65
+       "moved": -0.95
       },
       {
        "label": "How much the price swings",
-       "score": 2.6,
-       "detail": "About 19% a year, from 126 price moves in the last 6 months",
+       "score": 2.7,
+       "detail": "About 20% a year, from 127 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
-       "prev": 2.4,
-       "prev_detail": "About 18% a year, from 127 price moves in the last 6 months",
-       "moved": 0.07
-      },
-      {
-       "label": "Rupee against the US$",
-       "score": 2.4,
-       "detail": "US$1 = ₹92.68; rupee stronger by 2.3% in a month, stronger by 3.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
-       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
-       "key": "rupee",
-       "weight": 17,
-       "prev": 4.0,
-       "prev_detail": "US$1 = ₹94.24; rupee stronger by 0.9% in a month, stronger by 1.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
-       "moved": -0.27
-      },
-      {
-       "label": "What forecasters expect",
-       "score": null,
-       "detail": "No public forecasts tracked",
-       "key": "expectations",
-       "weight": 0,
-       "prev": null,
-       "moved": 0.0
-      },
-      {
-       "label": "Room above the cost to make",
-       "score": null,
-       "detail": "Only modelled for cells",
-       "key": "floor",
-       "weight": 0,
-       "prev": null,
-       "moved": 0.0
-      },
-      {
-       "label": "Lithium price risk passed through",
-       "score": null,
-       "detail": "Not linked to lithium",
-       "key": "upstream",
-       "weight": 0,
-       "prev": null,
-       "moved": 0.0
-      },
-      {
-       "label": "Price news",
-       "score": null,
-       "detail": "No tagged price news in the last 60 days",
-       "items": [],
-       "key": "price_news",
-       "weight": 0,
-       "prev": null,
-       "moved": 0.0
-      },
-      {
-       "label": "Known cost changes ahead",
-       "score": null,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "price_dates",
-       "weight": 0,
-       "prev": null,
-       "moved": 0.0
-      }
-     ],
-     "prev_date": "2026-11-14",
-     "change": -0.9
-    },
-    "supply": {
-     "score": 1.6,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Dependence on one country",
-       "score": 1.0,
-       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
-       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
-       "key": "concentration",
-       "weight": 40,
-       "prev": 1.0,
-       "moved": 0.0
-      },
-      {
-       "label": "Supply news",
-       "score": 2.0,
-       "detail": "No supply disruptions reported in the last 90 days",
-       "items": [],
-       "key": "supply_news",
-       "weight": 30,
-       "prev": 2.0,
-       "moved": 0.0
-      },
-      {
-       "label": "Rule changes and deadlines ahead",
-       "score": 2.0,
-       "detail": "None within the horizon",
-       "items": [],
-       "key": "supply_dates",
-       "weight": 30,
-       "prev": 2.0,
-       "moved": 0.0
-      }
-     ],
-     "prev_date": "2026-11-14",
-     "change": 0.0
-    },
-    "confidence": "Medium",
-    "obs180": 127
-   },
-   "h12": {
-    "price": {
-     "score": 2.4,
-     "level": "Low",
-     "drivers": [
-      {
-       "label": "Recent price trend",
-       "score": 2.1,
-       "detail": "1 month −11.6% · 3 months −12.0% (rising prices push the score up)",
-       "key": "momentum",
-       "weight": 33,
-       "prev": 3.4,
-       "prev_detail": "1 month −6.4% · 3 months −6.4% (rising prices push the score up)",
-       "moved": -0.43
-      },
-      {
-       "label": "How much the price swings",
-       "score": 2.6,
-       "detail": "About 19% a year, from 126 price moves in the last 6 months",
-       "key": "volatility",
-       "weight": 50,
        "prev": 2.4,
        "prev_detail": "About 18% a year, from 127 price moves in the last 6 months",
        "moved": 0.1
@@ -2976,7 +2848,135 @@
       }
      ],
      "prev_date": "2026-11-14",
-     "change": -0.6
+     "change": -1.2
+    },
+    "supply": {
+     "score": 1.6,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Dependence on one country",
+       "score": 1.0,
+       "detail": "China refines over 40% of the world's copper (IEA, 2024); India also refines its own",
+       "url": "https://www.mercomindia.com/chinas-dominance-in-critical-minerals-supply-and-refining-continues-iea",
+       "key": "concentration",
+       "weight": 40,
+       "prev": 1.0,
+       "moved": 0.0
+      },
+      {
+       "label": "Supply news",
+       "score": 2.0,
+       "detail": "No supply disruptions reported in the last 90 days",
+       "items": [],
+       "key": "supply_news",
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
+      },
+      {
+       "label": "Rule changes and deadlines ahead",
+       "score": 2.0,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "supply_dates",
+       "weight": 30,
+       "prev": 2.0,
+       "moved": 0.0
+      }
+     ],
+     "prev_date": "2026-11-14",
+     "change": 0.0
+    },
+    "confidence": "Medium",
+    "obs180": 128
+   },
+   "h12": {
+    "price": {
+     "score": 2.2,
+     "level": "Low",
+     "drivers": [
+      {
+       "label": "Recent price trend",
+       "score": 1.5,
+       "detail": "1 month −14.0% · 3 months −14.4% (rising prices push the score up)",
+       "key": "momentum",
+       "weight": 33,
+       "prev": 3.4,
+       "prev_detail": "1 month −6.4% · 3 months −6.4% (rising prices push the score up)",
+       "moved": -0.63
+      },
+      {
+       "label": "How much the price swings",
+       "score": 2.7,
+       "detail": "About 20% a year, from 127 price moves in the last 6 months",
+       "key": "volatility",
+       "weight": 50,
+       "prev": 2.4,
+       "prev_detail": "About 18% a year, from 127 price moves in the last 6 months",
+       "moved": 0.15
+      },
+      {
+       "label": "Rupee against the US$",
+       "score": 2.4,
+       "detail": "US$1 = ₹92.68; rupee stronger by 2.3% in a month, stronger by 3.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+       "key": "rupee",
+       "weight": 17,
+       "prev": 4.0,
+       "prev_detail": "US$1 = ₹94.24; rupee stronger by 0.9% in a month, stronger by 1.2% in 3 months (a weaker rupee makes imports dearer; ±5% scores 0 or 10)",
+       "moved": -0.27
+      },
+      {
+       "label": "What forecasters expect",
+       "score": null,
+       "detail": "No public forecasts tracked",
+       "key": "expectations",
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
+      },
+      {
+       "label": "Room above the cost to make",
+       "score": null,
+       "detail": "Only modelled for cells",
+       "key": "floor",
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
+      },
+      {
+       "label": "Lithium price risk passed through",
+       "score": null,
+       "detail": "Not linked to lithium",
+       "key": "upstream",
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
+      },
+      {
+       "label": "Price news",
+       "score": null,
+       "detail": "No tagged price news in the last 60 days",
+       "items": [],
+       "key": "price_news",
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
+      },
+      {
+       "label": "Known cost changes ahead",
+       "score": null,
+       "detail": "None within the horizon",
+       "items": [],
+       "key": "price_dates",
+       "weight": 0,
+       "prev": null,
+       "moved": 0.0
+      }
+     ],
+     "prev_date": "2026-11-14",
+     "change": -0.8
     },
     "supply": {
      "score": 1.4,
@@ -3017,7 +3017,7 @@
      "change": 0.0
     },
     "confidence": "Medium",
-    "obs180": 127
+    "obs180": 128
    },
    "trend": [
     [
@@ -3147,7 +3147,7 @@
     ],
     [
      "2026-11-21",
-     2.3,
+     2.0,
      1.6
     ]
    ]
@@ -3170,23 +3170,23 @@
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.5,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.1,
-       "detail": "1 month +3.2% · 3 months −3.8% (rising prices push the score up)",
+       "score": 5.7,
+       "detail": "1 month +5.8% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 50,
        "prev": 5.5,
        "prev_detail": "1 month +5.1% · 3 months −3.0% (rising prices push the score up)",
-       "moved": -0.2
+       "moved": 0.1
       },
       {
        "label": "How much the price swings",
        "score": 3.9,
-       "detail": "About 26% a year, from 126 price moves in the last 6 months",
+       "detail": "About 26% a year, from 127 price moves in the last 6 months",
        "key": "volatility",
        "weight": 33,
        "prev": 3.0,
@@ -3253,7 +3253,7 @@
       }
      ],
      "prev_date": "2026-11-14",
-     "change": -0.2
+     "change": 0.1
     },
     "supply": {
      "score": 2.4,
@@ -3294,27 +3294,27 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 127
+    "obs180": 128
    },
    "h12": {
     "price": {
-     "score": 4.0,
+     "score": 4.2,
      "level": "Elevated",
      "drivers": [
       {
        "label": "Recent price trend",
-       "score": 5.1,
-       "detail": "1 month +3.2% · 3 months −3.8% (rising prices push the score up)",
+       "score": 5.7,
+       "detail": "1 month +5.8% · 3 months −1.3% (rising prices push the score up)",
        "key": "momentum",
        "weight": 33,
        "prev": 5.5,
        "prev_detail": "1 month +5.1% · 3 months −3.0% (rising prices push the score up)",
-       "moved": -0.13
+       "moved": 0.07
       },
       {
        "label": "How much the price swings",
        "score": 3.9,
-       "detail": "About 26% a year, from 126 price moves in the last 6 months",
+       "detail": "About 26% a year, from 127 price moves in the last 6 months",
        "key": "volatility",
        "weight": 50,
        "prev": 3.0,
@@ -3381,7 +3381,7 @@
       }
      ],
      "prev_date": "2026-11-14",
-     "change": 0.0
+     "change": 0.2
     },
     "supply": {
      "score": 2.5,
@@ -3422,7 +3422,7 @@
      "change": 0.0
     },
     "confidence": "Low",
-    "obs180": 127
+    "obs180": 128
    },
    "trend": [
     [
@@ -3552,7 +3552,7 @@
     ],
     [
      "2026-11-21",
-     4.2,
+     4.5,
      2.4
     ]
    ]
@@ -3594,7 +3594,7 @@
    "material": "copper",
    "name": "Copper",
    "from": "2018-01-02",
-   "to": "2026-11-19",
+   "to": "2026-11-20",
    "samples": 211,
    "step_days": 14,
    "cut_low": 4.1,
@@ -3625,7 +3625,7 @@
    "material": "aluminium",
    "name": "Aluminium",
    "from": "2018-01-02",
-   "to": "2026-11-19",
+   "to": "2026-11-20",
    "samples": 211,
    "step_days": 14,
    "cut_low": 4.2,

@@ -1,5 +1,76 @@
 [
  {
+  "id": "n267",
+  "date": "2026-11-22",
+  "day": "22 Nov",
+  "headline": "VinFast shelves its plan to enter India's electric bus market, which had been due in the second half of 2026, to focus on cars and e-scooters; no new bus date was given for its Thoothukudi, Tamil Nadu, site",
+  "seg": "CVs",
+  "so": "One planned foreign entrant leaves India's e-bus market for now: the PM E-DRIVE bus orders stay with the existing Indian makers.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 1
+   },
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "Entrant steps back",
+  "direction": "flat",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/vinfast-puts-india-electric-bus-plans-on-hold-prioritises-cars-and-scooters-136072",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n268",
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "Delhi puts 100 more low-floor AC electric buses on the road (50 nine-metre, 50 twelve-metre), taking its fleet to 5,338 electric of 7,088 buses, and starts a 12-bus interstate electric service from Anand Vihar to Hapur every 20 minutes",
+  "seg": "CVs",
+  "so": "Three in four Delhi buses are now electric and e-buses start running interstate routes: city e-bus demand is moving on to intercity services.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "E-bus fleet grows",
+  "direction": "up",
+  "source": "WebIndia123 (ANI)",
+  "url": "https://news.webindia123.com/news/Articles/India/20261120/4522474.html",
+  "sources": "WebIndia123 · ANI"
+ },
+ {
+  "id": "n269",
+  "date": "2026-11-22",
+  "day": "22 Nov",
+  "headline": "ICRA says Indian battery-storage projects are moving from tenders to building, but grid congestion in Rajasthan and Gujarat, a rebound in battery prices, a weaker rupee and aggressive bids make early battery buying and long service deals critical; at a $70/kWh pack cost it sees tariffs of ₹2.60–2.80 lakh per MW per month giving debt cover of 1.17–1.27×",
+  "seg": "BESS",
+  "so": "A rating agency puts a number on India's storage tariffs: bids well below about ₹2.6 lakh/MW/month look thin if pack costs stay near $70/kWh.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "Tariff viability warning",
+  "direction": "flat",
+  "source": "Business Standard",
+  "url": "https://business-standard.com/amp/industry/news/battery-procurement-key-to-project-viability-amid-grid-congestion-icra-126112200519_1.html",
+  "sources": "Business Standard"
+ },
+ {
   "id": "n259",
   "date": "2026-11-19",
   "day": "19 Nov",

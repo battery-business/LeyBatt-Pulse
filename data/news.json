@@ -1,5 +1,219 @@
 [
  {
+  "id": "n270",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "Ashok Leyland's electric arm OHM Mobility wins an order to deploy more than 200 electric trucks for cement distribution on fixed routes under its pay-per-use e-MaaS model; customer, model, pack size and value not disclosed",
+  "seg": "CVs",
+  "so": "200-plus electric trucks for cement haulage on a usage-based lease: cement logistics is becoming an early volume market for heavy e-trucks in India.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 3,
+  "category": "E-buses & e-trucks",
+  "effect": "Large e-truck order",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/ashok-leyland-arm-ohm-mobility-bags-order-to-deploy-over-200-trucks-for-cement-distribution-136093",
+  "sources": "Autocar Professional",
+  "alert": true,
+  "alert_reason": "200+ e-truck order",
+  "short": "OHM Mobility to deploy 200+ electric trucks for cement haulage"
+ },
+ {
+  "id": "n271",
+  "date": "2026-11-20",
+  "day": "20 Nov",
+  "headline": "The government launches the PM e-Bus Sewa Payment Security Mechanism portal: a ₹3,435.33 crore scheme that guarantees operator payments for more than 38,000 electric buses",
+  "seg": "CVs",
+  "so": "The payment-guarantee fund for e-bus operators is now live online: lowers the late-payment risk that kept bidders away from state e-bus tenders.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "Regulation & trade",
+  "effect": "E-bus payments backed",
+  "direction": "up",
+  "source": "Business Upturn",
+  "url": "https://businessupturn.com/nation/government-launches-pm-e-bus-sewa-payment-security-portal-under-rs3-435-33-crore-scheme-to-back-38-000-electric-buses/",
+  "sources": "Business Upturn"
+ },
+ {
+  "id": "n272",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "PepsiCo India gives transporters 2–5 year freight contracts to make electric trucks pay: 15 converted 32-ft e-trucks (Kalyani Powertrain) run about 4,500 km a month each on a 115 km Mathura–Pataudi corridor",
+  "seg": "CVs",
+  "so": "Long freight contracts from a big shipper de-risk e-truck loans for small fleets: a template for shipper-led e-truck demand alongside PM E-DRIVE support.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "Shipper-backed e-trucks",
+  "direction": "up",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/pepsico-india-uses-long-term-contracts-to-de-risk-e-trucks-for-transporters-136099",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n273",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "China sold 600,000 electric trucks in the first ten months of 2026 (+45%, about 30% of truck sales), heavy e-trucks up 68% to 262,000; electric trucks may take nearly 7% of world lithium supply this year and 12% by 2030",
+  "seg": "CVs",
+  "so": "Heavy e-trucks are now a major battery buyer in China: more competition for large LFP cells, and Chinese e-truck exports keep rising.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "Lithium & materials",
+  "effect": "E-truck lithium demand",
+  "direction": "up",
+  "source": "Reuters via Investing.com",
+  "url": "https://www.investing.com/news/stock-market-news/chinas-electric-truck-boom-lifts-demand-for-lithium-5044557",
+  "sources": "Reuters via Investing.com",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": 1
+   }
+  ]
+ },
+ {
+  "id": "n274",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "APTRANSCO tenders 1,000 MW / 4,000 MWh of standalone four-hour battery storage at Andhra Pradesh substations (build-own-operate, two 500 MW halves, one with PSDF viability gap funding); bids due 14 Dec",
+  "seg": "BESS",
+  "so": "Another 4 GWh state storage tender: adds to the pile of Indian storage cell and container demand bid out this quarter.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "4 GWh tender",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/23/aptransco-invites-bids-for-1000-mw-4000-mwh-standalone-battery-storage-projects-in-andhra-pradesh/",
+  "sources": "SolarQuarter · Power Peak Digest",
+  "source2": "Power Peak Digest",
+  "url2": "https://powerpeakdigest.com/aptransco-bid-1000-mw-4000-mwh-standalone-bess/",
+  "alert": true,
+  "alert_reason": "4 GWh India tender",
+  "short": "APTRANSCO tenders 1 GW / 4 GWh of standalone battery storage"
+ },
+ {
+  "id": "n275",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "Rajasthan High Court quashes a retrospective 20% local-content rule that RVUNL tried to apply to its 500 MW / 2,000 MWh storage awards, since the contracts were concluded before the Ministry of Power directive of 24 Dec 2025",
+  "seg": "BESS",
+  "so": "Local-content rules cannot be applied to storage contracts already signed: protects projects bid on imported cells, though new tenders still carry the rules.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Regulation & trade",
+  "effect": "Retroactive rule quashed",
+  "direction": "flat",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/23/rajasthan-high-court-rejects-retrospective-20-local-content-rule-for-renewable-energy-projects/",
+  "sources": "SolarQuarter"
+ },
+ {
+  "id": "n276",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "India Ratings says thin margins at current storage tariffs (₹2.60–2.80 lakh/MW/month) give debt cover of only about 1.17–1.27x at a $70/kWh pack cost, and flags rising battery prices and a weaker rupee as risks",
+  "seg": "BESS",
+  "so": "Indian storage bids leave little room for battery price rises: projects are sensitive to cell costs and the rupee.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 0
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "Tight project margins",
+  "direction": "flat",
+  "source": "Saur Energy",
+  "url": "https://www.saurenergy.com/solar-energy-news/228-gw-solar-1358-gwh-bess-pipeline-raise-credit-execution-risks-study-12833476",
+  "sources": "Saur Energy"
+ },
+ {
+  "id": "n277",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "EVE Energy's chairman says demand for its 702 Ah large storage cell is strong and supply is short, and expects large-cylindrical cell deliveries to exceed 100 GWh in 2027–2028",
+  "seg": "Batteries",
+  "so": "Large storage cells above 700 Ah are selling out at one big maker: early supply may be tight for buyers moving to the newest sizes.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": -1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Big cells sold out",
+  "direction": "up",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/4EO5O4QTZYQPHMVS4DLNJRJQ2VVZ7I6VGKVZM4I-battery-eve-projects-large-cylindrical-deliveries-to-exceed-100-gwh-in-2027-2028",
+  "sources": "SMM",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "supply",
+    "s": 1
+   }
+  ]
+ },
+ {
   "id": "n267",
   "date": "2026-11-22",
   "day": "22 Nov",
@@ -1599,52 +1813,6 @@
   "sources": "Bloomberg"
  },
  {
-  "id": "n208",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "Geely chairman Li Shufu warns that EV batteries wearing out before the cars could become a big problem in China, as full pack replacement is too costly; Geely backs battery swapping by taking a 30% stake in Nio Power",
-  "seg": "EVs",
-  "so": "A major carmaker says sealed packs that outlive their cells hurt EV resale values: a push for repairable packs and swapping.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   },
-   {
-    "k": "policy",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "Pack life worry",
-  "direction": "flat",
-  "source": "CarNewsChina",
-  "url": "https://carnewschina.com/2026/11/09/geely-boss-warns-of-ev-battery-lifespan-crisis-direct-pack-replacement-is-too-expensive",
-  "sources": "CarNewsChina"
- },
- {
-  "id": "n209",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "BMW will use LFP cells in base versions of some Neue Klasse models, starting with the China-only iX3 long-wheelbase, alongside its cell-to-pack 800 V NMC packs with 46 mm round cells",
-  "seg": "Batteries",
-  "so": "A premium carmaker adds LFP to entry versions of its new EVs: LFP keeps winning share in car packs.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "More LFP in cars",
-  "direction": "flat",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/11/09/bmw-to-partially-use-lfp-batteries-in-neue-klasse/",
-  "sources": "electrive"
- },
- {
   "id": "n210",
   "date": "2026-11-10",
   "day": "10 Nov",
@@ -1872,98 +2040,6 @@
   "alert": true,
   "alert_reason": "Competitor e-bus launch",
   "short": "Olectra to launch new-generation e-buses by March 2027"
- },
- {
-  "id": "n193",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "Lithium's rebound fades: the Guangzhou lc2701 contract falls 4.85% on 9 Nov to about $13,060 a tonne, as November cell output plans slip and a restart of the Jiaxiawo mine looks closer; exchange warehouse receipts rose to 23,700 lots",
-  "seg": "Batteries",
-  "so": "Lithium falls back toward its lows: cell and cathode costs keep easing, with a mine restart the next test.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Lithium falls",
-  "direction": "down",
-  "source": "Sohu",
-  "url": "https://www.sohu.com/a/1099278098_114984",
-  "source2": "Sohu (futures close)",
-  "url2": "https://www.sohu.com/a/1099310642_114984",
-  "sources": "Sohu"
- },
- {
-  "id": "n194",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "BMW adds Samsung SDI (Europe) and LG Energy Solution (North America) as suppliers of its sixth-generation cylindrical cells from near the end of the decade, alongside CATL and EVE, and is building five pack assembly plants near its car plants",
-  "seg": "Batteries",
-  "so": "A big carmaker spreads cell orders across Chinese and Korean makers and local plants: more regional sourcing in EV cells.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "Cell makers & competitors",
-  "effect": "Supplier added",
-  "direction": "flat",
-  "source": "BMWBLOG",
-  "url": "https://www.bmwblog.com/2026/11/09/bmw-adds-samsung-sdi-lg-battery-suppliers/",
-  "source2": "Bloomberg",
-  "url2": "https://www.bloomberg.com/news/articles/2026-11-09/bmw-widens-battery-component-suppliers-with-samsung-lg-energy",
-  "sources": "BMWBLOG · Bloomberg"
- },
- {
-  "id": "n195",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "Interview: a Turin Polytechnic battery professor says commercial sodium-ion cells reach about 175 Wh/kg against about 205 Wh/kg for advanced LFP and keep over 95% capacity after 5,000 cycles, narrowing the gap for stationary storage",
-  "seg": "BESS",
-  "so": "Sodium-ion is closing on LFP for grid storage, though output is still under 1% of lithium-ion and no cost figure is given.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "R&D & new products",
-  "effect": "Sodium-ion gains",
-  "direction": "flat",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/11/09/sodium-ion-narrows-the-gap-with-lithium-ion-says-polytechnic-university-of-turin-professor/",
-  "sources": "ESS News"
- },
- {
-  "id": "n196",
-  "date": "2026-11-09",
-  "day": "9 Nov",
-  "headline": "Portugal opens its first grid-connection auctions since 2021 for up to 1,050 MVA: 750 MVA for standalone batteries and 300 MVA for renewables with storage, both needing at least four hours; applications close 22 Dec",
-  "seg": "BESS",
-  "so": "Another European market asks for four-hour batteries: more global demand for long-duration storage systems.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Energy storage",
-  "effect": "Storage auctions",
-  "direction": "up",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/11/09/portugal-opens-tenders-for-1050-mva-of-battery-storage-capacity/",
-  "sources": "ESS News"
  },
  {
   "id": "n187",

@@ -273,6 +273,17 @@
   "so": "Bids for up to 4.8 GWh of storage in Uttar Pradesh: a test of tariffs for solar-plus-storage."
  },
  {
+  "date": "2026-12-14",
+  "what": "APTRANSCO 1,000 MW / 4,000 MWh standalone four-hour battery storage tender (Andhra Pradesh, build-own-operate): bids due 14 Dec, opening 17 Dec; pre-bid meeting 2 Dec",
+  "kind": "India tender",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/23/aptransco-invites-bids-for-1000-mw-4000-mwh-standalone-battery-storage-projects-in-andhra-pradesh/",
+  "short": "APTRANSCO 4 GWh storage bids due",
+  "weight": 3,
+  "seg": "BESS",
+  "so": "Another 4 GWh of Indian storage goes to bid: more demand for storage cells and containers in 2027."
+ },
+ {
   "date": "2026-12-21",
   "what": "RRVUNL standalone four-hour battery storage tender in Rajasthan (build-own-operate with VGF, 20% local content): bids due",
   "kind": "India tender",

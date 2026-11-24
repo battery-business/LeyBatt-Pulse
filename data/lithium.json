@@ -558,5 +558,13 @@
   "source": "SMM lithium carbonate weekly analysis",
   "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued",
   "note": "SMM battery-grade spot average about $13,630 on 19 Nov, down 1.1% vs 13 Nov; supply rose but stocks fell for a seventh week"
+ },
+ {
+  "date": "2026-11-23",
+  "series": "Spot",
+  "usd_t": 13510,
+  "source": "SMM cobalt-lithium morning meeting summary",
+  "url": "https://news.metal.com/newscontent/W2IDGSPSNE6B3PIDWFDBQPNMBRUFG7LGQ6WEVWQ-smm-cobalt-lithium-morning-meeting-summary-lithium-prices-consolidate-at-lows-cobalt-export-ban-drives-gains-end-use-demand-remains-under-pressure",
+  "note": "SMM battery-grade spot about $13,510 on 23 Nov, a little below 19 Nov; SMM sees selling pressure above about $13,880 and support below about $13,430"
  }
 ]

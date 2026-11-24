@@ -282,6 +282,17 @@
   "weight": 1
  },
  {
+  "date": "2026-12-21",
+  "what": "Bids due for NVVN's 187.5 MW / 750 MWh standalone battery storage tender (two four-hour projects, with viability gap funding)",
+  "kind": "India tender",
+  "source": "Indian Masterminds",
+  "url": "https://indianmasterminds.com/news/psu-news/ntpc-nvvn-187-5-mw-750-mwh-battery-energy-storage-bess-tender-253130/",
+  "short": "NVVN 750 MWh storage bids due",
+  "weight": 2,
+  "seg": "BESS",
+  "so": "A 750 MWh central tender closes: another round of Indian four-hour storage prices and container demand."
+ },
+ {
   "date": "2027-01-01",
   "what": "China ends its 6% export VAT rebate on batteries",
   "kind": "Rule change",

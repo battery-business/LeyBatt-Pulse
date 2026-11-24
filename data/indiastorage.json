@@ -272,11 +272,13 @@
    "hours": 2,
    "low": 2.38,
    "high": 2.4,
-   "vgf": "Yes",
+   "vgf": "Up to ₹18 lakh/MWh (PSDF)",
    "tenure": 15,
    "winners": "Oriana Power (900 MW), BSL Engineering, ArMee Infotech, Stockwell Solar and others",
    "source": "Renewable Watch, 22 Sep 2026",
-   "url": "https://renewablewatch.in/2026/09/22/msedcl-announces-results-of-2000-mw-4000-mwh-standalone-bess-auction/"
+   "url": "https://renewablewatch.in/2026/09/22/msedcl-announces-results-of-2000-mw-4000-mwh-standalone-bess-auction/",
+   "source2": "SolarQuarter (MERC tariff approval), 24 Nov 2026",
+   "url2": "https://solarquarter.com/2026/11/24/merc-approves-tariffs-for-2000-mw4000-mwh-battery-storage-procurement-by-msedcl/"
   }
  ],
  "epc_orders": [

@@ -1,5 +1,190 @@
 [
  {
+  "id": "n278",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "MERC approves the tariffs from MSEDCL's 2 GW / 4 GWh standalone storage auction: ₹2.40 lakh/MW/month for the 1 GWh part and ₹2.38 lakh for the 3 GWh part, with PSDF viability gap funding and 15-year contracts",
+  "seg": "BESS",
+  "so": "Regulator signs off Maharashtra's 4 GWh storage tariffs near ₹2.4 lakh/MW/month: the projects can move to contracts and cell and container orders.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "4 GWh tariffs approved",
+  "direction": "up",
+  "source": "SolarQuarter",
+  "url": "https://solarquarter.com/2026/11/24/merc-approves-tariffs-for-2000-mw4000-mwh-battery-storage-procurement-by-msedcl/",
+  "sources": "SolarQuarter",
+  "alert": true,
+  "alert_reason": "4 GWh tariffs approved",
+  "short": "Maharashtra regulator approves 4 GWh battery storage tariffs"
+ },
+ {
+  "id": "n279",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "NTPC Vidyut Vyapar Nigam (NVVN) invites bids for 187.5 MW / 750 MWh of grid-connected four-hour standalone battery storage under viability gap funding, in two 375 MWh projects; bids due 21 Dec",
+  "seg": "BESS",
+  "so": "Another central storage tender of 750 MWh: a steady flow of mid-size four-hour projects keeps container demand in India growing.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "New storage tender",
+  "direction": "up",
+  "source": "Indian Masterminds",
+  "url": "https://indianmasterminds.com/news/psu-news/ntpc-nvvn-187-5-mw-750-mwh-battery-energy-storage-bess-tender-253130/",
+  "sources": "Indian Masterminds",
+  "source2": "Mercom India",
+  "url2": "https://www.mercomindia.com/nvvn-invites-bids-for-battery-energy-storage-projects"
+ },
+ {
+  "id": "n280",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "Sterling and Wilson Renewable Energy wins a 600 MWh turnkey battery storage project in Gujarat from a public-sector company, part of domestic orders worth over ₹2,050 crore; the storage contract's own value is not given",
+  "seg": "BESS",
+  "so": "An Indian EPC firm takes a 600 MWh turnkey storage job: Indian integrators are winning the building work as tenders turn into projects.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "India BESS",
+  "effect": "600 MWh EPC order",
+  "direction": "up",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/24/sterling-and-wilson-secures-600-mwh-battery-storage-project-in-india/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n281",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "Lausanne operator VMCV signs a five-year framework with Yutong for up to 47 battery-electric midi, solo and articulated buses, worth about CHF 30m; no firm order yet and pack details not given",
+  "seg": "CVs",
+  "so": "A Chinese bus maker wins another European framework: Chinese e-bus makers keep gaining ground abroad on price.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   },
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "E-buses & e-trucks",
+  "effect": "Yutong Europe deal",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/24/switzerland-vmcv-orders-up-to-47-yutong-electric-buses/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n282",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "Ekta Nagar (Statue of Unity, Gujarat) now runs 55 electric buses with free rides for visitors, after adding 25 nine-metre AC e-buses worth ₹30 crore with up to 180 km range per charge",
+  "seg": "CVs",
+  "so": "25 more nine-metre e-buses at about ₹1.2 crore each for a tourist town: small city fleets are a steady source of e-bus orders.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "E-buses & e-trucks",
+  "effect": "Small e-bus fleet",
+  "direction": "up",
+  "source": "IANS",
+  "url": "https://ianslive.in/55-electric-buses-free-rides-how-gujarat-is-changing-tourist-travel--20261124221532",
+  "sources": "IANS"
+ },
+ {
+  "id": "n283",
+  "date": "2026-11-24",
+  "day": "24 Nov",
+  "headline": "BASF starts shipping cathode active material made to CATL's specifications from its Schwarzheide plant in Germany, under a global supply framework signed in 2025; volumes not given",
+  "seg": "Batteries",
+  "so": "CATL adds European-made cathode for its European plants: cathode supply outside China is starting to reach the biggest cell maker.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "EU cathode supply",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/24/basf-supplies-catl-cam-shipments-from-schwarzheide-have-begun/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n284",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "A Chinese industry blue book expects 11.4 GWh of hybrid solid-liquid battery shipments in 2026; all-solid-state cells have passed vehicle sample tests but are not ready for mass production and still cost several times as much as LFP cells",
+  "seg": "Batteries",
+  "so": "Solid-state cells still cost several times an LFP cell and are not yet in mass production: no near-term change for bus, truck or storage packs.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "Solid-state still early",
+  "direction": "flat",
+  "source": "SMM",
+  "url": "https://news.metal.com/newscontent/3ENOX3D4WG7RUN6X5YRPZMYOIUYDO5FSR244JRA-solid-state-hybrid-solid-liquid-batteries-enter-commercialization-2026-shipments-seen-at-114-gwh",
+  "sources": "SMM"
+ },
+ {
+  "id": "n285",
+  "date": "2026-11-23",
+  "day": "23 Nov",
+  "headline": "Forsee Power launches ZEN 8, an air-cooled LFP pack system built from 173 Ah cells in 45 V modules (over 245 Wh/L, 0.7C charging) for compact off-highway machines, sized 50–130 kWh for street sweepers",
+  "seg": "Batteries",
+  "so": "A pack maker moves its small-machine range from NMC to LFP without liquid cooling: LFP is spreading to more vehicle packs.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Packs & BMS",
+  "effect": "LFP pack launch",
+  "direction": "flat",
+  "source": "Charged EVs",
+  "url": "https://chargedevs.com/newswire/forsee-power-launches-zen-8-lfp-battery-for-compact-off-highway-machinery/",
+  "sources": "Charged EVs"
+ },
+ {
   "id": "n270",
   "date": "2026-11-23",
   "day": "23 Nov",
@@ -1111,31 +1296,6 @@
   "sources": "Business Upturn"
  },
  {
-  "id": "n233",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "Ampace shows JP50 and EP65 21700 two-wheeler cells (high-nickel cathode, silicon-carbon anode, tabless; JP50 charges above 3C) and says its swap packs in Africa have logged 17 million swaps, averaging over 1,000 cycles each",
-  "seg": "EVs",
-  "so": "Swap packs lasting over 1,000 cycles in heavy daily use: a data point for battery-swap economics in two-wheeler fleets.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "Swap pack data",
-  "direction": "flat",
-  "source": "Battery-Tech Network",
-  "url": "https://battery-tech.net/battery-markets-news/ampace-17-million-battery-swaps/",
-  "sources": "Battery-Tech Network"
- },
- {
   "id": "n234",
   "date": "2026-11-16",
   "day": "16 Nov",
@@ -1359,31 +1519,6 @@
   "source": "CnEVPost",
   "url": "https://cnevpost.com/2026/11/13/catl-targets-6000-passenger-car-swap-stations-2027/",
   "sources": "CnEVPost"
- },
- {
-  "id": "n222",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "Mercedes-Benz's next eCitaro city bus moves to a dedicated electric platform in 2028 and switches from NMC to LFP packs of about 50 kWh each: about 300–600 kWh for solo buses and 400–700 kWh for articulated ones",
-  "seg": "CVs",
-  "so": "Europe's best-selling e-bus maker moves to LFP packs: LFP is becoming the default chemistry for city buses worldwide.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   },
-   {
-    "k": "demand",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "E-bus goes LFP",
-  "direction": "flat",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/11/10/mercedes-ecitaro-to-switch-to-a-dedicated-electric-platform-from-2028/",
-  "sources": "electrive"
  },
  {
   "id": "n223",
@@ -1813,48 +1948,6 @@
   "sources": "Bloomberg"
  },
  {
-  "id": "n210",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "BYD is reported to be considering a battery factory on the former Galp refinery site at Matosinhos, Portugal; no size, investment or timing given and BYD has not commented",
-  "seg": "Batteries",
-  "so": "A possible new BYD battery plant in Europe: more Chinese cell capacity close to European carmakers.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "Cell makers & competitors",
-  "effect": "Plant considered",
-  "direction": "flat",
-  "source": "electrive (Expresso)",
-  "url": "https://www.electrive.com/2026/11/10/byd-considers-building-a-battery-factory-in-portugal/",
-  "sources": "electrive · Expresso"
- },
- {
-  "id": "n202",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "China's October NEV retail sales fall 13.7% on a year to 1.109 million (CPCA), but NEVs reach a record 67.5% of car sales as the overall market drops 27%; BYD leads with a 22.4% share, then Geely 11.8% and Leapmotor 7.5%",
-  "seg": "EVs",
-  "so": "China's car market shrinks while EV share hits a record: slower domestic EV battery demand, adding to spare cell capacity.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "EV market",
-  "effect": "Sales down, share up",
-  "direction": "down",
-  "source": "CnEVPost (CPCA)",
-  "url": "https://cnevpost.com/2026/11/10/china-nev-share-oct-2026/",
-  "sources": "CnEVPost · CPCA"
- },
- {
   "id": "n201",
   "date": "2026-11-10",
   "day": "10 Nov",
@@ -1905,27 +1998,6 @@
   "sources": "EnergyTrend"
  },
  {
-  "id": "n199",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "Bus fleets in Benxi, Changzhou, Guiyang and Lanzhou sign deals with CATL on the same day for replacement batteries, aftermarket service, city battery-swap networks, recycling and V2G, as China's 2015–2018 electric buses reach their battery replacement window",
-  "seg": "CVs",
-  "so": "China's first big e-bus fleets now need new packs: battery replacement and swapping become a business of their own for bus operators.",
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Packs & BMS",
-  "effect": "Bus pack replacement",
-  "direction": "up",
-  "source": "Gasgoo",
-  "url": "https://autonews.gasgoo.com/articles/ev/bus-batteries-enter-replacement-window-four-cities-partner-with-catl-on-the-same-day-2120182338377654273",
-  "sources": "Gasgoo"
- },
- {
   "id": "n198",
   "date": "2026-11-10",
   "day": "10 Nov",
@@ -1949,27 +2021,6 @@
   "source": "CnEVPost (Bloomberg report)",
   "url": "https://cnevpost.com/2026/11/10/catl-swap-network-help-sodium-ion-adoption",
   "sources": "CnEVPost · Bloomberg"
- },
- {
-  "id": "n197",
-  "date": "2026-11-10",
-  "day": "10 Nov",
-  "headline": "Lithium carbonate futures close at about $13,000 a tonne on 10 Nov, close to their 4 Nov low and almost 60% below the mid-May peak; Fubao puts battery-grade spot at about $13,630, and analysts see a possible floor in Nov–Dec as prices dip below some mining and recycling costs",
-  "seg": "Batteries",
-  "so": "Lithium stuck near its 2026 low: cell material costs stay at the bottom of the range for current quotes.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Near year low",
-  "direction": "down",
-  "source": "21st Century Business Herald",
-  "url": "https://www.21jingji.com/article/20261110/herald/0b0127db924e16f502e8b23cc46622bd.html",
-  "sources": "21st Century Business Herald · Fubao"
  },
  {
   "id": "n191",
@@ -3008,406 +3059,6 @@
   "so": "Battery swapping for heavy e-trucks opens on the Mumbai–Pune corridor: swap infrastructure for freight is arriving."
  },
  {
-  "id": "n102",
-  "date": "2026-10-24",
-  "day": "24 Oct",
-  "headline": "Paradeep Parivahan signs a 10-year deal with JSW Cement and JSW Eco-Mobility to run 100 electric heavy trucks hauling about 125,000 t of clinker and slag a month from Nandyal (Andhra Pradesh) to Vijayanagar (Karnataka)",
-  "category": "E-buses & e-trucks",
-  "effect": "E-truck demand",
-  "direction": "up",
-  "source": "Autocar Professional",
-  "url": "https://autocarpro.in/news/paradeep-parivahan-secures-10-year-ev-heavy-haulage-contract-from-jsw-group-135444",
-  "sources": "Autocar Professional",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "CVs",
-  "so": "100 electric heavy trucks on a 10-year industrial haul contract: long fleet deals are making e-trucks bankable."
- },
- {
-  "id": "n101",
-  "date": "2026-10-25",
-  "day": "25 Oct",
-  "headline": "EVE Energy tells investors its fourth-quarter cell capacity is fully booked and output will rise on the quarter; inventory turnover is about 56 days and it will run leaner stock while raw-material prices swing",
-  "category": "Cell makers & competitors",
-  "effect": "Tight cell capacity",
-  "direction": "up",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104176928-eve-energy-q4-production-scheduling-expected-to-rise-qoq-capacity-fully-booked",
-  "sources": "SMM",
-  "risk": [
-   {
-    "m": "cell_ess",
-    "k": "supply",
-    "s": 1
-   },
-   {
-    "m": "cell_ess",
-    "k": "price",
-    "s": 1
-   },
-   {
-    "m": "cell_ev",
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "cost",
-    "s": -1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "EVE's cell capacity is fully booked: supply is tight at big makers, limiting discounts in near-term quotes."
- },
- {
-  "id": "n100",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Haryana Power Purchase Centre (the state's two discoms) invites bids for solar projects with battery storage inside Haryana; bids are due 17 November (capacity not stated in the report)",
-  "category": "India BESS",
-  "effect": "More India storage demand",
-  "direction": "up",
-  "source": "Mercom India",
-  "url": "https://www.mercomindia.com/haryana-power-purchase-centre-invites-bids-for-solar-plus-storage-projects",
-  "sources": "Mercom India",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Haryana tenders solar with storage: more Indian storage demand; bids due 17 Nov."
- },
- {
-  "id": "n93",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Business Today: India is planning a ₹12,000-crore PLI for cell materials (cathode and anode active materials, electrolyte, separators, foil); under the existing ₹18,100-crore ACC PLI only Ola runs cell capacity (2.5 of its 20 GWh) and no maker has yet been paid an incentive, while cell imports keep climbing",
-  "category": "Regulation & trade",
-  "effect": "Local materials push",
-  "direction": "flat",
-  "source": "Business Today",
-  "url": "https://www.businesstoday.in/auto/story/bt-big-story-india-has-failed-to-build-an-ecosystem-of-battery-cells-can-a-new-pli-change-this-562898-2026-10-22",
-  "sources": "Business Today",
-  "alert": true,
-  "alert_reason": "Component PLI planned",
-  "short": "India plans a ₹12,000-crore PLI for cell materials",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "policy",
-    "s": 1
-   },
-   {
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "A proposed incentive for cell materials in India: would make local cell-making cheaper and less dependent on China."
- },
- {
-  "id": "n96",
-  "date": "2026-10-23",
-  "day": "23 Oct",
-  "headline": "Australia's resources department forecasts spodumene averaging about US$2,499/t in FY2027, up 63% from about US$1,532/t in FY2026, before easing to about US$1,684/t by FY2031",
-  "category": "Lithium & materials",
-  "effect": "Higher ore outlook",
-  "direction": "up",
-  "source": "Motley Fool Australia",
-  "url": "https://www.fool.com.au/2026/10/23/lithium-price-set-to-soar-63-in-fy27-heres-why-and-the-asx-shares-to-buy/",
-  "sources": "Motley Fool Australia",
-  "risk": [
-   {
-    "m": "lithium",
-    "k": "price",
-    "s": 1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "cost",
-    "s": -1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Australia expects spodumene prices to rise sharply in 2027: a risk that lithium and cell costs climb again."
- },
- {
-  "id": "n97",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "CATL Europe's Akin Li: its standard swappable packs (#20, #25, #26 for cars, 75# for heavy trucks) fit about 85% of China's A-segment models; truck swaps take about 5 minutes vs about 25 at a charger, and its three European plants will exceed 150 GWh",
-  "category": "Packs & BMS",
-  "effect": "Standard packs spread",
-  "direction": "flat",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/10/22/catls-akin-li-whichever-battery-type-the-market-demands-well-have-it/",
-  "sources": "electrive",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "seg": "EVs",
-  "so": "CATL's standard swappable packs for heavy trucks: a model that could reach India's freight corridors."
- },
- {
-  "id": "n85",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Adani Green switches on another 3.08 GWh of battery storage at Khavda in July–September, taking the site to about 6.6 GWh, which it says is more than half of India's operating BESS capacity",
-  "category": "India BESS",
-  "effect": "India BESS scales",
-  "direction": "up",
-  "source": "Power Peak Digest",
-  "url": "https://powerpeakdigest.com/adani-green-h1-fy27-results-capacity-bess/",
-  "sources": "Power Peak Digest",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Adani is building storage at huge scale for its own solar: part of India's storage demand is served in-house, not tendered."
- },
- {
-  "id": "n87",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "BloombergNEF raises its 2026 forecast: global storage additions to jump 45% to about 188 GW / 535 GWh (from 158 GW / 459 GWh expected in mid-year), with India adding more than 6 GW this year and 638 GWh worldwide in 2027",
-  "category": "Energy storage",
-  "effect": "Demand upgrade",
-  "direction": "up",
-  "source": "Energy-Storage.News",
-  "url": "https://www.energy-storage.news/global-energy-storage-deployments-will-see-45-year-on-year-growth-surge-in-2026-bloombergnef/",
-  "sources": "Energy-Storage.News",
-  "risk": [
-   {
-    "m": "cell_ess",
-    "k": "price",
-    "s": 1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "BloombergNEF raises its storage forecast, with India adding over 6 GW this year: a bigger market."
- },
- {
-  "id": "n88",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Benchmark Mineral Intelligence expects lithium demand from stationary storage to slow from more than 60% a year to about 5% a year through 2030; total lithium demand seen rising from 2.1 million t LCE in 2026 to about 7 million t by 2050",
-  "category": "Lithium & materials",
-  "effect": "Slower storage pull",
-  "direction": "down",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/22/lithium-demand-from-storage-expected-to-slow-to-5-annual-growth/",
-  "sources": "ESS News",
-  "risk": [
-   {
-    "m": "lithium",
-    "k": "price",
-    "s": -1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "Lithium demand from storage expected to slow: supports lower lithium and cell prices later this decade."
- },
- {
-  "id": "n68",
-  "date": "2026-10-23",
-  "day": "23 Oct",
-  "headline": "ACME Solar signs an FDRE (firm, dispatchable renewables) power deal with SECI for 300 MW of solar with 1.2 GWh of co-located batteries (4 hours of supply after sunset) at about $0.063/kWh",
-  "category": "India BESS",
-  "effect": "More India storage demand",
-  "direction": "up",
-  "source": "Energy-Storage.News",
-  "url": "https://www.energy-storage.news/acme-solar-ppa-seci-clean-energy-solar-india-renewables-assets/",
-  "alert": true,
-  "alert_reason": "1.2 GWh India storage award",
-  "sources": "Energy-Storage.News",
-  "short": "ACME wins SECI deal: 300 MW solar with 1.2 GWh of batteries",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A large solar-plus-storage power deal in India: more demand for storage."
- },
- {
-  "id": "n57",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Mercom: India's battery-storage manufacturing capacity reaches about 86 GWh, but 92% is pack/container assembly and only 8% is cell making; most capacity is still under construction, mainly in Gujarat and Maharashtra",
-  "category": "India BESS",
-  "effect": "Cells still imported",
-  "direction": "flat",
-  "source": "Mercom India",
-  "url": "https://www.mercomindia.com/indias-downstream-battery-storage-manufacturing-capacity-reaches-86-gwh",
-  "source2": "",
-  "url2": "",
-  "sources": "Mercom India",
-  "risk": [
-   {
-    "m": "cell_ess",
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "supply",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "India has lots of pack and container assembly but little cell-making: storage still depends on imported cells."
- },
- {
-  "id": "n61",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Gujarat's power regulator (GERC) notifies its first grid-interactive battery-storage regulations, covering planning, procurement, operation and scheduling of BESS; standalone storage may not serve captive or third-party renewable plants",
-  "effect": "Clearer BESS rules",
-  "direction": "flat",
-  "sources": "Mercom India",
-  "source": "Mercom India",
-  "url": "https://www.mercomindia.com/gujarat-regulator-notifies-battery-energy-storage-regulations",
-  "source2": "",
-  "url2": "",
-  "category": "Regulation & trade",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "policy",
-    "s": 1
-   },
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Gujarat sets rules for grid batteries: clearer rules make storage projects easier to finance and tender."
- },
- {
-  "id": "n62",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "India's transmission utility CTUIL sets a minimum storage duration for BESS grid-connectivity applications: four hours for specified applications, two hours for eligible right-of-first-refusal cases",
-  "effect": "Longer-duration demand",
-  "direction": "up",
-  "sources": "Mercom India",
-  "source": "Mercom India",
-  "url": "https://www.mercomindia.com/ctuil-sets-four-hour-battery-storage-requirement-for-grid-connectivity",
-  "source2": "",
-  "url2": "",
-  "category": "India BESS",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Four-hour minimum storage for grid connections: more battery energy per project."
- },
- {
-  "id": "n64",
-  "date": "2026-10-22",
-  "day": "22 Oct",
-  "headline": "Switch Mobility delivers the first six of 50 EiV12 electric intercity coaches to Pune-based Purple Bus for the Nagpur–Chandrapur route (claimed range up to 350 km)",
-  "effect": "E-bus demand up",
-  "direction": "up",
-  "sources": "electrive",
-  "source": "electrive",
-  "url": "https://www.electrive.com/2026/10/22/india-switch-mobility-starts-fulfilling-50-unit-intercity-electric-bus-order/",
-  "source2": "",
-  "url2": "",
-  "category": "E-buses & e-trucks",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "CVs",
-  "so": "First electric intercity coaches delivered for the Nagpur–Chandrapur route: e-buses are moving beyond city service."
- },
- {
-  "id": "n45",
-  "date": "2026-10-21",
-  "day": "21 Oct",
-  "headline": "CATL shares drop more than 10% after Q3: profit up 14.5% but margin slips to 20.7% as China's new 2% battery consumption tax and the end of export VAT rebates (1 Jan 2027) bite; JPMorgan downgrades the Hong Kong shares",
-  "category": "Cell makers & competitors",
-  "effect": "Margin squeeze",
-  "direction": "up",
-  "source": "CnEVPost",
-  "url": "https://cnevpost.com/2026/10/21/catl-shares-fall-profit-pressure/",
-  "source2": "",
-  "url2": "",
-  "sources": "CnEVPost",
-  "risk": [
-   {
-    "m": "cell_ev",
-    "k": "price",
-    "s": 1
-   },
-   {
-    "m": "cell_ess",
-    "k": "price",
-    "s": 1
-   }
-  ],
-  "weight": 3,
-  "impact": [
-   {
-    "k": "cost",
-    "s": -1
-   }
-  ],
-  "seg": "Batteries",
-  "so": "China's new battery tax and the end of export rebates on 1 Jan 2027 raise the cost of Chinese cells for importers by several percent."
- },
- {
   "id": "n46",
   "date": "2026-10-21",
   "day": "21 Oct",
@@ -3436,33 +3087,6 @@
   ],
   "seg": "Batteries",
   "so": "Long cathode supply deals in China: cathode makers locking in demand."
- },
- {
-  "id": "n51",
-  "date": "2026-10-21",
-  "day": "21 Oct",
-  "headline": "Tata Power's strategy head says Indian standalone BESS tariffs have fallen more than 80% since 2022, against about 40% for packs; analysts see up to three-quarters of awarded 2-hour capacity at risk",
-  "category": "India BESS",
-  "effect": "Execution risk",
-  "direction": "down",
-  "source": "Energy-Storage.News",
-  "url": "https://www.energy-storage.news/indias-energy-storage-market-bridging-the-gap-between-tenders-and-execution/",
-  "source2": "",
-  "url2": "",
-  "sources": "Energy-Storage.News",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 0
-   },
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Indian storage tariffs have fallen over 80% since 2022 and many awarded projects may not be built: a growing market on very thin prices."
  },
  {
   "id": "n15",
@@ -3495,29 +3119,6 @@
   "so": "Lithium edging down: no change yet."
  },
  {
-  "id": "n14",
-  "date": "2026-10-20",
-  "day": "20 Oct",
-  "headline": "CATL launches a swappable 'dual-electric' battery system for heavy trucks (432–513 kWh main pack plus 77 kWh backup) and targets 900 swap stations by end-2026",
-  "category": "Packs & BMS",
-  "effect": "E-truck demand up",
-  "direction": "up",
-  "source": "CarNewsChina",
-  "url": "https://carnewschina.com/2026/10/20/catl-launches-dual-electric-range-extender-to-drive-heavy-duty-truck-electrification/",
-  "source2": "",
-  "url2": "",
-  "sources": "CarNewsChina",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "seg": "CVs",
-  "so": "CATL's swappable heavy-truck batteries: a model for e-truck freight that could reach India."
- },
- {
   "id": "n13",
   "date": "2026-10-20",
   "day": "20 Oct",
@@ -3546,116 +3147,6 @@
   ],
   "seg": "Batteries",
   "so": "CATL's profit miss (headline only): competition among cell makers stays strong."
- },
- {
-  "id": "n58",
-  "date": "2026-10-19",
-  "day": "19 Oct",
-  "headline": "Vikram Solar unit VSL PowerHive plans a 7.5 GWh/yr BESS assembly plant near Chennai (scalable to 15 GWh), operating from April 2027, with 7.5 GWh of cell making planned from 2028",
-  "category": "India BESS",
-  "effect": "More local supply",
-  "direction": "down",
-  "source": "ESS News",
-  "url": "https://www.ess-news.com/2026/10/19/vikram-solar-subsidiary-plans-7-5-gwh-bess-assembly-plant-in-india/",
-  "source2": "",
-  "url2": "",
-  "sources": "ESS News",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "supply",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A 7.5 GWh storage plant near Chennai from 2027, with cell-making from 2028: more local capacity, and a possible local cell source."
- },
- {
-  "id": "n01",
-  "date": "2026-10-19",
-  "day": "19 Oct",
-  "headline": "MAHAGENCO tenders 500 MW / 1.6 GWh of battery storage, build-own-operate; bids due 5 Nov",
-  "effect": "India demand up",
-  "direction": "up",
-  "sources": "Saur Energy",
-  "source": "Saur Energy",
-  "url": "https://www.saurenergy.com/solar-energy-news/maharashtra-genco-issues-500-mw16-gwh-bess-tender-under-boo-model-12688135",
-  "source2": "",
-  "url2": "",
-  "category": "India BESS",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Maharashtra tenders 1.6 GWh of storage: more demand; bids due 5 Nov."
- },
- {
-  "id": "n04",
-  "date": "2026-10-16",
-  "day": "16 Oct",
-  "headline": "CNNC awards a 2.98 GWh storage framework at about $66–70/kWh; Sungrow and CATL among five winners",
-  "effect": "System price down",
-  "direction": "down",
-  "sources": "SMM",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/104162262-energy-storage-sungrow-catl-among-five-winners-of-cnnc-298gwh-storage-procurement",
-  "source2": "",
-  "url2": "",
-  "category": "Energy storage",
-  "risk": [
-   {
-    "m": "cell_ess",
-    "k": "price",
-    "s": -1
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A big Chinese storage award at $66–70/kWh: confirms low system prices, a benchmark for imported systems."
- },
- {
-  "id": "n03",
-  "date": "2026-10-16",
-  "day": "16 Oct",
-  "headline": "China September storage awards: 4-hour systems down 12% to about $70/kWh",
-  "effect": "System price down",
-  "direction": "down",
-  "sources": "TrendForce",
-  "source": "TrendForce",
-  "url": "https://www.energytrend.com/research/20261016-52306.html",
-  "source2": "",
-  "url2": "",
-  "category": "Energy storage",
-  "risk": [
-   {
-    "m": "cell_ess",
-    "k": "price",
-    "s": -2
-   }
-  ],
-  "weight": 2,
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Chinese 4-hour storage awards fell 12% in a month to about $70/kWh: imported system costs keep falling."
  },
  {
   "id": "n38",
@@ -3751,81 +3242,6 @@
   ],
   "seg": "Batteries",
   "so": "Lithium slumped 14% in a week (headline only): cell costs easing."
- },
- {
-  "id": "n75",
-  "date": "2026-10-23",
-  "day": "23 Oct",
-  "headline": "Tata Motors (commercial vehicles) Q2: wholesale volumes up 42% to about 135,100, revenue up 36% and back in profit; exports up 177%. Its Iveco takeover offer closes 26 Oct, with settlement planned for 30 Oct",
-  "category": "E-buses & e-trucks",
-  "effect": "Rival scaling up",
-  "direction": "flat",
-  "source": "Business Today",
-  "url": "https://businesstoday.in/markets/stocks/story/tata-motors-q2-net-profit-at-rs-1257-crore-revenue-up-36-shares-update-on-iveco-deal-563321-2026-10-23",
-  "source2": "",
-  "url2": "",
-  "sources": "Business Today",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "CVs",
-  "so": "Tata Motors' truck volumes up 42% and profitable again: India's truck market is strong."
- },
- {
-  "id": "n76",
-  "date": "2026-10-20",
-  "day": "20 Oct",
-  "headline": "Andhra Pradesh (APPCC) tenders 1,250 MW / 5 GWh of standalone battery storage at three sites, build-own-operate; bids due 23 Nov",
-  "category": "India BESS",
-  "effect": "India demand up",
-  "direction": "up",
-  "source": "Powerpeak Digest",
-  "url": "https://powerpeakdigest.com/renewable-energy-tenders-october-2026/",
-  "source2": "",
-  "url2": "",
-  "sources": "Powerpeak Digest",
-  "alert": true,
-  "alert_reason": "5 GWh Andhra storage tender",
-  "short": "Andhra Pradesh tenders 5 GWh of standalone battery storage",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Andhra Pradesh tenders 5 GWh of storage: a large new market; bids due 23 Nov."
- },
- {
-  "id": "n77",
-  "date": "2026-10-20",
-  "day": "20 Oct",
-  "headline": "Telangana (TGREDCO) tenders 3 GW of solar with 1 GW / 6 GWh of energy storage, bids due 4 Nov; TGGENCO's 187.5 MW / 750 MWh Maheswaram storage tender closed 19 Oct",
-  "category": "India BESS",
-  "effect": "India demand up",
-  "direction": "up",
-  "source": "Powerpeak Digest",
-  "url": "https://powerpeakdigest.com/renewable-energy-tenders-october-2026/",
-  "source2": "",
-  "url2": "",
-  "sources": "Powerpeak Digest",
-  "alert": true,
-  "alert_reason": "6 GWh Telangana storage tender",
-  "short": "Telangana tenders 3 GW of solar with 6 GWh of storage",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Telangana tenders 6 GWh of storage with solar: a large new market."
  },
  {
   "id": "n81",

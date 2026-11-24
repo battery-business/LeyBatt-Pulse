@@ -161,17 +161,6 @@
  },
  {
   "date": "2026-11-26",
-  "what": "CESL tender for a battery-swapping and charging operator at JNPA, Navi Mumbai, including e-truck battery swapping with high-capacity charging: tender sale closes",
-  "kind": "India tender",
-  "source": "CESL tenders page",
-  "url": "https://convergence.co.in/tender",
-  "short": "CESL JNPA e-truck swapping tender closes",
-  "weight": 2,
-  "seg": "CVs",
-  "so": "A port e-truck swapping tender: a test of swapping for heavy trucks at India's busiest container port."
- },
- {
-  "date": "2026-11-26",
   "what": "Solaris unveils a new intercity bus in battery-electric and hydrogen versions (pack size not yet disclosed)",
   "kind": "Event",
   "source": "Sustainable Bus",

@@ -3167,7 +3167,7 @@
   }
   function roadSection(box) {
     const rows = ((D.vehicles || {}).rows || []).filter((r) => r.kwh > 0 && r.group !== 'Reference').sort((a, b) => b.kwh - a.kwh);
-    const pick = []; const seen = new Set(); rows.forEach((r) => { const k = r.kwh + r.maker; if (!seen.has(k) && pick.length < 6) { seen.add(k); pick.push(r); } });
+    const pick = []; const seen = new Set(); rows.forEach((r) => { const k = r.kwh + r.maker; if (!seen.has(k) && pick.length < 5) { seen.add(k); pick.push(r); } });
     const g = el('div', 'chp-prices'); box.appendChild(g); let ref = null;
     pick.forEach((r) => {
       const x = cvCells(r.kwh); if (!x) return; ref = x;

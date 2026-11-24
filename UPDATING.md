@@ -139,7 +139,7 @@ The Risk tab's "The next three years" section comes from `data/scenarios.json`, 
 
 ## Morning email
 
-The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) at about 5:15 am IST, built from the data files — the daily run does not send email itself. To make it useful:
+The email is sent by GitHub Actions (`.github/workflows/daily-digest.yml` running `scripts/send_digest.py`) straight after the morning update has been pushed and scored (usually about 4:15 am IST), with backup runs at 5:15 and 7:30 am IST and a marker on the `email-log` branch so it goes out only once a day; it is built from the data files — the daily run does not send email itself. To make it useful:
 - Write `meta.json` `note` as two short plain sentences (under 45 words in all): first the price picture, then the single most important story. It is the preview line people see in their inbox (the email itself opens with "What matters today", built from the `so` lines).
 - On a news item that meets an alert rule, add `"alert": true` and `"alert_reason"` (2–4 words, e.g. "1.6 GWh India tender"). Also add `"short"`: the story in at most 70 characters, own words, plain (e.g. "Andhra Pradesh tenders 5 GWh of standalone battery storage"). It runs in the moving strip under the site header, so it must make sense on its own. Alert rules: an Indian battery-storage tender or award of 1 GWh or more; a change to Indian customs duty, PLI, BIS or battery rules; a Chinese export rebate, export control or tariff change on batteries, cells or lithium; a new product, price cut or large order from a competitor in Indian electric buses, trucks or batteries. Price alerts are worked out by the script.
 

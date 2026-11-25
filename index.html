@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611251300">
+<link rel="stylesheet" href="assets/style.css?v=202611251345">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -275,9 +275,13 @@
     </div>
     <div class="panel pack-panel" id="pack-calc">
       <div class="panel-head"><h2>Battery pack cost calculator</h2><span class="sub">Modelled from today's cell prices; not a quote</span></div>
-      <p class="sub">Pick a use and a cell size: the calculator builds the pack (cells in series and in parallel), prices the cells at today's China market price and adds the parts, assembly, overheads and margin.</p>
+      <p class="sub">Pick an Indian bus or truck, or a typical pack, and a cell size: the calculator builds the pack (cells in series and in parallel), prices the cells at today's China market price and adds the parts, assembly, overheads and margin.</p>
       <div class="bid-controls">
-        <div class="bid-ctl"><span class="lbl">Use</span><div class="seg" id="pk-use" role="group" aria-label="Pack use"></div></div>
+        <label class="bid-ctl pk-model-ctl"><span class="lbl">Indian CV model</span><select id="pk-model" class="pk-sel"></select></label>
+      </div>
+      <p class="pk-model-info" id="pk-model-info" hidden></p>
+      <div class="bid-controls">
+        <div class="bid-ctl"><span class="lbl">Or a typical pack</span><div class="seg" id="pk-use" role="group" aria-label="Typical pack"></div></div>
       </div>
       <div class="bid-controls">
         <label class="bid-ctl"><span class="lbl">Cell</span><select id="pk-cell" class="pk-sel"></select></label>
@@ -461,8 +465,8 @@
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
-<script src="assets/d3.min.js?v=202611251300"></script>
-<script src="assets/app.js?v=202611251300"></script>
-<script src="assets/search.js?v=202611251300"></script>
+<script src="assets/d3.min.js?v=202611251345"></script>
+<script src="assets/app.js?v=202611251345"></script>
+<script src="assets/search.js?v=202611251345"></script>
 </body>
 </html>

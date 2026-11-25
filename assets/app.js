@@ -2510,6 +2510,39 @@
     { k: 'fr_pack', label: 'Freight and handling for a finished pack', min: 0, max: 15, step: 0.1, f: (v) => perK(v) },
     { k: 'bcd_pack', label: 'Customs duty on a finished pack', min: 0, max: 30, step: 0.5, f: (v) => v.toFixed(1) + '%' },
   ];
+  // Indian CV models with a published pack size (Packs & systems tracker): each pack option becomes a choice
+  function pkModels() {
+    const out = [];
+    ((D.vehicles || {}).rows || []).filter((r) => r.group === 'Bus' || r.group === 'Truck').forEach((r) => {
+      const txt = String(r.pack_kwh || r.kwh || ''); const nums = (txt.match(/\d+(\.\d+)?/g) || []).map(Number).filter((n) => n >= 10 && n <= 2000);
+      const opts = [...new Set(nums.length ? nums : (r.kwh ? [r.kwh] : []))];
+      opts.forEach((k) => out.push({ id: `${r.id}@${k}`, r, kwh: k, many: opts.length > 1 }));
+    });
+    return out.sort((a, b) => d3.ascending(a.r.group, b.r.group) || d3.ascending(a.r.maker + a.r.model, b.r.maker + b.r.model) || a.kwh - b.kwh);
+  }
+  const pkTypicalV = (kwh) => (kwh < 60 ? 320 : kwh < 150 ? 350 : 614);
+  function pkPickModel(id) {
+    const m = pkModels().find((x) => x.id === id); if (!m) return;
+    const pm = PM(); const ev = (pm.cells || []).find((c) => c.id === 'ev'); const vc = pm.v_cell || 3.2; const vt = pkTypicalV(m.kwh);
+    // the biggest EV cell (fewest cells) that builds within 2% of the published pack at a voltage within 20% of the usual for its size
+    let best = null;
+    [...(ev.ah_options || [])].sort((x, y) => y - x).some((ah) => { const ck = vc * ah / 1000; for (let P = 1; P <= 20; P++) { const S = Math.round(m.kwh / (P * ck)); const V = S * vc; if (S < 1 || V < vt * 0.8 || V > vt * 1.2) continue; if (Math.abs(S * P * ck - m.kwh) / m.kwh <= 0.02) { best = { ah, S, P }; return true; } } return false; });
+    const v = best ? Math.round(best.S * vc * 10) / 10 : vt;
+    const profile = m.kwh < 150 ? 'light' : 'cv';
+    Object.assign(PK, { use: null, model: id, kwh: m.kwh, v, autoV: v, cell: 'ev', ah: best ? best.ah : ev.default_ah, p: best ? best.P : null });
+    const keep = { fr_cells: PK.d0.fr_cells, fr_pack: PK.d0.fr_pack };
+    PK.d0 = { ...(pm.defaults || {}), ...keep, ...((pm.profiles || {})[profile] || {}) }; PK.d0.bcd_pack = PK.d0.bcd_pack_ev; PK.d = { ...PK.d0 };
+    $('#pk-kwh').value = PK.kwh; $('#pk-v').value = PK.v; renderPack();
+  }
+  function pkModelInfo() {
+    const box = $('#pk-model-info'); if (!box) return; box.replaceChildren();
+    const m = PK.model && pkModels().find((x) => x.id === PK.model); box.hidden = !m; if (!m) return;
+    const r = m.r; const bits = [`published pack ${r.pack_kwh || r.kwh} kWh`]; if (r.chemistry) bits.push(r.chemistry); if (r.cell_supplier) bits.push('cells: ' + r.cell_supplier); if (r.charging) bits.push(r.charging); if (r.range_km) { const rk = String(r.range_km); bits.push('range ' + rk.charAt(0).toLowerCase() + rk.slice(1) + (/\d\+?$/.test(rk) ? ' km' : '')); }
+    box.append(el('b', null, `${r.maker} ${r.model}`), document.createTextNode(` (${r.type}): ${bits.join(' · ')}. `), link(r.source, r.url));
+    const nb = []; if (PK.kwh === m.kwh && PK.v === PK.autoV) nb.push(`The pack voltage and cell size are not published here, so the calculator picks the biggest EV cell that builds within 2% of ${m.kwh} kWh at a usual voltage for a pack this size (${Math.round(PK.v)} V). Change either above.`);
+    if (/NMC/i.test(r.chemistry || '')) nb.push('This model uses NMC cells; the calculator prices LFP cells, so its result is for an LFP pack of the same size.');
+    if (nb.length) box.appendChild(el('span', 'pk-model-note', ' ' + nb.join(' ')));
+  }
   function pkCellPrice(id) {
     const w = weekly(); const last = w[w.length - 1] || {};
     const card = (k) => (D.latest || []).find((r) => r.id === k) || {};
@@ -2572,9 +2605,13 @@
     // presets
     const ps = $('#pk-use'); ps.replaceChildren();
     (pm.presets || []).forEach((x) => { const b = el('button', null, x.label); b.type = 'button'; b.dataset.id = x.id; b.addEventListener('click', () => pkPreset(x.id)); ps.appendChild(b); });
+    const ms = $('#pk-model'); ms.replaceChildren(); const o0 = el('option', null, 'Choose a model, or use the settings below'); o0.value = ''; ms.appendChild(o0);
+    const grp = {}; pkModels().forEach((m) => { const g = m.r.group === 'Bus' ? 'Electric buses' : 'Electric trucks'; if (!grp[g]) { grp[g] = el('optgroup'); grp[g].label = g; ms.appendChild(grp[g]); } const o = el('option', null, `${m.r.maker} ${m.r.model} · ${m.kwh} kWh`); o.value = m.id; grp[g].appendChild(o); });
+    ms.addEventListener('change', () => { if (ms.value) pkPickModel(ms.value); else { PK.model = null; renderPack(); } });
     const cs = $('#pk-cell'); cs.replaceChildren();
     (pm.cells || []).forEach((c) => { const o = el('option', null, c.ah ? c.label : c.label + ' (pick the size)'); o.value = c.id; cs.appendChild(o); });
     cs.addEventListener('change', () => { PK.cell = cs.value; PK.p = null; renderPack(); });
+    ['#pk-kwh', '#pk-v'].forEach((q) => $(q).addEventListener('change', () => { if (PK.model) { PK.model = null; renderPack(); } }));
     const as = $('#pk-ah'); as.addEventListener('change', () => { PK.ah = +as.value; PK.p = null; renderPack(); });
     $('#pk-kwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { PK.kwh = v; PK.p = null; renderPack(); } });
     $('#pk-v').addEventListener('input', (e) => { const v = +e.target.value; if (v >= 12) { PK.v = v; PK.p = null; renderPack(); } });
@@ -2604,7 +2641,7 @@
   }
   function pkPreset(id) {
     const x = (PM().presets || []).find((p) => p.id === id); if (!x) return;
-    Object.assign(PK, { use: id, kwh: x.kwh, v: x.v, cell: x.cell, ah: x.ah || PK.ah, p: null });
+    Object.assign(PK, { use: id, model: null, kwh: x.kwh, v: x.v, cell: x.cell, ah: x.ah || PK.ah, p: null });
     const pm = PM(); const keep = { fr_cells: PK.d0.fr_cells, fr_pack: PK.d0.fr_pack };
     PK.d0 = { ...(pm.defaults || {}), ...keep, ...((pm.profiles || {})[x.profile] || {}) };
     PK.d0.bcd_pack = x.use === 'ess' ? PK.d0.bcd_pack_ess : PK.d0.bcd_pack_ev; PK.d = { ...PK.d0 };
@@ -2615,7 +2652,7 @@
     if (!PK.built) buildPack();
     const st = PK; const cell = (pm.cells || []).find((c) => c.id === st.cell) || pm.cells[0];
     $$('#pk-use button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === st.use)));
-    $('#pk-cell').value = st.cell;
+    $('#pk-cell').value = st.cell; $('#pk-model').value = st.model || ''; pkModelInfo();
     const as = $('#pk-ah'); const ahWrap = $('#pk-ah-wrap');
     if (cell.ah_options) { ahWrap.hidden = false; if (!cell.ah_options.includes(st.ah)) st.ah = cell.default_ah; as.replaceChildren(); cell.ah_options.forEach((a) => { const o = el('option', null, a + ' Ah'); o.value = a; as.appendChild(o); }); as.value = st.ah; } else ahWrap.hidden = true;
     if (+$('#pk-kwh').value !== st.kwh) $('#pk-kwh').value = st.kwh; if (+$('#pk-v').value !== st.v) $('#pk-v').value = st.v;

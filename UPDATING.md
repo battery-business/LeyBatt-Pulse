@@ -13,7 +13,7 @@ A daily update changes only the files in `data/`. Do not change the page layout 
 - **Public market data only.** Nothing internal about the site owner's company: no supplier negotiation notes, no internal programme details (bids, customers, targets). Public news about any company is fine.
 - **Every number needs a working source link** (`source` + `url`). Only add a figure you read on a page you opened. Search snippets alone are not enough.
 - **Never invent or interpolate.** If a source has not published since the last update, leave the old row; its date shows it is older.
-- **Summarise news in your own words.** Never copy article text. Bloomberg is usually readable only as a headline: summarise the headline and link it.
+- **Summarise news in your own words.** Never copy article text. Bloomberg is paywalled, and no one's Bloomberg login is ever used. For a Bloomberg story worth adding: (1) search its exact headline for a free, complete republication that credits Bloomberg (Energy Connects and BusinessMirror both carry Bloomberg News stories; any site is fine if the page says the story is from Bloomberg). If you open one, summarise from it, link that page and set source to "Bloomberg via <site>". (2) If there is none, summarise the headline and the short summary Bloomberg itself shows in search results, link the bloomberg.com article and add "(Bloomberg summary only)". (3) Stories Aniket pastes in from his own subscription are summarised in own words only, never quoted, and linked to bloomberg.com; set "via": "subscriber" on them.
 - If an article cannot be opened, add "(headline only, not verified)" to the headline.
 
 ## Sources to check each weekday

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611251345">
+<link rel="stylesheet" href="assets/style.css?v=202611251845">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -334,13 +334,13 @@
   <section class="page" id="page-calculator" data-page="calculator" hidden>
     <div class="panel calc-head">
       <div class="panel-head">
-        <h2>Battery cost calculator</h2>
+        <h2>Automotive cell cost calculator</h2>
         <div class="seg mode" id="calc-mode" role="group" aria-label="Calculator mode">
           <button type="button" data-mode="simple" aria-pressed="true">Simple</button>
           <button type="button" data-mode="detail" aria-pressed="false">Detailed</button>
         </div>
       </div>
-      <p class="sub">What would a storage cell and a 4-hour storage system cost if raw-material prices moved? Everything starts at today's prices. Estimates from public data, not quotes.</p>
+      <p class="sub">What would an automotive LFP cell (the prismatic EV cell used in e-buses and e-trucks) and a CV battery pack cost if raw-material prices moved? Everything starts at today's prices. Estimates from public data, not quotes.</p>
       <div class="chips scen chips-scroll" id="calc-scen"></div>
       <div class="controls">
         <button class="btn small" type="button" id="calc-share">Copy link to this scenario</button>
@@ -355,10 +355,12 @@
         <div class="panel-head"><h2>Change the prices</h2></div>
         <div id="cs-inputs"></div>
         <div class="proj">
-          <label class="lbl" for="cs-mwh">Project size</label>
-          <input class="num-in" type="number" id="cs-mwh" min="1" max="100000" step="1" value="100"> <span class="lbl">MWh</span>
+          <label class="lbl" for="cs-kwh">Pack</label>
+          <input class="num-in" type="number" id="cs-kwh" min="1" max="2000" step="1" value="450"> <span class="lbl">kWh</span>
+          <label class="lbl" for="cs-n">Vehicles</label>
+          <input class="num-in" type="number" id="cs-n" min="1" max="100000" step="1" value="100">
         </div>
-        <label class="check"><input type="checkbox" id="cs-india"> Importing into India? Add customs duty (10% plus surcharge)</label>
+        <label class="check"><input type="checkbox" id="cs-india"> Building packs in India with imported cells? Add freight and customs duty on the cells (5% plus surcharge)</label>
       </div>
       <div class="panel">
         <div class="panel-head"><h2>What it costs</h2></div>
@@ -378,20 +380,22 @@
 
       <div class="calc-out">
         <div class="panel">
-          <div class="panel-head"><h2>314 Ah storage cell, US$ per kWh, excluding VAT</h2></div>
+          <div class="panel-head"><h2>Automotive LFP cell, US$ per kWh, excluding VAT</h2></div>
           <div class="kpis" id="calc-kpis"></div>
           <div class="stackbar" id="calc-stack" aria-label="Cell cost by component"></div>
           <div class="legend" id="calc-legend"></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><h2>Storage system and your project</h2></div>
+          <div class="panel-head"><h2>Battery pack and your fleet</h2></div>
           <div class="proj">
-            <label class="lbl" for="calc-mwh">Project size</label>
-            <input class="num-in" type="number" id="calc-mwh" min="1" max="100000" step="1" value="100"> <span class="lbl">MWh</span>
+            <label class="lbl" for="calc-kwh">Pack</label>
+            <input class="num-in" type="number" id="calc-kwh" min="1" max="2000" step="1" value="450"> <span class="lbl">kWh</span>
+            <label class="lbl" for="calc-n">Vehicles</label>
+            <input class="num-in" type="number" id="calc-n" min="1" max="100000" step="1" value="100">
           </div>
           <div id="calc-sys"></div>
           <details class="india" id="calc-india-box" open>
-            <summary>If you import it into India</summary>
+            <summary>If you import the cells into India and build the packs there</summary>
             <div class="india-inputs" id="calc-india-in"></div>
             <div id="calc-india"></div>
           </details>
@@ -465,8 +469,8 @@
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
-<script src="assets/d3.min.js?v=202611251345"></script>
-<script src="assets/app.js?v=202611251345"></script>
-<script src="assets/search.js?v=202611251345"></script>
+<script src="assets/d3.min.js?v=202611251845"></script>
+<script src="assets/app.js?v=202611251845"></script>
+<script src="assets/search.js?v=202611251845"></script>
 </body>
 </html>

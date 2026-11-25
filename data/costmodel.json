@@ -85,5 +85,51 @@
    "source": "CnEVPost",
    "url": "https://cnevpost.com/2026/10/12/china-cuts-nev-export-tax-rebates/"
   }
- ]
+ ],
+ "auto": {
+  "about": "Automotive (EV prismatic LFP) cell, as used in e-buses and e-trucks. Starts from the storage-cell model above and changes only what has a public basis or a stated assumption.",
+  "ref_ah": 314,
+  "default_ah": 280,
+  "case_per_cell_share": 0.7,
+  "mfg_per_cell_share": 0.5,
+  "cathode_premium_usd_t": 224,
+  "graphite_usd_t": 4403,
+  "bcd_pct": 5,
+  "fleet_kwh": 450,
+  "fleet_n": 100,
+  "notes": [
+   {
+    "what": "EV-grade cathode",
+    "text": "Power-type (EV) LFP cathode sold for about CNY 1,500/t more than energy-storage-type LFP in early October 2026 (CNY 50,500 against 49,000/t). The calculator adds that gap, about $224/t including VAT, to the cathode processing fee.",
+    "source": "Mysteel, Oct 2026",
+    "url": "https://www.mysteel.net/analysis/5143303-china-lfp-maintains-momentum-during-holiday-full-production-and-active-supply-demand-dynamics"
+   },
+   {
+    "what": "EV-grade graphite",
+    "text": "Automotive cells use mid-grade artificial graphite: TrendForce's average was CNY 29,500/t (7 Aug 2026), about $4,400/t including VAT, against the storage-grade price used for storage cells. This price is not live; it changes only when the file is updated.",
+    "source": "TrendForce battery prices",
+    "url": "https://www.trendforce.com/price/battery-price/other"
+   },
+   {
+    "what": "Smaller cells",
+    "text": "Automotive LFP cells are usually smaller than 314 Ah storage cells, so more cells go into each kWh. The calculator assumes 70% of the cell case and parts cost and 50% of the manufacturing cost are per cell (the rest per kWh), and scales them from SMM's 314 Ah model to the cell size you pick. These two shares are the site's assumption, not published figures."
+   },
+   {
+    "what": "Market price and margin",
+    "text": "The market price is TrendForce's average for EV prismatic LFP cells (one price for all sizes, China, excluding VAT). The maker margin is set so the modelled cell price matches it at the starting cell size."
+   },
+   {
+    "what": "Rest of the pack",
+    "text": "Starts at the battery pack calculator's figure for a heavy e-truck pack (Bidding desk): BMS, high-voltage box, cell connections, holders, cooling, enclosure, wiring, assembly, scrap, overhead and margin. Those part costs are modelled, checked against BloombergNEF's 2025 pack prices."
+   },
+   {
+    "what": "India import duty",
+    "text": "Lithium-ion cells imported to make EV battery packs pay 5% basic customs duty (Notification 45/2025-Customs, S.No. 321, extended to 31 March 2028 in the Union Budget 2026-27), plus the 10% social welfare surcharge on the duty. IGST is left out because it can usually be claimed back.",
+    "source": "Notification 45/2025-Customs (CAalley copy)",
+    "url": "https://www.caalley.com/cus25/cst-45-2025.pdf",
+    "source2": "EY, Union Budget 2026-27 highlights",
+    "url2": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-in/services/tax/union-budget-2026/ey-union-budget-2026-27-highlights.pdf"
+   }
+  ]
+ }
 }

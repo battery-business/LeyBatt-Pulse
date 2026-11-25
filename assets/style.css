@@ -1772,3 +1772,5 @@ button.hl-brief[aria-expanded="true"]::after { content: ' ▴'; }
 .pk-model-ctl .pk-sel { width: 100%; max-width: 560px; }
 .pk-model-info { margin: 2px 0 10px; padding: 10px 14px; border-radius: 12px; background: var(--soft); font-size: 13.5px; line-height: 1.5; border-left: 3px solid var(--teal); }
 .pk-model-info .pk-model-note { color: var(--muted); }
+#cs-kwh, #cs-n, #calc-kwh, #calc-n { width: 96px; }
+.proj label.lbl + .num-in { margin-right: 2px; }

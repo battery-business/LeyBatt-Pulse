@@ -901,10 +901,11 @@
     { k: 'sep', g: 'Anode, electrolyte, separator', label: 'Separator', min: 0.08, max: 0.5, step: 0.005, f: (v) => fmt2(v) + '/m²' },
     { k: 'cu', g: 'Metals for the foils', label: 'Copper', min: 7000, max: 22000, step: 10, f: perT },
     { k: 'al', g: 'Metals for the foils', label: 'Aluminium', min: 1500, max: 5000, step: 10, f: perT },
-    { k: 'mfg', g: 'Making the cell', label: 'Manufacturing cost', min: 2, max: 12, step: 0.1, f: perK },
+    { k: 'ah', g: 'Making the cell', label: 'Cell size', min: 50, max: 340, step: 1, f: (v) => Math.round(v) + ' Ah', set: (v) => setAh(v) },
+    { k: 'mfg', g: 'Making the cell', label: 'Manufacturing cost', min: 2, max: 14, step: 0.1, f: perK },
     { k: 'yld', g: 'Making the cell', label: 'Production yield', min: 85, max: 99.5, step: 0.5, f: (v) => v.toFixed(1) + '%' },
-    { k: 'margin', g: 'Cell price and storage system', label: 'Cell maker margin', min: -15, max: 20, step: 0.1, f: (v) => fmtSigned(v) + '/kWh' },
-    { k: 'ros', g: 'Cell price and storage system', label: 'Rest of the system (PCS, container, cooling, fire, BMS/EMS, integration)', min: 5, max: 60, step: 0.1, f: perK },
+    { k: 'margin', g: 'Cell price and battery pack', label: 'Cell maker margin', min: -15, max: 20, step: 0.1, f: (v) => fmtSigned(v) + '/kWh' },
+    { k: 'ros', g: 'Cell price and battery pack', label: 'Rest of the pack (BMS, high-voltage box, cooling, enclosure, assembly, margin)', min: 5, max: 80, step: 0.1, f: perK },
   ];
   const ADV = [
     { k: 'cath_kg', label: 'LFP cathode per kWh', min: 1.8, max: 2.6, step: 0.01, f: (v) => v.toFixed(2) + ' kg' },
@@ -916,11 +917,11 @@
     { k: 'cu_fee', label: 'Copper foil processing fee', min: 1000, max: 6000, step: 10, f: perT },
     { k: 'al_fee', label: 'Aluminium foil processing fee', min: 500, max: 4000, step: 10, f: perT },
     { k: 'aux', label: 'Other cell materials (binders, carbon, solvent)', min: 0.5, max: 4, step: 0.1, f: perK },
-    { k: 'struct', label: 'Cell case and parts', min: 1, max: 6, step: 0.1, f: perK },
-    { k: 'ratio', label: 'kWh of cells per kWh of system', min: 0.9, max: 1.4, step: 0.01, f: (v) => v.toFixed(2) },
+    { k: 'struct', label: 'Cell case and parts', min: 1, max: 8, step: 0.1, f: perK },
+    { k: 'ratio', label: 'kWh of cells per kWh of pack', min: 0.95, max: 1.2, step: 0.01, f: (v) => v.toFixed(2) },
   ];
   const INDIA = [
-    { k: 'freight', label: 'Freight and insurance to India', min: 0, max: 15, step: 0.1, f: perK },
+    { k: 'freight', label: 'Freight and insurance for cells to India', min: 0, max: 15, step: 0.1, f: perK },
     { k: 'bcd', label: 'Basic customs duty', min: 0, max: 40, step: 0.5, f: (v) => v.toFixed(1) + '%' },
   ];
   const SPECS = [...INPUTS, ...ADV, ...INDIA];
@@ -941,6 +942,38 @@
     ['Cell case, other materials, manufacturing, yield loss', '--muted', ['aux', 'struct', 'loss', 'mfg']],
   ];
   const r1 = (v) => Math.round(v * 10) / 10;
+  // automotive cells: case/parts and part of manufacturing are per cell, so they scale with how many cells make a kWh
+  const AU = () => CM().auto || {};
+  const ahFactor = (ah, share) => (1 - share) + share * ((AU().ref_ah || 314) / Math.max(20, ah));
+  function setAh(v) {
+    const a = AU(); const old = S.calc.ah || a.default_ah || 280; const nv = v || S.calcBase.ah;
+    S.calc.struct = +(S.calc.struct * ahFactor(nv, a.case_per_cell_share ?? 0.7) / ahFactor(old, a.case_per_cell_share ?? 0.7)).toFixed(4);
+    S.calc.mfg = +(S.calc.mfg * ahFactor(nv, a.mfg_per_cell_share ?? 0.5) / ahFactor(old, a.mfg_per_cell_share ?? 0.5)).toFixed(4);
+    S.calc.ah = nv;
+  }
+  const evMarket = () => { const e = [...((D.evcells || {}).series || [])].sort((a, b) => d3.ascending(a.date, b.date)).pop() || {}; return { v: +e.usd_kwh, date: e.date, src: e.source || 'TrendForce', url: e.url }; };
+  // pack calculator's heavy e-truck preset: what the rest of the pack adds per kWh
+  function restOfPack() {
+    try {
+      const pm = D.packmodel || {}; const pr = (pm.presets || []).find((x) => x.id === 'truck') || {};
+      const d = { ...(pm.defaults || {}), ...((pm.profiles || {})[pr.profile] || {}) };
+      const r = packCalc({ kwh: pr.kwh || 450, v: pr.v || 691, cell: 'ev', ah: pr.ah || 324, p: null, d });
+      return { v: r.nonCell, kwh: r.kwh, ah: r.cell.ah };
+    } catch (e) { return { v: 36 }; }
+  }
+  function calcBaseEV() {
+    const a = AU(); const b = calcBase();
+    b.proc = (b.proc || 0) + (a.cathode_premium_usd_t || 0);
+    if (a.graphite_usd_t) b.gr = a.graphite_usd_t;
+    b.ah = a.default_ah || 280;
+    b.struct = +(b.struct * ahFactor(b.ah, a.case_per_cell_share ?? 0.7)).toFixed(4);
+    b.mfg = +(b.mfg * ahFactor(b.ah, a.mfg_per_cell_share ?? 0.5)).toFixed(4);
+    b.bcd = a.bcd_pct ?? 5; b.ratio = 1; b.freight = ((D.landed || {}).freight_usd_kwh || {}).cells ?? 1;
+    b.kwh = a.fleet_kwh || 450; b.nveh = a.fleet_n || 100; delete b.mwh;
+    const m = evMarket(); b.margin = +(m.v - cellCost(b).total).toFixed(4);
+    b.ros = r1(restOfPack().v);
+    return b;
+  }
 
   function cellCost(s) {
     const cm = CM(); const lc = cm.lc_per_t_lfp || 0.24, fe = cm.fepo4_per_t_lfp || 0.96;
@@ -980,14 +1013,17 @@
     const cm = CM(); const w = weekly(); const last = w[w.length - 1]; const sp = spotPts(); const li = sp[sp.length - 1];
     const note = (i) => (cm.notes || [])[i] || {};
     const raw = (name) => { const r = rawRow(name); return [`Latest ${r.price} · ${r.source}, ${r.asof}`, r.url]; };
+    const auN = (w) => (AU().notes || []).find((n) => n.what === w);
     return {
       li: [`Latest ${fmtUsd0(li.v)}/t · ${li.source}, ${shortDay(li.d)}`, li.url],
-      fe: raw('Iron phosphate'), gr: raw('Graphite anode'), el: raw('LFP electrolyte'), sep: raw('Separator'), cu: raw('Copper'), al: raw('Aluminium'),
-      proc: ['SMM cathode price less its lithium and iron phosphate, 15 Oct', note(2).url],
+      fe: raw('Iron phosphate'), el: raw('LFP electrolyte'), sep: raw('Separator'), cu: raw('Copper'), al: raw('Aluminium'),
       mfg: ['SMM cell cost model assumption', note(4).url], yld: ['SMM cell cost model assumption', note(4).url],
-      margin: [`Set so the cell price matches InfoLink's ${fmtUsd1(last.cell314)}/kWh (${shortDay(parse(last.date))})`, last.url],
-      ros: [`InfoLink 4-hour system ${fmtUsd1(last.ac_4h)} minus cell ${fmtUsd1(last.cell314)}, ${shortDay(parse(last.date))}`, last.url],
-      freight: ['Add your own quote', null], bcd: ['Concessional rate for storage systems (Mercom, 12 Oct)', note(6).url],
+      margin: [`Set so the cell price matches TrendForce's EV cell average, ${fmtUsd1(evMarket().v)}/kWh (${evMarket().date ? shortDay(parse(evMarket().date)) : ''})`, evMarket().url],
+      ros: [`Battery pack calculator, heavy e-truck pack (${Math.round(restOfPack().kwh || 450)} kWh, ${restOfPack().ah || 324} Ah cells); modelled`, null],
+      proc: ['SMM storage-grade fee plus the EV-grade cathode premium (Mysteel, Oct 2026)', (auN('EV-grade cathode') || {}).url],
+      gr: ['Mid-grade artificial graphite, TrendForce average, 7 Aug 2026', (auN('EV-grade graphite') || {}).url],
+      ah: ['Smaller cells mean more cells per kWh: the case, parts and part of manufacturing scale with it', null],
+      freight: [`About US$1/kWh by sea from China (${((D.landed || {}).freight_usd_kwh || {}).source || 'freight guide'}); add your own quote`, ((D.landed || {}).freight_usd_kwh || {}).url || null], bcd: ['5% for cells used to make EV packs (Notification 45/2025, S.No. 321)', (auN('India import duty') || {}).url],
     };
   }
   function hashParams() {
@@ -1006,7 +1042,7 @@
     const id = prefix + '-' + spec.k; const lab = el('label'); lab.htmlFor = id;
     const name = el('span', 'nm', spec.label); const out = el('output'); out.id = id + '-out';
     const rs = el('button', 'reset-one', '↺'); rs.type = 'button'; rs.title = 'Back to the latest value'; rs.setAttribute('aria-label', 'Reset ' + spec.label);
-    rs.addEventListener('click', (e) => { e.preventDefault(); if (spec.set) spec.set(0); else S.calc[spec.k] = S.calcBase[spec.k]; S.scen = null; renderCalc(); });
+    rs.addEventListener('click', (e) => { e.preventDefault(); if (spec.set) spec.set(spec.base != null ? spec.base : S.calcBase[spec.k]); else S.calc[spec.k] = S.calcBase[spec.k]; S.scen = null; renderCalc(); });
     const right = el('span', 'val'); right.append(out, rs);
     lab.append(name, right);
     const inp = el('input'); inp.type = 'range'; inp.id = id;
@@ -1031,10 +1067,9 @@
     INDIA.forEach((spec) => ib.appendChild(calcField(spec, hints)));
     const rl = el('label', 'check'); const cb = el('input'); cb.type = 'checkbox'; cb.id = 'calc-rebate';
     cb.addEventListener('change', () => { S.calc.rebate = cb.checked ? (CM().export_rebate_pct || 6) : 0; S.scen = null; renderCalc(); });
-    rl.append(cb, document.createTextNode(` China ends its ${CM().export_rebate_pct || 6}% battery export rebate (due 1 Jan 2027), passed on in full`));
+    rl.append(cb, document.createTextNode(` China ends its ${CM().export_rebate_pct || 6}% battery export rebate (due 1 Jan 2027), passed on in full on the cells`));
     ib.appendChild(rl);
-    $('#calc-mwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc.mwh = v; renderCalc(); } });
-    $('#cs-mwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc.mwh = v; renderCalc(); } });
+    [['#calc-kwh', 'kwh'], ['#cs-kwh', 'kwh'], ['#calc-n', 'nveh'], ['#cs-n', 'nveh']].forEach(([q, k]) => $(q).addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { S.calc[k] = v; renderCalc(); } }));
     const csi = $('#cs-inputs'); csi.replaceChildren();
     const sh = { ...hints, oth: ['Moves all of them together from today\'s prices', null] };
     SIMPLE.forEach((spec) => csi.appendChild(calcField(spec, sh, 'cs')));
@@ -1055,10 +1090,10 @@
     const sc = $('#calc-scen'); sc.replaceChildren();
     scen.forEach(([id, lab, ch]) => {
       const btn = el('button', null, lab); btn.type = 'button'; btn.dataset.id = id; btn.style.setProperty('--cc', css('--teal'));
-      btn.addEventListener('click', () => { S.calc = { ...S.calcBase, mwh: S.calc.mwh, freight: S.calc.freight, ...ch }; S.scen = id; renderCalc(); if (id === 'rebate') $('#calc-india-box').open = true; });
+      btn.addEventListener('click', () => { S.calc = { ...S.calcBase, kwh: S.calc.kwh, nveh: S.calc.nveh, freight: S.calc.freight, ...ch }; S.scen = id; renderCalc(); if (id === 'rebate') $('#calc-india-box').open = true; });
       sc.appendChild(btn);
     });
-    $('#calc-reset').addEventListener('click', () => { S.calc = { ...S.calcBase }; S.scen = 'latest'; $('#calc-mwh').value = S.calc.mwh; renderCalc(); });
+    $('#calc-reset').addEventListener('click', () => { S.calc = { ...S.calcBase }; S.scen = 'latest'; renderCalc(); });
     $('#calc-share').addEventListener('click', () => {
       syncHash(); const url = location.href; const msg = $('#calc-share-msg');
       const done = () => { msg.textContent = 'Link copied. Anyone who opens it sees this scenario.'; };
@@ -1067,11 +1102,11 @@
     });
     // method notes
     const ul = $('#calc-method'); ul.replaceChildren();
-    const li0 = el('li'); li0.append(el('b', null, 'Formula. '), document.createTextNode('Cell cost = (materials + cell case) ÷ yield + manufacturing. Cell price = cell cost + maker margin. System = cell price × kWh of cells per kWh + rest of system. China prices include 13% VAT and the model removes it; copper and aluminium are international prices without VAT. Figures are per kWh of cell or system.'));
+    const li0 = el('li'); li0.append(el('b', null, 'Formula. '), document.createTextNode('Cell cost = (materials + cell case) ÷ yield + manufacturing. Cell price = cell cost + maker margin. Pack = cell price × kWh of cells per kWh of pack + rest of the pack. China prices include 13% VAT and the model removes it; copper and aluminium are international prices without VAT. Figures are per kWh of cell or pack, in US$. The model starts from SMM\u2019s 314 Ah storage-cell cost model and changes the cathode grade, the graphite grade and the cell size for an automotive cell; the notes below say how.'));
     ul.appendChild(li0);
-    (cm.notes || []).forEach((n) => {
+    [...(cm.notes || []).filter((n) => !/storage system|India import duty/i.test(n.what)), ...(AU().notes || [])].forEach((n) => {
       const li = el('li'); li.append(el('b', null, n.what + '. '), document.createTextNode(n.text + ' '));
-      li.appendChild(link(n.source, n.url)); if (n.source2) { li.appendChild(document.createTextNode(' · ')); li.appendChild(link(n.source2, n.url2)); }
+      if (n.url) li.appendChild(link(n.source, n.url)); if (n.source2) { li.appendChild(document.createTextNode(' · ')); li.appendChild(link(n.source2, n.url2)); }
       ul.appendChild(li);
     });
   }
@@ -1141,7 +1176,7 @@
     const kp = $('#calc-kpis');
     if (!D.costmodel || !weekly().length || !(D.rawmats || []).length) { fail(kp, 'Cost data failed to load'); return; }
     if (!S.calcBase) {
-      S.calcBase = calcBase();
+      S.calcBase = calcBaseEV();
       S.calc = { ...S.calcBase, ...hashParams() };
       S.scen = Object.keys(hashParams()).length ? null : 'latest';
       S.calcMode = /[?&]mode=detail/.test(location.hash) ? 'detail' : 'simple';
@@ -1163,49 +1198,53 @@
     $$('#calc-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.mode === S.calcMode)));
     $$('#calc-scen button').forEach((x) => { x.hidden = simple && !SIMPLE_SCEN.includes(x.dataset.id); });
     $('#cs-india').checked = !!S.calcIndia;
-    if (+$('#cs-mwh').value !== s.mwh) $('#cs-mwh').value = s.mwh;
+    [['#cs-kwh', 'kwh'], ['#calc-kwh', 'kwh'], ['#cs-n', 'nveh'], ['#calc-n', 'nveh']].forEach(([q, k]) => { if (+$(q).value !== s[k] && document.activeElement !== $(q)) $(q).value = s[k]; });
     $('#calc-rebate').checked = s.rebate > 0;
-    if (+$('#calc-mwh').value !== s.mwh) $('#calc-mwh').value = s.mwh;
     $$('#calc-scen button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.id === S.scen)));
 
     const c = cellCost(s), c0 = cellCost(b);
-    const market = last.cell314, mDate = shortDay(parse(last.date));
+    const em = evMarket(); const market = em.v, mDate = em.date ? shortDay(parse(em.date)) : '';
     const price = c.total + s.margin;
     const sysP = price * s.ratio + s.ros;
+    const fx = ((D.markets || {}).fx || {}).usd_inr || 0; const fleetKwh = s.kwh * s.nveh;
+    const lakh = (usd) => (fx ? `₹${d3.format(',.1f')(usd * fx / 1e5)} lakh` : '');
     // KPIs
     kp.replaceChildren();
     const dc = c.total - c0.total;
     kpi(kp, 'Modelled cell cost', fmtUsd1(c.total), Math.abs(dc) < 0.05 ? ['At the latest prices', null] : [`${fmtSigned(dc)} (${pctS(dc / c0.total * 100)}) vs latest prices`, dc], 'main');
     const mm = market - c.total;
-    kpi(kp, `Market cell price (InfoLink, ${mDate})`, fmtUsd1(market), [mm >= 0 ? `At this price makers earn ${fmtUsd1(mm)} (${(mm / market * 100).toFixed(0)}%) over the modelled cost` : `At this price makers lose ${fmtUsd1(-mm)} (${(-mm / market * 100).toFixed(0)}%) against the modelled cost`, -mm]);
+    kpi(kp, `Market EV cell price (${em.src}, ${mDate})`, fmtUsd1(market), [mm >= 0 ? `At this price makers earn ${fmtUsd1(mm)} (${(mm / market * 100).toFixed(0)}%) over the modelled cost` : `At this price makers lose ${fmtUsd1(-mm)} (${(-mm / market * 100).toFixed(0)}%) against the modelled cost`, -mm]);
     kpi(kp, 'Cell price in this scenario', fmtUsd1(price), [`Cost ${fmtSigned(s.margin)} margin · ` + (Math.abs(price - market) < 0.05 ? 'matches the market' : `${pctS((price / market - 1) * 100)} vs market`), Math.abs(price - market) < 0.05 ? null : price - market]);
     stackBar($('#calc-stack'), c.parts, c.total);
     legendList($('#calc-legend'), c.parts, c.total);
-    // system + project
-    const mwh = s.mwh, M = (v) => fmtM(v * mwh / 1000);
+    // pack + fleet
+    const M = (v) => fmtM(v * fleetKwh / 1e6);
     const sysBox = $('#calc-sys'); sysBox.replaceChildren();
     const sysParts = [
       { label: 'Cells at cost', color: '--teal', v: c.total * s.ratio },
       { label: 'Cell maker margin', color: '--green', v: Math.max(0, s.margin) * s.ratio },
-      { label: 'Rest of the system', color: '--indigo', v: s.ros },
+      { label: 'Rest of the pack', color: '--indigo', v: s.ros },
     ];
     const sk = el('div', 'kpis'); sysBox.appendChild(sk);
-    const ds = sysP - last.ac_4h;
-    kpi(sk, '4-hour AC system, China', fmtUsd1(sysP), Math.abs(ds) < 0.05 ? [`Matches InfoLink's ${fmtUsd1(last.ac_4h)} (${mDate})`, null] : [`${fmtSigned(ds)} (${pctS(ds / last.ac_4h * 100)}) vs InfoLink ${fmtUsd1(last.ac_4h)}`, ds], 'main');
-    kpi(sk, `Cells for ${d3.format(',')(mwh)} MWh`, M(price * s.ratio), [`${fmtUsd1(price * s.ratio)}/kWh of system`, null]);
-    kpi(sk, `System for ${d3.format(',')(mwh)} MWh`, M(sysP), [`Excludes grid connection, land and EPC`, null]);
+    const sys0b = (cellCost(b).total + b.margin) * b.ratio + b.ros; const ds = sysP - sys0b;
+    kpi(sk, `Battery pack, China-built`, fmtUsd1(sysP), Math.abs(ds) < 0.05 ? [`${lakh(sysP * s.kwh)} for a ${d3.format(',')(s.kwh)} kWh pack`, null] : [`${fmtSigned(ds)} (${pctS(ds / sys0b * 100)}) vs today · ${lakh(sysP * s.kwh)} a pack`, ds], 'main');
+    kpi(sk, `Cells for ${d3.format(',')(s.nveh)} vehicles`, M(price * s.ratio), [`${d3.format(',.1f')(fleetKwh / 1000)} MWh at ${fmtUsd1(price * s.ratio)}/kWh`, null]);
+    kpi(sk, `Packs for ${d3.format(',')(s.nveh)} vehicles`, M(sysP), [`Excludes freight, duty and fitting to the vehicle`, null]);
     const sb = el('div', 'stackbar'); sysBox.appendChild(sb); stackBar(sb, sysParts, d3.sum(sysParts, (p) => p.v));
     const sl = el('div', 'legend'); sysBox.appendChild(sl); legendList(sl, sysParts, d3.sum(sysParts, (p) => p.v));
     if (s.margin < 0) sysBox.appendChild(el('p', 'sub', `The margin is negative: cells sell ${fmtUsd1(-s.margin)}/kWh below modelled cost.`));
-    // India landed
+    const pl = el('button', 'btn link', 'Build the pack part by part in the battery pack calculator →'); pl.type = 'button'; pl.addEventListener('click', () => { go('bid'); focusOn('#pack-calc'); }); sysBox.appendChild(pl);
+    // India: cells imported to build EV packs
     const cm = CM();
-    const reb = sysP * s.rebate / 100, cif = sysP + reb + s.freight, bcd = cif * s.bcd / 100, sws = bcd * (cm.sws_pct_of_bcd ?? 10) / 100, landed = cif + bcd + sws;
+    const reb = price * s.ratio * s.rebate / 100, cif = price * s.ratio + reb + s.freight, bcd = cif * s.bcd / 100, sws = bcd * (cm.sws_pct_of_bcd ?? 10) / 100, landed = cif + bcd + sws;
+    const packIn = landed + s.ros;
     const ib = $('#calc-india'); ib.replaceChildren();
     const ik = el('div', 'kpis'); ib.appendChild(ik);
-    kpi(ik, 'Landed in India, before GST', fmtUsd1(landed), [`${pctS((landed / sysP - 1) * 100)} on the China price`, null], 'main');
-    kpi(ik, `For ${d3.format(',')(mwh)} MWh`, M(landed), [`Of which duty ${M(bcd + sws)}`, null]);
+    kpi(ik, 'Cells landed in India, before GST', fmtUsd1(landed), [`${pctS((landed / (price * s.ratio) - 1) * 100)} on the China cell price${fx ? ` · ₹${d3.format(',')(Math.round(landed * fx))}/kWh` : ''}`, null], 'main');
+    kpi(ik, 'Pack built in India with these cells', fmtUsd1(packIn), [`${lakh(packIn * s.kwh)} a pack, with the rest of the pack at China cost`, null]);
+    kpi(ik, `For ${d3.format(',')(s.nveh)} vehicles`, M(packIn), [`Of which cell duty ${M(bcd + sws)}`, null]);
     const iParts = [
-      { label: 'China system price', color: '--indigo', v: sysP },
+      { label: 'China cell price', color: '--teal', v: price * s.ratio },
       { label: 'Export rebate passed on', color: '--plum', v: reb },
       { label: 'Freight and insurance', color: '--slate', v: s.freight },
       { label: 'Customs duty + surcharge', color: '--rose', v: bcd + sws },
@@ -1233,10 +1272,10 @@
     const sys0 = (c0.total + b.margin) * b.ratio + b.ros;
     kpi(csk, 'Cell: cost to make', perK(c.total), chg(c.total, c0.total), 'main');
     kpi(csk, 'Cell: price to buyers', perK(price), [`Cost plus today's maker margin of ${fmtUsd1(s.margin)}`, null]);
-    kpi(csk, '4-hour storage system', perK(sysP), chg(sysP, sys0));
-    const land = (x) => (x * (1 + s.rebate / 100) + s.freight) * (1 + (s.bcd / 100) * (1 + (cm.sws_pct_of_bcd ?? 10) / 100));
-    const projV = S.calcIndia ? land(sysP) : sysP, proj0 = S.calcIndia ? land(sys0) : sys0;
-    kpi(csk, `${d3.format(',')(mwh)} MWh project${S.calcIndia ? ', landed in India' : ''}`, fmtM(projV * mwh / 1000), Math.abs(projV - proj0) < 0.05 ? [S.calcIndia ? 'Includes customs duty, before GST' : 'System only, before installation', null] : [`${fmtSigned((projV - proj0) * mwh / 1000)}M vs today`, projV - proj0]);
+    const landC = (cellP) => (cellP * s.ratio * (1 + s.rebate / 100) + s.freight) * (1 + (s.bcd / 100) * (1 + (cm.sws_pct_of_bcd ?? 10) / 100)) + s.ros;
+    const packV = S.calcIndia ? landC(price) : sysP, pack0 = S.calcIndia ? landC(c0.total + b.margin) : sys0;
+    kpi(csk, `${d3.format(',')(s.kwh)} kWh pack${S.calcIndia ? ', built in India' : ''}`, perK(packV), Math.abs(packV - pack0) < 0.05 ? [`${lakh(packV * s.kwh)} a pack${S.calcIndia ? ' · imported cells with duty, before GST' : ' · China-built'}`, null] : [`${fmtSigned(packV - pack0)}/kWh (${pctS((packV / pack0 - 1) * 100)}) vs today · ${lakh(packV * s.kwh)} a pack`, packV - pack0]);
+    kpi(csk, `Packs for ${d3.format(',')(s.nveh)} vehicles`, fmtM(packV * fleetKwh / 1e6), Math.abs(packV - pack0) < 0.05 ? [`${d3.format(',.1f')(fleetKwh / 1000)} MWh in all`, null] : [`${fmtSigned((packV - pack0) * fleetKwh / 1e6)}M vs today`, packV - pack0]);
     const gparts = GROUPS.map(([label, color, keys]) => ({ label, color, v: d3.sum(c.parts.filter((p) => keys.includes(p.k)), (p) => p.v) }));
     stackBar($('#cs-stack'), gparts, c.total); legendList($('#cs-legend'), gparts, c.total);
     const swR = { slope: (cellCost({ ...s, li: s.li + 1000 }).total - c.total) / 1000 };
@@ -1244,7 +1283,7 @@
     const ins = $('#cs-insight'); ins.replaceChildren();
     ins.append(el('b', null, 'Lithium is ' + (c.parts[0].v / c.total * 100).toFixed(0) + '% of cell cost. '), document.createTextNode(`Every $1,000/t on lithium carbonate adds about ${fmtUsd1(swR.slope * 1000)}/kWh to a cell. ` + (c.total <= market ? `Cell makers keep about ${fmtUsd1(market - c.total)}/kWh at today's market price, so lithium would have to reach about ${fmtUsd0(Math.round(be / 100) * 100)}/t before they sell at cost.` : `At these prices cells would cost more to make than today's market price of ${fmtUsd1(market)}/kWh.`)));
     const mini = $('#calc-mini'); mini.replaceChildren(); mini.hidden = S.calcMode !== 'detail';
-    [['Cell cost', fmtUsd1(c.total)], ['Cell price', fmtUsd1(price)], ['4-h system', fmtUsd1(sysP)], ['India landed', fmtUsd1(landed)]].forEach(([k, v]) => { const x = el('span'); x.append(el('small', null, k), el('b', null, v)); mini.appendChild(x); });
+    [['Cell cost', fmtUsd1(c.total)], ['Cell price', fmtUsd1(price)], ['Pack', fmtUsd1(sysP)], ['Cells in India', fmtUsd1(landed)]].forEach(([k, v]) => { const x = el('span'); x.append(el('small', null, k), el('b', null, v)); mini.appendChild(x); });
     syncHash();
   }
 
@@ -2801,9 +2840,9 @@
     bid: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk', title: 'What it costs, landed in India',
       say: () => 'Landed cost today and at delivery, project cost in \u20b9 crore, and what Indian storage tenders and EPC contracts pay, all in rupees per kWh. Estimates from public data, not quotes.',
       key: () => { try { landInit(); const it = landItems().find((x) => x.id === 'cell314'); const a = landCalc(it.usd, 'C', false); return { label: '314 Ah storage cell, landed today', value: inr(a.inr), unit: '/kWh', move: `China price ${fmtUsd1(it.usd)}/kWh, ${shortDay(parse(it.date))}` }; } catch (e) { return null; } } },
-    calculator: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk · Cost calculator', title: 'What would a battery cost?',
-      say: () => 'Move raw-material prices and see what a storage cell and a 4-hour storage system would cost. Starts at today\u2019s prices; estimates from public data, not quotes.',
-      key: () => { try { const c = cellCost(calcBase()); return { label: 'Storage cell, cost to make today', value: fmtUsd1(c.total), unit: '/kWh', move: 'From today\u2019s material prices' }; } catch (e) { return null; } } },
+    calculator: { icon: 'calc', color: '--l4', eyebrow: 'Bidding desk · Automotive cell cost', title: 'What would an EV cell and a CV pack cost?',
+      say: () => 'Move raw-material prices and see what an automotive LFP cell, of the kind used in e-buses and e-trucks, and a CV battery pack would cost. Starts at today\u2019s prices; estimates from public data, not quotes.',
+      key: () => { try { const c = cellCost(calcBaseEV()); return { label: 'Automotive LFP cell, cost to make today', value: fmtUsd1(c.total), unit: '/kWh', move: 'From today\u2019s material prices' }; } catch (e) { return null; } } },
     risk: { icon: 'shield', color: '--l1', eyebrow: 'Risk', title: 'Where the risk sits',
       say: () => 'Price and supply risk for battery materials and cells, scored 0\u201310 from a buyer\u2019s point of view every morning, plus a three-year outlook.',
       extra: () => { const a = el('a', 'ol-jump', 'See the next three years \u2193'); a.href = '#risk'; a.id = 'ol-jump'; return a; },
@@ -3393,7 +3432,7 @@
     const tr = el('tr', 'mb-tot'); const a = el('td', null, 'All materials'); a.colSpan = 4; const b2 = el('td', 'num strong', fmt2(mat)); const c2 = el('td', 'num', pc(mat)); tr.append(a, b2, c2); tb.appendChild(tr);
     const foot = el('p', 'sub mb-foot');
     foot.append(document.createTextNode(`US$ per kWh of cell, China prices with 13% VAT removed. Quantities are the site’s cost model for a 314 Ah LFP storage cell (`), link(note(0).source || 'SMM cost model', note(0).url), document.createTextNode(`); the cell price is InfoLink’s 314 Ah average (`), link(`${last.date ? shortDay(parse(last.date)) : ''}`, last.url), document.createTextNode('). '));
-    const lk = el('a', null, 'Change any price in the cost calculator →'); lk.href = '#calculator'; lk.addEventListener('click', (e) => { e.preventDefault(); go('calculator'); }); foot.appendChild(lk);
+    const lk = el('a', null, 'Change any price in the automotive cell cost calculator →'); lk.href = '#calculator'; lk.addEventListener('click', (e) => { e.preventDefault(); go('calculator'); }); foot.appendChild(lk);
     box.appendChild(foot);
   }
   function roadSection(box) {
@@ -3431,7 +3470,7 @@
         const slope = (cellCost({ ...base, li: base.li + 1000 }).total - cc.total);
         s1.appendChild(el('p', 'team-key', `Every $1,000/t move in lithium carbonate moves the cost of a cell by about ${fmtUsd1(slope)}/kWh. Cost to make ${fmtUsd1(cc.total)}/kWh; market price ${fmtUsd1(price)}/kWh (InfoLink, ${last.date ? shortDay(parse(last.date)) : ''}).`));
         const mb = el('div'); s1.appendChild(mb); renderMargin(mb);
-        const lk = el('button', 'btn link', 'Open the cost calculator →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s1.appendChild(lk);
+        const lk = el('button', 'btn link', 'Open the automotive cell cost calculator →'); lk.type = 'button'; lk.addEventListener('click', () => go('calculator')); s1.appendChild(lk);
       } catch (e) { console.error(e); s1.appendChild(el('p', 'sub', 'Cost model unavailable.')); }
       // 2. landed in India
       landedOutlook(section('Landed in India, now and 2027–2029', null), [['cell314', '314 Ah storage cell'], ['evcell', 'EV prismatic LFP cell']]);
@@ -3669,7 +3708,7 @@
     let n = $(':scope > .desk-nav', pg);
     if (!n) { n = el('nav', 'desk-nav'); n.setAttribute('aria-label', 'Bidding desk'); const h = $(':scope > .pg-card', pg); if (h) h.after(n); else pg.prepend(n); }
     n.replaceChildren();
-    [['bid', 'Landed cost and outlook'], ['calculator', 'Cost calculator'], ['storage', 'India tenders and EPC']].forEach(([t, l]) => { const b = el('button', null, l); b.type = 'button'; b.setAttribute('aria-current', String(t === tab)); b.addEventListener('click', () => go(t)); n.appendChild(b); });
+    [['bid', 'Landed cost and outlook'], ['calculator', 'Automotive cell cost'], ['storage', 'India tenders and EPC']].forEach(([t, l]) => { const b = el('button', null, l); b.type = 'button'; b.setAttribute('aria-current', String(t === tab)); b.addEventListener('click', () => go(t)); n.appendChild(b); });
   }
   function go(route, push = true, nav = false) {
     const y0 = window.scrollY; // before the old page is hidden and the document shrinks

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-25",
- "generated": "2026-11-25T05:29:25+00:00",
+ "generated": "2026-11-25T05:32:15+00:00",
  "horizons": {
   "h3": {
    "label": "Next 3 months",
@@ -111,7 +111,7 @@
    },
    "h3": {
     "price": {
-     "score": 4.2,
+     "score": 4.3,
      "level": "Elevated",
      "drivers": [
       {
@@ -176,8 +176,8 @@
       },
       {
        "label": "Price news",
-       "score": 4.8,
-       "detail": "7 recent stories (pushing prices down)",
+       "score": 5.4,
+       "detail": "6 recent stories (pushing prices up)",
        "items": [
         {
          "id": "n273",
@@ -220,19 +220,12 @@
          "text": "SMM expects a lithium supply surge in 2026–28 (about 458,000 t of new primary resource this year and about 500,000 t in each of 2027 and 2028) after the 2022–23 spending wave; it sees storage demand up as much as 64% this year but says price rebounds will be uneven",
          "url": "https://news.metal.com/newscontent/104183876-takeaways-from-2026-smm-australia-metals-investment-seminar-outlook-for-ferrous-nonferrous-and-battery-metals",
          "s": -1
-        },
-        {
-         "id": "n287",
-         "date": "2026-11-02",
-         "text": "Citi cuts its three-month lithium carbonate and hydroxide targets to $12,000/t (from $20,000 and $17,000) and spodumene to $1,200/t (from $2,000), and lowers its estimates for all three through 2028, citing slower battery demand growth and buyers keeping lean stocks",
-         "url": "https://www.bloomberg.com/news/articles/2026-11-02/citi-cuts-lithium-forecasts-on-worsening-battery-demand-outlook",
-         "s": -1
         }
        ],
        "key": "price_news",
        "weight": 12,
-       "prev": 2.0,
-       "prev_detail": "5 recent stories (pushing prices down)",
+       "prev": 2.7,
+       "prev_detail": "4 recent stories (pushing prices down)",
        "new_items": [
         {
          "id": "n273",
@@ -249,7 +242,7 @@
          "s": 1
         }
        ],
-       "moved": 0.34
+       "moved": 0.32
       },
       {
        "label": "Known cost changes ahead",
@@ -263,7 +256,7 @@
       }
      ],
      "prev_date": "2026-11-18",
-     "change": 0.3
+     "change": 0.4
     },
     "supply": {
      "score": 4.2,
@@ -402,8 +395,8 @@
       },
       {
        "label": "Price news",
-       "score": 4.8,
-       "detail": "7 recent stories (pushing prices down)",
+       "score": 5.4,
+       "detail": "6 recent stories (pushing prices up)",
        "items": [
         {
          "id": "n273",
@@ -446,19 +439,12 @@
          "text": "SMM expects a lithium supply surge in 2026–28 (about 458,000 t of new primary resource this year and about 500,000 t in each of 2027 and 2028) after the 2022–23 spending wave; it sees storage demand up as much as 64% this year but says price rebounds will be uneven",
          "url": "https://news.metal.com/newscontent/104183876-takeaways-from-2026-smm-australia-metals-investment-seminar-outlook-for-ferrous-nonferrous-and-battery-metals",
          "s": -1
-        },
-        {
-         "id": "n287",
-         "date": "2026-11-02",
-         "text": "Citi cuts its three-month lithium carbonate and hydroxide targets to $12,000/t (from $20,000 and $17,000) and spodumene to $1,200/t (from $2,000), and lowers its estimates for all three through 2028, citing slower battery demand growth and buyers keeping lean stocks",
-         "url": "https://www.bloomberg.com/news/articles/2026-11-02/citi-cuts-lithium-forecasts-on-worsening-battery-demand-outlook",
-         "s": -1
         }
        ],
        "key": "price_news",
        "weight": 0,
-       "prev": 2.0,
-       "prev_detail": "5 recent stories (pushing prices down)",
+       "prev": 2.7,
+       "prev_detail": "4 recent stories (pushing prices down)",
        "new_items": [
         {
          "id": "n273",
@@ -689,7 +675,7 @@
     ],
     [
      "2026-11-25",
-     4.2,
+     4.3,
      4.2
     ]
    ]
@@ -766,13 +752,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.2,
-       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
+       "score": 4.3,
+       "detail": "Lithium price risk 4.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 11,
        "prev": 3.9,
        "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": 0.03
+       "moved": 0.04
       },
       {
        "label": "Price news",
@@ -1642,7 +1628,7 @@
    },
    "h3": {
     "price": {
-     "score": 4.1,
+     "score": 4.2,
      "level": "Elevated",
      "drivers": [
       {
@@ -1696,13 +1682,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.2,
-       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
+       "score": 4.3,
+       "detail": "Lithium price risk 4.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10,
        "prev": 3.9,
        "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": 0.03
+       "moved": 0.04
       },
       {
        "label": "Price news",
@@ -1765,7 +1751,7 @@
       }
      ],
      "prev_date": "2026-11-18",
-     "change": 0.0
+     "change": 0.1
     },
     "supply": {
      "score": 4.7,
@@ -2182,7 +2168,7 @@
     ],
     [
      "2026-11-25",
-     4.1,
+     4.2,
      4.7
     ]
    ]
@@ -2260,13 +2246,13 @@
       },
       {
        "label": "Lithium price risk passed through",
-       "score": 4.2,
-       "detail": "Lithium price risk 4.2/10 feeds into this material's cost",
+       "score": 4.3,
+       "detail": "Lithium price risk 4.3/10 feeds into this material's cost",
        "key": "upstream",
        "weight": 10,
        "prev": 3.9,
        "prev_detail": "Lithium price risk 3.9/10 feeds into this material's cost",
-       "moved": 0.03
+       "moved": 0.04
       },
       {
        "label": "Price news",

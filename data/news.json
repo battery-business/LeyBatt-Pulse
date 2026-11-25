@@ -1548,29 +1548,6 @@
   "sources": "ESS News"
  },
  {
-  "id": "n224",
-  "date": "2026-11-11",
-  "day": "11 Nov",
-  "headline": "QuantumScape unveils Osprey, an all-solid-state version of its anode-free cell that replaces the liquid catholyte with a sulfide electrolyte, offered as an open licensing platform; it is lab-scale, with about 80% capacity after 1,000 cycles in small test cells",
-  "seg": "Batteries",
-  "so": "Another all-solid-state cell route, but still at lab scale: no effect on LFP cell supply or prices for years.",
-  "impact": [
-   {
-    "k": "competition",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "R&D & new products",
-  "effect": "Solid-state platform",
-  "direction": "flat",
-  "source": "Electrek",
-  "url": "https://electrek.co/2026/11/11/quantumscape-osprey-all-solid-state-sulfide-battery/",
-  "source2": "electrive",
-  "url2": "https://www.electrive.com/2026/11/12/quantumscape-launches-open-platform-for-sulphide-based-solid-state-batteries/",
-  "sources": "Electrek · electrive"
- },
- {
   "id": "n225",
   "date": "2026-11-13",
   "day": "13 Nov",
@@ -1788,31 +1765,6 @@
   "url2": "https://news.metal.com/newscontent/V75RJOKZWET4Z7CQV2J7AK243HXJOZBYAXEMHHA-lithium-carbonate-prices-rebound-after-dip-inventory-continues-to-decline"
  },
  {
-  "id": "n217",
-  "date": "2026-11-11",
-  "day": "11 Nov",
-  "headline": "Dalian Institute of Chemical Physics reports a low-cost iron-manganese phosphate cathode for sodium-ion cells (97% first-cycle efficiency, 93.6% capacity after 1,000 cycles in pouch cells) and has a 100-tonne pilot line running",
-  "seg": "Batteries",
-  "so": "A cheaper sodium-ion cathode moves to pilot scale: one more step toward sodium-ion cells as a low-cost option, not yet in mass production.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   },
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "R&D & new products",
-  "effect": "Sodium-ion cathode",
-  "direction": "down",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/QKNZAYBFOQ7GMMXSOJ3IOELMP67RAIKSQAAXJGY-sodium-ion-cas-dicp-achieves-breakthrough-in-low-cost-fe-mn-phosphate-cathode",
-  "sources": "SMM"
- },
- {
   "id": "n218",
   "date": "2026-11-12",
   "day": "12 Nov",
@@ -1881,52 +1833,6 @@
   "source": "TrendForce via EnergyTrend",
   "url": "https://www.energytrend.com/research/20261109-52475.html",
   "sources": "EnergyTrend"
- },
- {
-  "id": "n205",
-  "date": "2026-11-11",
-  "day": "11 Nov",
-  "headline": "InfoLink weekly: lithium carbonate stays near its lows at about $13,280 a tonne; the 314 Ah storage cell slips to $46.0/kWh as cheaper materials sharpen price competition, while system prices hold",
-  "seg": "Batteries",
-  "so": "Storage cell prices edge down again with lithium flat: cell buyers keep a slight price advantage this week.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 1
-   },
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Cells slip",
-  "direction": "down",
-  "source": "InfoLink",
-  "url": "https://infolink-group.com/energy-article/ess-spot-price-20261111",
-  "sources": "InfoLink"
- },
- {
-  "id": "n206",
-  "date": "2026-11-11",
-  "day": "11 Nov",
-  "headline": "Lithium futures recover 2.1% on 11 Nov to about $13,270 a tonne as traders cut positions, while the SMM spot price keeps slipping to about $13,500 on thin, need-only buying",
-  "seg": "Batteries",
-  "so": "Lithium bounces within a low range: no change yet to the low raw-material cost of LFP cells.",
-  "impact": [
-   {
-    "k": "cost",
-    "s": 0
-   }
-  ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Futures bounce",
-  "direction": "flat",
-  "source": "SMM",
-  "url": "https://news.metal.com/newscontent/UR2QHUPBPHJ56UUNVHPS6KV4U3YMELIXSBICU3I-smm-lithium-carbonate-daily-review-on-november-11-spot-lithium-carbonate-continued-to-decline-while-futures-opened-lower-rose-and-closed-higher-on-reduced-positions",
-  "sources": "SMM"
  },
  {
   "id": "n207",
@@ -2881,30 +2787,6 @@
   "so": "Lithium processors are losing money at today's prices: prices are near the floor, so the next big move is more likely up."
  },
  {
-  "id": "n125",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Jakson Green E-Mobility wins a PM-eBus Sewa tender for 220 nine-metre AC electric buses in Vadodara, Gandhidham and Navsari (Gujarat) on a 12-year gross-cost contract, including the charging depots",
-  "category": "E-buses & e-trucks",
-  "effect": "E-bus competition",
-  "direction": "up",
-  "source": "Autocar Professional",
-  "url": "https://www.autocarpro.in/news/jakson-green-e-mobility-secures-order-for-220-electric-buses-in-gujarat-135470",
-  "alert": true,
-  "alert_reason": "220 e-bus order",
-  "short": "Jakson Green wins 220 electric buses for three Gujarat cities",
-  "sources": "Autocar Professional",
-  "weight": 3,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "CVs",
-  "so": "220 e-buses won in Gujarat under PM e-Bus Sewa: these gross-cost tenders drive India's e-bus market."
- },
- {
   "id": "n124",
   "date": "2026-10-28",
   "day": "28 Oct",
@@ -2991,76 +2873,6 @@
   ],
   "seg": "CVs",
   "so": "Olectra moves into electric heavy trucks (tippers and tractor-trailers): more makers in India's e-truck market."
- },
- {
-  "id": "n103",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Tamil Nadu's regulator (TNERC) clears the state discom to buy 600 MW of solar plus 300 MW / 1.8 GWh of six-hour storage from SECI's ISTS Tranche XXI at ₹3.12/kWh for 25 years; storage must supply evening and night peaks (6 pm–9 am)",
-  "category": "India BESS",
-  "effect": "Storage demand",
-  "direction": "up",
-  "source": "SolarQuarter",
-  "url": "https://solarquarter.com/2026/10/26/tnerc-approves-600-mw-solar-power-with-1800-mwh-storage-at-inr-3-12-per-unit-in-tamil-nadu/",
-  "sources": "SolarQuarter",
-  "alert": true,
-  "alert_reason": "1.8 GWh India storage PPA",
-  "short": "Tamil Nadu clears 600 MW solar with 1.8 GWh storage at ₹3.12/kWh",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "BESS",
-  "so": "Tamil Nadu buys solar plus six-hour storage: more storage demand in the state."
- },
- {
-  "id": "n105",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Chinese storage maker Sigenergy plans a $150–200 million battery and inverter factory in India, shortlisting Maharashtra, Gujarat, Andhra Pradesh, Odisha and Tamil Nadu; it would start with imported cells and needs government approval as a Chinese investor (report citing the Times of India)",
-  "category": "India BESS",
-  "effect": "More BESS competition",
-  "direction": "down",
-  "source": "Power Peak Digest",
-  "url": "https://powerpeakdigest.com/china-sigenegy-india-battery-inverter-plant/",
-  "sources": "Power Peak Digest",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   }
-  ],
-  "seg": "BESS",
-  "so": "A Chinese storage maker plans an Indian factory: more competition in Indian storage systems."
- },
- {
-  "id": "n106",
-  "date": "2026-10-26",
-  "day": "26 Oct",
-  "headline": "Blue Energy Motors and HPCL open a heavy e-truck battery-swap station at an HPCL outlet in Bhiwandi on the Mumbai–Pune electric freight corridor; a swap takes under five minutes",
-  "category": "E-buses & e-trucks",
-  "effect": "E-truck adoption",
-  "direction": "up",
-  "source": "Autocar Professional",
-  "url": "https://www.autocarpro.in/news/blue-energy-motors-and-hpcl-open-heavy-duty-truck-battery-swapping-station-in-bhiwandi-135479",
-  "sources": "Autocar Professional",
-  "weight": 2,
-  "impact": [
-   {
-    "k": "competition",
-    "s": -1
-   },
-   {
-    "k": "demand",
-    "s": 1
-   }
-  ],
-  "seg": "CVs",
-  "so": "Battery swapping for heavy e-trucks opens on the Mumbai–Pune corridor: swap infrastructure for freight is arriving."
  },
  {
   "id": "n46",
@@ -3549,33 +3361,122 @@
   "brief": "Sungrow, best known for utility-scale storage, is turning to home batteries after its third-quarter profit fell 68%. It expects storage for homes to reach 320 GWh by 2030, plus 80 GWh for small businesses, with the market growing about 25% a year.\n\nIts lead product is PowerHarbor, a 30 kW unit combining inverter, battery and energy management, already on sale in Europe and Australia, with a wider launch planned next year."
  },
  {
-  "date": "2026-11-11",
-  "headline": "Lithium Americas raises the first-phase cost of its Thacker Pass mine in Nevada to $3.83 billion from $2.93 billion, blaming US tariffs on imported equipment, labour and logistics; production is still due in 2028 at 40,000 t a year of lithium carbonate",
+  "id": "n292",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "Delhi's EV Policy 2026 draws almost no commercial-vehicle buyers: 37 applications for the electric goods-carrier subsidy (up to ₹1 lakh), one for goods-vehicle scrapping and none for e-autos, against 12,584 for e-two-wheelers; makers cite portal glitches, few eligible models and scarce charging",
+  "seg": "CVs",
+  "so": "Delhi's e-LCV subsidy is barely used ahead of its electric-only rule for new goods vehicles from 1 Jan 2027: eligible models and charging, not incentives, are the bottleneck.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 0
+   },
+   {
+    "k": "policy",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "Weak e-LCV uptake",
+  "direction": "flat",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/delhi-ev-policy-sees-weak-response-to-commercial-vehicle-subsidies-136125",
+  "sources": "Autocar Professional"
+ },
+ {
+  "id": "n293",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "Iveco Bus brings out a new NMC battery generation: 80 kWh packs in the same size as the old 69 kWh ones (about 15% denser), giving E-Way city buses 320–720 kWh and up to 100 km more range at 12 m; module-level fire suppression, first deliveries in Q2 2027",
+  "seg": "CVs",
+  "so": "A European bus maker lifts energy per pack about 15% without changing its size: more range per bus from the same packaging space.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "Denser bus packs",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/25/iveco-bus-introduces-new-battery-generation/",
+  "sources": "electrive"
+ },
+ {
+  "id": "n294",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "CATL's shares fall about 8% in Shanghai and 12% in Hong Kong on fears of weak earnings; Citi says CATL cut its November production plan from 96 to 93 GWh, and a survey of 46 firms puts China's December cell output plan about 18% lower on the month as rebate-driven buying fades",
   "seg": "Batteries",
-  "so": "New lithium supply outside China is getting dearer to build, which puts a floor under long-run prices even while spot prices are low.",
+  "so": "China's cell makers are trimming output after demand was pulled forward ahead of the export rebate cut: more room for buyers to push cell prices down.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   },
+   {
+    "k": "supply",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Cell makers & competitors",
+  "effect": "Cell output cut",
+  "direction": "down",
+  "source": "Zhitong via Longbridge",
+  "url": "https://longbridge.com/en/news/306773615",
+  "sources": "Zhitong via Longbridge · Bloomberg",
+  "source2": "Bloomberg (Bloomberg summary only)",
+  "url2": "https://www.bloomberg.com/news/articles/2026-11-25/catl-tumbles-12-on-fears-over-weak-earnings-forced-selling",
+  "risk": [
+   {
+    "m": "cell_ess",
+    "k": "price",
+    "s": -1
+   },
+   {
+    "m": "cell_ev",
+    "k": "price",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n295",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "Tata group's Agratas cell plant near Bridgwater, UK (40 GWh a year, £5.2 bn) now targets January 2028, after first aiming for 2026; its construction manager is reportedly leaving, and JLR has secured cells from other suppliers meanwhile",
+  "seg": "Batteries",
+  "so": "The Tata group's UK cell plant slips about two years: its Indian cell plans and any cell supply from the group stay the nearer milestone.",
   "impact": [
    {
     "k": "supply",
-    "s": 0
+    "s": -1
    }
   ],
-  "weight": 1,
-  "category": "Lithium & materials",
-  "effect": "Higher mine costs",
-  "direction": "up",
-  "url": "https://www.bloomberg.com/news/articles/2026-11-11/lithium-americas-shares-sink-as-us-backed-mine-costs-rise",
-  "source": "Bloomberg",
-  "sources": "Bloomberg (subscriber copy)",
-  "via": "subscriber",
-  "id": "n290",
-  "day": "11 Nov",
-  "brief": "Lithium Americas has raised the first-phase cost of its Thacker Pass mine in Nevada to $3.83 billion from $2.93 billion, citing US tariffs on imported equipment, scarce skilled labour and logistics. Its shares hit a record low.\n\nThe company says production is still due in 2028, at 40,000 t a year of lithium carbonate, which would make it North America's largest lithium mine. GM and the US government back the project."
+  "weight": 2,
+  "category": "Indian cell & pack makers",
+  "effect": "UK plant delay",
+  "direction": "flat",
+  "source": "electrive",
+  "url": "https://www.electrive.com/2026/11/25/tata-groups-british-battery-cell-factory-faces-delays/",
+  "sources": "electrive"
  },
  {
-  "date": "2026-10-20",
-  "headline": "CATL launches lighter, thinner rear-mounted e-truck packs and flexible battery leasing, has swap orders covering 13,000 trucks from SF Express and China Post, and plans to more than double its e-truck swap stations to 2,000 by 2027, aiming for 10,000 in the longer term",
-  "seg": "CVs",
-  "so": "Swap-ready packs and short-term battery leases cut the upfront cost of heavy e-trucks: a working model to watch as India sets its own swapping standards for trucks.",
+  "id": "n296",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "L&T wins a 300 MW / 900 MWh three-hour, liquid-cooled battery storage project at Khavda, Gujarat, to be built jointly by its Renewables and Electronic Products units; client and exact value not disclosed",
+  "seg": "BESS",
+  "so": "Another large Indian EPC contractor takes a near-1 GWh storage build: competition for turnkey Indian storage work keeps widening.",
   "impact": [
    {
     "k": "demand",
@@ -3587,15 +3488,91 @@
    }
   ],
   "weight": 2,
-  "category": "E-buses & e-trucks",
-  "effect": "E-truck swapping scales up",
+  "category": "India BESS",
+  "effect": "Large BESS order",
   "direction": "up",
-  "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-to-grow-e-truck-business-with-battery-upgrades-swap-sites",
-  "source": "Bloomberg",
-  "sources": "Bloomberg (subscriber copy)",
-  "via": "subscriber",
-  "id": "n288",
-  "day": "20 Oct",
-  "brief": "CATL is pushing into electric trucks as a new source of growth. At an event in Beijing it showed lighter and thinner rear-mounted packs for weight- and space-sensitive trucks, and said logistics firms including SF Express and China Post have ordered swap products covering 13,000 trucks.\n\nIt plans to more than double its e-truck swap stations to 2,000 by 2027, with 10,000 as a longer-term goal, and will offer flexible battery leasing so fleets can pay for packs only for the months they use them."
+  "source": "Saur Energy",
+  "url": "https://www.saurenergy.com/solar-energy-news/khavda-lt-verticals-win-300-mw900-mwh-bess-project-with-three-hr-storage-12839592",
+  "sources": "Saur Energy · Electrical Mirror",
+  "source2": "Electrical Mirror",
+  "url2": "https://electricalmirror.net/lt-wins-%E2%82%B91000-2500-crore-order-for-300-mw-900-mwh-battery-energy-storage-project-in-gujarat/"
+ },
+ {
+  "id": "n297",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "Italy's second MACSE storage auction awards all 16 GWh on offer (16 projects for 2029 delivery) at a weighted average of €11,382 per MWh-year, about 12% below the first auction; Enel wins 7.3 GWh and about 43 GWh was bid",
+  "seg": "BESS",
+  "so": "Storage capacity auctions keep clearing lower as bidders crowd in: falling system prices are passing straight into auction results.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Energy storage",
+  "effect": "Cheaper storage auction",
+  "direction": "down",
+  "source": "ESS News",
+  "url": "https://www.ess-news.com/2026/11/25/italy-awards-16-gwh-of-battery-storage-in-second-auction/",
+  "sources": "ESS News"
+ },
+ {
+  "id": "n298",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "Core Lithium loads its first spodumene cargo (about 10,000 wet t at 5.1% Li2O) from the restarted Finniss mine in Australia, sold through Glencore; it targets about 214,000 t a year of SC6-equivalent concentrate by mid-2028",
+  "seg": "Batteries",
+  "so": "A shut Australian lithium mine is shipping again despite low prices: more supply returning keeps a lid on lithium costs.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 1
+   },
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Mine restart",
+  "direction": "down",
+  "source": "Discovery Alert",
+  "url": "https://discoveryalert.com/news/core-lithium-finniss-restart-first-cargo-november-2026/",
+  "sources": "Discovery Alert",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "supply",
+    "s": -1
+   }
+  ]
+ },
+ {
+  "id": "n299",
+  "date": "2026-11-25",
+  "day": "25 Nov",
+  "headline": "LG Energy Solution is reportedly preparing eight lines for prismatic lithium-manganese-rich (LMR) cells at Ultium Cells in Spring Hill, Tennessee, for mass production from 2028 (industry sources; not confirmed by LGES)",
+  "seg": "Batteries",
+  "so": "Korean makers push manganese-rich cells as a cheaper rival to nickel cells in the United States: a new chemistry to watch beside LFP from 2028.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "R&D & new products",
+  "effect": "LMR cell lines",
+  "direction": "flat",
+  "source": "Battery-News.de",
+  "url": "https://battery-news.de/2026/11/25/lg-energy-solution-bereitet-offenbar-produktionslinien-fuer-lmr-batterien-vor",
+  "sources": "Battery-News.de"
  }
 ]

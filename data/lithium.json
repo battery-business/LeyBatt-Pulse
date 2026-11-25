@@ -566,5 +566,21 @@
   "source": "SMM cobalt-lithium morning meeting summary",
   "url": "https://news.metal.com/newscontent/W2IDGSPSNE6B3PIDWFDBQPNMBRUFG7LGQ6WEVWQ-smm-cobalt-lithium-morning-meeting-summary-lithium-prices-consolidate-at-lows-cobalt-export-ban-drives-gains-end-use-demand-remains-under-pressure",
   "note": "SMM battery-grade spot about $13,510 on 23 Nov, a little below 19 Nov; SMM sees selling pressure above about $13,880 and support below about $13,430"
+ },
+ {
+  "date": "2026-11-25",
+  "series": "Futures",
+  "usd_t": 12330,
+  "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
+  "url": "https://news.metal.com/newscontent/O7SVS3Y5JNCYFWJT6R7OD7XG5EPYOBZXGTSYXRI-smm-lithium-carbonate-daily-review-on-november-25-spot-lithium-carbonate-fell-sharply-while-futures-opened-lower-moved-lower-and-closed-down-with-reduced-open-interest",
+  "note": "Most-traded LC2701 closed at about $12,330 on 25 Nov, −7.1% vs the previous close, as futures opened lower and fell on reduced open interest"
+ },
+ {
+  "date": "2026-11-25",
+  "series": "Spot",
+  "usd_t": 12820,
+  "source": "SMM lithium carbonate daily review",
+  "url": "https://news.metal.com/newscontent/O7SVS3Y5JNCYFWJT6R7OD7XG5EPYOBZXGTSYXRI-smm-lithium-carbonate-daily-review-on-november-25-spot-lithium-carbonate-fell-sharply-while-futures-opened-lower-moved-lower-and-closed-down-with-reduced-open-interest",
+  "note": "SMM battery-grade spot average about $12,820 on 25 Nov, down about $660 on the day"
  }
 ]

@@ -96,17 +96,6 @@
   "so": "1 GWh of four-hour storage with solar in Haryana."
  },
  {
-  "date": "2026-11-20",
-  "what": "POWERGRID Rayalaseema battery storage packages (5 × 100 MW / 400 MWh, Andhra Pradesh): bids due and technical bids opened",
-  "kind": "India tender",
-  "source": "Power Peak Digest",
-  "url": "https://powerpeakdigest.com/powergrid-tenders-rayalaseema-bess-project/",
-  "short": "POWERGRID Rayalaseema 2 GWh storage bids due",
-  "weight": 2,
-  "seg": "BESS",
-  "so": "Bids for 2 GWh of four-hour storage in Andhra Pradesh: shows who is competing for Indian storage awards."
- },
- {
   "date": "2026-11-23",
   "what": "Andhra Pradesh (APPCC) 1.25 GW / 5 GWh standalone storage tender: online bids due",
   "kind": "India tender",
@@ -136,6 +125,17 @@
   "url": "https://solarquarter.com/2026/11/18/powergrid-invites-bids-for-100-mw-400-mwh-battery-energy-storage-project-in-andhra-pradesh/",
   "short": "POWERGRID NP Kunta 400 MWh storage bids due",
   "weight": 1
+ },
+ {
+  "date": "2026-11-25",
+  "what": "POWERGRID Rayalaseema battery storage packages (5 × 100 MW / 400 MWh, Andhra Pradesh): bid deadline extended from 20 Nov to 25 Nov",
+  "kind": "India tender",
+  "source": "Saur Energy",
+  "url": "https://www.saurenergy.com/solar-energy-news/power-grid-extends-bid-deadline-for-2000-mwh-bess-packages-in-andhra-pradesh-12839274",
+  "short": "POWERGRID Rayalaseema 2 GWh storage bids due",
+  "weight": 2,
+  "seg": "BESS",
+  "so": "Bids for 2 GWh of four-hour storage in Andhra Pradesh: shows who is competing for Indian storage awards."
  },
  {
   "date": "2026-11-25",
@@ -333,6 +333,17 @@
   "weight": 2,
   "seg": "Batteries",
   "so": "Less lithium ore from Zimbabwe for Chinese refiners: supports lithium prices next year."
+ },
+ {
+  "date": "2027-01-01",
+  "what": "Delhi EV Policy 2026: from this date only electric three-wheelers (L5) and electric light goods vehicles (N1) can be newly registered in Delhi",
+  "kind": "Rule change",
+  "source": "Autocar Professional",
+  "url": "https://www.autocarpro.in/news/delhi-ev-policy-sees-weak-response-to-commercial-vehicle-subsidies-136125",
+  "short": "Delhi: new light goods vehicles electric-only",
+  "weight": 2,
+  "seg": "CVs",
+  "so": "New light goods vehicles in Delhi must be electric: a forced test of e-LCV supply and charging in a large city market."
  },
  {
   "date": "2027-01-10",

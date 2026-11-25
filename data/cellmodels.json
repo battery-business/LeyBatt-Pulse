@@ -210,6 +210,21 @@
    "when": null,
    "source": "PR Newswire via Manila Times",
    "url": "https://www.manilatimes.net/2026/11/19/tmt-newswire/pr-newswire/from-2-to-8-hours-hithium-showcases-full-duration-portfolio-and-sodium-ion-solution-at-re-2026/2473717"
+  },
+  {
+   "id": "c-lges-lmr-ultium",
+   "date": "2026-11-25",
+   "maker": "LG Energy Solution",
+   "cell": "Prismatic lithium-manganese-rich (LMR) cell (reported; not confirmed by LGES)",
+   "chemistry": "LMR",
+   "format": "Prismatic",
+   "size": null,
+   "spec": null,
+   "use": "EV",
+   "stage": "Planned",
+   "when": "Mass production from 2028 (reported)",
+   "source": "Battery-News.de",
+   "url": "https://battery-news.de/2026/11/25/lg-energy-solution-bereitet-offenbar-produktionslinien-fuer-lmr-batterien-vor"
   }
  ]
 }

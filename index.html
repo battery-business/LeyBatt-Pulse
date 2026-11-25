@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=202611251130">
+<link rel="stylesheet" href="assets/style.css?v=202611251300">
 </head>
 <body>
 <button class="skip" id="skip" type="button">Skip to content</button>
@@ -273,6 +273,42 @@
       <p class="sub" id="bid-note"></p>
       <div class="table-wrap"><table class="rtable" id="bid-years"></table></div>
     </div>
+    <div class="panel pack-panel" id="pack-calc">
+      <div class="panel-head"><h2>Battery pack cost calculator</h2><span class="sub">Modelled from today's cell prices; not a quote</span></div>
+      <p class="sub">Pick a use and a cell size: the calculator builds the pack (cells in series and in parallel), prices the cells at today's China market price and adds the parts, assembly, overheads and margin.</p>
+      <div class="bid-controls">
+        <div class="bid-ctl"><span class="lbl">Use</span><div class="seg" id="pk-use" role="group" aria-label="Pack use"></div></div>
+      </div>
+      <div class="bid-controls">
+        <label class="bid-ctl"><span class="lbl">Cell</span><select id="pk-cell" class="pk-sel"></select></label>
+        <label class="bid-ctl" id="pk-ah-wrap"><span class="lbl">Cell size</span><select id="pk-ah" class="pk-sel"></select></label>
+        <label class="bid-ctl"><span class="lbl">Pack energy</span><span class="bid-mwh"><input id="pk-kwh" type="number" min="1" max="5000" step="1" value="450" inputmode="numeric"> kWh</span></label>
+        <label class="bid-ctl"><span class="lbl">Voltage</span><span class="bid-mwh"><input id="pk-v" type="number" min="12" max="1500" step="1" value="691" inputmode="numeric"> V</span></label>
+        <div class="bid-ctl"><span class="lbl">Cells in parallel</span><span class="pk-step"><button type="button" class="btn ghost small" id="pk-pdown" aria-label="One fewer in parallel">−</button><button type="button" class="btn ghost small" id="pk-pup" aria-label="One more in parallel">+</button></span></div>
+      </div>
+      <p class="pk-config" id="pk-config"></p>
+      <div class="kpis three" id="pk-kpis"></div>
+      <div class="stackbar" id="pk-stack" aria-label="Pack cost by part"></div>
+      <div class="legend" id="pk-legend"></div>
+      <h3 class="grp">The same pack with other cell sizes</h3>
+      <p class="sub" id="pk-compare-sub"></p>
+      <div class="chart" id="pk-compare"></div>
+      <label class="check"><input type="checkbox" id="pk-india"> Building or buying in India? Compare assembling here with imported cells against importing the finished pack</label>
+      <div id="pk-india-box" hidden>
+        <div class="india-inputs" id="pk-india-in"></div>
+        <div id="pk-india-out"></div>
+      </div>
+      <details class="pk-more">
+        <summary>Change the part costs</summary>
+        <div class="controls"><button class="btn ghost small" type="button" id="pk-reset">Back to the starting values</button></div>
+        <div class="pk-inputs" id="pk-inputs"></div>
+      </details>
+      <details class="pk-more">
+        <summary>How it works, published pack prices and sources</summary>
+        <ul class="method" id="pk-method"></ul>
+        <div class="table-wrap"><table class="rtable" id="pk-bench"></table></div>
+      </details>
+    </div>
     <div class="panel">
       <div class="panel-head"><h2>What Indian storage tenders pay, in rupees per kWh</h2></div>
       <p class="sub" id="bid-t-sub"></p>
@@ -425,8 +461,8 @@
 </main>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="tip" id="tip" hidden></div>
-<script src="assets/d3.min.js?v=202611251130"></script>
-<script src="assets/app.js?v=202611251130"></script>
-<script src="assets/search.js?v=202611251130"></script>
+<script src="assets/d3.min.js?v=202611251300"></script>
+<script src="assets/app.js?v=202611251300"></script>
+<script src="assets/search.js?v=202611251300"></script>
 </body>
 </html>

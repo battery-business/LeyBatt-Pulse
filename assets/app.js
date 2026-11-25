@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const FILES = ['cellmakers', 'cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'systems', 'rawmats', 'news', 'weekly', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage'];
+  const FILES = ['cellmakers', 'cellmodels', 'plants', 'vehicles', 'standards', 'safety', 'live', 'markets', 'profile', 'meta', 'latest', 'lithium', 'cell314', 'systems', 'rawmats', 'news', 'weekly', 'forecasts', 'costmodel', 'evcells', 'events', 'risk', 'regulations', 'tenders', 'landed', 'indiastorage', 'packmodel'];
   const VAT = 1.13;
   const RANGES = [['1M', 31], ['3M', 92], ['6M', 183], ['1Y', 366], ['3Y', 1096], ['5Y', 1827], ['All', 0]];
   const TABS = ['overview', 'materials', 'news', 'rules', 'bid', 'calculator', 'storage', 'risk', 'chain'];
@@ -2475,13 +2475,190 @@
       tr.addEventListener('click', () => { BID.year = yy; renderBid(); }); tb.appendChild(tr);
     });
     t.appendChild(tb); stackLabels(t);
-    renderBidTenders(); renderBidEpc();
+    renderBidTenders(); renderBidEpc(); try { renderPack(); } catch (e) { console.error(e); fail($('#pk-kpis')); }
   }
   function stackLabels(t) { // phones show each row as a card: every cell carries its column name
     const hs = [...t.querySelectorAll('thead th')].map((h) => h.textContent); t.classList.add('stackable');
     t.querySelectorAll('tbody tr').forEach((tr) => [...tr.children].forEach((td, i) => { if (hs[i]) td.dataset.l = hs[i]; }));
   }
   const crf = (r, n) => (r === 0 ? 1 / n : r * (1 + r) ** n / ((1 + r) ** n - 1));
+  // ---------- battery pack calculator: cells from live prices, everything else a modelled bill of materials ----------
+  const PK = { use: 'truck', cell: 'ev', ah: 324, kwh: 450, v: 691, p: null, india: false };
+  const PM = () => D.packmodel || {};
+  const PK_SPECS = [
+    { k: 'bms_fixed', g: 'Battery management and high voltage', label: 'BMS master unit, per pack', min: 0, max: 3000, step: 10, f: (v) => fmtUsd0(v) },
+    { k: 'bms_ch', g: 'Battery management and high voltage', label: 'BMS sensing per cell in series', min: 0, max: 10, step: 0.1, f: (v) => '$' + v.toFixed(1) },
+    { k: 'hv', g: 'Battery management and high voltage', label: 'High-voltage box (contactors, fuses, current sensor, connectors), per pack', min: 0, max: 4000, step: 10, f: (v) => fmtUsd0(v) },
+    { k: 'ic_cell', g: 'Per cell', label: 'Cell connections (busbar, sensing lead, weld), per cell', min: 0, max: 5, step: 0.05, f: (v) => '$' + v.toFixed(2) },
+    { k: 'st_cell', g: 'Per cell', label: 'Cell holders, end plates and insulation, per cell', min: 0, max: 6, step: 0.05, f: (v) => '$' + v.toFixed(2) },
+    { k: 'lab_cell', g: 'Per cell', label: 'Handling and assembly labour, per cell', min: 0, max: 3, step: 0.05, f: (v) => '$' + v.toFixed(2) },
+    { k: 'st_kwh', g: 'Per kWh', label: 'Pack frame and brackets', min: 0, max: 10, step: 0.1, f: (v) => perK(v) },
+    { k: 'th_kwh', g: 'Per kWh', label: 'Liquid cooling (plates, pipes, pads, heater)', min: 0, max: 20, step: 0.1, f: (v) => perK(v) },
+    { k: 'enc_kwh', g: 'Per kWh', label: 'Enclosure (housing, lid, seals, vent, fire barrier)', min: 0, max: 25, step: 0.1, f: (v) => perK(v) },
+    { k: 'har_kwh', g: 'Per kWh', label: 'Wiring inside the pack', min: 0, max: 5, step: 0.1, f: (v) => perK(v) },
+    { k: 'enc_pack', g: 'Per pack', label: 'Enclosure fixed parts', min: 0, max: 2000, step: 10, f: (v) => fmtUsd0(v) },
+    { k: 'har_pack', g: 'Per pack', label: 'Wiring fixed parts', min: 0, max: 1500, step: 10, f: (v) => fmtUsd0(v) },
+    { k: 'test_pack', g: 'Per pack', label: 'End-of-line test', min: 0, max: 1500, step: 10, f: (v) => fmtUsd0(v) },
+    { k: 'scrap', g: 'Overheads and margin', label: 'Scrap', min: 0, max: 8, step: 0.1, f: (v) => v.toFixed(1) + '%' },
+    { k: 'oh', g: 'Overheads and margin', label: 'Overhead, warranty and logistics', min: 0, max: 20, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+    { k: 'margin', g: 'Overheads and margin', label: 'Pack maker margin', min: -5, max: 30, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+  ];
+  const PK_INDIA = [
+    { k: 'fr_cells', label: 'Freight and handling for cells', min: 0, max: 10, step: 0.1, f: (v) => perK(v) },
+    { k: 'bcd_cells', label: 'Customs duty on cells', min: 0, max: 30, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+    { k: 'india_nc', label: 'Indian cost of the other parts, against China', min: 0.7, max: 1.6, step: 0.01, f: (v) => '×' + v.toFixed(2) },
+    { k: 'fr_pack', label: 'Freight and handling for a finished pack', min: 0, max: 15, step: 0.1, f: (v) => perK(v) },
+    { k: 'bcd_pack', label: 'Customs duty on a finished pack', min: 0, max: 30, step: 0.5, f: (v) => v.toFixed(1) + '%' },
+  ];
+  function pkCellPrice(id) {
+    const w = weekly(); const last = w[w.length - 1] || {};
+    const card = (k) => (D.latest || []).find((r) => r.id === k) || {};
+    if (id === 'evcell') { const e = [...((D.evcells || {}).series || [])].sort((a, b) => d3.ascending(a.date, b.date)).pop() || {}; return { usd: e.usd_kwh, src: e.source, url: e.url, when: e.date ? shortDay(parse(e.date)) : '' }; }
+    if (id === 'cell587') { const c = card('cell587'); return { usd: parseFloat(String(c.price || '').replace(/[^0-9.]/g, '')), src: c.source, url: c.url, when: c.asof, old: true }; }
+    return { usd: last[id], src: last.source || 'InfoLink', url: last.url, when: last.date ? shortDay(parse(last.date)) : '' };
+  }
+  function pkCellOf(st) { const c = (PM().cells || []).find((x) => x.id === st.cell) || (PM().cells || [])[0]; return { ...c, ah: c.ah || st.ah, price: pkCellPrice(c.price_src) }; }
+  function packCalc(st, cellOverride) {
+    const pm = PM(); const vc = pm.v_cell || 3.2; const c = cellOverride || pkCellOf(st);
+    const S = Math.max(1, Math.round(st.v / vc)); const cellKwh = vc * c.ah / 1000;
+    const P = st.p || Math.max(1, Math.round(st.kwh / (S * cellKwh)));
+    const N = S * P; const kwh = N * cellKwh; const d = st.d;
+    const raw = [
+      ['cells', 'Cells', '--teal', c.price.usd * kwh],
+      ['bms', 'Battery management (BMS)', '--indigo', d.bms_fixed + d.bms_ch * S],
+      ['hv', 'High-voltage box', '--plum', d.hv],
+      ['ic', 'Cell connections', '--orange', d.ic_cell * N],
+      ['st', 'Cell holders, frame and insulation', '--slate', d.st_cell * N + d.st_kwh * kwh],
+      ['th', 'Liquid cooling', '--blue', d.th_kwh * kwh],
+      ['enc', 'Enclosure', '--magenta', d.enc_kwh * kwh + d.enc_pack],
+      ['har', 'Wiring', '--chart-muted', d.har_kwh * kwh + d.har_pack],
+      ['lab', 'Assembly and test', '--amber', d.lab_cell * N + d.test_pack],
+    ];
+    const bom = d3.sum(raw, (r) => r[3]);
+    const scrap = bom * d.scrap / 100, oh = (bom + scrap) * d.oh / 100, mg = (bom + scrap + oh) * d.margin / 100;
+    raw.push(['scrap', 'Scrap', '--rose', scrap], ['oh', 'Overhead and warranty', '--muted', oh], ['mg', 'Pack maker margin', '--green', mg]);
+    const total = d3.sum(raw, (r) => r[3]);
+    const parts = raw.map(([k, label, color, v]) => ({ k, label, color, v: v / kwh, abs: v }));
+    return { S, P, N, kwh, volts: S * vc, cell: c, parts, total, perKwh: total / kwh, cellsPerKwh: c.price.usd, nonCell: (total - c.price.usd * kwh) / kwh };
+  }
+  function pkIndia(st, r) {
+    const d = st.d, fx = ((D.markets || {}).fx || {}).usd_inr || 0, sws = (PM().defaults || {}).sws_pct_of_bcd ?? 10, ins = ((PM().defaults || {}).ins_pct ?? 1.125) / 100;
+    const cellsUsd = r.cellsPerKwh; const ncUsd = r.perKwh - cellsUsd;
+    const cellCif = cellsUsd * (1 + ins) + d.fr_cells; const cellDuty = cellCif * d.bcd_cells / 100 * (1 + sws / 100);
+    const make = cellCif + cellDuty + ncUsd * d.india_nc;
+    const packCif = r.perKwh * (1 + ins) + d.fr_pack; const packDuty = packCif * d.bcd_pack / 100 * (1 + sws / 100);
+    const buy = packCif + packDuty;
+    return { fx, make, buy, cellDuty, packDuty };
+  }
+  function pkField(spec, hint) {
+    const st = PK; const b = st.d0[spec.k];
+    const f = el('div', 'field'); const id = 'pk-' + spec.k; const lab = el('label'); lab.htmlFor = id;
+    const out = el('output'); out.id = id + '-out';
+    const rs = el('button', 'reset-one', '↺'); rs.type = 'button'; rs.title = 'Back to the starting value'; rs.setAttribute('aria-label', 'Reset ' + spec.label);
+    rs.addEventListener('click', (e) => { e.preventDefault(); st.d[spec.k] = st.d0[spec.k]; renderPack(); });
+    const right = el('span', 'val'); right.append(out, rs); lab.append(el('span', 'nm', spec.label), right);
+    const inp = el('input'); inp.type = 'range'; inp.id = id; inp.min = String(Math.min(spec.min, b)); inp.max = String(Math.max(spec.max, b * 1.5)); inp.step = String(spec.step);
+    inp.addEventListener('input', () => { st.d[spec.k] = +inp.value; renderPack(); });
+    f.append(lab, inp); if (hint) { const h = el('div', 'hint'); if (hint[1]) h.appendChild(link(hint[0], hint[1])); else h.textContent = hint[0]; f.appendChild(h); }
+    return f;
+  }
+  function buildPack() {
+    const pm = PM(); const d0 = { ...(pm.defaults || {}) };
+    const pr = (pm.presets || []).find((x) => x.id === PK.use) || {};
+    Object.assign(d0, (pm.profiles || {})[pr.profile] || {});
+    d0.bcd_pack = pr.use === 'ess' ? d0.bcd_pack_ess : d0.bcd_pack_ev;
+    const L = D.landed || {}; if ((L.freight_usd_kwh || {}).cells != null) { d0.fr_cells = L.freight_usd_kwh.cells; d0.fr_pack = L.freight_usd_kwh.bess ?? d0.fr_pack; }
+    PK.d0 = d0; PK.d = { ...d0 };
+    // presets
+    const ps = $('#pk-use'); ps.replaceChildren();
+    (pm.presets || []).forEach((x) => { const b = el('button', null, x.label); b.type = 'button'; b.dataset.id = x.id; b.addEventListener('click', () => pkPreset(x.id)); ps.appendChild(b); });
+    const cs = $('#pk-cell'); cs.replaceChildren();
+    (pm.cells || []).forEach((c) => { const o = el('option', null, c.ah ? c.label : c.label + ' (pick the size)'); o.value = c.id; cs.appendChild(o); });
+    cs.addEventListener('change', () => { PK.cell = cs.value; PK.p = null; renderPack(); });
+    const as = $('#pk-ah'); as.addEventListener('change', () => { PK.ah = +as.value; PK.p = null; renderPack(); });
+    $('#pk-kwh').addEventListener('input', (e) => { const v = +e.target.value; if (v > 0) { PK.kwh = v; PK.p = null; renderPack(); } });
+    $('#pk-v').addEventListener('input', (e) => { const v = +e.target.value; if (v >= 12) { PK.v = v; PK.p = null; renderPack(); } });
+    $('#pk-pdown').addEventListener('click', () => { PK.p = Math.max(1, (PK.lastP || 1) - 1); renderPack(); });
+    $('#pk-pup').addEventListener('click', () => { PK.p = (PK.lastP || 1) + 1; renderPack(); });
+    $('#pk-india').addEventListener('change', (e) => { PK.india = e.target.checked; renderPack(); });
+    $('#pk-reset').addEventListener('click', () => { PK.d = { ...PK.d0 }; renderPack(); });
+    // sliders
+    const box = $('#pk-inputs'); box.replaceChildren(); let g = '';
+    PK_SPECS.forEach((sp) => { if (sp.g !== g) { g = sp.g; box.appendChild(el('h3', 'grp', g)); } box.appendChild(pkField(sp)); });
+    const du = pm.duty || {};
+    const ib = $('#pk-india-in'); ib.replaceChildren();
+    const lh = ((D.landed || {}).freight_usd_kwh || {});
+    const hints = { fr_cells: [`About US$1/kWh by sea from China (${lh.source || 'freight guide'}); add your own quote`, lh.url], fr_pack: ['Add your own quote; packs ship as Class 9 dangerous goods', null], bcd_cells: [du.cells_source || 'Customs notification', du.cells_url], bcd_pack: [du.packs_source || 'Customs notification', du.packs_url], india_nc: ['1.00 = the same as the China values above. Change it if Indian-made parts cost more or less.', null] };
+    PK_INDIA.forEach((sp) => ib.appendChild(pkField(sp, hints[sp.k])));
+    // method and benchmarks
+    const ul = $('#pk-method'); ul.replaceChildren();
+    const li0 = el('li'); li0.append(el('b', null, 'Formula. '), document.createTextNode(`Cells in series = voltage ÷ ${pm.v_cell || 3.2} V; cells in parallel = the number that gets closest to the energy you asked for. Pack price = cells + parts + assembly, then scrap, overhead and margin as percentages. Cell prices are China market prices excluding VAT, as elsewhere on the site.`)); ul.appendChild(li0);
+    const li1 = el('li'); li1.append(el('b', null, 'Starting values. '), document.createTextNode([pm.default_note, pm.profile_note, pm.preset_note].filter(Boolean).join(' '))); ul.appendChild(li1);
+    (pm.notes || []).forEach((n) => { const li = el('li'); li.append(el('b', null, n.what + '. '), document.createTextNode(n.text + ' ')); if (n.url) li.appendChild(link(n.source, n.url)); ul.appendChild(li); });
+    const evc = (pm.cells || []).find((c) => c.id === 'ev'); if (evc && evc.note) { const li = el('li'); li.append(el('b', null, 'EV cell sizes. '), document.createTextNode(evc.note)); ul.appendChild(li); }
+    const li2 = el('li'); li2.append(el('b', null, 'Indian customs duty. '), document.createTextNode(du.cells_text + ' ' + du.packs_text + ' '), link(du.cells_source, du.cells_url), document.createTextNode(' · '), link(du.cells_source2, du.cells_url2), document.createTextNode(' · '), link(du.packs_source2, du.packs_url2)); ul.appendChild(li2);
+    const bt = $('#pk-bench'); bt.replaceChildren();
+    const hd = el('tr'); ['Published pack price', 'US$/kWh', 'Source'].forEach((h) => hd.appendChild(el('th', null, h))); const th = el('thead'); th.appendChild(hd); bt.appendChild(th);
+    const tb = el('tbody'); (pm.benchmarks || []).forEach((r) => { const tr = el('tr'); const s2 = el('td'); s2.appendChild(link(r.source, r.url)); tr.append(el('td', null, r.what), el('td', 'num', fmtUsd0(r.usd)), s2); tb.appendChild(tr); }); bt.appendChild(tb);
+    PK.built = true;
+  }
+  function pkPreset(id) {
+    const x = (PM().presets || []).find((p) => p.id === id); if (!x) return;
+    Object.assign(PK, { use: id, kwh: x.kwh, v: x.v, cell: x.cell, ah: x.ah || PK.ah, p: null });
+    const pm = PM(); const keep = { fr_cells: PK.d0.fr_cells, fr_pack: PK.d0.fr_pack };
+    PK.d0 = { ...(pm.defaults || {}), ...keep, ...((pm.profiles || {})[x.profile] || {}) };
+    PK.d0.bcd_pack = x.use === 'ess' ? PK.d0.bcd_pack_ess : PK.d0.bcd_pack_ev; PK.d = { ...PK.d0 };
+    $('#pk-kwh').value = PK.kwh; $('#pk-v').value = PK.v; renderPack();
+  }
+  function renderPack() {
+    const pm = PM(); if (!pm.cells || !$('#pk-kpis')) return;
+    if (!PK.built) buildPack();
+    const st = PK; const cell = (pm.cells || []).find((c) => c.id === st.cell) || pm.cells[0];
+    $$('#pk-use button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === st.use)));
+    $('#pk-cell').value = st.cell;
+    const as = $('#pk-ah'); const ahWrap = $('#pk-ah-wrap');
+    if (cell.ah_options) { ahWrap.hidden = false; if (!cell.ah_options.includes(st.ah)) st.ah = cell.default_ah; as.replaceChildren(); cell.ah_options.forEach((a) => { const o = el('option', null, a + ' Ah'); o.value = a; as.appendChild(o); }); as.value = st.ah; } else ahWrap.hidden = true;
+    if (+$('#pk-kwh').value !== st.kwh) $('#pk-kwh').value = st.kwh; if (+$('#pk-v').value !== st.v) $('#pk-v').value = st.v;
+    [...PK_SPECS, ...PK_INDIA].forEach((sp) => { const inp = $('#pk-' + sp.k); if (!inp) return; inp.value = st.d[sp.k]; $('#pk-' + sp.k + '-out').textContent = sp.f(st.d[sp.k]); inp.closest('.field').classList.toggle('changed', Math.abs(st.d[sp.k] - st.d0[sp.k]) > 1e-9); });
+    const r = packCalc(st); st.lastP = r.P;
+    // configuration line
+    const cfg = $('#pk-config'); cfg.replaceChildren();
+    const far = Math.abs(r.kwh / st.kwh - 1) > 0.08;
+    cfg.append(el('b', null, `${r.S} cells in series × ${r.P} in parallel = ${d3.format(',')(r.N)} cells of ${r.cell.ah} Ah`), document.createTextNode(` · ${Math.round(r.volts)} V nominal · ${d3.format(',.1f')(r.kwh)} kWh`));
+    if (far) cfg.appendChild(el('span', 'warn-note', ` Closest build to the ${st.kwh} kWh you asked for; change the voltage, the cell size or the cells in parallel to get nearer.`));
+    // KPIs
+    const kp = $('#pk-kpis'); kp.replaceChildren(); const fx = ((D.markets || {}).fx || {}).usd_inr || 0;
+    const cp = r.cell.price;
+    kpi(kp, 'Pack price, China-built', perK(r.perKwh), [`Cells ${fmtUsd1(r.cellsPerKwh)} + the rest ${fmtUsd1(r.nonCell)} per kWh`, null], 'main');
+    kpi(kp, `Whole pack, ${d3.format(',.0f')(r.kwh)} kWh`, (r.total >= 1e5 ? d3.format('$,.0f')(r.total / 1000) + 'k' : d3.format('$,.0f')(r.total)), [fx ? `≈ ₹${(r.total * fx / 1e5).toFixed(1)} lakh at ₹${fx.toFixed(2)} per US$` : '', null]);
+    kpi(kp, 'Cells as a share of the price', Math.round(r.cellsPerKwh / r.perKwh * 100) + '%', [`${r.cell.label.replace(/ cell$/, '')}${r.cell.ah_options ? ' ' + r.cell.ah + ' Ah' : ''} at ${fmtUsd1(cp.usd)}/kWh (${cp.src}, ${cp.when})${cp.old ? ', an older tender price' : ''}`, null]);
+    stackBar($('#pk-stack'), r.parts, r.perKwh); legendList($('#pk-legend'), r.parts, r.perKwh);
+    // same pack, other cells
+    const rows = [];
+    (pm.cells || []).forEach((c) => {
+      const sizes = c.ah_options || [c.ah];
+      sizes.forEach((ah) => {
+        const cc = { ...c, ah, price: pkCellPrice(c.price_src) }; if (!(cc.price.usd > 0)) return;
+        const rr = packCalc({ ...st, p: null }, cc);
+        rows.push({ lab: `${c.ah_options ? 'EV' : 'Storage'} ${ah} Ah · ${d3.format(',')(rr.N)} cells`, v: rr.perKwh, rr, now: c.id === st.cell && ah === r.cell.ah, ev: !!c.ah_options });
+      });
+    });
+    const hb = $('#pk-compare');
+    hBars(hb, rows, { label: 'lab', value: 'v', fmt: (v) => perK(v), color: (x) => css(x.now ? '--accent' : x.ev ? '--teal' : '--slate'),
+      tip: (t, x) => { tipRow(t, css('--teal'), 'Cells', perK(x.rr.cellsPerKwh)); tipRow(t, css('--plum'), 'Everything else', perK(x.rr.nonCell)); tipNote(t, `${x.rr.S}S × ${x.rr.P}P, ${d3.format(',.0f')(x.rr.kwh)} kWh built`); } });
+    const evRows = rows.filter((x) => x.ev); const lo = d3.least(evRows, (x) => x.v), hi = d3.greatest(evRows, (x) => x.v);
+    $('#pk-compare-sub').textContent = lo && hi ? `With EV cells at one price, going from ${hi.rr.cell.ah} Ah to ${lo.rr.cell.ah} Ah cells changes the pack by ${fmtSigned(lo.v - hi.v)}/kWh, because the pack needs ${d3.format(',')(hi.rr.N - lo.rr.N)} fewer cells (${d3.format(',')(hi.rr.N)} → ${d3.format(',')(lo.rr.N)}). Storage cells use their own market prices. Energy built differs a little between sizes; hover a bar for the build.` : '';
+    // India
+    const ibx = $('#pk-india-out'); ibx.replaceChildren(); $('#pk-india-box').hidden = !st.india; $('#pk-india').checked = st.india;
+    if (st.india && fx) {
+      const ind = pkIndia(st, r); const L = (v) => `₹${d3.format(',')(Math.round(v * fx))}/kWh`;
+      const ik = el('div', 'kpis'); ibx.appendChild(ik);
+      kpi(ik, 'Assemble in India with imported cells', L(ind.make), [`₹${(ind.make * r.kwh * fx / 1e5).toFixed(1)} lakh for this pack · cell duty ${perK(ind.cellDuty)}`, null], 'main');
+      kpi(ik, 'Import the finished pack', L(ind.buy), [`₹${(ind.buy * r.kwh * fx / 1e5).toFixed(1)} lakh for this pack · duty ${perK(ind.packDuty)}`, null]);
+      const gap = ind.buy - ind.make; kpi(ik, 'Assembling locally saves', (gap >= 0 ? '' : '−') + L(Math.abs(gap)), [gap >= 0 ? 'mostly the lower duty on cells than on packs' : 'at these inputs importing the pack is cheaper', null]);
+      ibx.appendChild(el('p', 'sub', 'Before GST, which is usually credited. Insurance at 1.125% of the China price, as Indian customs assumes. Rupees at the ECB rate.'));
+    }
+  }
   function renderBidTenders() {
     const wi = $('#bid-wacc'), oi = $('#bid-om');
     [[wi, 'wacc'], [oi, 'om']].forEach(([i, k]) => { if (!i.dataset.ready) { i.dataset.ready = '1'; i.addEventListener('input', () => { BID[k] = Math.max(0, +i.value || 0); renderBidTenders(); }); } });

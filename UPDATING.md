@@ -117,6 +117,10 @@ The End use step of the value chain and the India storage page chart standalone 
 
 Freight, insurance, duty and rebate assumptions for the "Landed in India" panels. The page reads today's cell and system prices and the ECB rupee rate by itself, so a routine update changes nothing here. Change a default only when a new public source justifies it (a customs notification, a new freight index reading), and update its note and source in the same edit.
 
+## Battery pack calculator (`packmodel.json`)
+
+The pack calculator on the Bidding desk prices cells from the site's live data (TrendForce EV cell, InfoLink 100/280/314 Ah storage cells, the 587 Ah tender price) and adds a modelled bill of materials from `packmodel.json`: part costs per pack, per cell and per kWh, three starting sets (`profiles`: heavy buses and trucks, light commercial vehicles, storage packs), the use presets, Indian customs duty on cells and on finished packs, and published pack prices to compare against (`benchmarks`). A routine update changes nothing here. Update `benchmarks` when BloombergNEF publishes its next annual battery price survey (December), and the `duty` text and rates only from a customs notification or a reliable report of one. Part costs change only with a public source, which goes in `notes`.
+
 ## Risk Navigator (tags only)
 
 The Risk tab scores price and supply risk (0–10) for seven materials. A GitHub Action (`.github/workflows/risk.yml`, `scripts/risk.py`) recalculates everything after each push: never edit `data/risk.json`, `data/risk_history.json`, `data/pricelog.json` or `data/history/` by hand. Weights, the China-share figures, the stated assumptions for each material and the India facts (duties, cell capacity) live in `data/risk_config.json`; change them only with a new public source, and update the matching assumption text. The job also refreshes long price histories into `data/history/`: Guangzhou lithium carbonate futures (daily since July 2023, via Sina), LME copper and aluminium (daily since 2018, via Westmetall) and ECB exchange rates (US$-rupee, US$-yuan).

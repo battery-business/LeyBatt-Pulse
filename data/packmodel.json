@@ -1,0 +1,211 @@
+{
+ "about": "Settings for the battery pack calculator on the Bidding desk. Cell prices come from the site's live data; every other cost here is a modelled starting value for a China-built LFP pack, not a published price. Change a default only with a better source, and note it below.",
+ "v_cell": 3.2,
+ "cells": [
+  {
+   "id": "ev",
+   "label": "EV prismatic LFP cell",
+   "price_src": "evcell",
+   "ah_options": [
+    105,
+    135,
+    173,
+    230,
+    280,
+    302,
+    324
+   ],
+   "default_ah": 280,
+   "note": "TrendForce publishes one average price for EV prismatic LFP cells of all sizes, so every EV cell size here uses the same price per kWh."
+  },
+  {
+   "id": "s100",
+   "label": "100 Ah storage cell",
+   "ah": 100,
+   "price_src": "cell100"
+  },
+  {
+   "id": "s280",
+   "label": "280 Ah storage cell",
+   "ah": 280,
+   "price_src": "cell280"
+  },
+  {
+   "id": "s314",
+   "label": "314 Ah storage cell",
+   "ah": 314,
+   "price_src": "cell314"
+  },
+  {
+   "id": "s587",
+   "label": "587 Ah storage cell",
+   "ah": 587,
+   "price_src": "cell587"
+  }
+ ],
+ "presets": [
+  {
+   "id": "truck",
+   "label": "Heavy e-truck",
+   "kwh": 450,
+   "v": 691,
+   "cell": "ev",
+   "ah": 324,
+   "use": "ev",
+   "profile": "cv"
+  },
+  {
+   "id": "bus12",
+   "label": "12 m e-bus",
+   "kwh": 420,
+   "v": 614,
+   "cell": "ev",
+   "ah": 230,
+   "use": "ev",
+   "profile": "cv"
+  },
+  {
+   "id": "bus9",
+   "label": "9 m e-bus",
+   "kwh": 210,
+   "v": 614,
+   "cell": "ev",
+   "ah": 173,
+   "use": "ev",
+   "profile": "cv"
+  },
+  {
+   "id": "lcv",
+   "label": "e-LCV",
+   "kwh": 75,
+   "v": 350,
+   "cell": "ev",
+   "ah": 105,
+   "use": "ev",
+   "profile": "light"
+  },
+  {
+   "id": "ess",
+   "label": "Storage pack",
+   "kwh": 52,
+   "v": 166,
+   "cell": "s314",
+   "use": "ess",
+   "profile": "ess"
+  }
+ ],
+ "preset_note": "Pack sizes and voltages are typical round numbers for each use, not a particular model. Published e-bus and e-truck packs are listed on the Packs & systems step.",
+ "defaults": {
+  "bms_fixed": 300,
+  "bms_ch": 2.5,
+  "hv": 500,
+  "ic_cell": 1.2,
+  "st_cell": 1.5,
+  "st_kwh": 1.5,
+  "th_kwh": 6.0,
+  "enc_kwh": 8.0,
+  "enc_pack": 250,
+  "har_pack": 150,
+  "har_kwh": 0.8,
+  "lab_cell": 0.5,
+  "test_pack": 150,
+  "scrap": 1.5,
+  "oh": 6,
+  "margin": 8,
+  "fr_cells": 1.0,
+  "fr_pack": 1.0,
+  "bcd_cells": 5,
+  "bcd_pack_ev": 15,
+  "bcd_pack_ess": 10,
+  "sws_pct_of_bcd": 10,
+  "ins_pct": 1.125,
+  "india_nc": 1.0
+ },
+ "default_note": "Part costs are modelled starting values in US$ for a China-built LFP pack, not published prices or quotes. They were set so the results sit near BloombergNEF's 2025 figures: cells about 80% of a car pack's price, Chinese bus and truck packs dearer than car packs, and storage packs the cheapest. Replace them with your own quotes.",
+ "duty": {
+  "cells_text": "Lithium-ion cells imported to make EV battery packs pay 5% basic customs duty (Notification 45/2025-Customs, S.No. 321); the Union Budget 2026-27 extended that entry to 31 March 2028. Cells for other packs had the same 5% (S.No. 319); whether that entry was also extended could not be confirmed, and without it the 10% general rate (S.No. 325) applies.",
+  "cells_url": "https://www.caalley.com/cus25/cst-45-2025.pdf",
+  "cells_source": "Notification 45/2025-Customs (CAalley copy)",
+  "cells_url2": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-in/services/tax/union-budget-2026/ey-union-budget-2026-27-highlights.pdf",
+  "cells_source2": "EY, Union Budget 2026-27 highlights",
+  "packs_text": "Battery packs imported for making EVs pay 15% (S.No. 322 of the same notification); stationary storage batteries pay the concessional 10% (S.No. 325), as CBIC confirmed in October 2026. A 10% social welfare surcharge is added on the duty, and IGST (usually credited) is left out.",
+  "packs_url": "https://www.caalley.com/cus25/cst-45-2025.pdf",
+  "packs_source": "Notification 45/2025-Customs (CAalley copy)",
+  "packs_url2": "https://vyqon.in/grid-scale-bess-imports-to-attract-10-customs-duty-clarifies-finance-ministry/",
+  "packs_source2": "Vyqon on CBIC Circular 45/2026"
+ },
+ "benchmarks": [
+  {
+   "what": "Average LFP pack, all uses, 2025",
+   "usd": 81,
+   "source": "BloombergNEF via TaiyangNews",
+   "url": "https://taiyangnews.info/business/bloombergnef-battery-pack-prices-hit-new-low-in-2025"
+  },
+  {
+   "what": "Average pack in China, all uses, 2025",
+   "usd": 84,
+   "source": "BloombergNEF via battery.mba",
+   "url": "https://www.battery.mba/resources/battery-cost-per-kwh"
+  },
+  {
+   "what": "Bus and commercial vehicle packs in China, 2025 (outside China: $182)",
+   "usd": 108,
+   "source": "BloombergNEF via EV Infrastructure News",
+   "url": "https://www.evinfrastructurenews.com/ev-technology/bloomberg-nef-lithium-ion-battery-pack-prices-drop-worldwide-ev-applications-hit-by-higher-materials-cost"
+  },
+  {
+   "what": "Stationary storage packs, 2025",
+   "usd": 70,
+   "source": "BloombergNEF via DieselNet",
+   "url": "https://dieselnet.com/news/2025/12batteries.php"
+  },
+  {
+   "what": "Battery-electric car packs, 2025: cells were $79, 80% of the pack price",
+   "usd": 99,
+   "source": "BloombergNEF via EV Infrastructure News",
+   "url": "https://www.evinfrastructurenews.com/ev-technology/bloomberg-nef-lithium-ion-battery-pack-prices-drop-worldwide-ev-applications-hit-by-higher-materials-cost"
+  }
+ ],
+ "notes": [
+  {
+   "what": "Cells are most of the cost",
+   "text": "In a teardown of US heavy-truck packs, cells were about 80% of the pack's bill of materials.",
+   "source": "Ricardo for ICCT, e-truck virtual teardown (2021)",
+   "url": "https://theicct.org/wp-content/uploads/2022/01/Final-Report-eTruck-Virtual-Teardown-Public-Version.pdf"
+  },
+  {
+   "what": "Why cell size matters",
+   "text": "For a given voltage the number of cells in series is fixed, so bigger cells mean fewer cells in parallel: fewer welds, busbars, holders and handling steps. Battery management and the high-voltage box hardly change with cell size."
+  }
+ ],
+ "profiles": {
+  "cv": {},
+  "light": {
+   "bms_fixed": 150,
+   "bms_ch": 1.5,
+   "hv": 250,
+   "ic_cell": 0.8,
+   "st_cell": 1.0,
+   "th_kwh": 3.0,
+   "enc_kwh": 5.0,
+   "enc_pack": 100,
+   "har_pack": 60,
+   "test_pack": 60,
+   "oh": 5,
+   "margin": 6
+  },
+  "ess": {
+   "bms_fixed": 60,
+   "bms_ch": 3.0,
+   "hv": 0,
+   "th_kwh": 4.0,
+   "enc_kwh": 3.0,
+   "enc_pack": 80,
+   "har_pack": 40,
+   "test_pack": 40,
+   "oh": 5,
+   "margin": 6
+  }
+ },
+ "profile_note": "Three sets of starting values: heavy buses and trucks (sturdier housings, liquid cooling, a full high-voltage box), light commercial vehicles (smaller, simpler packs) and storage packs (one rack module: no high-voltage box, which sits in the rack, and a lighter housing). Choosing a use resets the part costs to its set."
+}

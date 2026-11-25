@@ -516,9 +516,9 @@
     const c1 = el('section', 'ot-col'); c1.appendChild(el('h3', null, 'Top stories'));
     const ul = el('ul', 'ot-list'); c1.appendChild(ul);
     topForUs(4).forEach((n) => {
-      const li = el('li'); const b = el('a', 'ot-item ot-link seg-' + (n.seg || 'x')); b.href = n.url; b.target = '_blank'; b.rel = 'noopener'; b.title = `${n.headline} · open on ${n.source}`;
+      const li = el('li'); const b = el('a', 'ot-item ot-link seg-' + (n.seg || 'x')); b.href = newsHref(n); if (!n.brief) { b.target = '_blank'; b.rel = 'noopener'; } b.title = n.brief ? `${n.headline} · read the summary` : `${n.headline} · open on ${n.source}`;
       const top = el('span', 'ot-meta'); top.append(el('span', 'ot-seg', SEG_LAB[n.seg] || ''), impactChips(n, 2), el('span', 'ot-day', n.day || shortDay(parse(n.date))));
-      b.append(top, el('span', 'ot-us', n.so), el('span', 'ot-h', `${n.short || clip(n.headline, 90)} · ${n.source} ↗`));
+      b.append(top, el('span', 'ot-us', n.so), el('span', 'ot-h', `${n.short || clip(n.headline, 90)} · ${n.brief ? n.source + ' · summary ›' : n.source + ' ↗'}`));
       li.appendChild(b); ul.appendChild(li);
     });
     const more = el('button', 'btn link', 'All high-impact stories →'); more.type = 'button'; more.addEventListener('click', () => { S.news.effect = 'high'; const ne = $('#news-effect'); if (ne) ne.value = 'high'; go('news'); }); c1.appendChild(more);
@@ -1267,6 +1267,21 @@
     return box;
   }
   function soLine(n, cls = 'us') { const p = el('p', cls); p.append(el('b', null, (SEG_LAB[n.seg] || 'What it means') + ': '), document.createTextNode(n.so)); return p; }
+  // paywalled stories (e.g. Bloomberg): the title opens a short summary on the site; the source link sits below it
+  let briefN = 0;
+  function briefParts(n) {
+    const id = 'brief-' + n.id + '-' + (++briefN);
+    const h = el('div', 'h'); const b = el('button', 'hl hl-brief', n.headline); b.type = 'button';
+    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', id); b.title = 'Read the summary';
+    const box = el('div', 'brief'); box.id = id; box.hidden = true;
+    String(n.brief).split(/\n\n+/).forEach((t) => box.appendChild(el('p', null, t)));
+    const f = el('p', 'brief-src'); f.append(document.createTextNode(`Summary of a ${n.source} article, ${n.day || shortDay(parse(n.date))}. `), link(`Full article on ${n.source} (subscribers)`, n.url));
+    box.appendChild(f);
+    b.addEventListener('click', () => { const open = box.hidden; box.hidden = !open; b.setAttribute('aria-expanded', String(open)); });
+    h.appendChild(b); return [h, box];
+  }
+  function openBrief(li) { const b = li && li.querySelector('.hl-brief'); if (b && b.getAttribute('aria-expanded') !== 'true') b.click(); }
+  const newsHref = (n) => (n.brief ? '#news?story=' + n.id : n.url);
   function newsItem(n, feed = false) {
     const li = el('li', feed ? 'story' : null); if (feed) li.id = 'story-' + n.id;
     li.style.setProperty('--cc', catColor(n.category));
@@ -1277,7 +1292,9 @@
     else meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
     if ((n.impact || []).length) meta.appendChild(impactChips(n, feed ? 3 : 1)); else meta.appendChild(el('span', 'chip' + dirClass(n.direction), n.effect));
     const src = el('span'); src.appendChild(link(n.source, n.url)); if (n.source2) { src.appendChild(document.createTextNode(' · ')); src.appendChild(link(n.source2, n.url2)); }
-    li.append(meta, hl('h', n.headline, n.url)); if (n.so) li.appendChild(soLine(n)); li.appendChild(src);
+    if (n.brief) { li.classList.add('has-brief'); li.append(meta, ...briefParts(n)); if (n.so) li.appendChild(soLine(n)); }
+    else { li.append(meta, hl('h', n.headline, n.url)); if (n.so) li.appendChild(soLine(n)); }
+    li.appendChild(src);
     if (n.weight) li.classList.add('w' + n.weight);
     if (feed) src.appendChild(shareBtn('news?story=' + n.id, 'Link', 'Story link'));
     return li;
@@ -2363,10 +2380,10 @@
   function spotShow(i, instant) {
     const box = $('#spot'); const st = box && box.querySelector('.spot-stage'); if (!st) return;
     SPOT.i = i; const n = SPOT.items[i];
-    const a = el('a', 'spot-item'); a.href = n.url; a.target = '_blank'; a.rel = 'noopener';
+    const a = el('a', 'spot-item'); a.href = newsHref(n); if (!n.brief) { a.target = '_blank'; a.rel = 'noopener'; }
     const meta = el('span', 'spot-meta'); meta.append(el('span', null, n.day), el('span', 'tag', n.category || 'News'));
     if (isNewNews(n.id)) meta.appendChild(newTag());
-    a.append(meta, el('span', 'spot-h', n.headline), el('span', 'spot-src', n.source + ' ↗'));
+    a.append(meta, el('span', 'spot-h', n.headline), el('span', 'spot-src', n.brief ? n.source + ' · summary ›' : n.source + ' ↗'));
     if (!instant && !reduced()) a.classList.add('in');
     st.replaceChildren(a);
     $$('.spot-dot', box).forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
@@ -3498,7 +3515,7 @@
     if (sid && S.tab === 'news') {
       Object.assign(S.news, { q: '', cat: '', effect: '' }); const ns = $('#news-search'); if (ns) ns.value = ''; const ne = $('#news-effect'); if (ne) ne.value = '';
       renderNews(); const i = sortedNews().findIndex((n) => n.id === sid); if (i >= S.news.shown) { S.news.shown = i + 1; renderNews(); }
-      flash('story-' + sid);
+      flash('story-' + sid); setTimeout(() => openBrief(document.getElementById('story-' + sid)), 80);
     }
     const rid = q.get('rule');
     if (rid && S.tab === 'rules') {

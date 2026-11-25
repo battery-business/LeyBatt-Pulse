@@ -24,6 +24,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 SITE = "https://battery-business.github.io/LeyBatt-Pulse/"
+
+def story_href(n):
+    """Paywalled stories with an on-site summary open that summary; everything else opens the original article."""
+    return f'{SITE}#news?story={n["id"]}' if n.get("brief") else n["url"]
+
+def story_label(n):
+    return f'Read the summary ({n.get("source", "")})' if n.get("brief") else f'Read on {n.get("source", "")}'
+
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
 
@@ -385,10 +393,10 @@ def build(today):
                           f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{SOFT};border-left:3px solid {c};border-radius:14px">'
                           f'<tr><td style="padding:13px 16px">'
                           f'<div style="font-size:11.5px;font-weight:700;color:{c}">{E(n.get("category", ""))}{flag}<span style="color:{MUTED};font-weight:400"> · {E(n.get("day", ""))}</span></div>'
-                          f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px"><a href="{E(n["url"])}" style="color:{INK};text-decoration:none">{E(n["headline"])}</a></div>'
+                          f'<div style="font-size:15px;line-height:1.45;color:{INK};margin-top:5px"><a href="{E(story_href(n))}" style="color:{INK};text-decoration:none">{E(n["headline"])}</a></div>'
                           + (f'<div style="font-size:13.5px;line-height:1.45;color:{INK};margin-top:6px"><b>{E(SEG_LAB.get(n.get("seg"), "What it means"))}:</b> {E(n["so"])}</div>' if n.get("so") else "")
                           + f''
-                          f'<div style="font-size:12.5px;margin-top:7px"><a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">Read on {E(n["source"])} ›</a></div>'
+                          f'<div style="font-size:12.5px;margin-top:7px"><a href="{E(story_href(n))}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(story_label(n))} ›</a></div>'
                           f'</td></tr></table></td></tr>')
     else:
         news_html = f'<tr><td style="padding:6px 24px;color:{MUTED};font-size:14px" class="px">No new stories in the last two days.</td></tr>'
@@ -473,7 +481,7 @@ def build(today):
                        f'<tr><td style="padding:12px 16px">'
                        f'<div><span style="font-size:11.5px;font-weight:800;color:{bc};margin-right:6px">{E(SEG_LAB.get(n.get("seg"), ""))}</span>{chips(n)}<span style="font-size:11.5px;color:{MUTED}">{E(n.get("day", ""))}</span></div>'
                        f'<div style="font-size:15px;font-weight:700;line-height:1.45;color:{INK};margin-top:2px">{E(n["so"])}</div>'
-                       f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px"><a href="{E(n["url"])}" style="color:{MUTED};text-decoration:none">{E(n.get("short") or n["headline"])}</a> · <a href="{E(n["url"])}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
+                       f'<div style="font-size:12.5px;line-height:1.45;color:{MUTED};margin-top:5px"><a href="{E(story_href(n))}" style="color:{MUTED};text-decoration:none">{E(n.get("short") or n["headline"])}</a> · <a href="{E(story_href(n))}" style="color:{ACCENT};text-decoration:none;font-weight:600">{E(n["source"])} ›</a></div>'
                        f'</td></tr></table></td></tr>')
 
     soon_html = ""

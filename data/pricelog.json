@@ -222,5 +222,12 @@
   "v": 13660.0,
   "source": "SMM lithium carbonate weekly analysis (GFEX most-traded contract)",
   "url": "https://news.metal.com/newscontent/AOZIGNE3D6MPHXPVER7U6W6XH4FKFL6WAG63NQY-smm-analysis-average-spot-lithium-carbonate-price-fell-11-this-week-supply-rebounded-but-destocking-continued"
+ },
+ {
+  "m": "lithium",
+  "date": "2026-11-25",
+  "v": 12330.0,
+  "source": "SMM lithium carbonate daily review (GFEX most-traded LC2701)",
+  "url": "https://news.metal.com/newscontent/O7SVS3Y5JNCYFWJT6R7OD7XG5EPYOBZXGTSYXRI-smm-lithium-carbonate-daily-review-on-november-25-spot-lithium-carbonate-fell-sharply-while-futures-opened-lower-moved-lower-and-closed-down-with-reduced-open-interest"
  }
 ]

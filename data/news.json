@@ -843,9 +843,9 @@
  {
   "date": "2026-11-18",
   "day": "18 Nov",
-  "headline": "SQM is expanding into a lithium glut on a price-recovery bet (headline only, not verified)",
+  "headline": "SQM keeps expanding into a lithium surplus, betting prices recover: it expects Chile output above 300,000 t in 2027 (280,000–290,000 t in 2026), sees demand up 15–20% next year after about 30% in 2026, and its average realised price fell 10% on the quarter to about $19.60/kg",
   "seg": "Batteries",
-  "so": "A major lithium producer adds capacity while prices are low: more supply later keeps the lithium cost outlook soft.",
+  "so": "A lowest-cost producer adds volume into an expected 2027 surplus: that keeps the lithium cost outlook for cells soft, even though SQM argues prices are now below what new mines need.",
   "impact": [
    {
     "k": "cost",
@@ -856,13 +856,13 @@
     "s": 1
    }
   ],
-  "weight": 1,
+  "weight": 2,
   "category": "Lithium & materials",
   "effect": "More lithium supply",
   "direction": "down",
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-11-18/sqm-sees-positive-lithium-demand-outlook-even-as-prices-slide",
-  "sources": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
   "id": "n258",
   "risk": [
    {
@@ -870,7 +870,8 @@
     "k": "supply",
     "s": -1
    }
-  ]
+  ],
+  "via": "subscriber"
  },
  {
   "date": "2026-11-18",
@@ -1930,22 +1931,23 @@
   "id": "n207",
   "date": "2026-11-11",
   "day": "11 Nov",
-  "headline": "A Chinese lithium giant says lithium price swings have become more extreme (headline only, not verified)",
+  "headline": "Ganfeng says lithium price cycles have become shorter and more extreme: demand is growing about 40% this year but supply is catching up, and one large mine failure could tip the market into shortage; Benchmark still sees a tighter market in 2027",
   "seg": "Batteries",
-  "so": "A large producer flags sharper lithium price swings: cell costs could move faster than usual in both directions.",
+  "so": "Cell costs can now move faster than usual in either direction; Benchmark's view of a tighter 2027 is the upside risk.",
   "impact": [
    {
     "k": "cost",
     "s": 0
    }
   ],
-  "weight": 1,
+  "weight": 2,
   "category": "Lithium & materials",
   "effect": "More volatility",
   "direction": "flat",
   "source": "Bloomberg",
   "url": "https://www.bloomberg.com/news/articles/2026-11-11/chinese-lithium-giant-says-price-swings-have-turned-more-extreme",
-  "sources": "Bloomberg"
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber"
  },
  {
   "id": "n201",
@@ -3469,5 +3471,153 @@
   ],
   "seg": "BESS",
   "so": "Tamil Nadu makes new solar plants add four-hour storage and plans to buy 10 GWh: a large new state market."
+ },
+ {
+  "date": "2026-11-19",
+  "headline": "CATL's Robin Zeng says Europe's plan to recycle batteries at home will raise costs for customers, proposes shipping spent cells to China and returning the recovered metals, and asks the EU to define what counts as local content",
+  "seg": "Batteries",
+  "so": "Recycling and local-content rules are turning into trade levers: the definitions Europe settles on are a reference point for India's own battery localisation rules.",
+  "impact": [
+   {
+    "k": "policy",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Regulation & trade",
+  "effect": "Recycling trade dispute",
+  "direction": "flat",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-19/catl-boss-challenges-europe-s-push-for-local-battery-recycling",
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n289",
+  "day": "19 Nov"
+ },
+ {
+  "date": "2026-11-17",
+  "headline": "India's storage auctions drew bidders from tiles, plastic packaging and ayurvedic medicine: JMK Research says almost three-quarters of bids for the most common project type were unrealistically low, a 450 MW Gujarat winner has withdrawn and the project is being re-bid, and Tata Power's COO expects about half of the awarded projects never to be built",
+  "seg": "BESS",
+  "so": "A large share of awarded Indian storage may stall or be re-tendered: real orders for containers and cells could come later and more slowly than the awarded GWh suggest, and re-bids reopen the field for experienced suppliers.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": -1
+   },
+   {
+    "k": "competition",
+    "s": 1
+   }
+  ],
+  "weight": 3,
+  "category": "India BESS",
+  "effect": "Delivery risk on awards",
+  "direction": "down",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-17/india-s-battery-auctions-draw-makers-of-tiles-and-ayurvedic-meds",
+  "short": "Bloomberg: many Indian storage awards may never be built",
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n286",
+  "day": "17 Nov"
+ },
+ {
+  "date": "2026-11-13",
+  "headline": "Sungrow, after a 68% fall in third-quarter profit, turns to home batteries: it sees residential storage installations reaching 320 GWh by 2030 plus 80 GWh for small businesses, and is launching its 30 kW PowerHarbor inverter-and-battery unit",
+  "seg": "BESS",
+  "so": "Utility-scale storage margins are thin enough that one of the biggest integrators is moving into homes and small businesses: price competition in large BESS stays tough.",
+  "impact": [
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 1,
+  "category": "Energy storage",
+  "effect": "Integrator margins squeezed",
+  "direction": "flat",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-13/sungrow-turns-to-home-batteries-for-growth-after-profit-squeeze",
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n291",
+  "day": "13 Nov"
+ },
+ {
+  "date": "2026-11-11",
+  "headline": "Lithium Americas raises the first-phase cost of its Thacker Pass mine in Nevada to $3.83 billion from $2.93 billion, blaming US tariffs on imported equipment, labour and logistics; production is still due in 2028 at 40,000 t a year of lithium carbonate",
+  "seg": "Batteries",
+  "so": "New lithium supply outside China is getting dearer to build, which puts a floor under long-run prices even while spot prices are low.",
+  "impact": [
+   {
+    "k": "supply",
+    "s": 0
+   }
+  ],
+  "weight": 1,
+  "category": "Lithium & materials",
+  "effect": "Higher mine costs",
+  "direction": "up",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-11/lithium-americas-shares-sink-as-us-backed-mine-costs-rise",
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n290",
+  "day": "11 Nov"
+ },
+ {
+  "date": "2026-11-02",
+  "headline": "Citi cuts its three-month lithium carbonate and hydroxide targets to $12,000/t (from $20,000 and $17,000) and spodumene to $1,200/t (from $2,000), and lowers its estimates for all three through 2028, citing slower battery demand growth and buyers keeping lean stocks",
+  "seg": "Batteries",
+  "so": "A major bank now sees lithium staying low through 2028: supports cheaper cells, with Citi flagging the risks as still to the downside.",
+  "impact": [
+   {
+    "k": "cost",
+    "s": 1
+   }
+  ],
+  "weight": 2,
+  "category": "Lithium & materials",
+  "effect": "Lower lithium forecasts",
+  "direction": "down",
+  "url": "https://www.bloomberg.com/news/articles/2026-11-02/citi-cuts-lithium-forecasts-on-worsening-battery-demand-outlook",
+  "risk": [
+   {
+    "m": "lithium",
+    "k": "price",
+    "s": -1
+   }
+  ],
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n287",
+  "day": "2 Nov"
+ },
+ {
+  "date": "2026-10-20",
+  "headline": "CATL launches lighter, thinner rear-mounted e-truck packs and flexible battery leasing, has swap orders covering 13,000 trucks from SF Express and China Post, and plans to more than double its e-truck swap stations to 2,000 by 2027, aiming for 10,000 in the longer term",
+  "seg": "CVs",
+  "so": "Swap-ready packs and short-term battery leases cut the upfront cost of heavy e-trucks: a working model to watch as India sets its own swapping standards for trucks.",
+  "impact": [
+   {
+    "k": "demand",
+    "s": 1
+   },
+   {
+    "k": "competition",
+    "s": -1
+   }
+  ],
+  "weight": 2,
+  "category": "E-buses & e-trucks",
+  "effect": "E-truck swapping scales up",
+  "direction": "up",
+  "url": "https://www.bloomberg.com/news/articles/2026-10-20/catl-to-grow-e-truck-business-with-battery-upgrades-swap-sites",
+  "source": "Bloomberg",
+  "sources": "Bloomberg (subscriber copy)",
+  "via": "subscriber",
+  "id": "n288",
+  "day": "20 Oct"
  }
 ]
